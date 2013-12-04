@@ -1,0 +1,250 @@
+﻿@Master['master']
+
+@Section['HeaderStylesheets']
+	<link href="/content/servercard.css" rel="stylesheet" />
+@EndSection
+
+@Section['Content']
+
+	@Each.Websites
+	<div class="serverCard @Current.IsRunning @Current.IsRecording" id="card_@Current.ProxyId">
+		<div class="header"><span class="title">@Current.ExternalHostName</span><span class="status @Current.State" id="slbl_@Current.ProxyId">@Current.State</status></div>
+
+		<div class="body">
+			<table class="bodyFrame">
+				<tr>
+					<td class="serverImage"><img src="/content/@Current.StateImage" alt="@Current.State" id="simg_@Current.ProxyId" /></td>
+					<td>
+						<div class="statsWrapper">
+						<div class="stats"><span id="strq_@Current.ProxyId">@Current.RequestsServed</span><span id="stmp_@Current.ProxyId">@Current.StumpsServed</span></div>
+						<div class="stats"><label>requests served</label><label>stumps served</label></div>
+						</div>
+						<div class="statsInfo"><a href="/proxy/@Current.ProxyId/Recordings/">Recordings</a><span id="rcct_@Current.ProxyId">@Current.RecordingCount</span></div>
+						<div class="statsInfo"><a href="/proxy/@Current.ProxyId/Stumps/">Stumps</a><span id="stct_@Current.ProxyId">@Current.StumpsCount</span></div>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div class="info"><label>Available At:</label><a href="@Current.LocalWebsite" target="_blank">@Current.LocalWebsite</a></div>
+		<div class="toolbar">
+			<img src="/content/ico_pwr.png" title="Turn Off / On" alt="Turn Off / On" class="left powerServer" id="powr_@Current.ProxyId" /><img src="/content/ico_rec.png" alt="Toggle Recording" title="Toggle Recording" class="left recordServer" id="reco_@Current.ProxyId" /><a href="/proxy/@Current.ProxyId/Configure"><img src="/content/ico_cfg.png" alt="Configure Website" title="Configure Website" class="left configureServer" /></a><a href="proxy/@Current.ProxyId/Delete"><img src="/content/ico_del.png" alt="Delete Website" title="Delete Website" class="right deleteServer" /></a>
+		</div>
+	</div>
+	@EndEach
+
+	<div class="serverCard" id="newWebsite">
+		<div class="header"><span class="title">&ltuntitled&gt;</span></div>
+		<div class="body">
+			<table class="bodyFrame">
+				<tr>
+					<td class="serverImage"><img src="/content/svr_new.png" alt="New Website" /></td>
+					<td>
+						<div class="inner">
+							<p>
+								<span class="headerBanner">your website here</span><br>
+								<a href="/AddWebsite">+ add a new website</a> 
+							</p>
+						</div>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div class="info"><label>&nbsp;</label></div>
+		<div class="toolbar">
+			&nbsp;
+		</div>
+	</div>
+
+@EndSection
+
+@Section['Scripts']
+
+var statusUpdateRunning = false;
+
+$(document).ready(function() {
+
+	setInterval(getStatusUpdates, 4000);
+
+	$('.powerServer').click(function (e) {
+
+		var proxyId = $(this).attr('id');
+		proxyId = proxyId.substr(5, 7);
+		var cardId = "#card_" + proxyId;
+
+		$.ajax({
+			type: 'GET',
+			contentType: 'application/json; charset-utf-8',
+			url: '/api/proxy/' + proxyId + '/status',
+			cache: false,
+			success: function (msg) {
+				var newRunningState = !msg.IsRunning;
+				changePowerStatus(proxyId, newRunningState);
+			},
+			error: refreshPage
+		});
+
+	});
+
+	$('.recordServer').click(function (e) {
+
+		var proxyId = $(this).attr('id');
+		proxyId = proxyId.substr(5, 7);
+		var cardId = "#card_" + proxyId;
+
+		if ( !$(cardId).hasClass('isRunning') ) {
+			return;
+		}
+
+		$.ajax({
+			type: 'GET',
+			contentType: 'application/json; charset-utf-8',
+			url: '/api/proxy/' + proxyId + '/recording/status',
+			cache: false,
+			success: function (msg) {
+				var newRecordStatus = !msg.RecordTraffic;
+				changeRecordStatus(proxyId, newRecordStatus);
+			},
+			error: refreshPage
+		});
+
+	});
+
+});
+
+function changePowerStatus(proxyId, runningState) {
+
+    $.ajax({
+        type: 'PUT',
+        contentType: 'application/json; charset-utf-8',
+		url: '/api/proxy/' + proxyId + '/status',
+        dataType: "json",
+		data: '{"IsRunning":' + runningState + '}',
+        cache: false,
+        success: changePowerStatusUi(proxyId, runningState),
+		error: refreshPage
+    });
+
+}
+
+function changePowerStatusUi(proxyId, runningState) {
+
+	var stateLabel = '#slbl_' + proxyId;
+	var stateImage = '#simg_' + proxyId;
+	var card = '#card_' + proxyId;
+
+	$(stateLabel).removeClass('running');
+	$(stateLabel).removeClass('recording');
+	$(stateLabel).removeClass('stopped');
+	$(card).removeClass('isRecording');
+	$(card).removeClass('isRunning');
+
+	if ( runningState ) {
+		$(card).addClass('isRunning');
+		$(stateLabel).addClass('running');
+		$(stateLabel).text('running');
+		$(stateImage).attr('src', '/content/svr_run.png');
+	}
+	else {
+		$(stateLabel).addClass('stopped');
+		$(stateLabel).text('stopped');
+		$(stateImage).attr('src', '/content/svr_stp.png');
+	}
+
+}
+
+function changeRecordStatus(proxyId, recordState) {
+
+    $.ajax({
+        type: 'PUT',
+        contentType: 'application/json; charset-utf-8',
+		url: '/api/proxy/' + proxyId + '/recording/status',
+        dataType: "json",
+		data: '{"RecordTraffic":' + recordState + '}',
+        cache: false,
+        success: changeRecordingStatusUi(proxyId, recordState),
+		error: refreshPage
+    });
+
+}
+
+function changeRecordingStatusUi(proxyId, recordState) {
+
+	var stateLabel = '#slbl_' + proxyId;
+	var stateImage = '#simg_' + proxyId;
+	var card = '#card_' + proxyId;
+
+	$(stateLabel).removeClass('running');
+	$(stateLabel).removeClass('recording');
+	$(stateLabel).removeClass('stopped');
+	$(card).removeClass('isRecording');
+
+	if ( recordState ) {
+		$(card).addClass('isRecording');
+		$(stateLabel).addClass('recording');
+		$(stateLabel).text('recording');
+		$(stateImage).attr('src', '/content/svr_rec.png');
+	}
+	else {
+		$(stateLabel).addClass('running');
+		$(stateLabel).text('running');
+		$(stateImage).attr('src', '/content/svr_run.png');
+	}
+
+}
+
+function getStatusUpdates() {
+
+	if ( statusUpdateRunning ) {
+		return;
+	}
+
+	statusUpdateRunning = true;
+
+	
+    $.ajax({
+        type: 'GET',
+        contentType: 'application/json; charset-utf-8',
+        url: '/api/proxy/',
+        dataType: "json",
+        cache: false,
+        success: statusUpdate_Finished
+    });
+
+}
+
+function statusUpdate_Finished(msg) {
+
+	var refreshNeeded = false;
+
+	for ( var i = 0; i < msg.length; i++ ) {
+
+		var reqServedLabel = "#strq_" + msg[i].ProxyId;
+		var stmpServedLabel = "#stmp_" + msg[i].ProxyId;
+		var recLabel = "#rcct_" + msg[i].ProxyId;
+		var stmpLabel = "#stct" + msg[i].ProxyId;
+
+		if ( $(reqServedLabel) != null ) {
+			$(reqServedLabel).text(numberWithCommas(msg[i].RequestsServed));
+			$(stmpServedLabel).text(numberWithCommas(msg[i].StumpsServed));
+			$(recLabel).text(numberWithCommas(msg[i].RecordCount));
+			$(stmpLabel).text(numberWithCommas(msg[i].StumpsCount));
+		}
+		else {
+			refreshNeeded = true;
+		}
+
+	}
+
+	statusUpdateRunning = false;
+
+}
+
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+function refreshPage() {
+	location.reload();
+}
+
+@EndSection

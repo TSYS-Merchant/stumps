@@ -1,0 +1,55 @@
+﻿@Master['master']
+
+@Section['HeaderStylesheets']
+	<link href="/content/forms.css" rel="stylesheet" />
+@EndSection
+
+@Section['Content']
+
+	<div class="displayForm greenBackground">
+		<h1>Start Serving Up a New Website</h1>
+		<div class="innerForm greenDarkBackground">
+			<form method="post" id="newServerForm">
+				<div><label for="hostNameTextBox">Domain</label><input type="text" name="hostNameTextBox" /></div>
+				<div><label>&nbsp;</label><span class="note">Example: www.google.com or myserver.com:8000</span></div>
+
+				<div><label for="portTextBox">Port</label><input type="text" class="half" name="portTextBox" value="@Model.OpenPort" /></div>
+				<div><label>&nbsp;</label><span class="note">This is the port we will use to serve up the website, for example http://localhost:3400/</span></div>
+
+				<div><label>&nbsp;</label><img src="/content/frm_checkoff.png" alt="Use SSL" class='isCheck' id="useSsl" /><span class="check">The website requires SSL connections.</span><input type="checkbox" id="useSslCheckBox" name="useSslCheckBox" class="hide" /></div>
+
+				<div><label>&nbsp;</label></div>
+				<div class="flow">
+					<a href="/" class="button greenBackground">cancel</a>
+					<a class="button greenBackground" onClick="$('#newServerForm').submit();">create website</a>
+				</div>
+			</form>
+		</div>
+	</div>
+
+@EndSection
+
+@Section['Scripts']
+
+$(document).ready(function() {
+
+	$('.isCheck').click(function (e) {
+
+		var linkId = $(this).attr('id') + "CheckBox";
+		var checkBox = $('#' + linkId);
+
+		var isChecked = checkBox.prop('checked');
+		if ( isChecked ) {
+			checkBox.prop('checked', false);
+			$(this).attr('src', '/content/frm_checkoff.png');
+		}
+		else {
+			checkBox.prop('checked', true);
+			$(this).attr('src', '/content/frm_checkon.png');
+		}
+
+	});
+
+});
+
+@EndSection

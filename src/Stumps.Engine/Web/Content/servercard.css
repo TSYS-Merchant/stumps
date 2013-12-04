@@ -1,0 +1,207 @@
+﻿
+.serverCard
+{
+	width: 375px;
+	margin-top: 10px;
+	margin-left: 10px;
+	margin-right: 0px;
+	float: left;
+}
+
+	.serverCard a
+	{
+		font-size: 12px;
+		text-transform: uppercase;
+	}
+
+	.serverCard .headerBanner
+	{
+		font-size: 24px;
+		text-transform: uppercase;
+	}
+
+	.serverCard .header
+	{
+		background-color: #ffffff;
+		height: 32px;
+		margin-bottom: 1px;
+	}
+
+		.serverCard .header span
+		{
+			height: 32px;
+			vertical-align: middle;
+			text-transform: uppercase;
+			display: inline-block;
+			line-height: 32px;
+		}
+
+		.serverCard .header .title
+		{
+			font-size: 12px;
+			color: #808080;
+			text-align: left;
+			padding-left: 10px;
+			float: left;
+		}
+
+		.serverCard .header .status
+		{
+			height: 32px;
+			font-size: 10px;
+			float: right;
+			text-align: right;
+			padding-right: 10px;
+		}
+
+			.serverCard .header .status.stopped
+			{
+				color: #808080;
+			}
+
+			.serverCard .header .status.running
+			{
+				color: #78d23b;
+			}
+
+			.serverCard .header .status.recording
+			{
+				color: #f21c7c;
+			}
+
+	.serverCard .info
+	{
+		background-color: #f8f8f8;
+		height: 32px;
+		margin-bottom: 1px;
+	}
+
+		.serverCard .info label
+		{
+			height: 32px;
+			vertical-align: middle;
+			display: inline-block;
+			font-size: 12px;
+			color: #808080;
+			padding-left: 10px;
+			line-height: 32px;
+			text-transform: uppercase;
+		}
+
+		.serverCard .info a
+		{
+			height: 32px;
+			vertical-align: middle;
+			display: inline-block;
+			font-size: 12px;
+			padding-left: 10px;
+			line-height: 32px;
+			text-transform: uppercase;
+		}
+
+	.serverCard .toolbar
+	{
+		background-color: #ffffff;
+		height: 32px;
+	}
+
+		.serverCard .toolbar img
+		{
+			padding: 0px;
+			margin: 0px;
+			border: 0px;
+			cursor: pointer;
+		}
+
+		.serverCard .toolbar .left
+		{
+			float: left;
+		}
+
+		.serverCard .toolbar .right
+		{
+			float: right;
+		}
+
+	.serverCard .body
+	{
+		background-color: #ffffff;
+		margin-bottom: 1px;
+		padding-left: 10px;
+		padding-top: 15px;
+		padding-bottom: 15px;
+		padding-right: 10px;
+	}
+
+		.serverCard .body .bodyFrame
+		{
+			width: 100%;
+			border-collapse: collapse;
+			border: 0px none;
+		}
+
+			.serverCard .body .bodyFrame td
+			{
+				padding: 0px 0px 0px 0px;
+				vertical-align: top;
+			}
+
+			.serverCard .body .bodyFrame .serverImage
+			{
+				vertical-align: top;
+				width: 65px;
+			}
+
+	.serverCard .bodyFrame .stats
+	{
+		overflow: hidden;
+	}
+
+	.serverCard .bodyFrame .statsWrapper
+	{
+		margin-bottom: 8px;
+	}
+		.serverCard .bodyFrame .stats span
+		{
+			font-size: 24px;
+			display: inline-block;
+			float: left;
+			line-height: 24px;
+			width: 140px;
+		}
+
+		.serverCard .bodyFrame .stats label
+		{
+			font-size: 11px;
+			display: inline-block;
+			float: left;
+			line-height: 14px;
+			width: 140px;
+			color: #808080;
+			text-transform: uppercase;
+		}
+
+	.serverCard .bodyFrame .statsInfo
+	{
+		overflow: hidden;
+		padding-top: 3px;
+	}
+
+		.serverCard .bodyFrame .statsInfo span
+		{
+			font-size: 11px;
+			display: inline-block;
+			float: left;
+			line-height: 12px;
+			width: 100px;
+		}
+
+		.serverCard .bodyFrame .statsInfo a
+		{
+			font-size: 11px;
+			display: inline-block;
+			float: left;
+			line-height: 12px;
+			width: 100px;
+			text-transform: uppercase;
+		}

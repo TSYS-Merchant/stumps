@@ -1,0 +1,103 @@
+﻿.toolbar
+{
+	margin-bottom: 1px;
+	overflow: hidden;
+}
+
+	.toolbar a
+	{
+		display: inline-block;
+		padding: 0px 0px 0px 0px;
+		margin: 0px 0px 0px 0px;
+		font-size: 12px;
+        color: #808080;
+		text-decoration: none;
+		text-transform: uppercase;
+		height: 32px;
+		line-height: 32px;
+		vertical-align: central;
+	}
+
+		.toolbar a.left
+		{
+			margin-left: 10px;
+			margin-right: 15px;
+			float: left;
+		}
+
+		.toolbar a.right
+		{
+			margin-right: 10px;
+			margin-left: 15px;
+			float: right;
+		}
+
+		.toolbar a.hide
+		{
+			display: none;
+		}
+
+	.toolbar img
+	{
+		border: 0px none;
+		margin-right: 5px;
+	}
+
+        .toolbar img.tb {
+            vertical-align: text-bottom;
+        }
+
+	.toolbar label
+	{
+		display: inline-block;
+		padding: 0px 0px 0px 0px;
+		margin: 0px 0px 0px 0px;
+		font-size: 12px;
+		color: #808080;
+		text-decoration: none;
+		text-transform: uppercase;
+		height: 32px;
+		line-height: 32px;
+		vertical-align: central;
+		float: left;
+	}
+
+		.toolbar label.left
+		{
+			margin-left: 10px;
+			margin-right: 15px;
+			float: left;
+		}
+
+		.toolbar label.right
+		{
+			margin-right: 10px;
+			margin-left: 15px;
+			float: right;
+		}
+
+		.toolbar label.pointer
+		{
+			cursor: pointer;
+		}
+
+		.toolbar label.hide
+		{
+			display: none;
+		}
+
+        .toolbar.blueBackground a {
+            color: #ffffff;
+        }
+
+        .toolbar.redBackground a {
+            color: #ffffff;
+        }
+        
+        .toolbar.blueBackground label {
+            color: #ffffff;
+        }
+
+        .toolbar.redBackground label {
+            color: #ffffff;
+        }

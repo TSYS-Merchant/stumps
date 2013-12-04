@@ -1,0 +1,81 @@
+﻿.isCheck {
+    cursor: pointer;
+}
+
+.displayForm {
+    width: 700px;
+    margin: 30px auto 50px auto;
+    padding: 15px;
+}
+
+    .displayForm h1 {
+        font-size: 30px;
+        margin: 0px 0px 0px 0px;
+        padding: 0px 0px 15px 0px;
+        color: #ffffff;
+        line-height: 30px;
+        text-transform: uppercase;
+    }
+
+    .displayForm .innerForm {
+        padding: 15px 15px 15px 15px;
+    }
+
+        .displayForm .innerForm label {
+            display: inline-block;
+            width: 125px;
+            font-size: 30px;
+            text-transform: capitalize;
+            line-height: 37px;
+            color: #ffffff;
+        }
+
+        .displayForm .innerForm input[type="text"] {
+            font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+            font-size: 18px;
+            width: 525px;
+            padding: 5px;
+            border: 3px solid #ffffff;
+            background-color: #e0e0e0;
+        }
+
+            .displayForm .innerForm input[type="text"].half {
+                width: 255px;
+            }
+
+        .displayForm .innerForm span.note {
+            color: #ffffff;
+            font-style: italic;
+            font-size: 12px;
+            display: inline-block;
+            vertical-align: top;
+            padding-top: 5px;
+        }
+
+        .displayForm .innerForm span.check {
+            color: #ffffff;
+            font-size: 24px;
+            display: inline-block;
+            vertical-align: top;
+            padding-left: 10px;
+        }
+
+        .displayForm .innerForm div.flow {
+            overflow: hidden;
+        }
+
+        .displayForm .innerForm a.button {
+            color: #ffffff;
+            border: 3px solid #ffffff;
+            font-size: 18px;
+            text-transform: uppercase;
+            padding: 5px 10px 5px 10px;
+            float: right;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+
+		.displayForm .innerForm p {
+			color: #ffffff;
+			font-size: 18px;
+		}

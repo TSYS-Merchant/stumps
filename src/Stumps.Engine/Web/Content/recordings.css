@@ -1,0 +1,108 @@
+﻿.notice {
+    font-size: 12px;
+    font-style: italic;
+    text-align: center;
+    margin-top: 25px;
+}
+
+.requestTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+    .requestTable td {
+        padding-top: 7px;
+        padding-bottom: 7px;
+        padding-left: 10px;
+        padding-right: 10px;
+        font-size: 14px;
+        color: #808080;
+        cursor: pointer;
+    }
+
+        .requestTable td.right {
+            text-align: right;
+        }
+
+.selected {
+    background-color: #78d23b;
+}
+
+    .selected td {
+        color: #ffffff;
+    }
+
+.requestView {
+    padding: 10px 10px 10px 10px;
+}
+
+    .requestView h1 {
+        padding: 0px;
+        margin: 0px;
+        font-size: 24px;
+        color: #50cfe2;
+        text-transform: uppercase;
+    }
+
+    .requestView h2 {
+        padding: 0px;
+        margin: 0px;
+        font-size: 16px;
+        color: #808080;
+        text-transform: uppercase;
+        margin-top: 15px;
+    }
+
+    .requestView table {
+        width: 100%;
+        border: 0px none;
+        border-collapse: collapse;
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+
+    .requestView tr {
+        border-top: 1px solid #c0c0c0;
+        border-bottom: 1px solid #c0c0c0;
+    }
+
+    .requestView td {
+        font-size: 12px;
+        padding: 3px 20px 3px 0px;
+        vertical-align: top;
+    }
+
+        .requestView td.key {
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .requestView td.setKey {
+            width: 100px;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+    .requestView .bodyView {
+        width: 100%;
+        height: 300px;
+        background-color: #ffffff;
+        margin-top: 15px;
+        margin-bottom: 15px;
+        border: 1px solid #c0c0c0;
+        overflow: scroll;
+    }
+
+        .requestView .bodyView pre {
+            padding-left: 10px;
+        }
+
+    .requestView .bodyLink {
+        font-size: 14px;
+        text-transform: uppercase;
+    }
+
+    .requestView .bodyLinkDiv {
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }

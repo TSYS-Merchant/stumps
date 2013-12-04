@@ -1,0 +1,144 @@
+﻿body
+{
+	height: 100%;
+	padding: 0px;
+	margin: 0px;
+	background-color: #e0e0e0;
+	font-family: "Segoe UI", Helvetica, Arial, Sans-Serif;
+}
+
+html
+{
+	height: 100%;
+	padding: 0px;
+	margin: 0px;
+}
+
+p
+{
+	font-size: 14px;
+	margin-top: 0px;
+	padding-top: 0px;
+}
+
+a
+{
+	color: #50cfe2;
+	text-decoration: none;
+}
+
+form
+{
+	margin: 0px 0px 0px 0px;
+	padding: 0px 0px 0px 0px;
+}
+
+.hide
+{
+	display: none;
+}
+
+.blue
+{
+	color: #50cfe2;
+}
+
+.blueBackground
+{
+	background-color: #50cfe2;
+}
+
+.blueDark
+{
+	color: #4ac1d5;
+}
+
+.blueDarkBackground
+{
+	background-color: #4ac1d5;
+}
+
+.lightGreyBackground {
+    background-color: #f0f0f0;
+}
+
+.red
+{
+	color: #f21c7c;
+}
+
+.redBackground
+{
+	background-color: #f21c7c;
+}
+
+.redDark
+{
+	color: #d51d70;
+}
+
+.redDarkBackground
+{
+	background-color: #d51d70;
+}
+
+.green
+{
+	color: #78d23b;
+}
+
+.orange
+{
+	color: #f3c71a;
+}
+
+.orangeDark
+{
+	color: #e99612;
+}
+
+.greenDark
+{
+	color: #63b631;
+}
+
+.orangeDarkBackground
+{
+	background-color: #e99612;
+}
+
+.orangeBackground
+{
+	background-color: #f3c71a;
+}
+
+.greenBackground
+{
+	background-color: #78d23b;
+}
+
+.greenDarkBackground
+{
+	background-color: #63b631;
+}
+
+.whiteBackground
+{
+	background-color: #ffffff;
+}
+
+.navbar
+{
+	background-color: #50cfe2;
+	padding: 0px;
+	margin: 0px;
+	height: 50px;
+	margin-bottom: 1px;
+}
+
+.narbar img
+{
+	margin: 0px;
+	padding: 0px;
+	border-width: 0px 0px 0px 0px;
+}

@@ -1,0 +1,41 @@
+﻿@Master['master']
+
+@Section['HeaderStylesheets']
+	<link href="/content/forms.css" rel="stylesheet" />
+@EndSection
+
+@Section['Content']
+
+	<div class="displayForm orangeBackground">
+		<h1>Delete Stump</h1>
+		<div class="innerForm orangeDarkBackground">
+			<div><p>You are about to delete the stump '@Model.StumpName'. Once you do this, it can't be recovered.</p></div>
+
+			<div><label>&nbsp;</label></div>
+			<div class="flow">
+				<a href="/proxy/@Model.ProxyId/stumps" class="button orangeBackground">cancel</a>
+				<a class="button orangeBackground" onClick="deleteStump();">delete stump</a>
+			</div>
+		</div>
+	</div>
+
+@EndSection
+
+@Section['Scripts']
+
+function deleteStump() {
+
+	$.ajax({
+        type: 'DELETE',
+		url: '/api/proxy/@Model.ProxyId/stumps/@Model.StumpId/delete',
+        success: refreshPage,
+        error: refreshPage
+    });
+
+}
+
+function refreshPage() {
+	location.href = "/proxy/@Model.ProxyId/stumps";
+}
+
+@EndSection

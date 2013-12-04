@@ -1,0 +1,396 @@
+﻿@Master['master']
+
+@Section['HeaderStylesheets']
+	<link href="/content/toolbar.css" rel="stylesheet" />
+	<link href="/content/multipanel.css" rel="stylesheet" />
+	<link href="/content/recordings.css" rel="stylesheet" />
+@EndSection
+
+@Section['Content']
+	
+	@IfNot.IsRecording
+	<div class="toolbar blueBackground" id="tb_main">
+		<a href="/" class="left"><img src="/content/tb_back.png" />back</a>
+		<label class="left pointer" id="tb_recstart"><img src="/content/tb_recstart.png">start recording</label>
+		<label class="left pointer hide" id="tb_recstop"><img src="/content/tb_recstop.png">stop recording</label>
+		<a href="@Model.LocalWebsite" rel="noreferrer" target="_blank" class="right">@Model.ExternalHostName</a>
+	</div>
+	@EndIf
+	@If.IsRecording
+	<div class="toolbar redBackground" id="tb_main">
+		<a href="/" class="left"><img src="/content/tb_back.png" />back</a>
+		<label class="left pointer hide" id="tb_recstart"><img src="/content/tb_recstart.png">start recording</label>
+		<label class="left pointer" id="tb_recstop"><img src="/content/tb_recstop.png">stop recording</label>
+		<a href="@Model.LocalWebsite" rel="noreferrer" target="_blank" class="right">@Model.ExternalHostName</a>
+	</div>
+	@EndIf
+
+	<div class="panel">
+		<div class="fill whiteBackground">
+			@If.HasRecordings
+			<table class="requestTable" id="tbl_request">
+				<tbody>
+				@Each.Recordings
+				<tr id="reqidx_@Current.Index" class="requestRow"><td>@Current.Method</td><td>@Current.RawUrl</td><td class="right">@Current.StatusCode</td></tr>
+				@EndEach
+				</tbody>
+			</table>
+			<p class="notice hide" id="norecords">There doesn't seem to be anything here yet...</p>
+			@EndIf
+			@IfNot.HasRecordings
+			<p class="notice" id="norecords">There doesn't seem to be anything here yet...</p>
+			<table class="requestTable hide" id="tbl_request">
+				<tbody>
+				</tbody>
+			</table>
+			@EndIf
+		</div>
+	</div>
+	<div class="panel">
+		<div class="toolbar" id="view_toolbar">
+			<a id="view_create" href="" class="left hide"><img src="/content/tb_cstump.png" class="tb">Create Stump</a>
+			<a id="view_save" href="" class="left hide"><img src="/content/tb_save.png">Save for Later</a>
+			<label id="" class="left">&nbsp;</label>
+		</div>
+		<div class="fillToolbar lightGreyBackground">
+			<div id="view_record" class="requestView hide">
+				<h1>Http Request</h1>
+				<h2>Information</h2>
+				<table>
+					<tr><td class="setKey">URL</td><td id="tdReqUrl"></td></tr>
+					<tr><td class="setKey">Method</td><td id="tdReqMethod"></td></tr>
+					<tr><td class="setKey">Body Length</td><td id="tdReqBodyLength"></td></tr>
+				</table>
+				<h2>Headers</h2>
+				<table id="reqHeaders">
+					<tbody>
+					</tbody>
+				</table>
+				<h2 id="reqBodyHeader" class="hide">Body</h2>
+				<div id="reqBody" class="bodyView hide">
+<pre id="reqBodyPre">
+</pre>
+<img src="" id="reqBodyImg" class="hide" />
+				</div>
+				<div id="reqBodyLinkDiv" class="bodyLinkDiv hide"><a href="" id="reqBodyLink" class="bodyLink" target="_blank" rel="noreferrer">+ Download Body</a></div>
+
+				
+				<h1>Http Response</h1>
+				<h2>Information</h2>
+				<table>
+					<tr><td class="setKey">Status Code</td><td id="tdResStatus"></td></tr>
+					<tr><td class="setKey">Body Length</td><td id="tdResBodyLength"></td></tr>
+				</table>
+				<h2>Headers</h2>
+				<table id="resHeaders">
+					<tbody>
+					</tbody>
+				</table>
+				<h2 id="resBodyHeader" class="hide">Body</h2>
+				<div id="resBody" class="bodyView hide">
+<pre id="resBodyPre">
+</pre>
+<img src="" id="resBodyImg" class="hide" />
+				</div>
+				<div id="resBodyLinkDiv" class="bodyLinkDiv hide"><a href="" id="resBodyLink" class="bodyLink" target="_blank" rel="noreferrer">+ Download Body</a></div>
+
+			</div>
+		</div>
+	</div>
+@EndSection
+
+@Section['Scripts']
+
+var lockChangeRecordStatus = false;
+var lockFindNewRequests = false;
+var lockViewRequest = false;
+
+var lastRequestIndex = @Model.LastIndex ;
+var findNewRequestTimer = 0;
+
+$(document).ready(function() {
+
+	@If.IsRecording
+	findNewRequestTimer = setInterval(findNewRequests, 4000);
+	@EndIf
+
+	if ( lastRequestIndex > -1 ) {
+		selectRequestRow($('#reqidx_0'));
+	}
+
+	$(document).on('click', '.requestRow', function() {
+
+		selectRequestRow($(this));	
+
+	});
+
+	$('#tb_recstop').click(function (e) {
+
+		changeRecordStatus('@Model.ProxyId', false);
+
+	});
+
+	$('#tb_recstart').click(function(e) {
+		
+		changeRecordStatus('@Model.ProxyId', true);
+
+	});
+
+});
+
+// --------------------------------------------
+// Request Selection
+// --------------------------------------------
+
+function selectRequestRow(row) {
+
+	$('.selected').removeClass('selected');	
+	row.addClass('selected');
+	var requestIndex = row.attr('id').replace('reqidx_', '');
+
+	viewRequest(requestIndex);
+
+}
+
+// --------------------------------------------
+// View Request
+// --------------------------------------------
+
+function viewRequest(requestIndex) {
+
+	if ( lockViewRequest ) {
+		return;
+	}
+
+	lockViewRequest = true;
+
+    $.ajax({
+        type: 'GET',
+        contentType: 'application/json; charset-utf-8',
+		url: '/api/proxy/@Model.ProxyId/recording/' + requestIndex,
+        cache: false,
+        success: viewRequest_success,
+		complete: viewRequest_complete
+    });
+
+}
+
+function viewRequest_complete() {
+	lockViewRequest = false;
+}
+
+function viewRequest_success(msg) {
+		
+	// Update request 
+	$('#tdReqUrl').text(msg.RequestRawUrl);
+	$('#tdReqMethod').text(msg.RequestHttpMethod);
+	$('#tdReqBodyLength').text(msg.RequestBodyLength);
+	viewRequest_UpdateHeaders('#reqHeaders tbody', 'reqHeadersVal', msg.RequestHeaders);
+	viewRequest_UpdateBody(msg.Index, msg.RequestBodyLength, msg.RequestBodyIsText, msg.RequestBodyIsImage, 
+						   msg.RequestBodyUrl, msg.RequestBody, '#reqBodyHeader', '#reqBody', 'reqBodyPre',
+						   '#reqBodyImg', '#reqBodyLink');
+
+	// Update response
+	$('#tdResStatus').text(msg.ResponseStatusCode + ' ' + msg.ResponseStatusDescription);
+	$('#tdResBodyLength').text(msg.ResponseBodyLength);
+	viewRequest_UpdateHeaders('#resHeaders tbody', 'resHeadersVal', msg.ResponseHeaders);
+	viewRequest_UpdateBody(msg.Index, msg.ResponseBodyLength, msg.ResponseBodyIsText, msg.ResponseBodyIsImage, 
+						   msg.ResponseBodyUrl, msg.ResponseBody, '#resBodyHeader', '#resBody', 'resBodyPre',
+						   '#resBodyImg', '#resBodyLink');
+
+	// Update toolbar buttons
+	$('#view_save').removeClass('hide');
+	$('#view_create').removeClass('hide');
+	$('#view_create').attr('href', '/proxy/@Model.ProxyId/recording/' + msg.Index + '/NewStump');
+	$('#view_save').attr('href', '/proxy/@Model.ProxyId/recording/' + msg.Index + '/Save');
+
+	// Show request
+	$('#view_record').removeClass('hide');
+	
+}
+
+function viewRequest_UpdateBody(requestIndex, bodyLength, bodyIsText, bodyIsImage, bodyUrl,
+							    bodyValue, headerElement, divElement, preElement, imgElement, linkElement) {
+
+	$(preElement).empty();
+	var linkElementDiv = linkElement + 'Div';
+
+	if ( bodyLength == 0 ) {
+		$(headerElement).addClass('hide');
+		$(divElement).addClass('hide');
+		$(linkElementDiv).addClass('hide');
+	}
+	else {
+		if ( bodyIsText ) {
+			$(divElement).removeClass('hide');
+			$('#' + preElement).removeClass('hide');
+			$(imgElement).addClass('hide');
+			$(linkElementDiv).addClass('hide');
+
+			var pre = document.getElementById(preElement);
+			pre.textContent = bodyValue;
+		}
+		else if ( bodyIsImage ) {
+			$(divElement).removeClass('hide');
+			$('#' + preElement).addClass('hide');
+			$(imgElement).removeClass('hide');
+			$(linkElementDiv).addClass('hide');
+
+			$(imgElement).attr('src', bodyUrl);
+		}
+		else {
+			$(divElement).addClass('hide');
+			$('#' + preElement).addClass('hide');
+			$(imgElement).addClass('hide');
+			$(linkElementDiv).removeClass('hide');
+
+			$(linkElement).attr('href', bodyUrl);
+		}
+
+		$(headerElement).removeClass('hide');
+	}
+
+}
+
+function viewRequest_UpdateHeaders(element, cellElement, headers) {
+
+	$(element).empty();
+	
+	for ( var i = 0; i < headers.length; i++ ) {
+		
+		var row = 
+			'<tr>' +
+			'<td class="key" id="' + cellElement + '_key_' + i + '"></td>' +
+			'<td id="' + cellElement + '_val_' + i + '"></td>' +
+			'</tr>';
+	
+		$(element).append(row);
+	
+		$('#' + cellElement + '_key_' + i).text(headers[i].Name);
+		$('#' + cellElement + '_val_' + i).text(headers[i].Value);
+
+	}
+
+}
+
+// --------------------------------------------
+// Change Record Status
+// --------------------------------------------
+
+function changeRecordStatus(proxyId, recordState) {
+
+	if ( lockChangeRecordStatus ) {
+		return;
+	}
+
+	lockChangeRecordStatus = true;
+
+    $.ajax({
+        type: 'PUT',
+        contentType: 'application/json; charset-utf-8',
+		url: '/api/proxy/' + proxyId + '/recording/status',
+        dataType: "json",
+		data: '{"RecordTraffic":' + recordState + '}',
+        cache: false,
+        success: changeRecordStatus_success(proxyId, recordState),
+		complete: changeRecordStatus_complete
+    });
+
+}
+
+function changeRecordStatus_complete() {
+	lockChangeRecordStatus = false;
+}
+
+function changeRecordStatus_success(proxyId, recordState) {
+
+	if ( recordState == true ) {
+		$('#tb_main').removeClass('blueBackground');
+		$('#tb_main').addClass('redBackground');
+		$('#tb_recstart').addClass('hide');
+		$('#tb_recstop').removeClass('hide');
+
+		$('#norecords').removeClass('hide');
+
+		$('#tbl_request').addClass('hide');
+		$('#tbl_request tbody').empty();
+
+		$('#view_create').addClass('hide');
+		$('#view_save').addClass('hide');
+		$('#view_record').addClass('hide');
+
+		lastRequestIndex = -1;
+		findNewRequestTimer = setInterval(findNewRequests, 4000);
+
+	}
+	else {
+		$('#tb_main').removeClass('redBackground');
+		$('#tb_main').addClass('blueBackground');
+
+		$('#tb_recstart').removeClass('hide');
+		$('#tb_recstop').addClass('hide');
+
+		$('#tbl_request').removeClass('hide');
+
+		clearInterval(findNewRequestTimer);
+	}
+
+}
+
+// --------------------------------------------
+// Find New Requests
+// --------------------------------------------
+
+function findNewRequests() {
+
+	if ( lockFindNewRequests ) {
+		return;
+	}
+
+	lockFindNewRequests = true;
+
+    $.ajax({
+        type: 'GET',
+        contentType: 'application/json; charset-utf-8',
+		url: '/api/proxy/@Model.ProxyId/recording?after=' + lastRequestIndex,
+        cache: false,
+        success: findNewRequests_success,
+		complete: findNewRequests_complete
+    });
+
+}
+
+function findNewRequests_complete() {
+	lockFindNewRequests = false;
+}
+
+function findNewRequests_success(msg) {
+
+	var wasEmptyBefore = (lastRequestIndex == -1);
+
+	for ( var i = 0; i < msg.length; i++ ) {
+		
+		lastRequestIndex = msg[i].Index;
+		var row = 
+			'<tr id="reqidx_' + msg[i].Index + '" class="requestRow">' +
+			'<td>' + msg[i].Method + '</td>' +
+			'<td>' + msg[i].RawUrl + '</td>' +
+			'<td class="right">' + msg[i].StatusCode + '</td>' +
+			'</tr>';
+
+		$('#tbl_request tbody').append(row);
+
+	}
+
+	if ( lastRequestIndex > -1 ) {
+		$('#norecords').addClass('hide');
+		$('#tbl_request').removeClass('hide');
+
+		if ( wasEmptyBefore ) {
+			selectRequestRow($('#reqidx_0'));
+		}
+	}
+
+}
+
+@EndSection

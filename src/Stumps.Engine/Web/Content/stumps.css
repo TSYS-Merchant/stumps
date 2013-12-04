@@ -1,0 +1,129 @@
+﻿.notice {
+    font-size: 12px;
+    font-style: italic;
+    text-align: center;
+    margin-top: 25px;
+}
+
+.stumpTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+    .stumpTable thead tr {
+        background-color: #4ac1d5;
+        border-bottom: 0px none;
+    }
+
+    .stumpTable thead th {
+        padding-top: 7px;
+        padding-bottom: 7px;
+        padding-left: 10px;
+        padding-right: 10px;
+        font-size: 14px;
+        color: #ffffff;
+        cursor: pointer;
+        text-align: left;
+    }
+
+    .stumpTable tbody tr {
+        border-bottom: 1px solid #ebebeb;
+    }
+
+        .stumpTable tbody tr:last-child {
+            border-bottom: 0px none;
+        }
+
+    .stumpTable tbody td {
+        padding-top: 7px;
+        padding-bottom: 7px;
+        padding-left: 10px;
+        padding-right: 10px;
+        font-size: 14px;
+        color: #808080;
+        cursor: pointer;
+    }
+
+.stumpTable tbody tr.selected {
+    background-color: #78d23b;
+    border-bottom: 0px none;
+}
+
+.stumpTable tbody tr.selected td {
+    color: #ffffff;
+}
+
+.stumpView {
+    padding: 10px 10px 10px 10px;
+}
+
+    .stumpView h1 {
+        padding: 0px;
+        margin: 0px;
+        font-size: 24px;
+        color: #50cfe2;
+        text-transform: uppercase;
+    }
+
+    .stumpView h2 {
+        padding: 0px;
+        margin: 0px;
+        font-size: 16px;
+        color: #808080;
+        text-transform: uppercase;
+    }
+
+    .stumpView table {
+        width: 100%;
+        border: 0px none;
+        border-collapse: collapse;
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+
+    .stumpView tr {
+        border-top: 1px solid #c0c0c0;
+        border-bottom: 1px solid #c0c0c0;
+    }
+
+    .stumpView td {
+        font-size: 12px;
+        padding: 3px 20px 3px 0px;
+        vertical-align: top;
+    }
+
+        .stumpView td.key {
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .stumpView td.setKey {
+            width: 100px;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        
+    .stumpView .bodyView {
+        width: 100%;
+        height: 300px;
+        background-color: #ffffff;
+        margin-top: 15px;
+        margin-bottom: 15px;
+        border: 1px solid #c0c0c0;
+        overflow: scroll;
+    }
+
+        .stumpView .bodyView pre {
+            padding-left: 10px;
+        }
+
+    .stumpView .bodyLink {
+        font-size: 14px;
+        text-transform: uppercase;
+    }
+
+    .stumpView .bodyLinkDiv {
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }

@@ -1,0 +1,77 @@
+﻿namespace Stumps.Proxy {
+
+    using System;
+    using Stumps.Logging;
+
+    internal sealed class ProxyServerModule : IStumpModule {
+
+        private ILogger _logger;
+        private IProxyHost _host;
+        private bool _started;
+        private bool _disposed;
+
+        public ProxyServerModule(ILogger logger, IProxyHost proxyHost) {
+
+            if ( logger == null ) {
+                throw new ArgumentNullException("logger");
+            }
+
+            if ( proxyHost == null ) {
+                throw new ArgumentNullException("proxyHost");
+            }
+
+            _logger = logger;
+            _host = proxyHost;
+
+        }
+
+        public void Start() {
+
+            if ( _started ) {
+                return;
+            }
+
+            _host.Start();
+
+            _started = true;
+
+        }
+
+        public void Stop() {
+
+            if ( !_started ) {
+                return;
+            }
+
+            _host.Stop();
+
+            _started = false;
+
+        }
+
+        #region IDisposable Members
+
+        public void Dispose() {
+
+            if ( !_disposed ) {
+
+                _disposed = true;
+
+                if ( _started ) {
+                    this.Stop();
+                }
+
+                _host.Dispose();
+                _host = null;
+
+            }
+
+            GC.SuppressFinalize(this);
+
+        }
+
+        #endregion
+
+    }
+
+}

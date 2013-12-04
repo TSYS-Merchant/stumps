@@ -1,0 +1,23 @@
+﻿.panel {
+    width: 50%;
+    height: calc(100% - 84px);
+    float: left;
+}
+
+.panelB {
+    width: 50%;
+    height: calc(100% - 140px);
+    float: left;
+}
+
+.fill {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+}
+
+.fillToolbar {
+    width: 100%;
+    height: calc(100% - 33px);
+    overflow-y: auto;
+}

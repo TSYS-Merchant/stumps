@@ -1,0 +1,6 @@
+Stumps
+
+Usage: stumps [/i] [/u]
+
+/i   Installs Stumps as a service
+/u   Removes the Stumps service.
