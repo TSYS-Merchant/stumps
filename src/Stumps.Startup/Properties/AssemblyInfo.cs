@@ -36,4 +36,4 @@ using System.Resources;
 [assembly: AssemblyVersion("0.1.0.0")]
 [assembly: AssemblyFileVersion("0.1.0.0")]
 [assembly: NeutralResourcesLanguageAttribute("en")]
-[assembly: CLSCompliant(true)]
+[assembly: CLSCompliant(false)]
