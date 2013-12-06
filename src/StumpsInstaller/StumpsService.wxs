@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Fragment>
+    <DirectoryRef Id="INSTALLFOLDER">
+
+      <Component Id="StumpsService" Guid="{A3679ACA-A094-4410-BF68-9DE53D69B01D}">
+        <File Id="Stumps_exe" Source="..\Stumps.Startup\bin\Release\Stumps.exe" />
+        <File Id="Stumps_exe_config" Source="..\Stumps.Startup\bin\Release\Stumps.exe.config" />
+        <ServiceInstall Id="StumpsInstall" Name="Stumps" DisplayName="Stumps" Description="Stumps which runs a Mock Proxy in order to fake service connections." Type="ownProcess" Start="auto" ErrorControl="ignore" Interactive="no" Vital="yes" />
+        <ServiceControl Id="StumpsInstall_Control" Name="StumpsInstall_Control" Start="install" Remove="uninstall"  Stop="both"  Wait="yes" />
+      </Component>
+      
+      <Component Id="StumpsEngine" Guid="{6B78169B-555B-4B73-8723-B2F83C319881}">
+        <File Id="Stumps_Engine_dll" Source="..\Stumps.Startup\bin\Release\Stumps.Engine.dll" />
+        <File Id="Nancy_dll" Source="..\Stumps.Startup\bin\Release\Nancy.dll" />
+        <File Id="Nancy_Hosting_Self_dll" Source="..\Stumps.Startup\bin\Release\Nancy.Hosting.Self.dll" />
+        <File Id="Newtonsoft_Json_dll" Source="..\Stumps.Startup\bin\Release\Newtonsoft.Json.dll" />
+      </Component>
+      
+      <Component Id="StumpsWebsite" Guid="{371FCA76-AD54-469E-B00A-77C21949E2F9}">
+        <File Id="addwebsite_sshtml" Source="..\Stumps.Startup\bin\Release\addwebsite.sshtml" />
+        <File Id="deletestump_sshtml" Source="..\Stumps.Startup\bin\Release\deletestump.sshtml" />
+        <File Id="deletewebsite_sshtml" Source="..\Stumps.Startup\bin\Release\deletewebsite.sshtml" />
+        <File Id="main_sshtml" Source="..\Stumps.Startup\bin\Release\main.sshtml" />
+        <File Id="master_sshtml" Source="..\Stumps.Startup\bin\Release\master.sshtml" />
+        <File Id="recordings_sshtml" Source="..\Stumps.Startup\bin\Release\recordings.sshtml" />
+        <File Id="stumpeditor_sshtml" Source="..\Stumps.Startup\bin\Release\stumpeditor.sshtml" />
+        <File Id="stumpsoverview_sshtml" Source="..\Stumps.Startup\bin\Release\stumpsoverview.sshtml" />
+      </Component>
+
+    </DirectoryRef>
+
+    <DirectoryRef Id="ContentFolder">
+      
+      <Component Id="StumpsContent" Guid="{F79BA6F1-C1EE-4242-9CAC-6E7933789009}">
+        <File Id="ico_pwr_png" Source="..\Stumps.Startup\bin\Release\Content\ico_pwr.png" />
+        <File Id="ico_rec_png" Source="..\Stumps.Startup\bin\Release\Content\ico_rec.png" />
+        <File Id="jquery_1.10.2_min_js" Source="..\Stumps.Startup\bin\Release\Content\jquery-1.10.2.min.js" />
+        <File Id="logo_png" Source="..\Stumps.Startup\bin\Release\Content\logo.png" />
+        <File Id="main_css" Source="..\Stumps.Startup\bin\Release\Content\main.css" />
+        <File Id="multipanel_css" Source="..\Stumps.Startup\bin\Release\Content\multipanel.css" />
+        <File Id="recordings_css" Source="..\Stumps.Startup\bin\Release\Content\recordings.css" />
+        <File Id="servercard_css" Source="..\Stumps.Startup\bin\Release\Content\servercard.css" />
+        <File Id="stumpeditor_css" Source="..\Stumps.Startup\bin\Release\Content\stumpeditor.css" />
+        <File Id="stumps_css" Source="..\Stumps.Startup\bin\Release\Content\stumps.css" />
+        <File Id="svr_new_png" Source="..\Stumps.Startup\bin\Release\Content\svr_new.png" />
+        <File Id="svr_rec_png" Source="..\Stumps.Startup\bin\Release\Content\svr_rec.png" />
+        <File Id="svr_stp_png" Source="..\Stumps.Startup\bin\Release\Content\svr_stp.png" />
+        <File Id="tb_back_png" Source="..\Stumps.Startup\bin\Release\Content\tb_back.png" />
+        <File Id="tb_cstump_png" Source="..\Stumps.Startup\bin\Release\Content\tb_cstump.png" />
+        <File Id="tb_delete_png" Source="..\Stumps.Startup\bin\Release\Content\tb_delete.png" />
+        <File Id="tb_estump_png" Source="..\Stumps.Startup\bin\Release\Content\tb_estump.png" />
+        <File Id="tb_recstart_png" Source="..\Stumps.Startup\bin\Release\Content\tb_recstart.png" />
+        <File Id="tb_recstop_png" Source="..\Stumps.Startup\bin\Release\Content\tb_recstop.png" />
+        <File Id="tb_save_png" Source="..\Stumps.Startup\bin\Release\Content\tb_save.png" />
+        <File Id="toolbar_css" Source="..\Stumps.Startup\bin\Release\Content\toolbar.css" />
+
+      </Component>
+    </DirectoryRef>
+    
+	</Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="StumpsComponents">
+      <ComponentRef Id="StumpsService" />
+      <ComponentRef Id="StumpsEngine" />
+      <ComponentRef Id="StumpsWebsite" />
+      <ComponentRef Id="StumpsContent" />
+    </ComponentGroup>
+  </Fragment>
+</Wix>
