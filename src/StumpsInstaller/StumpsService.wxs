@@ -33,6 +33,11 @@
     <DirectoryRef Id="ContentFolder">
       
       <Component Id="StumpsContent" Guid="{F79BA6F1-C1EE-4242-9CAC-6E7933789009}">
+        <File Id="forms_css" Source="..\Stumps.Startup\bin\Release\Content\forms.css" />
+        <File Id="frm_checkon_png" Source="..\Stumps.Startup\bin\Release\Content\frm_checkon.png" />
+        <File Id="frm_checkoff_png" Source="..\Stumps.Startup\bin\Release\Content\frm_checkoff.png" />
+        <File Id="ico_cfg_png" Source="..\Stumps.Startup\bin\Release\Content\ico_cfg.png" />
+        <File Id="ico_del_png" Source="..\Stumps.Startup\bin\Release\Content\ico_del.png" />
         <File Id="ico_pwr_png" Source="..\Stumps.Startup\bin\Release\Content\ico_pwr.png" />
         <File Id="ico_rec_png" Source="..\Stumps.Startup\bin\Release\Content\ico_rec.png" />
         <File Id="jquery_1.10.2_min_js" Source="..\Stumps.Startup\bin\Release\Content\jquery-1.10.2.min.js" />
