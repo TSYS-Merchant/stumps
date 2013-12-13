@@ -50,6 +50,7 @@
         <File Id="stumps_css" Source="..\Stumps.Startup\bin\Release\Content\stumps.css" />
         <File Id="svr_new_png" Source="..\Stumps.Startup\bin\Release\Content\svr_new.png" />
         <File Id="svr_rec_png" Source="..\Stumps.Startup\bin\Release\Content\svr_rec.png" />
+        <File Id="svr_run_png" Source="..\Stumps.Startup\bin\Release\Content\svr_run.png" />
         <File Id="svr_stp_png" Source="..\Stumps.Startup\bin\Release\Content\svr_stp.png" />
         <File Id="tb_back_png" Source="..\Stumps.Startup\bin\Release\Content\tb_back.png" />
         <File Id="tb_cstump_png" Source="..\Stumps.Startup\bin\Release\Content\tb_cstump.png" />
