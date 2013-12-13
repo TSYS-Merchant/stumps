@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Product Id="*" Name="Stumps" Language="1033" Version="0.0.1.0" Manufacturer="Merchant Warehouse" UpgradeCode="83bf5dc5-bce7-4f91-89f1-c1ba58ae2383">
+		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+    <Media Id="1" Cabinet="FileWriter.cab" EmbedCab="yes"></Media>
+
+    <UIRef Id="UserInterface" />
+    
+		<MajorUpgrade DowngradeErrorMessage="A newer version of Stumps is already installed." />
+
+    <FeatureGroupRef Id="StumpsFeatures" />
+    <DirectoryRef Id="TARGETDIR" />
+    
+	</Product>
+
+</Wix>

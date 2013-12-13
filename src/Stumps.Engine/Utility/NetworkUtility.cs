@@ -13,7 +13,7 @@
             var properties = IPGlobalProperties.GetIPGlobalProperties();
             var endpointList = properties.GetActiveTcpListeners();
 
-            var usedPorts = new bool[NetworkUtility.MaximumPort - NetworkUtility.MinimumPort];
+            var usedPorts = new bool[NetworkUtility.MaximumPort - NetworkUtility.MinimumPort + 1];
 
             foreach ( var endpoint in endpointList ) {
                 if ( endpoint.Port >= NetworkUtility.MinimumPort && endpoint.Port <= NetworkUtility.MaximumPort ) {
