@@ -12,21 +12,28 @@
                 throw new ArgumentNullException("value");
             }
 
-            byte[] outBytes;
+            MemoryStream outputStream = null;
+            byte[] responseBytes = null;
 
-            using ( var outputStream = new MemoryStream() ) {
+            try {
 
-                using ( var compressionStream = new DeflateStream(outputStream, CompressionMode.Compress) ) {
+                outputStream = new MemoryStream();
 
-                    compressionStream.Write(value, 0, value.Length);
+                var compressionStream = new DeflateStream(outputStream, CompressionMode.Compress);
+                compressionStream.Write(value, 0, value.Length);
+                compressionStream.Flush();
+                
+                responseBytes = outputStream.ToArray();
 
-                }
-
-                outBytes = outputStream.ToArray();
+                compressionStream.Close();
 
             }
+            catch {
+                outputStream.Close();
+                throw;
+            }
 
-            return outBytes;
+            return responseBytes;
 
         }
 
@@ -36,24 +43,30 @@
                 throw new ArgumentNullException("value");
             }
 
-            byte[] outBytes;
+            MemoryStream outputStream = null;
+            byte[] responseBytes = null;
 
-            using ( var outputStream = new MemoryStream() ) {
+            try {
 
-                using ( var compressionStream = new GZipStream(outputStream, CompressionMode.Compress) ) {
+                outputStream = new MemoryStream();
 
-                    compressionStream.Write(value, 0, value.Length);
+                var compressionStream = new GZipStream(outputStream, CompressionMode.Compress);
+                compressionStream.Write(value, 0, value.Length);
+                compressionStream.Flush();
 
-                }
+                responseBytes = outputStream.ToArray();
 
-                outBytes = outputStream.ToArray();
+                compressionStream.Close();
 
             }
+            catch {
+                outputStream.Close();
+                throw;
+            }
 
-            return outBytes;
+            return responseBytes;
 
         }
-
 
         public static byte[] DecompressDeflateByteArray(byte[] value) {
 
@@ -62,28 +75,38 @@
                 throw new ArgumentNullException("value");
             }
 
-            byte[] outBytes;
+            MemoryStream inputStream = null;
+            MemoryStream outputStream = null;
+            byte[] responseBytes = null;
 
-            using ( var inputStream = new MemoryStream(value) ) {
+            try {
 
-                using ( var compressionStream = new DeflateStream(inputStream, CompressionMode.Decompress) ) {
+                inputStream = new MemoryStream(value);
+                outputStream = new MemoryStream();
 
-                    using ( var outputStream = new MemoryStream() ) {
+                var compressionStream = new DeflateStream(inputStream, CompressionMode.Decompress);
 
-                        var buffer = new byte[StreamUtility.BufferSize];
-                        var bytesRead = 0;
+                var buffer = new byte[StreamUtility.BufferSize];
+                var bytesRead = 0;
 
-                        while ( (bytesRead = compressionStream.Read(buffer, 0, StreamUtility.BufferSize)) > 0 ) {
-                            outputStream.Write(buffer, 0, bytesRead);
-                        }
-
-                        outBytes = outputStream.ToArray();
-
-                    }
+                while ( ( bytesRead = compressionStream.Read(buffer, 0, StreamUtility.BufferSize) ) > 0 ) {
+                    outputStream.Write(buffer, 0, bytesRead);
                 }
+
+                responseBytes = outputStream.ToArray();
+
+                compressionStream.Close();
+
+            }
+            catch {
+                inputStream.Close();
+                throw;
+            }
+            finally {
+                outputStream.Close();
             }
 
-            return outBytes;
+            return responseBytes;
 
         }
 
@@ -93,28 +116,38 @@
                 throw new ArgumentNullException("value");
             }
 
-            byte[] outBytes;
+            MemoryStream inputStream = null;
+            MemoryStream outputStream = null;
+            byte[] responseBytes = null;
 
-            using ( var inputStream = new MemoryStream(value) ) {
+            try {
 
-                using ( var compressionStream = new GZipStream(inputStream, CompressionMode.Decompress) ) {
+                inputStream = new MemoryStream(value);
+                outputStream = new MemoryStream();
 
-                    using ( var outputStream = new MemoryStream() ) {
+                var compressionStream = new GZipStream(inputStream, CompressionMode.Decompress);
 
-                        var buffer = new byte[StreamUtility.BufferSize];
-                        var bytesRead = 0;
+                var buffer = new byte[StreamUtility.BufferSize];
+                var bytesRead = 0;
 
-                        while ( (bytesRead = compressionStream.Read(buffer, 0, StreamUtility.BufferSize)) > 0 ) {
-                            outputStream.Write(buffer, 0, bytesRead);
-                        }
-
-                        outBytes = outputStream.ToArray();
-
-                    }
+                while ( ( bytesRead = compressionStream.Read(buffer, 0, StreamUtility.BufferSize) ) > 0 ) {
+                    outputStream.Write(buffer, 0, bytesRead);
                 }
+
+                responseBytes = outputStream.ToArray();
+
+                compressionStream.Close();
+
+            }
+            catch {
+                inputStream.Close();
+                throw;
+            }
+            finally {
+                outputStream.Close();
             }
 
-            return outBytes;
+            return responseBytes;
 
         }
 
