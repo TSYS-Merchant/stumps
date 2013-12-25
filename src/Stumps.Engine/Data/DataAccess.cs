@@ -32,6 +32,10 @@
 
         public void ProxyServerCreate(ProxyServerEntity server) {
 
+            if ( server == null ) {
+                throw new ArgumentNullException("server");
+            }
+
             var externalHostName = cleanExternalHostName(server.ExternalHostName);
 
             var proxyFile = Path.Combine(_dataPath, externalHostName + DataAccess.ProxyFileExtension);
@@ -65,6 +69,10 @@
         }
 
         public StumpEntity StumpCreate(string externalHostName, StumpEntity entity, byte[] matchBody, byte[] responseBody) {
+
+            if ( entity == null ) {
+                throw new ArgumentNullException("entity");
+            }
 
             externalHostName = cleanExternalHostName(externalHostName);
             var stumpsPath = Path.Combine(_dataPath, externalHostName, DataAccess.StumpsPathName);

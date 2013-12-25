@@ -17,7 +17,7 @@
 
                 if ( Request.Query.after != null ) {
                     var afterIndexString = (string) Request.Query.after;
-                    int.TryParse(afterIndexString, out afterIndex);
+                    afterIndex = int.TryParse(afterIndexString, out afterIndex) ? afterIndex : -1;
                 }
 
                 var recordingList = environment.Recordings.Find(afterIndex);

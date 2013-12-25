@@ -42,6 +42,14 @@
 
         public static ErrorJsonResponse FromException(Exception ex) {
 
+            if ( ex == null ) {
+                return new ErrorJsonResponse(new ErrorModel() {
+                    ErrorMessage = null,
+                    Errors = null,
+                    FullException = null
+                });
+            }
+
             var rootException = ex.GetBaseException();
 
             var error = new ErrorModel() {
@@ -49,8 +57,19 @@
                 FullException = rootException.ToString()
             };
 
-            var response = new ErrorJsonResponse(error);
-            response.StatusCode = HttpStatusCode.InternalServerError;
+            ErrorJsonResponse response = null;
+
+            try {
+                response = new ErrorJsonResponse(error);
+                response.StatusCode = HttpStatusCode.InternalServerError;
+            }
+            catch {
+                if ( response != null ) {
+                    response.Dispose();
+                }
+
+                throw;
+            }
 
             return response;
 

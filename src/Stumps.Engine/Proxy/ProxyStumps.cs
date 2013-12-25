@@ -34,6 +34,10 @@
 
         public StumpContract CreateStump(StumpContract contract) {
 
+            if ( contract == null ) {
+                throw new ArgumentNullException("contract");
+            }
+
             if ( string.IsNullOrEmpty(contract.StumpId) ) {
                 contract.StumpId = RandomGenerator.GenerateIdentifier();
             }

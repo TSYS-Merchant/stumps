@@ -35,6 +35,10 @@
 
         protected override void ConfigureApplicationContainer(Nancy.TinyIoc.TinyIoCContainer container) {
 
+            if ( container == null ) {
+                throw new ArgumentNullException("container");
+            }
+
             base.ConfigureApplicationContainer(container);
 
             container.Register<IProxyHost>(_host);
@@ -42,6 +46,18 @@
         }
 
         protected override void RequestStartup(Nancy.TinyIoc.TinyIoCContainer container, Nancy.Bootstrapper.IPipelines pipelines, NancyContext context) {
+
+            if ( container == null ) {
+                throw new ArgumentNullException("container");
+            }
+
+            if ( pipelines == null ) {
+                throw new ArgumentNullException("pipelines");
+            }
+
+            if ( context == null ) {
+                throw new ArgumentNullException("context");
+            }
 
             pipelines.OnError.AddItemToEndOfPipeline((z, a) => ErrorJsonResponse.FromException(a));
             base.RequestStartup(container, pipelines, context);
