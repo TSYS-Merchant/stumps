@@ -17,6 +17,10 @@
 
         public void Add(RecordedContext context) {
 
+            if ( context == null ) {
+                throw new ArgumentNullException("context");
+            }
+
             determineContentType(context.Request);
             determineBodyIsImage(context.Request);
 
@@ -45,6 +49,8 @@
         public IList<RecordedContext> Find(int afterIndex) {
 
             var returnList = new List<RecordedContext>();
+
+            afterIndex = (afterIndex == int.MaxValue ? afterIndex - 1 : afterIndex);
 
             afterIndex++;
 

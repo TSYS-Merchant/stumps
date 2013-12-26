@@ -6,7 +6,7 @@
 
         void Start();
 
-        void Stop();
+        void Shutdown();
 
     }
 

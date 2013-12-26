@@ -8,13 +8,14 @@
     using Stumps.Http;
     using Stumps.Utility;
 
-    public class ProxyStumps {
+    public class ProxyStumps : IDisposable {
 
         private readonly List<Stump> _stumpList;
         private readonly Dictionary<string, Stump> _stumpReference;
-        private readonly ReaderWriterLockSlim _lock;
         private readonly IDataAccess _dataAccess;
         private readonly string _externalHostName;
+        private ReaderWriterLockSlim _lock;
+        private bool _disposed;
 
         public ProxyStumps(string externalHostName, IDataAccess dataAccess) {
 
@@ -281,6 +282,31 @@
 
         }
 
+
+        #region IDisposable Members
+
+        protected virtual void Dispose(bool disposing) {
+
+            if ( disposing && !_disposed ) {
+                _disposed = true;
+
+                if ( _lock != null ) {
+                    _lock.Dispose();
+                    _lock = null;
+                }
+
+            }
+
+        }
+
+        public void Dispose() {
+
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+
+        }
+
+        #endregion
     }
 
 }

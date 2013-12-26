@@ -1,6 +1,7 @@
 ﻿namespace Stumps.Web.ViewModules {
 
     using System.Collections;
+    using System.Globalization;
     using Nancy;
     using Stumps.Proxy;
 
@@ -32,7 +33,7 @@
                 var model = new {
                     ProxyId = environment.ProxyId,
                     ExternalHostName = (environment.UseSsl ? environment.ExternalHostName + " (SSL)" : environment.ExternalHostName),
-                    LocalWebsite = "http://localhost:" + environment.Port.ToString() + "/",
+                    LocalWebsite = "http://localhost:" + environment.Port.ToString(CultureInfo.InvariantCulture) + "/",
                     IsRecording = environment.RecordTraffic,
                     LastIndex = lastIndex,
                     Recordings = recordingModelArray

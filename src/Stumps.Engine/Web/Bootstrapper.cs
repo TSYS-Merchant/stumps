@@ -66,9 +66,9 @@
 
         #region IDisposable Members
 
-        public new void Dispose() {
+        protected virtual void Dispose(bool disposing) {
 
-            if ( !_disposed ) {
+            if ( disposing && !_disposed ) {
 
                 _disposed = true;
 
@@ -81,6 +81,11 @@
 
             }
 
+        }
+
+        public new void Dispose() {
+
+            this.Dispose(true);
             GC.SuppressFinalize(this);
 
         }

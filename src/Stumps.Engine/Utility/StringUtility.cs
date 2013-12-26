@@ -4,20 +4,6 @@
 
     internal static class StringUtility {
 
-        public static bool IsText(Stream stream) {
-
-            if ( stream.Length == 0 ) {
-                return false;
-            }
-
-            var buffer = StreamUtility.ConvertStreamToByteArray(stream);
-
-            var isArrayText = StringUtility.IsText(buffer);
-
-            return isArrayText;
-
-        }
-
         public static bool IsText(byte[] buffer) {
 
             if ( buffer == null || buffer.Length == 0 ) {

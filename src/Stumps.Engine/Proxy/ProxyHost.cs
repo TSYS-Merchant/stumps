@@ -147,7 +147,7 @@
 
         }
 
-        public void Stop() {
+        public void Shutdown() {
 
             foreach ( var keyPair in _proxies ) {
                 keyPair.Value.Stop();
@@ -155,7 +155,7 @@
 
         }
 
-        public void Stop(string proxyId) {
+        public void Shutdown(string proxyId) {
 
             if ( string.IsNullOrWhiteSpace(proxyId) ) {
                 throw new ArgumentNullException("proxyId");
@@ -189,18 +189,32 @@
 
         #region IDisposable Members
 
+        protected virtual void Dispose(bool disposing) {
+
+            if ( disposing && !_disposed ) {
+
+                _disposed = true;
+
+                foreach ( var keyPair in _proxies ) {
+                    if ( keyPair.Value != null ) {
+                        keyPair.Value.Dispose();
+                    }
+                }
+
+                _proxies.Clear();
+
+            }
+
+        }
+
         public void Dispose() {
 
             if ( !_disposed ) {
 
-                _disposed = true;
-                foreach ( var keyPair in _proxies ) {
-                    keyPair.Value.Dispose();
-                }
+                this.Dispose(true);
+                GC.SuppressFinalize(this);
 
             }
-
-            GC.SuppressFinalize(this);
 
         }
 

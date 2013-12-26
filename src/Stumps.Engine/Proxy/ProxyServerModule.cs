@@ -37,13 +37,13 @@
 
         }
 
-        public void Stop() {
+        public void Shutdown() {
 
             if ( !_started ) {
                 return;
             }
 
-            _host.Stop();
+            _host.Shutdown();
 
             _started = false;
 
@@ -58,7 +58,7 @@
                 _disposed = true;
 
                 if ( _started ) {
-                    this.Stop();
+                    this.Shutdown();
                 }
 
                 _host.Dispose();

@@ -1,10 +1,15 @@
 ﻿namespace Stumps.Web.ViewModules {
 
+    using System;
     using Stumps.Proxy;
 
     public static class ModuleHelper {
 
         public static string StateValue(ProxyEnvironment environment, string running, string stopped, string recording) {
+
+            if ( environment == null ) {
+                throw new ArgumentNullException("environment");
+            }
 
             var value = stopped;
 

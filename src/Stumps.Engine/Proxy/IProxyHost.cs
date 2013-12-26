@@ -5,7 +5,7 @@
 
     public interface IProxyHost : IDisposable {
 
-        ProxyEnvironment CreateProxy(string proxyId, int port, bool useSsl, bool autoStart);
+        ProxyEnvironment CreateProxy(string externalHostName, int port, bool useSsl, bool autoStart);
 
         void DeleteProxy(string proxyId);
 
@@ -19,9 +19,9 @@
 
         void Start(string proxyId);
 
-        void Stop();
+        void Shutdown();
 
-        void Stop(string proxyId);
+        void Shutdown(string proxyId);
 
     }
 

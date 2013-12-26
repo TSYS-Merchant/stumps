@@ -33,7 +33,7 @@
                     proxyHost.Start(proxyId);
                 }
                 else if ( !model.IsRunning && environment.IsRunning ) {
-                    proxyHost.Stop(proxyId);
+                    proxyHost.Shutdown(proxyId);
                 }
 
                 return Response.AsJson<RunningStatusModel>(model);
