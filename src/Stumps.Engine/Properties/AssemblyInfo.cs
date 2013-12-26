@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Resources;
 
@@ -37,3 +38,6 @@ using System.Resources;
 [assembly: AssemblyFileVersion("0.1.0.0")]
 [assembly: NeutralResourcesLanguageAttribute("en")]
 [assembly: CLSCompliant(false)]
+
+[assembly: InternalsVisibleTo("Stumps.Tests")]
+[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
