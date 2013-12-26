@@ -9,6 +9,7 @@
 
     public class StumpsModule : NancyModule {
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification="Assumed to be handled by Nancy")]
         public StumpsModule(IProxyHost proxyHost) {
 
             Get["/api/proxy/{proxyId}/stumps/{stumpId}"] = _ => {

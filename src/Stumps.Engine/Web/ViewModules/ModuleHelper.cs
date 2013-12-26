@@ -3,7 +3,7 @@
     using System;
     using Stumps.Proxy;
 
-    public static class ModuleHelper {
+    internal static class ModuleHelper {
 
         public static string StateValue(ProxyEnvironment environment, string running, string stopped, string recording) {
 

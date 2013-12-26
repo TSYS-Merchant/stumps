@@ -47,14 +47,8 @@
             context.Response.StatusCode = recordedResponse.StatusCode;
             context.Response.StatusDescription = recordedResponse.StatusDescription;
 
-            var headerDictionary = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-
-            foreach ( var header in recordedResponse.Headers ) {
-                headerDictionary.Add(header.Name, header.Value);
-            }
-
-            writeHeadersFromResponse(context, headerDictionary, recordedResponse);
-            writeContextBodyFromResponse(context, headerDictionary, recordedResponse);
+            writeHeadersFromResponse(context, recordedResponse);
+            writeContextBodyFromResponse(context, recordedResponse);
 
         }
 
@@ -76,7 +70,7 @@
 
         }
 
-        private void writeContextBodyFromResponse(IStumpsHttpContext incommingHttpContext, Dictionary<string, string> headers, RecordedResponse recordedResponse) {
+        private void writeContextBodyFromResponse(IStumpsHttpContext incommingHttpContext, RecordedResponse recordedResponse) {
 
             var header = recordedResponse.FindHeader("Content-Encoding");
 
@@ -93,7 +87,13 @@
 
         }
 
-        private void writeHeadersFromResponse(IStumpsHttpContext incommingHttpContext, Dictionary<string, string> headers, RecordedResponse recordedResponse) {
+        private void writeHeadersFromResponse(IStumpsHttpContext incommingHttpContext, RecordedResponse recordedResponse) {
+
+            var headers = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+
+            foreach ( var header in recordedResponse.Headers ) {
+                headers.Add(header.Name, header.Value);
+            }
 
             incommingHttpContext.Response.Headers.Clear();
 

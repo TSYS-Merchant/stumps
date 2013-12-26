@@ -8,6 +8,7 @@
 
     public class RecordingModule : NancyModule {
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification="Assumed to be handled by Nancy")]
         public RecordingModule(IProxyHost proxyHost) {
 
             Get["/api/proxy/{proxyId}/recording"] = _ => {
