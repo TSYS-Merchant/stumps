@@ -115,7 +115,7 @@
             }
 
             if ( File.Exists(responseFileName) ) {
-                File.Delete(matchFileName);
+                File.Delete(responseFileName);
             }
 
         }
