@@ -225,12 +225,7 @@
             if ( remoteWebResponse.ContentLength != 0 ) {
                 var responseStream = remoteWebResponse.GetResponseStream();
 
-                var buffer = new byte[4096];
-                int bytesRead;
-
-                while ( (bytesRead = responseStream.Read(buffer, 0, buffer.Length)) > 0 ) {
-                    incommingHttpContext.Response.OutputStream.Write(buffer, 0, bytesRead);
-                }
+                StreamUtility.CopyStream(responseStream, incommingHttpContext.Response.OutputStream);
 
             }
 
