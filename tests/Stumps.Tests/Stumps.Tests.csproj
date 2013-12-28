@@ -68,6 +68,10 @@
     <Compile Include="Proxy\ProxyEnvironmentTests.cs" />
     <Compile Include="Proxy\ProxyHandlerTests.cs" />
     <Compile Include="Proxy\UrlRuleTests.cs" />
+    <Compile Include="Utility\NetworkUtilityTests.cs" />
+    <Compile Include="Utility\RandomGeneratorTests.cs" />
+    <Compile Include="Utility\StreamUtilityTests.cs" />
+    <Compile Include="Utility\StringUtilityTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\Stumps.Engine\Stumps.Engine.csproj">
