@@ -8,12 +8,8 @@ namespace Stumps.Proxy {
     [TestFixture]
     public class HttpPipelineHandlerTests {
 
-        /// <summary>
-        /// Test to confirm that IHttpHander objects can be successfully added to the 
-        /// HttpPipelineHandler collection.
-        /// </summary>
         [Test]
-        public void AddsMultipleHandlers() {
+        public void AddHandler_AcceptsMultipleHandlers() {
 
             var pipe = new HttpPipelineHandler();
             Assert.AreEqual(0, pipe.Count);
@@ -24,12 +20,8 @@ namespace Stumps.Proxy {
 
         }
         
-        /// <summary>
-        /// Test to confirm that the ProcessRequest method returns Continue when there are no
-        /// handlers in the HttpPipelineHandler collection.
-        /// </summary>
         [Test]
-        public void ReturnsContinueWithNoHandlers() {
+        public void ProcessRequest_WithoutHandlers_ReturnsContinue() {
 
             var context = Substitute.For<IStumpsHttpContext>();
             var handler = new HttpPipelineHandler();
@@ -39,12 +31,8 @@ namespace Stumps.Proxy {
 
         }
 
-        /// <summary>
-        /// Test to confirm that if there are multiple handlers in the HttpPipelineHandler IHttpHandler 
-        /// collection, the IStumpsHttpContext object is processed through all handlers.
-        /// </summary>
         [Test]
-        public void ExecutesMultiple() {
+        public void ProcessRequest_ExecuteMultipleHandlersInPipeline() {
 
             var context = Substitute.For<IStumpsHttpContext>();
             var pipe = new HttpPipelineHandler();
@@ -65,13 +53,8 @@ namespace Stumps.Proxy {
 
         }
 
-        /// <summary>
-        /// Test to confirm that if a request is unable to be processed by one of the handlers
-        /// in the HttpPipelineHandler IHttpHandler collection, the HttpPipelineHandler does
-        /// not try to process the request through any other handlers and returns false.
-        /// </summary>
         [Test]
-        public void StopsExecutingWhenRequested() {
+        public void ProcessRequest_StopsExecutingWhenTerminateReturned() {
 
             var context = Substitute.For<IStumpsHttpContext>();
             var pipe = new HttpPipelineHandler();
@@ -93,7 +76,7 @@ namespace Stumps.Proxy {
         }
 
         [Test]
-        public void ProcessRequestDoesNotAllowNulls() {
+        public void ProcessRequest_WithNullContext_ThrowsException() {
 
             var pipe = new HttpPipelineHandler();
 
