@@ -4,6 +4,8 @@
 
     internal static class StringUtility {
 
+        public const double TextThreshold = 0.05;
+
         public static bool IsText(byte[] buffer) {
 
             if ( buffer == null || buffer.Length == 0 ) {
@@ -20,7 +22,8 @@
             }
 
             var badPercent = (float) badCount / buffer.Length;
-            if ( badPercent > 0.05 ) {
+            
+            if ( badPercent > StringUtility.TextThreshold ) {
                 isText = false;
             }
 
