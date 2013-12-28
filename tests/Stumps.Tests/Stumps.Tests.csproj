@@ -62,7 +62,11 @@
     <Compile Include="Proxy\BodyContentRuleTests.cs" />
     <Compile Include="Proxy\BodyLengthRuleTests.cs" />
     <Compile Include="Proxy\BodyMatchRuleTests.cs" />
+    <Compile Include="Proxy\HeaderRuleTests.cs" />
+    <Compile Include="Proxy\HttpMethodRuleTests.cs" />
     <Compile Include="Proxy\HttpPipelineHandlerTests.cs" />
+    <Compile Include="Proxy\ProxyEnvironmentTests.cs" />
+    <Compile Include="Proxy\ProxyHandlerTests.cs" />
     <Compile Include="Proxy\UrlRuleTests.cs" />
   </ItemGroup>
   <ItemGroup>

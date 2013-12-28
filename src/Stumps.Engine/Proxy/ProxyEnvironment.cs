@@ -43,12 +43,12 @@
 
         public bool UseSsl { get; set; }
 
-        public void IncrementStumpsServed() {
-            Interlocked.Increment(ref _stumpsServed);
-        }
-
         public void IncrementRequestsServed() {
             Interlocked.Increment(ref _requestsServed);
+        }
+
+        public void IncrementStumpsServed() {
+            Interlocked.Increment(ref _stumpsServed);
         }
 
     }

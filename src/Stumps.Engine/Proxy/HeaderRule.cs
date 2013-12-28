@@ -19,7 +19,7 @@
 
         public bool IsMatch(IStumpsHttpRequest request) {
 
-            if ( request == null ) {
+            if ( request == null || request.Headers == null ) {
                 return false;
             }
 
