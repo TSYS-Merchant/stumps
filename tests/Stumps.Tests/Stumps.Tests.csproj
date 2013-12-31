@@ -69,6 +69,13 @@
     <Compile Include="Proxy\ProxyEnvironmentTests.cs" />
     <Compile Include="Proxy\ProxyHandlerTests.cs" />
     <Compile Include="Proxy\UrlRuleTests.cs" />
+    <Compile Include="SampleJsonObject.cs" />
+    <Compile Include="TestData.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TestData.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Utility\JsonUtilityTests.cs" />
     <Compile Include="Utility\NetworkUtilityTests.cs" />
     <Compile Include="Utility\RandomGeneratorTests.cs" />
     <Compile Include="Utility\StreamUtilityTests.cs" />
@@ -83,7 +90,15 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="TestData.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>TestData.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\JsonSampleData.txt" />
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
