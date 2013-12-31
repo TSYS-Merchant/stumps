@@ -124,7 +124,7 @@ namespace Stumps.Proxy {
                 });
             }
 
-            decompressBody(recordedRequest);
+            decodeBody(recordedRequest);
 
             recordedContext.Request = recordedRequest;
 
@@ -155,7 +155,7 @@ namespace Stumps.Proxy {
                 });
             }
 
-            decompressBody(recordedResponse);
+            decodeBody(recordedResponse);
 
             recordedContext.Response = recordedResponse;
 
@@ -163,16 +163,17 @@ namespace Stumps.Proxy {
 
         }
 
-        private static void decompressBody(IRecordedContextPart part) {
+        private static void decodeBody(IRecordedContextPart part) {
 
+            var buffer = part.Body;
             var header = part.FindHeader("Content-Encoding");
 
-            if ( header != null && header.Value.Equals("gzip", StringComparison.OrdinalIgnoreCase) ) {
-                part.Body = CompressionUtility.DecompressGzipByteArray(part.Body);
+            if ( header != null ) {
+                var encoder = new ContentEncoding(header.Value);
+                buffer = encoder.Decode(buffer);
             }
-            else if ( header != null && header.Value.Equals("deflate", StringComparison.Ordinal) ) {
-                part.Body = CompressionUtility.DecompressDeflateByteArray(part.Body);
-            }
+
+            part.Body = buffer;
 
         }
 

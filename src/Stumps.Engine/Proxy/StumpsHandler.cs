@@ -72,15 +72,12 @@
 
         private void writeContextBodyFromResponse(IStumpsHttpContext incommingHttpContext, RecordedResponse recordedResponse) {
 
+            var buffer = recordedResponse.Body;
             var header = recordedResponse.FindHeader("Content-Encoding");
 
-            var buffer = recordedResponse.Body;
-
-            if ( header != null && header.Value.Equals("gzip", StringComparison.OrdinalIgnoreCase) ) {
-                buffer = CompressionUtility.CompressGzipByteArray(buffer);
-            }
-            else if ( header != null && header.Value.Equals("deflate", StringComparison.Ordinal) ) {
-                buffer = CompressionUtility.CompressDeflateByteArray(buffer);
+            if ( header != null ) {
+                var encoder = new ContentEncoding(header.Value);
+                buffer = encoder.Encode(buffer);
             }
 
             incommingHttpContext.Response.OutputStream.Write(buffer, 0, buffer.Length);
