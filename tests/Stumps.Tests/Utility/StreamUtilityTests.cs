@@ -28,7 +28,7 @@
             using ( var ms = new MemoryStream(buffer) ) {
 
                 var newBuffer = StreamUtility.ConvertStreamToByteArray(ms);
-                Assert.IsTrue(areByteArraysEqual(buffer, newBuffer));
+                CollectionAssert.AreEqual(buffer, newBuffer);
 
             }
 
@@ -172,40 +172,27 @@
 
         }
 
-        //[Test]
-        //public void WriteUtfStringToStream_ValidString_WritesToStream() {
+        [Test]
+        public void WriteUtfStringToStream_ValidString_WritesToStream() {
 
-        //    using ( var ms = new MemoryStream() ) {
-        //        StreamUtility.WriteUtf8StringToStream("ABCDEFG", ms);
-        //        Assert.Greater(ms.Length, 0);
-        //    }
+            var tempFolder = createTempFolder();
+            var file = Path.GetRandomFileName();
+            var path = Path.Combine(tempFolder, file);
 
-        //}
+            try {
+                using ( var stream = File.OpenWrite(path) ) {
+                    StreamUtility.WriteUtf8StringToStream("HelloWorld", stream);
+                }
 
-        private bool areByteArraysEqual(byte[] array1, byte[] array2) {
-
-            if ( array1 == null && array2 != null ) {
-                return false;
+                var fi = new FileInfo(path);
+                Assert.AreEqual(13, fi.Length);
             }
-
-            if ( array1 != null && array2 == null ) {
-                return false;
-            }
-
-            if ( array1 == null && array2 == null ) {
-                return true;
-            }
-
-            var areEqual = true;
-
-            for ( var i = 0; i < array1.Length; i++ ) {
-                if ( array1[i] != array2[i] ) {
-                    areEqual = false;
-                    break;
+            finally {
+                if ( Directory.Exists(tempFolder) ) {
+                    Directory.Delete(tempFolder, true);
                 }
             }
 
-            return areEqual;
 
         }
 
@@ -216,6 +203,23 @@
             random.NextBytes(buffer);
 
             return buffer;
+
+        }
+
+        private string createTempFolder() {
+
+            var path = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+            Directory.CreateDirectory(path);
+
+            return path;
+
+        }
+
+        private void deleteTempFolder(string path) {
+
+            if ( Directory.Exists(path) ) {
+                Directory.Delete(path, true);
+            }
 
         }
 
