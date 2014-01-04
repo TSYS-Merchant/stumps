@@ -8,6 +8,7 @@
 
     public class RecordingModule : NancyModule {
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification="Assumed to be handled by Nancy")]
         public RecordingModule(IProxyHost proxyHost) {
 
             Get["/api/proxy/{proxyId}/recording"] = _ => {
@@ -17,7 +18,7 @@
 
                 if ( Request.Query.after != null ) {
                     var afterIndexString = (string) Request.Query.after;
-                    int.TryParse(afterIndexString, out afterIndex);
+                    afterIndex = int.TryParse(afterIndexString, out afterIndex) ? afterIndex : -1;
                 }
 
                 var recordingList = environment.Recordings.Find(afterIndex);

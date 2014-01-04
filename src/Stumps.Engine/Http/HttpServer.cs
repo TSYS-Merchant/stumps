@@ -1,6 +1,7 @@
 ﻿namespace Stumps.Http {
 
     using System;
+    using System.Globalization;
     using System.Net;
     using Stumps.Logging;
     using System.Threading;
@@ -78,7 +79,7 @@
             try {
                 var context = _listener.EndGetContext(asyncResult);
 
-                _logger.LogInfo("=> " + Thread.CurrentThread.ManagedThreadId.ToString() + " => " + context.Request.RawUrl);
+                _logger.LogInfo("=> " + Thread.CurrentThread.ManagedThreadId.ToString(CultureInfo.InvariantCulture) + " => " + context.Request.RawUrl);
 
                 StumpsHttpContext stumpsContext = null;
 
@@ -119,7 +120,7 @@
                     }
                 }
 
-                _logger.LogInfo("<= " + Thread.CurrentThread.ManagedThreadId.ToString() + " <= " + context.Request.RawUrl);
+                _logger.LogInfo("<= " + Thread.CurrentThread.ManagedThreadId.ToString(CultureInfo.InvariantCulture) + " <= " + context.Request.RawUrl);
 
             }
             catch ( HttpListenerException ) {

@@ -1,0 +1,5 @@
+{
+  "Color": "Red",
+  "Number": 50,
+  "EnumerationValue": 1
+}

@@ -38,6 +38,12 @@
 
         public static void CopyStream(Stream inputStream, Stream outputStream) {
 
+            StreamUtility.CopyStream(inputStream, outputStream, -1);
+
+        }
+
+        public static void CopyStream(Stream inputStream, Stream outputStream, int startingPosition) {
+
             if ( inputStream == null ) {
                 throw new ArgumentNullException("inputStream");
             }
@@ -49,13 +55,17 @@
             var buffer = new byte[StreamUtility.BufferSize];
             int bytesRead;
 
-            inputStream.Position = 0;
+            if ( startingPosition > -1 ) {
+                inputStream.Position = startingPosition;
+            }
 
             while ( (bytesRead = inputStream.Read(buffer, 0, StreamUtility.BufferSize)) > 0 ) {
                 outputStream.Write(buffer, 0, bytesRead);
             }
 
-            inputStream.Position = 0;
+            if ( startingPosition > -1 ) {
+                inputStream.Position = startingPosition;
+            }
 
         }
 

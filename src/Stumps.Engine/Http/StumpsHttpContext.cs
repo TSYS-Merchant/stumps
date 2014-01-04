@@ -7,7 +7,6 @@
 
         private StumpsHttpRequest _request;
         private StumpsHttpResponse _response;
-        private HttpListenerContext _context;
 
         private bool _disposed;
 
@@ -41,7 +40,6 @@
 
         private void applyNewContext(HttpListenerContext context) {
 
-            _context = context;
             _request = new StumpsHttpRequest(context.Request);
             _response = new StumpsHttpResponse(context.Response);
 

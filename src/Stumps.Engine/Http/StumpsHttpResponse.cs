@@ -70,7 +70,7 @@
         public void FlushResponse() {
 
             // Dump out the response output stream
-            StreamUtility.CopyStream(_responseStream, _response.OutputStream);
+            StreamUtility.CopyStream(_responseStream, _response.OutputStream, 0);
 
             // Complete and close the request
             _responseStream.Close();

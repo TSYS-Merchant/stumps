@@ -5,7 +5,7 @@
     using System.Collections.Generic;
     using Stumps.Http;
 
-    internal class HttpPipelineHandler : IHttpHandler, IEnumerable<IHttpHandler> {
+    internal class HttpPipelineHandler : IHttpHandler {
 
         private readonly List<IHttpHandler> _handlers;
 
@@ -13,41 +13,25 @@
             _handlers = new List<IHttpHandler>();
         }
 
-        public IHttpHandler this[int index] {
-            get { return _handlers[index]; }
-        }
-
         public int Count {
             get { return _handlers.Count; }
+        }
+
+        public IHttpHandler this[int index] {
+            get { return _handlers[index]; }
         }
 
         public void Add(IHttpHandler handler) {
             _handlers.Add(handler);
         }
 
-        public void Clear() {
-            _handlers.Clear();
-        }
+        //public IEnumerator<IHttpHandler> GetEnumerator() {
+        //    return (IEnumerator<IHttpHandler>) _handlers.GetEnumerator();
+        //}
 
-        public bool Contains(IHttpHandler handler) {
-            return _handlers.Contains(handler);
-        }
-
-        public IEnumerator<IHttpHandler> GetEnumerator() {
-            return (IEnumerator<IHttpHandler>) _handlers.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator() {
-            return (IEnumerator) _handlers.GetEnumerator();
-        }
-
-        public int IndexOf(IHttpHandler handler) {
-            return _handlers.IndexOf(handler);
-        }
-
-        public void Insert(int index, IHttpHandler handler) {
-            _handlers.Insert(index, handler);
-        }
+        //IEnumerator IEnumerable.GetEnumerator() {
+        //    return (IEnumerator) _handlers.GetEnumerator();
+        //}
 
         public ProcessHandlerResult ProcessRequest(IStumpsHttpContext context) {
 
@@ -69,10 +53,6 @@
 
             return result;
 
-        }
-
-        public void RemoteAt(int index) {
-            _handlers.RemoveAt(index);
         }
 
     }

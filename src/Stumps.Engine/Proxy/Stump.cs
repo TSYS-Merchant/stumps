@@ -15,6 +15,10 @@
 
         public bool IsMatch(IStumpsHttpContext context) {
 
+            if ( context == null ) {
+                return false;
+            }
+
             var match = true;
 
             foreach ( var rule in _ruleList ) {

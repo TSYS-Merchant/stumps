@@ -36,16 +36,18 @@
             }
 
             _server.Start();
+            _logger.LogInfo("Web server started.");
 
             _started = true;
         }
 
-        public void Stop() {
+        public void Shutdown() {
             if ( !_started ) {
                 return;
             }
 
             _server.Stop();
+            _logger.LogInfo("Web server shut down.");
 
             _started = false;
         }
@@ -56,7 +58,7 @@
 
             if ( !_disposed ) {
                 _disposed = true;
-                this.Stop();
+                this.Shutdown();
                 _server.Dispose();
             }
 

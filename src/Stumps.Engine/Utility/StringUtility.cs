@@ -4,19 +4,7 @@
 
     internal static class StringUtility {
 
-        public static bool IsText(Stream stream) {
-
-            if ( stream.Length == 0 ) {
-                return false;
-            }
-
-            var buffer = StreamUtility.ConvertStreamToByteArray(stream);
-
-            var isArrayText = StringUtility.IsText(buffer);
-
-            return isArrayText;
-
-        }
+        public const double TextThreshold = 0.05;
 
         public static bool IsText(byte[] buffer) {
 
@@ -34,7 +22,8 @@
             }
 
             var badPercent = (float) badCount / buffer.Length;
-            if ( badPercent > 0.05 ) {
+            
+            if ( badPercent > StringUtility.TextThreshold ) {
                 isText = false;
             }
 

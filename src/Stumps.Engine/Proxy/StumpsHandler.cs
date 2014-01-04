@@ -47,14 +47,8 @@
             context.Response.StatusCode = recordedResponse.StatusCode;
             context.Response.StatusDescription = recordedResponse.StatusDescription;
 
-            var headerDictionary = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-
-            foreach ( var header in recordedResponse.Headers ) {
-                headerDictionary.Add(header.Name, header.Value);
-            }
-
-            writeHeadersFromResponse(context, headerDictionary, recordedResponse);
-            writeContextBodyFromResponse(context, headerDictionary, recordedResponse);
+            writeHeadersFromResponse(context, recordedResponse);
+            writeContextBodyFromResponse(context, recordedResponse);
 
         }
 
@@ -76,24 +70,27 @@
 
         }
 
-        private void writeContextBodyFromResponse(IStumpsHttpContext incommingHttpContext, Dictionary<string, string> headers, RecordedResponse recordedResponse) {
-
-            var header = recordedResponse.FindHeader("Content-Encoding");
+        private void writeContextBodyFromResponse(IStumpsHttpContext incommingHttpContext, RecordedResponse recordedResponse) {
 
             var buffer = recordedResponse.Body;
+            var header = recordedResponse.FindHeader("Content-Encoding");
 
-            if ( header != null && header.Value.Equals("gzip", StringComparison.OrdinalIgnoreCase) ) {
-                buffer = CompressionUtility.CompressGzipByteArray(buffer);
-            }
-            else if ( header != null && header.Value.Equals("deflate", StringComparison.Ordinal) ) {
-                buffer = CompressionUtility.CompressDeflateByteArray(buffer);
+            if ( header != null ) {
+                var encoder = new ContentEncoding(header.Value);
+                buffer = encoder.Encode(buffer);
             }
 
             incommingHttpContext.Response.OutputStream.Write(buffer, 0, buffer.Length);
 
         }
 
-        private void writeHeadersFromResponse(IStumpsHttpContext incommingHttpContext, Dictionary<string, string> headers, RecordedResponse recordedResponse) {
+        private void writeHeadersFromResponse(IStumpsHttpContext incommingHttpContext, RecordedResponse recordedResponse) {
+
+            var headers = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+
+            foreach ( var header in recordedResponse.Headers ) {
+                headers.Add(header.Name, header.Value);
+            }
 
             incommingHttpContext.Response.Headers.Clear();
 

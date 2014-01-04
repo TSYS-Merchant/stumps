@@ -71,7 +71,7 @@
         private void stopAndDisposeModules() {
 
             foreach ( var module in _modules ) {
-                module.Stop();
+                module.Shutdown();
                 module.Dispose();
             }
 

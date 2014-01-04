@@ -77,15 +77,16 @@
 
             _messageWriter.WriteMessage(Resources.StartupStarting);
 
-            var server = new StumpsServer();
-            server.Start();
-            _messageWriter.WriteMessage(Resources.StartupComplete);
+            using ( var server = new StumpsServer() ) {
+                server.Start();
+                _messageWriter.WriteMessage(Resources.StartupComplete);
 
-            Console.ReadLine();
+                Console.ReadLine();
 
-            _messageWriter.WriteMessage(Resources.ShutdownStarting);
-            server.Stop();
-            _messageWriter.WriteMessage(Resources.ShutdownComplete);
+                _messageWriter.WriteMessage(Resources.ShutdownStarting);
+                server.Stop();
+                _messageWriter.WriteMessage(Resources.ShutdownComplete);
+            }
 
         }
 

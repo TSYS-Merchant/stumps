@@ -3,6 +3,7 @@
     using System;
     using System.IO;
     using System.Net;
+    using Stumps.Utility;
 
     internal sealed class StumpsHttpRequest : IStumpsHttpRequest {
 
@@ -16,12 +17,7 @@
 
             _requestStream = new MemoryStream();
 
-            int bytesRead;
-            byte[] buffer = new byte[4096];
-
-            while ( (bytesRead = _request.InputStream.Read(buffer, 0, 4096)) > 0 ) {
-                _requestStream.Write(buffer, 0, bytesRead);
-            }
+            StreamUtility.CopyStream(_request.InputStream, _requestStream);
 
             // Reset the position
             _requestStream.Position = 0;

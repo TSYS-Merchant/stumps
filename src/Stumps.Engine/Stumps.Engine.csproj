@@ -25,8 +25,8 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <RunCodeAnalysis>false</RunCodeAnalysis>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>..\CodeQuality.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -59,18 +59,19 @@
     <Compile Include="Data\StumpEntity.cs" />
     <Compile Include="Proxy\BodyContentRule.cs" />
     <Compile Include="Proxy\BodyLengthRule.cs" />
+    <Compile Include="Proxy\ContentEncodingMode.cs" />
     <Compile Include="Proxy\HttpMethodRule.cs" />
     <Compile Include="Proxy\IStumpRule.cs" />
     <Compile Include="Proxy\IRecordedContextPart.cs" />
     <Compile Include="Proxy\HeaderRule.cs" />
     <Compile Include="Proxy\ProxyStumps.cs" />
+    <Compile Include="Proxy\ContentEncoding.cs" />
     <Compile Include="Proxy\Stump.cs" />
     <Compile Include="Proxy\StumpContract.cs" />
     <Compile Include="Proxy\StumpsHandler.cs" />
     <Compile Include="Proxy\TextContainsMatch.cs" />
     <Compile Include="Proxy\TextMatch.cs" />
     <Compile Include="Proxy\UrlRule.cs" />
-    <Compile Include="Utility\CompressionUtility.cs" />
     <Compile Include="Utility\RandomGenerator.cs" />
     <Compile Include="Proxy\BodyMatchRule.cs" />
     <Compile Include="Utility\StringUtility.cs" />

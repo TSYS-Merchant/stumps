@@ -1,6 +1,7 @@
 ﻿namespace Stumps.Web.ViewModules {
 
     using System.Collections;
+    using System.Globalization;
     using Nancy;
     using Stumps.Proxy;
 
@@ -20,7 +21,7 @@
                         ExternalHostName = (environment.UseSsl ? environment.ExternalHostName + " (SSL)" : environment.ExternalHostName),
                         RequestsServed = cma(environment.RequestsServed),
                         StumpsServed = cma(environment.StumpsServed),
-                        LocalWebsite = "http://localhost:" + environment.Port.ToString() + "/",
+                        LocalWebsite = "http://localhost:" + environment.Port.ToString(CultureInfo.InvariantCulture) + "/",
                         ProxyId = environment.ProxyId,
                         IsRunning = (environment.IsRunning ? "isRunning" : string.Empty),
                         IsRecording = (environment.RecordTraffic ? "isRecording" : string.Empty),
@@ -38,7 +39,7 @@
         }
 
         private static string cma(int value) {
-            var s = value.ToString("#,#");
+            var s = value.ToString("#,#", CultureInfo.InvariantCulture);
             if ( string.IsNullOrWhiteSpace(s) ) {
                 s = "0";
             }

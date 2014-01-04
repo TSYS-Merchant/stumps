@@ -1,5 +1,6 @@
 ﻿namespace Stumps.Web.ViewModules {
 
+    using System.Globalization;
     using Nancy;
     using Stumps.Web.Models;
     using Stumps.Proxy;
@@ -12,15 +13,14 @@
                 var proxyId = (string) _.proxyId;
                 var recordIndex = (int) _.recordIndex;
                 var environment = proxyHost.FindProxy(proxyId);
-                var record = environment.Recordings.FindAt(recordIndex);
 
                 var model = new {
-                    StumpName = "Stump - " + System.Environment.TickCount.ToString(),
+                    StumpName = "Stump - " + System.Environment.TickCount.ToString(CultureInfo.InvariantCulture),
                     Origin = (int) StumpOrigin.RecordedContext,
                     StumpId = string.Empty,
                     ProxyId = environment.ProxyId,
                     ExternalHostName = (environment.UseSsl ? environment.ExternalHostName + " (SSL)" : environment.ExternalHostName),
-                    LocalWebsite = "http://localhost:" + environment.Port.ToString() + "/",
+                    LocalWebsite = "http://localhost:" + environment.Port.ToString(CultureInfo.InvariantCulture) + "/",
                     BackUrl = "/proxy/" + proxyId + "/recordings",
                     CreateButtonText = "Create New Stump",
                     LoadRecord = true,
@@ -43,7 +43,7 @@
                     StumpId = stump.Contract.StumpId,
                     ProxyId = environment.ProxyId,
                     ExternalHostName = (environment.UseSsl ? environment.ExternalHostName + " (SSL)" : environment.ExternalHostName),
-                    LocalWebsite = "http://localhost:" + environment.Port.ToString() + "/",
+                    LocalWebsite = "http://localhost:" + environment.Port.ToString(CultureInfo.InvariantCulture) + "/",
                     BackUrl = "/proxy/" + proxyId + "/stumps",
                     CreateButtonText = "Save Stump",
                     LoadRecord = false,
