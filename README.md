@@ -7,7 +7,7 @@ stumps MVFs
 -----------
 stumps MVFs are being tracked via github milestones on the following page:
 
-* [http://jeffkreeftmeijer.com/2010/why-arent-you-using-git-flow/](https://github.com/merchantwarehouse/stumps/wiki/MW-Stumps)
+* [stumps](https://github.com/merchantwarehouse/stumps/wiki/MW-Stumps)
 
 Getting Started
 ---------------
