@@ -1,20 +1,30 @@
-﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stumps.Engine", "src\Stumps.Engine\Stumps.Engine.csproj", "{0E8D3356-1F8C-49BB-8576-DF2A494F0DC9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stumps.Engine", "Stumps.Engine\Stumps.Engine.csproj", "{0E8D3356-1F8C-49BB-8576-DF2A494F0DC9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stumps.Startup", "src\Stumps.Startup\Stumps.Startup.csproj", "{D18BEACA-6092-4B3D-9CEA-F8CFE927CE58}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stumps.Startup", "Stumps.Startup\Stumps.Startup.csproj", "{D18BEACA-6092-4B3D-9CEA-F8CFE927CE58}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{4B8C6627-A1EE-4314-B2FB-8315C2F70C79}"
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "StumpsInstaller", "StumpsInstaller\StumpsInstaller.wixproj", "{0CA5331D-1EC2-4C92-AB2A-C3E2C133D0BF}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0E8D3356-1F8C-49BB-8576-DF2A494F0DC9} = {0E8D3356-1F8C-49BB-8576-DF2A494F0DC9}
+		{D18BEACA-6092-4B3D-9CEA-F8CFE927CE58} = {D18BEACA-6092-4B3D-9CEA-F8CFE927CE58}
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{90D89DC1-0A2A-4CD7-B27F-FE8AD6513527}"
 	ProjectSection(SolutionItems) = preProject
 		.nuget\NuGet.Config = .nuget\NuGet.Config
 		.nuget\NuGet.exe = .nuget\NuGet.exe
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "StumpsInstaller", "src\StumpsInstaller\StumpsInstaller.wixproj", "{0CA5331D-1EC2-4C92-AB2A-C3E2C133D0BF}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{5918681E-6343-49C7-9406-864F44A1D082}"
+	ProjectSection(SolutionItems) = preProject
+		Build.proj = Build.proj
+		.build\MSBuild.Community.Tasks.dll = .build\MSBuild.Community.Tasks.dll
+		.build\MSBuild.Community.Tasks.targets = .build\MSBuild.Community.Tasks.targets
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stumps.Tests", "tests\Stumps.Tests\Stumps.Tests.csproj", "{F2A862A5-84FC-41E9-BC0D-C900B02C621D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stumps.Tests", "Stumps.Tests\Stumps.Tests.csproj", "{F2A862A5-84FC-41E9-BC0D-C900B02C621D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -48,6 +58,7 @@ Global
 		{D18BEACA-6092-4B3D-9CEA-F8CFE927CE58}.Release|x86.ActiveCfg = Release|Any CPU
 		{0CA5331D-1EC2-4C92-AB2A-C3E2C133D0BF}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{0CA5331D-1EC2-4C92-AB2A-C3E2C133D0BF}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{0CA5331D-1EC2-4C92-AB2A-C3E2C133D0BF}.Debug|Mixed Platforms.Build.0 = Debug|x86
 		{0CA5331D-1EC2-4C92-AB2A-C3E2C133D0BF}.Debug|x86.ActiveCfg = Debug|x86
 		{0CA5331D-1EC2-4C92-AB2A-C3E2C133D0BF}.Debug|x86.Build.0 = Debug|x86
 		{0CA5331D-1EC2-4C92-AB2A-C3E2C133D0BF}.Release|Any CPU.ActiveCfg = Release|x86
