@@ -36,16 +36,6 @@
 
     <Message Text="Version: $(Version)"/>
 
-    <Attrib Files="$(MSBuildProjectDirectory)\GlobalAssemblyInfo.cs" ReadOnly="False" />
-
-    <AssemblyInfo CodeLanguage="CS"
-                  OutputFile="$(MSBuildProjectDirectory)\GlobalAssemblyInfo.cs"
-                  GenerateClass="true"
-                  AssemblyCopyright="Copyright © $(Year). All rights reserved."
-                  AssemblyConfiguration="$(BuildConfiguration)"
-                  AssemblyVersion="$(Version)"
-                  AssemblyFileVersion="$(FileVersion)"
-                  AssemblyInformationalVersion="$(InformationalVersion)" />
   </Target>
 
   <!-- Projects to Build -->
