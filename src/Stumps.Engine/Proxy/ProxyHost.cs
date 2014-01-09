@@ -15,7 +15,7 @@
         private readonly IDataAccess _dataAccess;
         private bool _disposed;
 
-        // SJB -- Define the length of http:// and https:// to use for checking and extracting proper domain
+        // Define the length of http:// and https:// to use for checking and extracting proper domain
         private const int HTTP_CHAR_LENGTH = 7;
         private const int HTTPS_CHAR_LENGTH = 8;
 
