@@ -9,15 +9,21 @@
 	<div class="displayForm greenBackground">
 		<h1>Start Serving Up a New Website</h1>
 		<div class="innerForm greenDarkBackground">
-			<form method="post" id="newServerForm">
-				<div><label for="hostNameTextBox">Domain</label><input type="text" name="hostNameTextBox" /></div>
-				<div><label>&nbsp;</label><span class="note">Example: www.google.com or myserver.com:8000</span></div>
-
-				<div><label for="portTextBox">Port</label><input type="text" class="half" name="portTextBox" value="@Model.OpenPort" /></div>
-				<div><label>&nbsp;</label><span class="note">This is the port we will use to serve up the website, for example http://localhost:3400/</span></div>
-
-				<div><label>&nbsp;</label><img src="/content/frm_checkoff.png" alt="Use SSL" class='isCheck' id="useSsl" /><span class="check">The website requires SSL connections.</span><input type="checkbox" id="useSslCheckBox" name="useSslCheckBox" class="hide" /></div>
-
+			<form method="post" id="newServerForm" action="" onsubmit="return validateForm()">
+                <fieldset>
+				     <label for="hostNameTextBox">Domain</label>
+                     <input type="text" name="hostNameTextBox" id="hostNameTextBox" onblur="validateDomain()" />
+                     <!--<span id="nameError" style="display: none;">You can only use alphabetic characters, hyphens and apostrophes</span>-->
+                    <div><label>&nbsp;</label><span class="note">Example: www.google.com or myserver.com:8000</span></div>  
+				</fieldset>
+                <fieldset>
+                    <label for="portTextBox">Port</label>
+                    <div><input type="text" class="half" name="portTextBox" value="@Model.OpenPort" /></div>
+                    <div><label>&nbsp;</label><span class="note">This is the port we will use to serve up the website, for example http://localhost:3400/</span></div>
+                </fieldset>
+                <fieldset>
+				<div><img src="/content/frm_checkoff.png" alt="Use SSL" class='isCheck' id="useSsl" /><span class="check">The website requires SSL connections.</span><input type="checkbox" id="useSslCheckBox" name="useSslCheckBox" class="hide" /></div>
+                </fieldset>
 				<div><label>&nbsp;</label></div>
 				<div class="flow">
 					<a href="/" class="button greenBackground">cancel</a>
@@ -33,6 +39,7 @@
 
 $(document).ready(function() {
 
+    
 	$('.isCheck').click(function (e) {
 
 		var linkId = $(this).attr('id') + "CheckBox";
@@ -51,5 +58,29 @@ $(document).ready(function() {
 	});
 
 });
+
+function validateDomain() {
+    var re = /[A-Za-z -']$/;
+
+    if(re.test(document.getElementById('hostNameTextBox').value)){
+        document.getElementById('hostNameTextBox').style.background ='#ccffcc';
+
+        return true;
+    }else{
+      
+        document.getElementById('hostNameTextBox').style.background ='#e35152';
+
+        return false; 
+    }
+}
+
+<!--    function validateForm(){
+      // Set error catcher
+      var error = 0;
+     //  Check hostNameTextBox
+      if(!validateDomain()){
+        document.getElementById('nameError').style.display = "block";
+        error++;
+      }-->
 
 @EndSection

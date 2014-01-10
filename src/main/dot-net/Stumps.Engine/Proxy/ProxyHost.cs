@@ -47,13 +47,17 @@
             string protocol = externalHost.Scheme;
             string domain = externalHost.Host;
 
-            if(string.Equals("http",protocol,StringComparison.OrdinalIgnoreCase)){
+            if(string.Equals("http",protocol,StringComparison.OrdinalIgnoreCase)) {
                 externalHostName = domain;
             }
 
-            else if (string.Equals("https",protocol,StringComparison.OrdinalIgnoreCase)){
+            else if (string.Equals("https", protocol, StringComparison.OrdinalIgnoreCase)) {
                 externalHostName = domain;
                 useSsl = true;
+            }
+
+            else {
+                throw new ArgumentOutOfRangeException("Protocol not unsupported.  Only http and https are supported");
             }
 
             var proxyEntity = new ProxyServerEntity() {
