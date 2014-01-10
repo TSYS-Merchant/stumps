@@ -143,6 +143,9 @@ GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
 
+# We are generating _AssemblyInfo.cs files
+_AssemblyInfo.cs
+
 # =========================
 # Windows detritus
 # =========================
