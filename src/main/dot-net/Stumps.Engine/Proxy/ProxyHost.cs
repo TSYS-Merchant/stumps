@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Collections.Concurrent;
-    using System.Globalization;
     using System.Net;
     using Stumps.Logging;
     using Stumps.Data;
