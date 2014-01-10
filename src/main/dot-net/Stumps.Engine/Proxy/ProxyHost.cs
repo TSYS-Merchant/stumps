@@ -15,10 +15,6 @@
         private readonly IDataAccess _dataAccess;
         private bool _disposed;
 
-        // Define the length of http:// and https:// to use for checking and extracting proper domain
-        private const int HTTP_CHAR_LENGTH = 7;
-        private const int HTTPS_CHAR_LENGTH = 8;
-
         public ProxyHost(ILogger logger, IDataAccess dataAccess) {
 
             if ( logger == null ) {
@@ -45,14 +41,18 @@
             if ( port < IPEndPoint.MinPort || port > IPEndPoint.MaxPort ) {
                 throw new ArgumentOutOfRangeException("port");
             }
-
+            
             // If the user mistakenly puts in http:// or https://, grab just the domain.  If it's https://, then the UseSsl value will be automatically set to true.
-            if (externalHostName.StartsWith("http://")){
-                externalHostName = externalHostName.Substring(HTTP_CHAR_LENGTH);
+            Uri externalHost = new Uri(externalHostName);
+            string protocol = externalHost.Scheme;
+            string domain = externalHost.Host;
+
+            if(string.Equals("http",protocol,StringComparison.OrdinalIgnoreCase)){
+                externalHostName = domain;
             }
 
-            if (externalHostName.StartsWith("https://")){
-                externalHostName = externalHostName.Substring(HTTPS_CHAR_LENGTH);
+            else if (string.Equals("https",protocol,StringComparison.OrdinalIgnoreCase)){
+                externalHostName = domain;
                 useSsl = true;
             }
 
