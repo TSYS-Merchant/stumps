@@ -3,7 +3,6 @@
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <MSBuildCommunityTasksPath>$(MSBuildProjectDirectory)\..\.build</MSBuildCommunityTasksPath>
-    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
   </PropertyGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -116,8 +115,8 @@ XCOPY "$(ProjectDir)..\Stumps.Engine\Web\Views" "$(TargetDir)" /E /I /F /Y
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   -->
-  <Target Name="BeforeBuild" Condition=" '$(GenerateAssemblyInfo)' == 'true' ">
-    <MSBuild.Community.Tasks.AssemblyInfo AssemblyProduct="$(Version)+$(BuildNumber)" AssemblyVersion="$(Version)" AssemblyFileVersion="$(DllFileVersion)" CodeLanguage="CS" AssemblyTitle="Stumps.Startup" AssemblyDescription="Stumps Application" OutputFile="_AssemblyInfo.cs" Guid="ae9efa41-4aaa-4568-9611-7a9b03d13c47" />
+  <Target Name="BeforeBuild">
+    <MSBuild.Community.Tasks.AssemblyInfo AssemblyProduct="$(Version)+$(BuildNumber)" AssemblyVersion="$(Version)" AssemblyFileVersion="$(DllFileVersion)" CodeLanguage="CS" AssemblyTitle="Stumps.Startup" AssemblyDescription="Stumps Application" OutputFile="Properties\_AssemblyInfo.cs" Guid="ae9efa41-4aaa-4568-9611-7a9b03d13c47" />
   </Target>
   <Target Name="AfterBuild">
   </Target>
