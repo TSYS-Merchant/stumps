@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Collections.Concurrent;
+    using System.Globalization;
     using System.Net;
     using Stumps.Logging;
     using Stumps.Data;
@@ -18,6 +19,7 @@
         // Define the length of http:// and https:// to use for checking and extracting proper domain
         private const int HTTP_CHAR_LENGTH = 7;
         private const int HTTPS_CHAR_LENGTH = 8;
+        private CultureInfo cultureInfo;
 
         public ProxyHost(ILogger logger, IDataAccess dataAccess) {
 
@@ -45,13 +47,14 @@
             if ( port < IPEndPoint.MinPort || port > IPEndPoint.MaxPort ) {
                 throw new ArgumentOutOfRangeException("port");
             }
-
+            
             // If the user mistakenly puts in http:// or https://, grab just the domain.  If it's https://, then the UseSsl value will be automatically set to true.
-            if (externalHostName.StartsWith("http://")){
+            if (externalHostName.StartsWith("http://", true, cultureInfo))
+            {
                 externalHostName = externalHostName.Substring(HTTP_CHAR_LENGTH);
             }
 
-            if (externalHostName.StartsWith("https://")){
+            else if (externalHostName.StartsWith("https://",true, cultureInfo)){
                 externalHostName = externalHostName.Substring(HTTPS_CHAR_LENGTH);
                 useSsl = true;
             }
