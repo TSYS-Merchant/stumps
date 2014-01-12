@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stumps-Website", "Stumps-Website\Stumps-Website.csproj", "{D5D30944-1037-4C55-9D60-CF293F4D1D72}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stumps-Project", "Stumps-Project\Stumps-Project.csproj", "{D5D30944-1037-4C55-9D60-CF293F4D1D72}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
