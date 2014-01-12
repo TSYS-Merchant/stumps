@@ -1,0 +1,312 @@
+﻿html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td
+{
+	margin: 0;
+	padding: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+	border: 0;
+	outline: 0;
+	background-color: transparent;
+}
+
+html, body
+{
+	height: 100%;
+}
+
+a
+{
+	text-decoration: none;
+	color: #50cfe2;
+}
+
+body {
+	font-family: "Segoe UI", "Helvetica Neue", Helvetica, Arial, Verdana, sans-serif;
+}
+
+ul
+{
+	list-style: none;
+}
+
+#header
+{
+	width: 100%;
+	height: 100px;
+	background: #3c405e;
+}
+
+#header-inner
+{
+	width: 1000px;
+	margin: 0 auto;
+}
+
+#logo-big
+{
+	float: left;
+	padding: 0 20px 0 0;
+}
+
+#nav li
+{
+	float: right;
+}
+
+	#nav li a
+	{
+		font-family: "Segoe UI semilight";
+		text-transform: uppercase;
+		padding: 0 0 0 15px;
+		display: block;
+		line-height: 100px;
+		font-size: 14px;
+	}
+
+#logo-art-large
+{
+	padding: 35px 20px 0 0;
+	float: left;
+}
+
+#logo-art
+{
+	padding-right: 20px;
+	float: left;
+}
+
+#logo-text
+{
+	float: left;
+}
+
+#topic
+{
+	background-color: #50cfe2;
+}
+
+	#topic h1
+	{
+		font-size: 25px;
+		font-family: "Segoe UI light";
+		text-transform: uppercase;
+		color: #ffffff;
+		line-height: 25px;
+		padding-top: 25px;
+		padding-bottom: 25px;
+	}
+
+#topic-inner
+{
+	width: 1000px;
+	margin: 0 auto;
+}
+
+#intro
+{
+	padding: 20px 0 30px 0;
+	margin-left: 270px;
+	font-family: "Segoe UI light";
+	text-transform: lowercase;
+	color: white;
+	font-size: 30px; 
+}
+
+#intro-download-link
+{
+	display: inline-block;
+	background-color: #ffffff;
+	color: #50cfe2;
+	border-radius: 3px;
+	font-family: "Segoe UI light";
+	text-transform: uppercase;
+	font-size: 16px;
+	line-height: 30px;
+	vertical-align: middle;
+	padding: 0 10px;
+}
+
+	#intro-download-link img
+	{
+		padding-left: 10px;
+	}
+
+#demo-animation
+{
+	padding-top: 10px;
+}
+
+.content-wrapper
+{
+	overflow: hidden;
+}
+
+.content
+{
+	width: 1000px;
+	margin: 20px auto;
+	overflow: hidden;
+}
+
+	.content h2
+	{
+		font-family: "Segoe UI light";
+		font-size: 30px;
+		color: #f21c7c;
+		text-transform: lowercase;
+		margin-bottom: 10px;
+	}
+
+	.content h3
+	{
+		font-family: "Segoe UI light";
+		font-size: 18px;
+		color: #444;
+		margin-bottom: 5px;
+	}
+
+	.content p
+	{
+		font-size: 14px;
+		font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+		color: #444;
+		margin-bottom: 10px;
+	}
+
+	.content ul
+	{
+		list-style-position: outside;
+		list-style: circle;
+	}
+
+	.content li
+	{
+		font-size: 14px;
+		font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+		color: #444;
+	}
+
+	.content a
+	{
+		text-decoration: underline;
+	}
+
+.col-2
+{
+	width: 490px;
+	margin-right: 20px;
+	float: left;
+	display: inline-block;
+	text-align: justify;
+	vertical-align: top;
+}
+
+	.col-2-end
+	{
+		width: 490px;
+		float: left;
+		display: inline-block;
+		text-align: justify;
+	vertical-align: top;
+	}
+
+.col-3
+{
+	width: 310px;
+	margin-right: 35px;
+	float: left;
+	display: inline-block;
+	text-align: justify;
+	vertical-align: top;
+}
+
+	.col-3-end
+	{
+		width: 310px;
+		float: left;
+		display: inline-block;
+		text-align: justify;
+	vertical-align: top;
+	}
+
+.col-4
+{
+	width: 220px;
+	margin-right: 29px;
+	display: inline-block;
+	vertical-align: top;
+}
+
+.col-4-end
+{
+	width: 220px;
+	display: inline-block;
+	vertical-align: top;
+}
+
+.bg-gray
+{
+	background-color: #ebebeb;
+}
+
+.downloadBlock
+{
+	float: left;
+	margin-right: 20px;
+}
+
+	.downloadBlock a
+	{
+		width: 255px;
+		line-height: 0px;
+		background-color: #78d23b;
+		color: #ffffff;
+		font-size: 30px;
+		border-radius: 10px;
+		display: block;
+		margin-bottom: 5px;
+		height: 50px;
+	}
+
+	.downloadBlock span
+	{
+		color: #444;
+		font-size: 12px;
+		display: block;
+		margin-bottom: 20px;
+	}
+
+		.downloadBlock span.downloadNotAvailable
+		{
+			width: 255px;
+			line-height: 0px;
+			background-color: #c0c0c0;
+			color: #ffffff;
+			font-size: 30px;
+			border-radius: 10px;
+			display: block;
+			margin-bottom: 5px;
+			height: 50px;
+		}
+
+	.downloadBlock img
+	{
+		padding: 10px;
+		vertical-align: middle;
+		margin-left: 5px;
+	}
+
+.oh
+{
+	overflow: hidden;
+}
+
+.bolder
+{
+	font-weight: bold;
+}
+
+.blogIcon
+{
+	vertical-align: middle;
+}
