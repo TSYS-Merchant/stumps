@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Collections.Concurrent;
+    using System.Globalization;
     using System.Net;
     using Stumps.Logging;
     using Stumps.Data;
@@ -14,6 +15,7 @@
         private readonly ILogger _logger;
         private readonly IDataAccess _dataAccess;
         private bool _disposed;
+        private CultureInfo cultureInfo;
 
         public ProxyHost(ILogger logger, IDataAccess dataAccess) {
 
@@ -43,18 +45,24 @@
             }
             
             // If the user mistakenly puts in http:// or https://, grab just the domain.  If it's https://, then the UseSsl value will be automatically set to true.
-            Uri externalHost = new Uri(externalHostName);
-            string protocol = externalHost.Scheme;
-            string domain = externalHost.Host;
+            if(externalHostName.StartsWith("http://", true, cultureInfo) || externalHostName.StartsWith("https://",true, cultureInfo)) {
+                Uri externalHost = new Uri(externalHostName);
+                string protocol = externalHost.Scheme;
+                string domain = externalHost.Host;
 
-            if(string.Equals("http",protocol,StringComparison.OrdinalIgnoreCase)){
-                externalHostName = domain;
+                if(string.Equals("http",protocol,StringComparison.OrdinalIgnoreCase)){
+                    externalHostName = domain;
+                }
+
+                else if (string.Equals("https", protocol, StringComparison.OrdinalIgnoreCase)) {
+                    externalHostName = domain;
+                    useSsl = true;
+                }
+                else {
+                    throw new ArgumentOutOfRangeException("Unsupported protocol.  Only HTTP and HTTPS are supported.");
+                }
             }
 
-            else if (string.Equals("https",protocol,StringComparison.OrdinalIgnoreCase)){
-                externalHostName = domain;
-                useSsl = true;
-            }
 
             var proxyEntity = new ProxyServerEntity() {
                 AutoStart = autoStart,
