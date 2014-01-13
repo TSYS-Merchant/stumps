@@ -10,7 +10,7 @@
         public void FindRandomOpenPort_FindsValidPort() {
 
             var port = NetworkUtility.FindRandomOpenPort();
-            Assert.IsFalse(isPortInUse(port));
+            Assert.IsFalse(IsPortInUse(port));
 
         }
 
@@ -26,7 +26,7 @@
 
         }
 
-        private bool isPortInUse(int port) {
+        private static bool IsPortInUse(int port) {
 
             var ipGlobal = IPGlobalProperties.GetIPGlobalProperties();
             var connections = ipGlobal.GetActiveTcpConnections();

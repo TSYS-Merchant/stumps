@@ -25,7 +25,7 @@
                 var portTextBox = ((string) (Request.Form.portTextBox.Value ?? string.Empty)).Trim();
                 var useSslCheckBox = ((string) (Request.Form.useSslCheckBox.Value ?? "off")).Trim();
 
-                var port = 0;
+                int port;
                 port = (int.TryParse(portTextBox, out port) ? port : 0);
                 var useSsl = useSslCheckBox.Equals("on", StringComparison.OrdinalIgnoreCase);
 

@@ -43,11 +43,11 @@
                 contract.StumpId = RandomGenerator.GenerateIdentifier();
             }
 
-            var entity = createEntityFromContract(contract);
+            var entity = CreateEntityFromContract(contract);
 
             _dataAccess.StumpCreate(_externalHostName, entity, contract.MatchBody, contract.Response.Body);
 
-            unwrapAndAddStump(contract);
+            UnwrapAndAddStump(contract);
 
             return contract;
 
@@ -72,8 +72,8 @@
             var entities = _dataAccess.StumpFindAll(_externalHostName);
 
             foreach ( var entity in entities ) {
-                var contract = createContractFromEntity(entity);
-                unwrapAndAddStump(contract);
+                var contract = CreateContractFromEntity(entity);
+                UnwrapAndAddStump(contract);
             }
 
         }
@@ -125,27 +125,27 @@
 
         }
 
-        private StumpContract createContractFromEntity(StumpEntity entity) {
+        private StumpContract CreateContractFromEntity(StumpEntity entity) {
 
-            var contract = new StumpContract() {
+            var contract = new StumpContract {
                 HttpMethod = entity.HttpMethod,
-                MatchBody = loadFile(entity.MatchBodyFileName),
+                MatchBody = LoadFile(entity.MatchBodyFileName),
                 MatchBodyContentType = entity.MatchBodyContentType ?? string.Empty,
                 MatchBodyIsImage = entity.MatchBodyIsImage,
                 MatchBodyIsText = entity.MatchBodyIsText,
                 MatchBodyMaximumLength = entity.MatchBodyMaximumLength,
                 MatchBodyMinimumLength = entity.MatchBodyMinimumLength,
                 MatchBodyText = entity.MatchBodyText,
-                MatchHeaders = createHttpHeader(entity.MatchHeaders),
+                MatchHeaders = CreateHttpHeader(entity.MatchHeaders),
                 MatchHttpMethod = entity.MatchHttpMethod,
                 MatchRawUrl = entity.MatchRawUrl,
                 RawUrl = entity.RawUrl,
-                Response = new RecordedResponse() {
-                    Body = loadFile(entity.ResponseBodyFileName),
+                Response = new RecordedResponse {
+                    Body = LoadFile(entity.ResponseBodyFileName),
                     BodyContentType = entity.ResponseBodyContentType,
                     BodyIsImage = entity.ResponseBodyIsImage,
                     BodyIsText = entity.ResponseBodyIsText,
-                    Headers = createHttpHeader(entity.ResponseHeaders),
+                    Headers = CreateHttpHeader(entity.ResponseHeaders),
                     StatusCode = entity.ResponseStatusCode,
                     StatusDescription = entity.ResponseStatusDescription
                 },
@@ -158,9 +158,9 @@
 
         }
 
-        private StumpEntity createEntityFromContract(StumpContract contract) {
+        private StumpEntity CreateEntityFromContract(StumpContract contract) {
 
-            var entity = new StumpEntity() {
+            var entity = new StumpEntity {
                 HttpMethod = contract.HttpMethod,
                 MatchBodyFileName = string.Empty,
                 MatchBodyContentType = contract.MatchBodyContentType ?? string.Empty,
@@ -169,7 +169,7 @@
                 MatchBodyMaximumLength = contract.MatchBodyMaximumLength,
                 MatchBodyMinimumLength = contract.MatchBodyMinimumLength,
                 MatchBodyText = contract.MatchBodyText,
-                MatchHeaders = createHeaderEntity(contract.MatchHeaders),
+                MatchHeaders = CreateHeaderEntity(contract.MatchHeaders),
                 MatchHttpMethod = contract.MatchHttpMethod,
                 MatchRawUrl = contract.MatchRawUrl,
                 RawUrl = contract.RawUrl,
@@ -177,7 +177,7 @@
                 ResponseBodyFileName = string.Empty,
                 ResponseBodyIsImage = contract.Response.BodyIsImage,
                 ResponseBodyIsText = contract.Response.BodyIsText,
-                ResponseHeaders = createHeaderEntity(contract.Response.Headers),
+                ResponseHeaders = CreateHeaderEntity(contract.Response.Headers),
                 ResponseStatusCode = contract.Response.StatusCode,
                 ResponseStatusDescription = contract.Response.StatusDescription,
                 StumpId = contract.StumpId,
@@ -189,12 +189,12 @@
 
         }
 
-        private HeaderEntity[] createHeaderEntity(IEnumerable<HttpHeader> headers) {
+        private HeaderEntity[] CreateHeaderEntity(IEnumerable<HttpHeader> headers) {
 
             var headerList = new List<HeaderEntity>();
 
             foreach ( var httpHeader in headers ) {
-                var header = new HeaderEntity() {
+                var header = new HeaderEntity {
                     Name = httpHeader.Name,
                     Value = httpHeader.Value
                 };
@@ -206,12 +206,12 @@
 
         }
 
-        private HttpHeader[] createHttpHeader(IEnumerable<HeaderEntity> headers) {
+        private HttpHeader[] CreateHttpHeader(IEnumerable<HeaderEntity> headers) {
 
             var headerList = new List<HttpHeader>();
 
             foreach ( var entityHeader in headers ) {
-                var header = new HttpHeader() {
+                var header = new HttpHeader {
                     Name = entityHeader.Name,
                     Value = entityHeader.Value
                 };
@@ -223,7 +223,7 @@
 
         }
 
-        private Stump createStumpFromContract(StumpContract contract) {
+        private Stump CreateStumpFromContract(StumpContract contract) {
 
             var stump = new Stump();
 
@@ -257,7 +257,7 @@
 
         }
 
-        private byte[] loadFile(string fileName) {
+        private byte[] LoadFile(string fileName) {
 
             var response = new byte[] { };
 
@@ -269,11 +269,11 @@
 
         }
 
-        private void unwrapAndAddStump(StumpContract contract) {
+        private void UnwrapAndAddStump(StumpContract contract) {
 
             _lock.EnterWriteLock();
 
-            var stump = createStumpFromContract(contract);
+            var stump = CreateStumpFromContract(contract);
 
             _stumpList.Add(stump);
             _stumpReference.Add(stump.Contract.StumpId, stump);

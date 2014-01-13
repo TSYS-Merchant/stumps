@@ -14,11 +14,11 @@
                 var proxyId = (string) _.proxyId;
                 var environment = proxyHost.FindProxy(proxyId);
 
-                var model = new RunningStatusModel() {
+                var model = new RunningStatusModel {
                     IsRunning = environment.IsRunning
                 };
 
-                return Response.AsJson<RunningStatusModel>(model);
+                return Response.AsJson(model);
 
             };
 
@@ -36,7 +36,7 @@
                     proxyHost.Shutdown(proxyId);
                 }
 
-                return Response.AsJson<RunningStatusModel>(model);
+                return Response.AsJson(model);
 
             };
 

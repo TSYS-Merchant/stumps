@@ -25,14 +25,6 @@
             _handlers.Add(handler);
         }
 
-        //public IEnumerator<IHttpHandler> GetEnumerator() {
-        //    return (IEnumerator<IHttpHandler>) _handlers.GetEnumerator();
-        //}
-
-        //IEnumerator IEnumerable.GetEnumerator() {
-        //    return (IEnumerator) _handlers.GetEnumerator();
-        //}
-
         public ProcessHandlerResult ProcessRequest(IStumpsHttpContext context) {
 
             if ( context == null ) {

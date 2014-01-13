@@ -11,7 +11,7 @@
 
             var result = false;
 
-            if ( !isServiceInstalled() ) {
+            if ( !IsServiceInstalled() ) {
                 ManagedInstallerClass.InstallHelper(new string[] { Assembly.GetExecutingAssembly().Location });
                 result = true;
             }
@@ -24,7 +24,7 @@
 
             var result = false;
 
-            if ( isServiceInstalled() ) {
+            if ( IsServiceInstalled() ) {
                 ManagedInstallerClass.InstallHelper(new string[] { @"/u", Assembly.GetExecutingAssembly().Location });
                 result = true;
             }
@@ -33,7 +33,7 @@
 
         }
 
-        private static bool isServiceInstalled() {
+        private static bool IsServiceInstalled() {
 
             var isInstalled = false;
             var services = ServiceController.GetServices();

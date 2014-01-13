@@ -12,7 +12,7 @@
 
     .stumpTable thead tr {
         background-color: #4ac1d5;
-        border-bottom: 0px none;
+        border-bottom: 0 none;
     }
 
     .stumpTable thead th {
@@ -31,7 +31,7 @@
     }
 
         .stumpTable tbody tr:last-child {
-            border-bottom: 0px none;
+            border-bottom: 0 none;
         }
 
     .stumpTable tbody td {
@@ -46,7 +46,7 @@
 
 .stumpTable tbody tr.selected {
     background-color: #78d23b;
-    border-bottom: 0px none;
+    border-bottom: 0 none;
 }
 
 .stumpTable tbody tr.selected td {
@@ -58,16 +58,16 @@
 }
 
     .stumpView h1 {
-        padding: 0px;
-        margin: 0px;
+        padding: 0;
+        margin: 0;
         font-size: 24px;
         color: #50cfe2;
         text-transform: uppercase;
     }
 
     .stumpView h2 {
-        padding: 0px;
-        margin: 0px;
+        padding: 0;
+        margin: 0;
         font-size: 16px;
         color: #808080;
         text-transform: uppercase;
@@ -75,7 +75,7 @@
 
     .stumpView table {
         width: 100%;
-        border: 0px none;
+        border: 0 none;
         border-collapse: collapse;
         margin-top: 15px;
         margin-bottom: 15px;
@@ -88,7 +88,7 @@
 
     .stumpView td {
         font-size: 12px;
-        padding: 3px 20px 3px 0px;
+        padding: 3px 20px 3px 0;
         vertical-align: top;
     }
 

@@ -30,7 +30,7 @@
 
         public static ErrorJsonResponse FromMessage(string message) {
 
-            var error = new ErrorModel() {
+            var error = new ErrorModel {
                 ErrorMessage = message
             };
 
@@ -43,7 +43,7 @@
         public static ErrorJsonResponse FromException(Exception ex) {
 
             if ( ex == null ) {
-                return new ErrorJsonResponse(new ErrorModel() {
+                return new ErrorJsonResponse(new ErrorModel {
                     ErrorMessage = null,
                     Errors = null,
                     FullException = null
@@ -52,7 +52,7 @@
 
             var rootException = ex.GetBaseException();
 
-            var error = new ErrorModel() {
+            var error = new ErrorModel {
                 ErrorMessage = Resources.ErrorUnexpected + rootException.Message,
                 FullException = rootException.ToString()
             };
@@ -60,8 +60,9 @@
             ErrorJsonResponse response = null;
 
             try {
-                response = new ErrorJsonResponse(error);
-                response.StatusCode = HttpStatusCode.InternalServerError;
+                response = new ErrorJsonResponse(error) {
+                    StatusCode = HttpStatusCode.InternalServerError
+                };
             }
             catch {
                 if ( response != null ) {

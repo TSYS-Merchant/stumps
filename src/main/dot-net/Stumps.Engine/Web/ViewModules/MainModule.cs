@@ -19,14 +19,14 @@
                         State = ModuleHelper.StateValue(environment, "running", "stopped", "recording"),
                         StateImage = ModuleHelper.StateValue(environment, "svr_run.png", "svr_stp.png", "svr_rec.png"),
                         ExternalHostName = (environment.UseSsl ? environment.ExternalHostName + " (SSL)" : environment.ExternalHostName),
-                        RequestsServed = cma(environment.RequestsServed),
-                        StumpsServed = cma(environment.StumpsServed),
+                        RequestsServed = PrettyNumber(environment.RequestsServed),
+                        StumpsServed = PrettyNumber(environment.StumpsServed),
                         LocalWebsite = "http://localhost:" + environment.Port.ToString(CultureInfo.InvariantCulture) + "/",
                         ProxyId = environment.ProxyId,
                         IsRunning = (environment.IsRunning ? "isRunning" : string.Empty),
                         IsRecording = (environment.RecordTraffic ? "isRecording" : string.Empty),
-                        RecordingCount = cma(environment.Recordings.Count),
-                        StumpsCount = cma(environment.Stumps.Count)
+                        RecordingCount = PrettyNumber(environment.Recordings.Count),
+                        StumpsCount = PrettyNumber(environment.Stumps.Count)
                     });
 
                 }
@@ -38,13 +38,18 @@
 
         }
 
-        private static string cma(int value) {
+        private static string PrettyNumber(int value) {
+
             var s = value.ToString("#,#", CultureInfo.InvariantCulture);
+            
             if ( string.IsNullOrWhiteSpace(s) ) {
                 s = "0";
             }
+
             return s;
+
         }
+
     }
 
 }

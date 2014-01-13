@@ -37,16 +37,16 @@
 }
 
     .requestView h1 {
-        padding: 0px;
-        margin: 0px;
+        padding: 0;
+        margin: 0;
         font-size: 24px;
         color: #50cfe2;
         text-transform: uppercase;
     }
 
     .requestView h2 {
-        padding: 0px;
-        margin: 0px;
+        padding: 0;
+        margin: 0;
         font-size: 16px;
         color: #808080;
         text-transform: uppercase;
@@ -55,7 +55,7 @@
 
     .requestView table {
         width: 100%;
-        border: 0px none;
+        border: 0 none;
         border-collapse: collapse;
         margin-top: 15px;
         margin-bottom: 15px;
@@ -68,7 +68,7 @@
 
     .requestView td {
         font-size: 12px;
-        padding: 3px 20px 3px 0px;
+        padding: 3px 20px 3px 0;
         vertical-align: top;
     }
 

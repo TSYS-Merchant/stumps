@@ -6,7 +6,7 @@
 
     internal static class JsonUtility {
 
-        private static JsonSerializerSettings _settings = new JsonSerializerSettings() {
+        private static readonly JsonSerializerSettings Settings = new JsonSerializerSettings {
             Culture = System.Globalization.CultureInfo.InvariantCulture,
             Formatting = Formatting.Indented
         };
@@ -38,7 +38,7 @@
 
         public static void SerializeToFile(object value, string path) {
 
-            var json = JsonConvert.SerializeObject(value, _settings);
+            var json = JsonConvert.SerializeObject(value, Settings);
             File.WriteAllText(path, json);
 
         }

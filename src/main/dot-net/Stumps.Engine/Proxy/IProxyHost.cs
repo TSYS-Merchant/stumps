@@ -15,13 +15,13 @@
 
         void Load();
 
-        void Start();
-
-        void Start(string proxyId);
-
         void Shutdown();
 
         void Shutdown(string proxyId);
+
+        void Start();
+
+        void Start(string proxyId);
 
     }
 

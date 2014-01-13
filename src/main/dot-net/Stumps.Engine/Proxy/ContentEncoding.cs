@@ -8,10 +8,10 @@
 
     public class ContentEncoding {
 
-        private static Dictionary<string, Func<Stream, ContentEncodingMode, Stream>> _streamEncoders =
+        private static readonly Dictionary<string, Func<Stream, ContentEncodingMode, Stream>> StreamEncoders =
             new Dictionary<string, Func<Stream, ContentEncodingMode, Stream>>(StringComparer.OrdinalIgnoreCase) {
-                { "gzip", createGzipStream },
-                { "deflate", createDeflateStream }
+                { "gzip", CreateGzipStream },
+                { "deflate", CreateDeflateStream }
             };
 
         public ContentEncoding(string encodingMethod) {
@@ -30,17 +30,17 @@
 
         public byte[] Encode(byte[] value) {
 
-            if ( !_streamEncoders.ContainsKey(this.Method) || value == null ) {
+            if ( !StreamEncoders.ContainsKey(this.Method) || value == null ) {
                 return value;
             }
 
-            byte[] output = null;
+            byte[] output;
 
             using ( var inputStream = new MemoryStream(value) ) {
 
                 using ( var outputStream = new MemoryStream() ) {
 
-                    using ( var encoderStream = _streamEncoders[this.Method](outputStream, ContentEncodingMode.Encode) ) {
+                    using ( var encoderStream = StreamEncoders[this.Method](outputStream, ContentEncodingMode.Encode) ) {
 
                         inputStream.CopyTo(encoderStream);
                         encoderStream.Flush();
@@ -59,17 +59,17 @@
 
         public byte[] Decode(byte[] value) {
 
-            if ( !_streamEncoders.ContainsKey(this.Method) || value == null ) {
+            if ( !StreamEncoders.ContainsKey(this.Method) || value == null ) {
                 return value;
             }
 
-            byte[] output = null;
+            byte[] output;
 
             using ( var inputStream = new MemoryStream(value) ) {
 
                 using ( var outputStream = new MemoryStream() ) {
 
-                    using ( var encoderStream = _streamEncoders[this.Method](inputStream, ContentEncodingMode.Decode) ) {
+                    using ( var encoderStream = StreamEncoders[this.Method](inputStream, ContentEncodingMode.Decode) ) {
 
                         encoderStream.CopyTo(outputStream);
                         output = outputStream.ToArray();
@@ -84,18 +84,18 @@
 
         }
 
-        private static Stream createGzipStream(Stream stream, ContentEncodingMode mode) {
+        private static Stream CreateDeflateStream(Stream stream, ContentEncodingMode mode) {
 
             var compressionMode = (mode == ContentEncodingMode.Encode ? CompressionMode.Compress : CompressionMode.Decompress);
-            var compressionStream = new GZipStream(stream, compressionMode, true);
+            var compressionStream = new DeflateStream(stream, compressionMode, true);
             return compressionStream;
 
         }
 
-        private static Stream createDeflateStream(Stream stream, ContentEncodingMode mode) {
+        private static Stream CreateGzipStream(Stream stream, ContentEncodingMode mode) {
 
             var compressionMode = (mode == ContentEncodingMode.Encode ? CompressionMode.Compress : CompressionMode.Decompress);
-            var compressionStream = new DeflateStream(stream, compressionMode, true);
+            var compressionStream = new GZipStream(stream, compressionMode, true);
             return compressionStream;
 
         }

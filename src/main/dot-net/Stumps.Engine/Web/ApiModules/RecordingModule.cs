@@ -27,7 +27,7 @@
                 foreach ( var recording in recordingList ) {
                     afterIndex++;
 
-                    var model = new RecordingModel() {
+                    var model = new RecordingModel {
                         Index = afterIndex,
                         Date = recording.RequestDate,
                         Method = recording.Request.HttpMethod,
@@ -41,7 +41,7 @@
                     modelList.Add(model);
                 }
 
-                return Response.AsJson<IList<RecordingModel>>(modelList);
+                return Response.AsJson(modelList);
             };
 
             Get["/api/proxy/{proxyId}/recording/{recordIndex}"] = _ => {
@@ -51,7 +51,7 @@
 
                 var record = environment.Recordings.FindAt(recordIndex);
 
-                var model = new RecordingDetailsModel() {
+                var model = new RecordingDetailsModel {
                     Index = recordIndex,
                     RequestBody = string.Empty,
                     RequestBodyIsImage = record.Request.BodyIsImage,
@@ -76,7 +76,7 @@
                 model.RequestHeaders = generateHeaders(record.Request);
                 model.ResponseHeaders = generateHeaders(record.Response);
 
-                return Response.AsJson<RecordingDetailsModel>(model);
+                return Response.AsJson(model);
             };
 
             Get["/api/proxy/{proxyId}/recording/{recordIndex}/request"] = _ => {
@@ -107,11 +107,11 @@
                 var proxyId = (string) _.proxyId;
                 var environment = proxyHost.FindProxy(proxyId);
 
-                var model = new RecordStatusModel() {
+                var model = new RecordStatusModel {
                     RecordTraffic = environment.RecordTraffic
                 };
 
-                return Response.AsJson<RecordStatusModel>(model);
+                return Response.AsJson(model);
             };
 
             Put["/api/proxy/{proxyId}/recording/status"] = _ => {
@@ -126,7 +126,7 @@
 
                 environment.RecordTraffic = model.RecordTraffic;
 
-                return Response.AsJson<RecordStatusModel>(model);
+                return Response.AsJson(model);
             };
 
         }
@@ -136,7 +136,7 @@
             var modelList = new List<HeaderModel>();
 
             foreach ( var header in part.Headers ) {
-                var modelHeader = new HeaderModel() {
+                var modelHeader = new HeaderModel {
                     Name = header.Name,
                     Value = header.Value
                 };

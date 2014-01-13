@@ -43,7 +43,7 @@
             }
             
             // If the user mistakenly puts in http:// or https://, grab just the domain.  If it's https://, then the UseSsl value will be automatically set to true.
-            Uri externalHost = new Uri(externalHostName);
+            var externalHost = new Uri(externalHostName);
             string protocol = externalHost.Scheme;
             string domain = externalHost.Host;
 
@@ -56,7 +56,7 @@
                 useSsl = true;
             }
 
-            var proxyEntity = new ProxyServerEntity() {
+            var proxyEntity = new ProxyServerEntity {
                 AutoStart = autoStart,
                 ExternalHostName = externalHostName,
                 Port = port,
@@ -66,7 +66,7 @@
 
             _dataAccess.ProxyServerCreate(proxyEntity);
 
-            unwrapAndRegisterProxy(proxyEntity);
+            UnwrapAndRegisterProxy(proxyEntity);
 
             var server = _proxies[proxyEntity.ProxyId];
 
@@ -90,7 +90,7 @@
                 _proxies[proxyId].Stop();
                 _proxies[proxyId].Dispose();
 
-                ProxyServer server = null;
+                ProxyServer server;
                 _proxies.TryRemove(proxyId, out server);
 
                 _dataAccess.ProxyServerDelete(hostName);
@@ -113,9 +113,9 @@
 
         public ProxyEnvironment FindProxy(string proxyId) {
 
-            ProxyServer server = null;
             ProxyEnvironment environment = null;
 
+            ProxyServer server;
             _proxies.TryGetValue(proxyId, out server);
 
             if ( server != null ) {
@@ -131,7 +131,7 @@
             var proxyEntities = _dataAccess.ProxyServerFindAll();
 
             foreach ( var proxyEntity in proxyEntities ) {
-                unwrapAndRegisterProxy(proxyEntity);
+                UnwrapAndRegisterProxy(proxyEntity);
             }
 
         }
@@ -152,7 +152,7 @@
                 throw new ArgumentNullException("proxyId");
             }
 
-            ProxyServer server = null;
+            ProxyServer server;
             _proxies.TryGetValue(proxyId, out server);
 
             if ( server != null ) {
@@ -175,7 +175,7 @@
                 throw new ArgumentNullException("proxyId");
             }
 
-            ProxyServer server = null;
+            ProxyServer server;
             _proxies.TryGetValue(proxyId, out server);
 
             if ( server != null ) {
@@ -184,7 +184,7 @@
 
         }
 
-        private void unwrapAndRegisterProxy(ProxyServerEntity entity) {
+        private void UnwrapAndRegisterProxy(ProxyServerEntity entity) {
 
             var environment = new ProxyEnvironment(entity.ExternalHostName, _dataAccess) {
                 Port = entity.Port,

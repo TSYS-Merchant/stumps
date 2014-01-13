@@ -23,7 +23,7 @@
         [Test]
         public void ConvertStreamToByteArray_ValidStream_ReturnsArray() {
 
-            var buffer = createByteArray(100);
+            var buffer = CreateByteArray(100);
 
             using ( var ms = new MemoryStream(buffer) ) {
 
@@ -71,7 +71,7 @@
         [Test]
         public void CopyStream_ValidStreams_CopiesStream() {
 
-            var buffer = createByteArray(100);
+            var buffer = CreateByteArray(100);
 
             using ( var source = new MemoryStream(buffer) ) {
 
@@ -125,7 +125,7 @@
         [Test]
         public void CopyStreamWithStartingPosition_ValidStreamsAndStartingPosition_CopiesPartiallyAndResetStart() {
 
-            var buffer = createByteArray(100);
+            var buffer = CreateByteArray(100);
 
             using ( var source = new MemoryStream(buffer) ) {
 
@@ -175,7 +175,7 @@
         [Test]
         public void WriteUtfStringToStream_ValidString_WritesToStream() {
 
-            var tempFolder = createTempFolder();
+            var tempFolder = CreateTempFolder();
             var file = Path.GetRandomFileName();
             var path = Path.Combine(tempFolder, file);
 
@@ -189,14 +189,14 @@
             }
             finally {
                 if ( Directory.Exists(tempFolder) ) {
-                    Directory.Delete(tempFolder, true);
+                    DeleteTempFolder(tempFolder);
                 }
             }
 
 
         }
 
-        private byte[] createByteArray(int length) {
+        private byte[] CreateByteArray(int length) {
 
             var buffer = new byte[length];
             var random = new Random();
@@ -206,7 +206,7 @@
 
         }
 
-        private string createTempFolder() {
+        private string CreateTempFolder() {
 
             var path = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
             Directory.CreateDirectory(path);
@@ -215,7 +215,7 @@
 
         }
 
-        private void deleteTempFolder(string path) {
+        private void DeleteTempFolder(string path) {
 
             if ( Directory.Exists(path) ) {
                 Directory.Delete(path, true);

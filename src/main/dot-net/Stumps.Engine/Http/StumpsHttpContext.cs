@@ -18,7 +18,7 @@
 
             this.ContextId = Guid.NewGuid();
 
-            applyNewContext(context);
+            ApplyNewContext(context);
 
         }
 
@@ -38,7 +38,7 @@
 
         }
 
-        private void applyNewContext(HttpListenerContext context) {
+        private void ApplyNewContext(HttpListenerContext context) {
 
             _request = new StumpsHttpRequest(context.Request);
             _response = new StumpsHttpResponse(context.Response);

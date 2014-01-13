@@ -41,7 +41,7 @@
 
             base.ConfigureApplicationContainer(container);
 
-            container.Register<IProxyHost>(_host);
+            container.Register(_host);
 
         }
 
