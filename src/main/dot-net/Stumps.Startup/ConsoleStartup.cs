@@ -13,12 +13,12 @@
         public void RunInstance(string[] args) {
 
             args = args ?? new string[] { };
-            var startupAction = determineStartupByCommandLineArguments(args);
+            var startupAction = DetermineStartupByCommandLineArguments(args);
             startupAction.Invoke();
 
         }
 
-        private Action determineStartupByCommandLineArguments(string[] args) {
+        private Action DetermineStartupByCommandLineArguments(string[] args) {
 
             var hasInstall = false;
             var hasUninstall = false;
@@ -41,23 +41,23 @@
 
             var showHelp = (!hasInstall && !hasUninstall && hasArguments);
 
-            var executeAction = new Action(runStumpsAction);
+            var executeAction = new Action(RunStumpsAction);
 
             if ( hasInstall ) {
-                executeAction = new Action(installServiceAction);
+                executeAction = new Action(InstallServiceAction);
             }
             else if ( hasUninstall ) {
-                executeAction = new Action(uninstallServiceAction);
+                executeAction = new Action(UninstallServiceAction);
             }
             else if ( showHelp ) {
-                executeAction = new Action(showHelpAction);
+                executeAction = new Action(ShowHelpAction);
             }
 
             return executeAction;
 
         }
 
-        private void installServiceAction() {
+        private void InstallServiceAction() {
 
             _messageWriter.WriteMessage(Resources.InstallStarting);
 
@@ -73,7 +73,7 @@
 
         }
 
-        private void runStumpsAction() {
+        private void RunStumpsAction() {
 
             _messageWriter.WriteMessage(Resources.StartupStarting);
 
@@ -90,11 +90,11 @@
 
         }
 
-        private void showHelpAction() {
+        private void ShowHelpAction() {
             _messageWriter.WriteMessage(Resources.HelpInformation);
         }
 
-        private void uninstallServiceAction() {
+        private void UninstallServiceAction() {
 
             _messageWriter.WriteMessage(Resources.UninstallStarting);
 

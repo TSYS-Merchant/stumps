@@ -10,7 +10,7 @@
         [Test]
         public void SerializeToFile_WithValidObject_CreatesFile() {
 
-            var tempFolder = createTempFolder();
+            var tempFolder = CreateTempFolder();
             try {
                 var obj = new SampleJsonObject() {
                     Color = "Red",
@@ -26,7 +26,7 @@
                 Assert.IsTrue(File.Exists(path));
             }
             finally {
-                deleteTempFolder(tempFolder);
+                DeleteTempFolder(tempFolder);
             }
 
         }
@@ -34,10 +34,10 @@
         [Test]
         public void DeserializeFromFile_WithValidFile_LoadsAndDeserializes() {
 
-            var tempFolder = createTempFolder();
+            var tempFolder = CreateTempFolder();
 
             try {
-                var path = createJsonFile(tempFolder);
+                var path = CreateJsonFile(tempFolder);
                 var obj = JsonUtility.DeserializeFromFile<SampleJsonObject>(path);
 
                 Assert.AreEqual("Red", obj.Color);
@@ -46,7 +46,7 @@
 
             }
             finally {
-                deleteTempFolder(tempFolder);
+                DeleteTempFolder(tempFolder);
             }
 
         }
@@ -54,13 +54,13 @@
         [Test]
         public void DeserializeFromDirectory_WithValidDirectory_LoadsAndDeserializes() {
 
-            var tempFolder = createTempFolder();
+            var tempFolder = CreateTempFolder();
 
             try {
 
-                createJsonFile(tempFolder);
-                createJsonFile(tempFolder);
-                createJsonFile(tempFolder);
+                CreateJsonFile(tempFolder);
+                CreateJsonFile(tempFolder);
+                CreateJsonFile(tempFolder);
 
                 var obj = JsonUtility.DeserializeFromDirectory<SampleJsonObject>(tempFolder, "*.*", SearchOption.AllDirectories);
 
@@ -68,12 +68,12 @@
 
             }
             finally {
-                deleteTempFolder(tempFolder);
+                DeleteTempFolder(tempFolder);
             }
 
         }
 
-        private string createTempFolder() {
+        private string CreateTempFolder() {
 
             var path = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
             Directory.CreateDirectory(path);
@@ -82,7 +82,7 @@
 
         }
 
-        private void deleteTempFolder(string path) {
+        private void DeleteTempFolder(string path) {
 
             if ( Directory.Exists(path) ) {
                 Directory.Delete(path, true);
@@ -90,7 +90,7 @@
 
         }
 
-        private string createJsonFile(string tempFolder) {
+        private string CreateJsonFile(string tempFolder) {
             var fileName = Path.GetRandomFileName();
             var path = Path.Combine(tempFolder, fileName);
             File.WriteAllText(path, TestData.JsonSampleData);

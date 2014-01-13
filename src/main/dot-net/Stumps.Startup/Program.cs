@@ -26,7 +26,7 @@
                 startup = new ServiceStartup();
             }
 
-            if ( isApplicationAlreadyRunning() ) {
+            if ( IsApplicationAlreadyRunning() ) {
                 writer.WriteError(Resources.ApplicationRunning);
                 return;
             }
@@ -35,7 +35,7 @@
 
         }
 
-        private static bool isApplicationAlreadyRunning() {
+        private static bool IsApplicationAlreadyRunning() {
 
             var applicationName = Path.GetFileNameWithoutExtension(Assembly.GetEntryAssembly().Location);
             var processes = Process.GetProcessesByName(applicationName);

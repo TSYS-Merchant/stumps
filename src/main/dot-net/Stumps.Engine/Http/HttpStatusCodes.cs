@@ -7,7 +7,7 @@
     /// </summary>
     public static class HttpStatusCodes {
 
-        private static readonly Dictionary<int, string> _descriptions = new Dictionary<int, string>() {
+        private static readonly Dictionary<int, string> Descriptions = new Dictionary<int, string>() {
                 { HttpStatusCodes.HttpOk, "OK" },
                 { HttpStatusCodes.HttpServiceUnavailable, "Service Unavailable" }
             };
@@ -31,8 +31,8 @@
 
             string description = null;
 
-            if ( _descriptions.ContainsKey(httpStatusCode) ) {
-                description = _descriptions[httpStatusCode];
+            if ( Descriptions.ContainsKey(httpStatusCode) ) {
+                description = Descriptions[httpStatusCode];
             }
 
             return description;

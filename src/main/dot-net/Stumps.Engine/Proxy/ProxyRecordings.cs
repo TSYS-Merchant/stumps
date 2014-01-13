@@ -21,18 +21,18 @@
                 throw new ArgumentNullException("context");
             }
 
-            determineContentType(context.Request);
-            determineBodyIsImage(context.Request);
+            DetermineContentType(context.Request);
+            DetermineBodyIsImage(context.Request);
 
             if ( !context.Request.BodyIsImage ) {
-                determineBodyIsText(context.Request);
+                DetermineBodyIsText(context.Request);
             }
 
-            determineContentType(context.Response);
-            determineBodyIsImage(context.Response);
+            DetermineContentType(context.Response);
+            DetermineBodyIsImage(context.Response);
 
             if ( !context.Response.BodyIsImage ) {
-                determineBodyIsText(context.Response);
+                DetermineBodyIsText(context.Response);
             }
 
             lock ( _syncRoot ) {
@@ -82,7 +82,7 @@
 
         }
 
-        private void determineContentType(IRecordedContextPart part) {
+        private void DetermineContentType(IRecordedContextPart part) {
 
             var header = part.FindHeader("content-type");
             header = header ?? new HttpHeader() { Name = string.Empty, Value = string.Empty };
@@ -90,17 +90,17 @@
 
         }
 
-        private void determineBodyIsText(IRecordedContextPart part) {
+        private void DetermineBodyIsImage(IRecordedContextPart part) {
 
-            part.BodyIsText = StringUtility.IsText(part.Body);
+            if (part.BodyContentType.StartsWith("image", StringComparison.OrdinalIgnoreCase)) {
+                part.BodyIsImage = true;
+            }
 
         }
 
-        private void determineBodyIsImage(IRecordedContextPart part) {
+        private void DetermineBodyIsText(IRecordedContextPart part) {
 
-            if ( part.BodyContentType.StartsWith("image", StringComparison.OrdinalIgnoreCase) ) {
-                part.BodyIsImage = true;
-            }
+            part.BodyIsText = StringUtility.IsText(part.Body);
 
         }
 

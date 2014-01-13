@@ -19,7 +19,7 @@
                 var environment = proxyHost.FindProxy(proxyId);
                 var stump = environment.Stumps.FindStump(stumpId);
 
-                var model = createStumpModel(stump, proxyId, stumpId);
+                var model = CreateStumpModel(stump, proxyId, stumpId);
 
                 return Response.AsJson<StumpModel>(model);
 
@@ -53,7 +53,7 @@
                 var environment = proxyHost.FindProxy(proxyId);
 
                 var model = this.Bind<StumpModel>();
-                var contract = createContractFromRecord(model, environment);
+                var contract = CreateContractFromRecord(model, environment);
 
                 environment.Stumps.CreateStump(contract);
 
@@ -68,14 +68,14 @@
                 var environment = proxyHost.FindProxy(proxyId);
 
                 var model = this.Bind<StumpModel>();
-                var contract = createContractFromStump(model, environment);
+                var contract = CreateContractFromStump(model, environment);
 
                 environment.Stumps.DeleteStump(model.StumpId);
                 environment.Stumps.CreateStump(contract);
 
                 var stump = environment.Stumps.FindStump(model.StumpId);
 
-                var returnModel = createStumpModel(stump, proxyId, model.StumpId);
+                var returnModel = CreateStumpModel(stump, proxyId, model.StumpId);
 
                 return Response.AsJson<StumpModel>(returnModel);
 
@@ -94,7 +94,7 @@
 
         }
 
-        private StumpContract createContractFromRecord(StumpModel model, ProxyEnvironment environment) {
+        private StumpContract CreateContractFromRecord(StumpModel model, ProxyEnvironment environment) {
 
             var record = environment.Recordings.FindAt(model.RecordId);
 
@@ -110,7 +110,7 @@
             contract.MatchRawUrl = model.RequestUrlMatch;
             contract.MatchHttpMethod = model.RequestHttpMethodMatch;
 
-            contract.MatchHeaders = createHeader(model.RequestHeaderMatch);
+            contract.MatchHeaders = CreateHeader(model.RequestHeaderMatch);
 
             contract.MatchBodyMaximumLength = -1;
             contract.MatchBodyMinimumLength = -1;
@@ -167,7 +167,7 @@
 
             }
 
-            contract.Response.Headers = createHeader(model.ResponseHeaders);
+            contract.Response.Headers = CreateHeader(model.ResponseHeaders);
             contract.Response.StatusCode = model.ResponseStatusCode;
             contract.Response.StatusDescription = model.ResponseStatusDescription;
 
@@ -175,7 +175,7 @@
 
         }
 
-        private StumpContract createContractFromStump(StumpModel model, ProxyEnvironment environment) {
+        private StumpContract CreateContractFromStump(StumpModel model, ProxyEnvironment environment) {
 
             var originalContract = environment.Stumps.FindStump(model.StumpId).Contract;
 
@@ -191,7 +191,7 @@
             contract.MatchRawUrl = model.RequestUrlMatch;
             contract.MatchHttpMethod = model.RequestHttpMethodMatch;
 
-            contract.MatchHeaders = createHeader(model.RequestHeaderMatch);
+            contract.MatchHeaders = CreateHeader(model.RequestHeaderMatch);
 
             contract.MatchBodyMaximumLength = -1;
             contract.MatchBodyMinimumLength = -1;
@@ -248,7 +248,7 @@
 
             }
 
-            contract.Response.Headers = createHeader(model.ResponseHeaders);
+            contract.Response.Headers = CreateHeader(model.ResponseHeaders);
             contract.Response.StatusCode = model.ResponseStatusCode;
             contract.Response.StatusDescription = model.ResponseStatusDescription;
 
@@ -256,7 +256,7 @@
 
         }
 
-        private HttpHeader[] createHeader(IEnumerable<HeaderModel> headers) {
+        private HttpHeader[] CreateHeader(IEnumerable<HeaderModel> headers) {
 
             var headerList = new List<HttpHeader>();
 
@@ -275,7 +275,7 @@
 
         }
 
-        private HeaderModel[] createHeaderModel(IEnumerable<HttpHeader> headers) {
+        private HeaderModel[] CreateHeaderModel(IEnumerable<HttpHeader> headers) {
 
             var headerList = new List<HeaderModel>();
 
@@ -294,7 +294,7 @@
 
         }
 
-        private StumpModel createStumpModel(Stump stump, string proxyId, string stumpId) {
+        private StumpModel CreateStumpModel(Stump stump, string proxyId, string stumpId) {
 
             var bodyMatch = BodyMatch.IsAnything;
 
@@ -325,7 +325,7 @@
                 RequestBodyMatch = bodyMatch,
                 RequestBodyMatchValues = stump.Contract.MatchBodyText,
                 RequestBodyUrl = "/api/proxy/" + proxyId + "/stumps/" + stumpId + "/request",
-                RequestHeaderMatch = createHeaderModel(stump.Contract.MatchHeaders),
+                RequestHeaderMatch = CreateHeaderModel(stump.Contract.MatchHeaders),
                 RequestHttpMethod = stump.Contract.HttpMethod,
                 RequestHttpMethodMatch = stump.Contract.MatchHttpMethod,
                 RequestUrl = stump.Contract.RawUrl,
@@ -340,7 +340,7 @@
                 ResponseBodyModification = string.Empty,
                 ResponseBodySource = BodySource.Origin,
                 ResponseBodyUrl = "/api/proxy/" + proxyId + "/stumps/" + stumpId + "/response",
-                ResponseHeaders = createHeaderModel(stump.Contract.Response.Headers),
+                ResponseHeaders = CreateHeaderModel(stump.Contract.Response.Headers),
                 ResponseStatusCode = stump.Contract.Response.StatusCode,
                 ResponseStatusDescription = stump.Contract.Response.StatusDescription,
                 StumpId = stump.Contract.StumpId

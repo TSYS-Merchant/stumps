@@ -36,41 +36,33 @@
                 return ProcessHandlerResult.Continue;
             }
 
-            var result = processRequest(context);
-
-            return result;
-
-        }
-
-        private void populateResponse(IStumpsHttpContext context, RecordedResponse recordedResponse) {
-
-            context.Response.StatusCode = recordedResponse.StatusCode;
-            context.Response.StatusDescription = recordedResponse.StatusDescription;
-
-            writeHeadersFromResponse(context, recordedResponse);
-            writeContextBodyFromResponse(context, recordedResponse);
-
-        }
-
-        private ProcessHandlerResult processRequest(IStumpsHttpContext context) {
-
             var result = ProcessHandlerResult.Continue;
             var stump = _environment.Stumps.FindStump(context);
 
-            if ( stump != null ) {
+            if (stump != null) {
 
-                populateResponse(context, stump.Contract.Response);
+                PopulateResponse(context, stump.Contract.Response);
                 _environment.IncrementStumpsServed();
 
                 result = ProcessHandlerResult.Terminate;
 
             }
-
+            
             return result;
 
         }
 
-        private void writeContextBodyFromResponse(IStumpsHttpContext incommingHttpContext, RecordedResponse recordedResponse) {
+        private void PopulateResponse(IStumpsHttpContext context, RecordedResponse recordedResponse) {
+
+            context.Response.StatusCode = recordedResponse.StatusCode;
+            context.Response.StatusDescription = recordedResponse.StatusDescription;
+
+            WriteHeadersFromResponse(context, recordedResponse);
+            WriteContextBodyFromResponse(context, recordedResponse);
+
+        }
+
+        private void WriteContextBodyFromResponse(IStumpsHttpContext incommingHttpContext, RecordedResponse recordedResponse) {
 
             var buffer = recordedResponse.Body;
             var header = recordedResponse.FindHeader("Content-Encoding");
@@ -84,7 +76,7 @@
 
         }
 
-        private void writeHeadersFromResponse(IStumpsHttpContext incommingHttpContext, RecordedResponse recordedResponse) {
+        private void WriteHeadersFromResponse(IStumpsHttpContext incommingHttpContext, RecordedResponse recordedResponse) {
 
             var headers = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 

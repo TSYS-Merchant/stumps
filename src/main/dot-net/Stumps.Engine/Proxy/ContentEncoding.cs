@@ -10,8 +10,8 @@
 
         private static Dictionary<string, Func<Stream, ContentEncodingMode, Stream>> _streamEncoders =
             new Dictionary<string, Func<Stream, ContentEncodingMode, Stream>>(StringComparer.OrdinalIgnoreCase) {
-                { "gzip", createGzipStream },
-                { "deflate", createDeflateStream }
+                { "gzip", CreateGzipStream },
+                { "deflate", CreateDeflateStream }
             };
 
         public ContentEncoding(string encodingMethod) {
@@ -84,18 +84,18 @@
 
         }
 
-        private static Stream createGzipStream(Stream stream, ContentEncodingMode mode) {
+        private static Stream CreateDeflateStream(Stream stream, ContentEncodingMode mode) {
 
             var compressionMode = (mode == ContentEncodingMode.Encode ? CompressionMode.Compress : CompressionMode.Decompress);
-            var compressionStream = new GZipStream(stream, compressionMode, true);
+            var compressionStream = new DeflateStream(stream, compressionMode, true);
             return compressionStream;
 
         }
 
-        private static Stream createDeflateStream(Stream stream, ContentEncodingMode mode) {
+        private static Stream CreateGzipStream(Stream stream, ContentEncodingMode mode) {
 
             var compressionMode = (mode == ContentEncodingMode.Encode ? CompressionMode.Compress : CompressionMode.Decompress);
-            var compressionStream = new DeflateStream(stream, compressionMode, true);
+            var compressionStream = new GZipStream(stream, compressionMode, true);
             return compressionStream;
 
         }

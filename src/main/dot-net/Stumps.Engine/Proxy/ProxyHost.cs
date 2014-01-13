@@ -66,7 +66,7 @@
 
             _dataAccess.ProxyServerCreate(proxyEntity);
 
-            unwrapAndRegisterProxy(proxyEntity);
+            UnwrapAndRegisterProxy(proxyEntity);
 
             var server = _proxies[proxyEntity.ProxyId];
 
@@ -131,7 +131,7 @@
             var proxyEntities = _dataAccess.ProxyServerFindAll();
 
             foreach ( var proxyEntity in proxyEntities ) {
-                unwrapAndRegisterProxy(proxyEntity);
+                UnwrapAndRegisterProxy(proxyEntity);
             }
 
         }
@@ -184,7 +184,7 @@
 
         }
 
-        private void unwrapAndRegisterProxy(ProxyServerEntity entity) {
+        private void UnwrapAndRegisterProxy(ProxyServerEntity entity) {
 
             var environment = new ProxyEnvironment(entity.ExternalHostName, _dataAccess) {
                 Port = entity.Port,
