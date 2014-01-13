@@ -7,31 +7,32 @@
 @Section['Content']
 
 	<div class="displayForm greenBackground">
-		<h1>Start Serving Up a New Website</h1>
-		<div class="innerForm greenDarkBackground">
-			<form method="post" id="newServerForm" action="" onsubmit="return validateForm()">
+        <h1>Start Serving Up a New Website</h1>
+             <div class="innerForm greenDarkBackground">
+             <form method="post" id="newServerForm">
                 <fieldset>
-				     <label for="hostNameTextBox">Domain</label>
-                     <input type="text" name="hostNameTextBox" id="hostNameTextBox" onblur="validateDomain()" />
+                     <label for="hostNameTextBox">Domain</label>
+                     <input type="text" name="hostNameTextBox" id="hostNameTextBox" onblur="checkDomain()" />
                      <!--<span id="nameError" style="display: none;">You can only use alphabetic characters, hyphens and apostrophes</span>-->
                     <div><label>&nbsp;</label><span class="note">Example: www.google.com or myserver.com:8000</span></div>  
-				</fieldset>
+                </fieldset>
                 <fieldset>
                     <label for="portTextBox">Port</label>
                     <div><input type="text" class="half" name="portTextBox" value="@Model.OpenPort" /></div>
                     <div><label>&nbsp;</label><span class="note">This is the port we will use to serve up the website, for example http://localhost:3400/</span></div>
                 </fieldset>
                 <fieldset>
-				<div><img src="/content/frm_checkoff.png" alt="Use SSL" class='isCheck' id="useSsl" /><span class="check">The website requires SSL connections.</span><input type="checkbox" id="useSslCheckBox" name="useSslCheckBox" class="hide" /></div>
+                    <div><img src="/content/frm_checkoff.png" alt="Use SSL" class='isCheck' id="useSsl" /><span class="check">The website requires SSL connections.</span><input type="checkbox" id="useSslCheckBox" name="useSslCheckBox" class="hide" /></div>
                 </fieldset>
-				<div><label>&nbsp;</label></div>
-				<div class="flow">
-					<a href="/" class="button greenBackground">cancel</a>
-					<a class="button greenBackground" onClick="$('#newServerForm').submit();">create website</a>
-				</div>
-			</form>
-		</div>
-	</div>
+                    <div><label>&nbsp;</label></div>
+                    <div class="flow">
+                      <a href="/" class="button greenBackground">cancel</a>
+                      <a class="button greenBackground" onClick="$('#newServerForm').submit();">create website</a>
+                    </div>
+               </form>
+               </div>
+        </div>
+                                
 
 @EndSection
 
@@ -59,28 +60,57 @@ $(document).ready(function() {
 
 });
 
-function validateDomain() {
-    var re = /[A-Za-z -']$/;
 
-    if(re.test(document.getElementById('hostNameTextBox').value)){
-        document.getElementById('hostNameTextBox').style.background ='#ccffcc';
+function checkDomain() {
+    if (!isBlank(parseUri(document.getElementById('hostNameTextBox').value).path)) {
+        document.getElementById('hostNameTextBox').style.background = '#e35152';
+        // do inline validation and tell how to fix it
+        // also need to reset the domain when they click back into it
+    }
 
-        return true;
-    }else{
-      
-        document.getElementById('hostNameTextBox').style.background ='#e35152';
-
-        return false; 
+    if (parseUri(document.getElementById('hostNameTextBox').value).protocol === 'http') {
+        // make the https box unclickable
+        document.getElementById("useSsl").disabled;
     }
 }
 
-<!--    function validateForm(){
-      // Set error catcher
-      var error = 0;
-     //  Check hostNameTextBox
-      if(!validateDomain()){
-        document.getElementById('nameError').style.display = "block";
-        error++;
-      }-->
+
+
+function isBlank(str) {
+    return (!str || /^\s*$/.test(str));
+}
+
+// parseUri 1.2.2
+// (c) Steven Levithan <stevenlevithan.com>
+// MIT License
+
+function parseUri (str) {
+    var	o   = parseUri.options,
+		m   = o.parser[o.strictMode ? "strict" : "loose"].exec(str),
+		uri = {},
+		i   = 14;
+
+    while (i--) uri[o.key[i]] = m[i] || "";
+
+    uri[o.q.name] = {};
+    uri[o.key[12]].replace(o.q.parser, function ($0, $1, $2) {
+        if ($1) uri[o.q.name][$1] = $2;
+    });
+
+    return uri;
+};
+
+parseUri.options = {
+    strictMode: false,
+    key: ["source","protocol","authority","userInfo","user","password","host","port","relative","path","directory","file","query","anchor"],
+    q:   {
+        name:   "queryKey",
+        parser: /(?:^|&)([^&=]*)=?([^&]*)/g
+    },
+    parser: {
+        strict: /^(?:([^:\/?#]+):)?(?:\/\/((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?))?((((?:[^?#\/]*\/)*)([^?#]*))(?:\?([^#]*))?(?:#(.*))?)/,
+        loose:  /^(?:(?![^:@]+:[^:@\/]*@)([^:\/?#.]+):)?(?:\/\/)?((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/
+    }
+};
 
 @EndSection
