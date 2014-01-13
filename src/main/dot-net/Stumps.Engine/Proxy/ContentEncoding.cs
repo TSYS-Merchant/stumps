@@ -8,7 +8,7 @@
 
     public class ContentEncoding {
 
-        private static Dictionary<string, Func<Stream, ContentEncodingMode, Stream>> _streamEncoders =
+        private static readonly Dictionary<string, Func<Stream, ContentEncodingMode, Stream>> _streamEncoders =
             new Dictionary<string, Func<Stream, ContentEncodingMode, Stream>>(StringComparer.OrdinalIgnoreCase) {
                 { "gzip", CreateGzipStream },
                 { "deflate", CreateDeflateStream }
@@ -34,7 +34,7 @@
                 return value;
             }
 
-            byte[] output = null;
+            byte[] output;
 
             using ( var inputStream = new MemoryStream(value) ) {
 
@@ -63,7 +63,7 @@
                 return value;
             }
 
-            byte[] output = null;
+            byte[] output;
 
             using ( var inputStream = new MemoryStream(value) ) {
 

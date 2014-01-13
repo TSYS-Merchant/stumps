@@ -85,7 +85,7 @@
         private void DetermineContentType(IRecordedContextPart part) {
 
             var header = part.FindHeader("content-type");
-            header = header ?? new HttpHeader() { Name = string.Empty, Value = string.Empty };
+            header = header ?? new HttpHeader { Name = string.Empty, Value = string.Empty };
             part.BodyContentType = header.Value;
 
         }

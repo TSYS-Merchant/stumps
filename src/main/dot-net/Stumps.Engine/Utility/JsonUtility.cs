@@ -6,7 +6,7 @@
 
     internal static class JsonUtility {
 
-        private static JsonSerializerSettings _settings = new JsonSerializerSettings() {
+        private static readonly JsonSerializerSettings _settings = new JsonSerializerSettings {
             Culture = System.Globalization.CultureInfo.InvariantCulture,
             Formatting = Formatting.Indented
         };

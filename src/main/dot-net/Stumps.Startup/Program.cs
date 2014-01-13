@@ -1,4 +1,4 @@
-﻿namespace Stumps.Startup {
+﻿namespace Stumps {
 
     using System;
     using System.Diagnostics;
@@ -12,8 +12,8 @@
         /// </summary>
         static void Main(string[] args) {
 
-            IMessageWriter writer = null;
-            IStartup startup = null;
+            IMessageWriter writer;
+            IStartup startup;
 
             var isConsole = Environment.UserInteractive;
 

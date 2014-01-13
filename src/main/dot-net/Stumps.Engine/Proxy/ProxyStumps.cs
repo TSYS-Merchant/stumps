@@ -127,7 +127,7 @@
 
         private StumpContract CreateContractFromEntity(StumpEntity entity) {
 
-            var contract = new StumpContract() {
+            var contract = new StumpContract {
                 HttpMethod = entity.HttpMethod,
                 MatchBody = LoadFile(entity.MatchBodyFileName),
                 MatchBodyContentType = entity.MatchBodyContentType ?? string.Empty,
@@ -140,7 +140,7 @@
                 MatchHttpMethod = entity.MatchHttpMethod,
                 MatchRawUrl = entity.MatchRawUrl,
                 RawUrl = entity.RawUrl,
-                Response = new RecordedResponse() {
+                Response = new RecordedResponse {
                     Body = LoadFile(entity.ResponseBodyFileName),
                     BodyContentType = entity.ResponseBodyContentType,
                     BodyIsImage = entity.ResponseBodyIsImage,
@@ -160,7 +160,7 @@
 
         private StumpEntity CreateEntityFromContract(StumpContract contract) {
 
-            var entity = new StumpEntity() {
+            var entity = new StumpEntity {
                 HttpMethod = contract.HttpMethod,
                 MatchBodyFileName = string.Empty,
                 MatchBodyContentType = contract.MatchBodyContentType ?? string.Empty,
@@ -194,7 +194,7 @@
             var headerList = new List<HeaderEntity>();
 
             foreach ( var httpHeader in headers ) {
-                var header = new HeaderEntity() {
+                var header = new HeaderEntity {
                     Name = httpHeader.Name,
                     Value = httpHeader.Value
                 };
@@ -211,7 +211,7 @@
             var headerList = new List<HttpHeader>();
 
             foreach ( var entityHeader in headers ) {
-                var header = new HttpHeader() {
+                var header = new HttpHeader {
                     Name = entityHeader.Name,
                     Value = entityHeader.Value
                 };

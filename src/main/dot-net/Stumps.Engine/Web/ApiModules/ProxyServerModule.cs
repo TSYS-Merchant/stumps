@@ -22,7 +22,7 @@
                 var environmentList = proxyHost.FindAll();
 
                 foreach ( var environment in environmentList ) {
-                    var model = new ProxyServerDetailsModel() {
+                    var model = new ProxyServerDetailsModel {
                         AutoStart = environment.AutoStart,
                         ExternalHostName = environment.ExternalHostName,
                         IsRunning = environment.IsRunning,

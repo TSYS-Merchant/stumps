@@ -75,7 +75,7 @@
         public void IsMatch_ContainsTextInversedWithMatchingText_ReturnsTrue() {
 
             var rule = new BodyContentRule(new string[] {
-                "not:failed",
+                "not:failed"
             });
 
             using ( var request = createTextRequest("passed") ) {
@@ -90,7 +90,7 @@
         public void IsMatch_ContainsTextInversedWithNonMatchingText_ReturnsFalse() {
 
             var rule = new BodyContentRule(new string[] {
-                "not:passed",
+                "not:passed"
             });
 
             using ( var request = createTextRequest("passed") ) {
@@ -165,7 +165,7 @@
 
             var buffer = new byte[] { 200, 172, 203, 199, 166, 180, 7 };
             var stream = new MemoryStream(buffer);
-            var request = new MockHttpRequest() {
+            var request = new MockHttpRequest {
                 InputStream = stream
             };
 
@@ -178,7 +178,7 @@
             var myString = "AAAAAABBBBBB" + text + "CCCCCCDDDDDD";
             var buffer = Encoding.UTF8.GetBytes(myString);
             var stream = new MemoryStream(buffer);
-            var request = new MockHttpRequest() {
+            var request = new MockHttpRequest {
                 InputStream = stream
             };
 

@@ -27,7 +27,7 @@
                 foreach ( var recording in recordingList ) {
                     afterIndex++;
 
-                    var model = new RecordingModel() {
+                    var model = new RecordingModel {
                         Index = afterIndex,
                         Date = recording.RequestDate,
                         Method = recording.Request.HttpMethod,
@@ -51,7 +51,7 @@
 
                 var record = environment.Recordings.FindAt(recordIndex);
 
-                var model = new RecordingDetailsModel() {
+                var model = new RecordingDetailsModel {
                     Index = recordIndex,
                     RequestBody = string.Empty,
                     RequestBodyIsImage = record.Request.BodyIsImage,
@@ -107,7 +107,7 @@
                 var proxyId = (string) _.proxyId;
                 var environment = proxyHost.FindProxy(proxyId);
 
-                var model = new RecordStatusModel() {
+                var model = new RecordStatusModel {
                     RecordTraffic = environment.RecordTraffic
                 };
 
@@ -136,7 +136,7 @@
             var modelList = new List<HeaderModel>();
 
             foreach ( var header in part.Headers ) {
-                var modelHeader = new HeaderModel() {
+                var modelHeader = new HeaderModel {
                     Name = header.Name,
                     Value = header.Value
                 };

@@ -32,7 +32,7 @@
 
             var rule = new HeaderRule(string.Empty, string.Empty);
 
-            using ( var request = new MockHttpRequest() { Headers = null } ) {
+            using ( var request = new MockHttpRequest { Headers = null } ) {
                 Assert.IsFalse(rule.IsMatch(request));
             }
 
@@ -50,7 +50,7 @@
 
             var rule = new HeaderRule("headername", "headervalue");
 
-            using ( var request = CreateWithHeaders(new HttpHeader() { Name = headerName, Value = headerValue }) ) {
+            using ( var request = CreateWithHeaders(new HttpHeader { Name = headerName, Value = headerValue }) ) {
                 Assert.AreEqual(expectedResult, rule.IsMatch(request));
             }
 
@@ -63,7 +63,7 @@
 
             var rule = new HeaderRule("regex:he.*me", "headervalue");
 
-            using ( var request = CreateWithHeaders(new HttpHeader() { Name = headerName, Value = headerValue }) ) {
+            using ( var request = CreateWithHeaders(new HttpHeader { Name = headerName, Value = headerValue }) ) {
                 Assert.AreEqual(expectedResult, rule.IsMatch(request));
             }
 
@@ -76,7 +76,7 @@
 
             var rule = new HeaderRule("headername", "regex:he.*ue");
 
-            using ( var request = CreateWithHeaders(new HttpHeader() { Name = headerName, Value = headerValue }) ) {
+            using ( var request = CreateWithHeaders(new HttpHeader { Name = headerName, Value = headerValue }) ) {
                 Assert.AreEqual(expectedResult, rule.IsMatch(request));
             }
 
@@ -89,7 +89,7 @@
 
             var rule = new HeaderRule("not:regex:he.*me", "headervalue");
 
-            using ( var request = CreateWithHeaders(new HttpHeader() { Name = headerName, Value = headerValue }) ) {
+            using ( var request = CreateWithHeaders(new HttpHeader { Name = headerName, Value = headerValue }) ) {
                 Assert.AreEqual(expectedResult, rule.IsMatch(request));
             }
 
@@ -102,7 +102,7 @@
 
             var rule = new HeaderRule("headername", "not:regex:he.*ue");
 
-            using ( var request = CreateWithHeaders(new HttpHeader() { Name = headerName, Value = headerValue }) ) {
+            using ( var request = CreateWithHeaders(new HttpHeader { Name = headerName, Value = headerValue }) ) {
                 Assert.AreEqual(expectedResult, rule.IsMatch(request));
             }
 
@@ -116,7 +116,7 @@
 
             var rule = new HeaderRule("regex:.*", "headervalue");
 
-            using ( var request = CreateWithHeaders(new HttpHeader() { Name = headerName, Value = headerValue }) ) {
+            using ( var request = CreateWithHeaders(new HttpHeader { Name = headerName, Value = headerValue }) ) {
                 Assert.AreEqual(expectedResult, rule.IsMatch(request));
             }
 
@@ -130,7 +130,7 @@
 
             var rule = new HeaderRule("headername", "regex:.*");
 
-            using ( var request = CreateWithHeaders(new HttpHeader() { Name = headerName, Value = headerValue }) ) {
+            using ( var request = CreateWithHeaders(new HttpHeader { Name = headerName, Value = headerValue }) ) {
                 Assert.AreEqual(expectedResult, rule.IsMatch(request));
             }
 
@@ -142,7 +142,7 @@
 
             var rule = new HeaderRule("not:headername", "headervalue");
 
-            using ( var request = CreateWithHeaders(new HttpHeader() { Name = headerName, Value = headerValue }) ) {
+            using ( var request = CreateWithHeaders(new HttpHeader { Name = headerName, Value = headerValue }) ) {
                 Assert.AreEqual(expectedResult, rule.IsMatch(request));
             }
 
@@ -154,7 +154,7 @@
 
             var rule = new HeaderRule("headername", "not:headervalue");
 
-            using ( var request = CreateWithHeaders(new HttpHeader() { Name = headerName, Value = headerValue }) ) {
+            using ( var request = CreateWithHeaders(new HttpHeader { Name = headerName, Value = headerValue }) ) {
                 Assert.AreEqual(expectedResult, rule.IsMatch(request));
             }
 

@@ -9,8 +9,6 @@
 
         private readonly HttpListenerResponse _response;
         private MemoryStream _responseStream;
-        private bool _sendChunked;
-        private string _statusDescription;
         private int _statusCode;
         private bool _disposed;
 
@@ -19,7 +17,7 @@
             _responseStream = new MemoryStream();
 
             _statusCode = HttpStatusCodes.HttpOk;
-            _statusDescription = HttpStatusCodes.GetStatusDescription(_statusCode);
+            this.StatusDescription = HttpStatusCodes.GetStatusDescription(_statusCode);
         }
 
         public string ContentType {
@@ -40,8 +38,8 @@
         }
 
         public bool SendChunked {
-            get { return _sendChunked; }
-            set { _sendChunked = value; }
+            get;
+            set;
         }
 
         public int StatusCode {
@@ -50,8 +48,8 @@
         }
 
         public string StatusDescription {
-            get { return _statusDescription; }
-            set { _statusDescription = value; }
+            get;
+            set;
         }
 
         public void AddHeader(string name, string value) {

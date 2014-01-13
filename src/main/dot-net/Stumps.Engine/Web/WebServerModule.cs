@@ -8,8 +8,8 @@
 
     internal sealed class WebServerModule : IStumpModule {
 
-        private NancyHost _server;
-        private ILogger _logger;
+        private readonly NancyHost _server;
+        private readonly ILogger _logger;
         private bool _disposed;
         private bool _started;
 

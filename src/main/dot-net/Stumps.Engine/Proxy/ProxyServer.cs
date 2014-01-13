@@ -118,7 +118,7 @@ namespace Stumps.Proxy {
             recordedRequest.RawUrl = context.Request.RawUrl;
 
             foreach ( var key in context.Request.Headers.AllKeys ) {
-                recordedRequest.Headers.Add(new HttpHeader() {
+                recordedRequest.Headers.Add(new HttpHeader {
                     Name = key,
                     Value = context.Request.Headers[key]
                 });
@@ -134,7 +134,7 @@ namespace Stumps.Proxy {
 
         private void CompleteRecordedContext(StumpsHttpContext context) {
 
-            RecordedContext recordedContext = null;
+            RecordedContext recordedContext;
 
             if ( !_contextCache.TryGetValue(context.ContextId, out recordedContext) ) {
                 return;
@@ -149,7 +149,7 @@ namespace Stumps.Proxy {
             recordedResponse.StatusDescription = context.Response.StatusDescription;
 
             foreach ( var key in context.Response.Headers.AllKeys ) {
-                recordedResponse.Headers.Add(new HttpHeader() {
+                recordedResponse.Headers.Add(new HttpHeader {
                     Name = key,
                     Value = context.Response.Headers[key]
                 });

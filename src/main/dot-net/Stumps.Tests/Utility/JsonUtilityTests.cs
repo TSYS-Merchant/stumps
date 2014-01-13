@@ -12,7 +12,7 @@
 
             var tempFolder = CreateTempFolder();
             try {
-                var obj = new SampleJsonObject() {
+                var obj = new SampleJsonObject {
                     Color = "Red",
                     EnumerationValue = SampleJsonObject.SampleValues.Value2,
                     Number = 50

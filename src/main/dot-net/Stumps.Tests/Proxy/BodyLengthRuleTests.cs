@@ -57,7 +57,7 @@
 
             var stream = new MemoryStream(buffer);
 
-            var request = new MockHttpRequest() {
+            var request = new MockHttpRequest {
                 InputStream = stream
             };
 

@@ -7,7 +7,7 @@
     /// </summary>
     public static class HttpStatusCodes {
 
-        private static readonly Dictionary<int, string> Descriptions = new Dictionary<int, string>() {
+        private static readonly Dictionary<int, string> Descriptions = new Dictionary<int, string> {
                 { HttpStatusCodes.HttpOk, "OK" },
                 { HttpStatusCodes.HttpServiceUnavailable, "Service Unavailable" }
             };
