@@ -33,13 +33,27 @@
         }
 
         public ProxyEnvironment CreateProxy(string externalHostName, int port, bool useSsl, bool autoStart) {
-
+            
             if ( string.IsNullOrWhiteSpace(externalHostName) ) {
                 throw new ArgumentNullException("externalHostName");
             }
 
             if ( port < IPEndPoint.MinPort || port > IPEndPoint.MaxPort ) {
                 throw new ArgumentOutOfRangeException("port");
+            }
+            
+            // If the user mistakenly puts in http:// or https://, grab just the domain.  If it's https://, then the UseSsl value will be automatically set to true.
+            Uri externalHost = new Uri(externalHostName);
+            string protocol = externalHost.Scheme;
+            string domain = externalHost.Host;
+
+            if(string.Equals("http",protocol,StringComparison.OrdinalIgnoreCase)){
+                externalHostName = domain;
+            }
+
+            else if (string.Equals("https",protocol,StringComparison.OrdinalIgnoreCase)){
+                externalHostName = domain;
+                useSsl = true;
             }
 
             var proxyEntity = new ProxyServerEntity() {

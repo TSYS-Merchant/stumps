@@ -38,12 +38,15 @@
         <File Id="frm_checkoff_png" Source="..\Stumps.Startup\bin\Release\Content\frm_checkoff.png" />
         <File Id="ico_cfg_png" Source="..\Stumps.Startup\bin\Release\Content\ico_cfg.png" />
         <File Id="ico_del_png" Source="..\Stumps.Startup\bin\Release\Content\ico_del.png" />
-        <File Id="ico_pwr_png" Source="..\Stumps.Startup\bin\Release\Content\ico_pwr.png" />
-        <File Id="ico_rec_png" Source="..\Stumps.Startup\bin\Release\Content\ico_rec.png" />
+        <File Id="ico_pwr_on_png" Source="..\Stumps.Startup\bin\Release\Content\ico_pwr_on.png" />
+        <File Id="ico_pwr_off_png" Source="..\Stumps.Startup\bin\Release\Content\ico_pwr_off.png" />
+        <File Id="ico_rec_on_png" Source="..\Stumps.Startup\bin\Release\Content\ico_rec_on.png" />
+        <File Id="ico_rec_off_png" Source="..\Stumps.Startup\bin\Release\Content\ico_rec_off.png" />
         <File Id="jquery_1.10.2_min_js" Source="..\Stumps.Startup\bin\Release\Content\jquery-1.10.2.min.js" />
         <File Id="logo_png" Source="..\Stumps.Startup\bin\Release\Content\logo.png" />
         <File Id="main_css" Source="..\Stumps.Startup\bin\Release\Content\main.css" />
         <File Id="multipanel_css" Source="..\Stumps.Startup\bin\Release\Content\multipanel.css" />
+        <File Id="ph_png" Source="..\Stumps.Startup\bin\Release\Content\ph.png" />
         <File Id="recordings_css" Source="..\Stumps.Startup\bin\Release\Content\recordings.css" />
         <File Id="servercard_css" Source="..\Stumps.Startup\bin\Release\Content\servercard.css" />
         <File Id="stumpeditor_css" Source="..\Stumps.Startup\bin\Release\Content\stumpeditor.css" />

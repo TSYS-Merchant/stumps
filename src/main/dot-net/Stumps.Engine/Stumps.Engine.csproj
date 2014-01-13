@@ -28,7 +28,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
     <CodeAnalysisRuleSet>..\CodeQuality.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -167,6 +167,11 @@
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="CustomDictionary.xml" />
+    <Content Include="Web\Content\ico_pwr_off.png" />
+    <Content Include="Web\Content\ico_pwr_on.png" />
+    <Content Include="Web\Content\ico_rec_off.png" />
+    <Content Include="Web\Content\ico_rec_on.png" />
+    <Content Include="Web\Content\ph.png" />
     <Content Include="Web\Content\stumps.css" />
     <Content Include="Web\Content\multipanel.css" />
     <Content Include="Web\Content\recordings.css" />
@@ -187,8 +192,6 @@
     <Content Include="Web\Content\frm_checkon.png" />
     <Content Include="Web\Content\ico_cfg.png" />
     <Content Include="Web\Content\ico_del.png" />
-    <Content Include="Web\Content\ico_pwr.png" />
-    <Content Include="Web\Content\ico_rec.png" />
     <Content Include="Web\Content\jquery-1.10.2.min.js" />
     <Content Include="Web\Content\logo.png" />
     <Content Include="Web\Content\servercard.css" />
@@ -207,8 +210,11 @@
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   -->
-  <Target Name="BeforeBuild">
-    <MSBuild.Community.Tasks.AssemblyInfo AssemblyProduct="$(Version)+$(BuildNumber)" AssemblyVersion="$(Version)" AssemblyFileVersion="$(DllFileVersion)" CodeLanguage="CS" AssemblyTitle="Stumps.Engine" AssemblyDescription="Stumps Runtime Engine" OutputFile="Properties\_AssemblyInfo.cs" Guid="3a65988b-7beb-4d38-b944-4390b9ea8c7f" InternalsVisibleTo="Stumps.Tests" />
+  <Target Name="BeforeBuild" Condition=" '$(GenerateAssemblyInfo)' == 'true' ">
+    <MSBuild.Community.Tasks.AssemblyInfo AssemblyProduct="$(Version)+$(BuildNumber)" AssemblyVersion="$(Version)" AssemblyFileVersion="$(DllFileVersion)" CodeLanguage="CS" AssemblyTitle="Stumps.Engine" AssemblyDescription="Stumps Runtime Engine" OutputFile="_AssemblyInfo.cs" Guid="3a65988b-7beb-4d38-b944-4390b9ea8c7f" InternalsVisibleTo="Stumps.Tests;DynamicProxyGenAssembly2" />
+    <ItemGroup>
+      <Compile Include="_AssemblyInfo.cs" />
+    </ItemGroup>
   </Target>
   <Target Name="AfterBuild">
   </Target>
