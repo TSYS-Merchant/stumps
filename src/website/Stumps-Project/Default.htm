@@ -1,0 +1,107 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Stumps Project</title>
+    <link rel="stylesheet" href="content/Master.css" />
+</head>
+<body>
+    <div id="header">
+        <div id="header-inner">
+            <img src="content/logo-art-lg.png" id="logo-art-large" title="Stumps Logo" />
+            <img src="content/logo-text-white-lg.png" id="logo-text" title="Stumps Project" />
+            <ul id="nav">
+                <li><a href="downloads.htm">downloads</a></li>
+                <li><a href="https://github.com/merchantwarehouse/stumps" target="_blank">source</a></li>
+                <li><a href="community.htm">community</a></li>
+                <li><a href="documentation/default.htm">documentation</a></li>
+                <li><a href="http://blog.stumps-project.com">blogs</a></li>
+                <li><a href="about.htm">about</a></li>
+            </ul>
+        </div>
+    </div>
+    <div id="topic">
+        <div id="topic-inner">
+            <p id="intro">
+                completely free edge service proxy for mocking test cases against live web servers
+                <a href="downloads.htm" id="intro-download-link">Download Now <img src="content/arrow-blue.png" alt="Download 0.1.1 Now" /></a><br />
+                <img src="content/demo-animation.gif" alt="stumps demonstration" id="demo-animation" />
+            </p>
+        </div>
+    </div>
+    <div id="content-reasons" class="content-wrapper">
+        <div id="content-reasons-inner" class="content">
+            <div class="col-3">
+                <h2>What is Stumps?</h2>
+                <p>
+                    Stumps is an HTTP proxy and testing tool that lives on the backend of your DEV and QA environments. 
+                    It lets you record the traffic from any web server, and use the recordings to create mocks (a "stump") for all 
+                    of your integration tests without having to write a single line of code.
+                </p>
+                <p>
+                    When a request you created a stump for comes through, it will return a known response.  Otherwise, Stumps 
+                    will act like a proxy and forward the traffic to the original website.
+                </p>
+            </div>
+            <div class="col-3">
+                <h2>Why use Stumps?</h2>
+                <p>                    We created stumps as a way to test our own applications. In our environment, automated integration tests                     constantly communicate with dozens of third party services. Network hiccups, flakey test accounts, and solar winds                     were constantly causing our tests to fail.                  </p>                <p>                    Stumps provides an easy way to eliminate these problems. It can be setup by almost 
+                    anyone anywhere and usually requires only minor modifications to your configuration files.
+                </p>            
+            </div>
+            <div class="col-3-end">
+                <h2>Free!</h2>
+                <p>
+                    Stumps is free!  We created this tool as a way to end the frustration of our own team, and wanted to pass it along 
+                    for everyone to use.  The source is under the Apache 2.0 license which allows you to do whatever you want 
+                    with it.  Just remember, if you do something great, please send us your patches 
+                    so we can keep enhancing Stumps for everyone.
+                </p>
+            </div>
+        </div>
+    </div>
+    <div id="content-using" class="content-wrapper">
+        <div id="content-using-inner" class="content">
+            <div class="col-4">
+                <h3>Dashboard</h3>
+                <p>
+                    <img src="content/sc-dashboard.png" alt="Stumps Dashboard Screenshot" />
+                    Stumps can serve up multiple websites at the same time, and they can all be managed from a single
+                    web-based dashboard.
+                </p>
+            </div>
+            <div class="col-4">
+                <h3>Adding Websites is Easy</h3>
+                <p>
+                    <img src="content/sc-create-website.png" alt="Stumps Create a New Website Screenshot" />
+                    To start serving up a new website, simply type in the domain name and click on the "Create" button.
+                    It's that easy.
+                </p>
+            </div>
+            <div class="col-4">
+                <h3>Record Traffic</h3>
+                <p>
+                    <img src="content/sc-record-traffic.png" alt="Stumps Record Traffic Screenshot" />
+                    Once you have created a new website, click on the "record" button and Stumps will start capturing
+                    any traffic sent to that website.
+                </p>
+            </div>
+            <div class="col-4-end">
+                <h3>Create Your Stump</h3>
+                <p>
+                    <img src="content/sc-record-traffic.png" alt="Stumps Create a new Stump Screenshot" />
+                    After you've captured traffic, choose any of the requests, and use it to create a new stump.
+                </p>
+            </div>
+        </div>
+    </div>
+    <div id="content-blog" class="content-wrapper bg-gray">
+        <div id="content-blog-inner" class="content">
+            <h2>Latest Blog Post</h2>
+            <p><span class="bolder"><img src="content/blog-mh.png" alt="Michael Harrington" class="blogIcon" /> Michael Harrington 01/17/2014</span></p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc pharetra magna vel risus rhoncus, vel dictum tortor vulputate. Praesent porta metus arcu, in viverra metus posuere ac. Vivamus sit amet ipsum in massa consequat lobortis vel non velit. Nullam malesuada risus quis eros ullamcorper, non consectetur ligula semper. Donec vulputate consequat posuere. Ut sollicitudin scelerisque mauris, eget elementum leo pulvinar non. Proin ut vulputate velit. Vestibulum semper velit et eleifend viverra. In hac habitasse platea dictumst. Suspendisse vel neque sed diam dictum placerat. Mauris lectus neque, pretium non nibh vel, pretium placerat ligula. Ut volutpat imperdiet mi, sed condimentum felis eleifend et.</p>
+            <p>Aenean posuere placerat lorem, eu iaculis enim. Maecenas sit amet odio et est egestas semper. Nullam ante massa, mattis id dignissim non, blandit ac mauris. Nam eget mi congue, euismod dui ac, laoreet tellus. Cras nulla nisi, vulputate nec molestie vel, auctor ac nunc. In vestibulum elit et rhoncus rhoncus. Cras gravida, nulla vitae lacinia placerat, nisi felis porttitor felis, quis tempor eros ante vel orci. Cras vel nulla malesuada, gravida lacus a, varius tellus. Phasellus turpis ipsum, consequat id tincidunt non, tincidunt eu mauris. Fusce vitae arcu in dui tristique rhoncus. In semper tempus sapien venenatis suscipit. Vivamus lacinia elit nulla, ac tristique tortor aliquet dignissim. Praesent ante risus, blandit quis placerat nec, placerat a sem. Curabitur condimentum, sapien ac tempor consectetur, massa lectus vulputate sapien, fringilla luctus enim erat eget lorem. Integer suscipit justo neque, sit amet gravida tortor pulvinar sollicitudin.</p>
+        </div>
+    </div>
+    <div id="footer"></div>
+</body>
+</html>
