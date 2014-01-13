@@ -19,7 +19,7 @@
 
             stream.Position = 0;
 
-            using ( MemoryStream ms = new MemoryStream() ) {
+            using ( var ms = new MemoryStream() ) {
 
                 int bytesRead;
                 while ( (bytesRead = stream.Read(buffer, 0, StreamUtility.BufferSize)) > 0 ) {

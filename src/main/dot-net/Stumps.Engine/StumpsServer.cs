@@ -15,6 +15,7 @@
 
         private bool _started;
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Objects are disposed when the modules are stopped.")]
         public void Start() {
 
             lock ( _syncRoot ) {
@@ -79,16 +80,18 @@
 
         }
 
-
         #region IDisposable Members
 
         public void Dispose() {
 
             if ( !_disposed ) {
+                
                 _disposed = true;
+
                 if ( _started ) {
                     this.Stop();
                 }
+
             }
 
             GC.SuppressFinalize(this);

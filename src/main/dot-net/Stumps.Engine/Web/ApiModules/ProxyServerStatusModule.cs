@@ -14,7 +14,7 @@
                 var proxyId = (string) _.proxyId;
                 var environment = proxyHost.FindProxy(proxyId);
 
-                var model = new RunningStatusModel() {
+                var model = new RunningStatusModel {
                     IsRunning = environment.IsRunning
                 };
 

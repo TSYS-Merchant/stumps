@@ -25,16 +25,13 @@
 
         public HttpHeader FindHeader(string name) {
 
-            HttpHeader header = null;
-
             for ( int i = 0; i < this.Headers.Count; i++ ) {
                 if ( this.Headers[i].Name.Equals(name, StringComparison.OrdinalIgnoreCase) ) {
-                    header = this.Headers[i];
-                    return header;
+                    return this.Headers[i];
                 }
             }
 
-            return header;
+            return null;
 
         }
 

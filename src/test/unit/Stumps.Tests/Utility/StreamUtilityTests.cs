@@ -189,7 +189,7 @@
             }
             finally {
                 if ( Directory.Exists(tempFolder) ) {
-                    Directory.Delete(tempFolder, true);
+                    DeleteTempFolder(tempFolder);
                 }
             }
 

@@ -33,7 +33,7 @@
         [Test]
         public void Constructor_WithValue_MethodUpdated() {
 
-            var expected = "gzip";
+            const string expected = "gzip";
 
             var encoding = new ContentEncoding(expected);
             Assert.AreEqual(expected, encoding.Method);
@@ -43,9 +43,8 @@
         [Test]
         public void Encode_WithNull_ReturnsNull() {
 
-            byte[] nullBytes = null;
             var encoding = new ContentEncoding("gzip");
-            nullBytes = encoding.Encode(nullBytes);
+            var nullBytes = encoding.Encode(null);
 
             Assert.IsNull(nullBytes);
 
@@ -90,9 +89,8 @@
         [Test]
         public void Decode_WithNull_ReturnsNull() {
 
-            byte[] nullBytes = null;
             var encoding = new ContentEncoding("gzip");
-            nullBytes = encoding.Decode(nullBytes);
+            var nullBytes = encoding.Decode(null);
 
             Assert.IsNull(nullBytes);
 

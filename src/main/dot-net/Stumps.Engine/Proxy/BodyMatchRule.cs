@@ -6,8 +6,8 @@
 
     internal sealed class BodyMatchRule : IStumpRule {
 
-        private int _bodyLength;
-        private byte[] _bodyHash;
+        private readonly int _bodyLength;
+        private readonly byte[] _bodyHash;
 
         public BodyMatchRule(byte[] value) {
 

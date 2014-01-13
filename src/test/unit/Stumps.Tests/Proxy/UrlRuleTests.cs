@@ -22,7 +22,7 @@
         [Test]
         public void IsMatch_NullValue_ReturnsFalse() {
 
-            var request = new MockHttpRequest() {
+            var request = new MockHttpRequest {
                 RawUrl = null
             };
 
@@ -37,7 +37,7 @@
         [Test]
         public void IsMatch_ExactTextRuleInversedWithMatchingString_ReturnsFalse() {
 
-            var request = new MockHttpRequest() {
+            var request = new MockHttpRequest {
                 RawUrl = "/failed/"
             };
 
@@ -49,7 +49,7 @@
         [Test]
         public void IsMatch_ExactTextRuleInversedWithNonMatchingString_ReturnsTrue() {
 
-            var request = new MockHttpRequest() {
+            var request = new MockHttpRequest {
                 RawUrl = "/passed/"
             };
 
@@ -61,7 +61,7 @@
         [Test]
         public void IsMatch_ExactTextRuleWithMatchingString_ReturnsTrue() {
 
-            var request = new MockHttpRequest() {
+            var request = new MockHttpRequest {
                 RawUrl = "/passed/"
             };
 
@@ -77,7 +77,7 @@
         [Test]
         public void IsMatch_ExactTextRuleWithNonMatchingString_ReturnsFalse() {
 
-            var request = new MockHttpRequest() {
+            var request = new MockHttpRequest {
                 RawUrl = "/failed/"
             };
 
@@ -89,7 +89,7 @@
         [Test]
         public void IsMatch_RegexRuleWithNonMatchingString_ReturnsFalse() {
 
-            var request = new MockHttpRequest() {
+            var request = new MockHttpRequest {
                 RawUrl = "/failed/"
             };
 
@@ -101,7 +101,7 @@
         [Test]
         public void IsMatch_RegexRuleInversedWithMatchingStringAgainst_ReturnsFalse() {
 
-            var request = new MockHttpRequest() {
+            var request = new MockHttpRequest {
                 RawUrl = "/passed/"
             };
 
@@ -110,7 +110,7 @@
 
             // test for case sensitivity
 
-            request = new MockHttpRequest() {
+            request = new MockHttpRequest {
                 RawUrl = "/PASSED/"
             };
             Assert.IsFalse(rule.IsMatch(request));
@@ -120,7 +120,7 @@
         [Test]
         public void IsMatch_RegexRuleInversedWithNonMatchingString_ReturnsTrue() {
 
-            var request = new MockHttpRequest() {
+            var request = new MockHttpRequest {
                 RawUrl = "/failed/"
             };
 
@@ -129,7 +129,7 @@
 
             // test for case sensitivity
 
-            request = new MockHttpRequest() {
+            request = new MockHttpRequest {
                 RawUrl = "/FAILED/"
             };
 
@@ -140,7 +140,7 @@
         [Test]
         public void IsMatch_RegexRuleWithMatchingString_ReturnsTrue() {
 
-            var request = new MockHttpRequest() {
+            var request = new MockHttpRequest {
                 RawUrl = "/passed/"
             };
 
@@ -149,7 +149,7 @@
 
             // test for case sensitivity
 
-            request = new MockHttpRequest() {
+            request = new MockHttpRequest {
                 RawUrl = "/PASSED/"
             };
 

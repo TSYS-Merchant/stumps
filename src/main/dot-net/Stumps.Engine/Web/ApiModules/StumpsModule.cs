@@ -98,7 +98,7 @@
 
             var record = environment.Recordings.FindAt(model.RecordId);
 
-            var contract = new StumpContract() {
+            var contract = new StumpContract {
                 HttpMethod = model.RequestHttpMethod,
                 RawUrl = model.RequestUrl,
                 Response = new RecordedResponse(),
@@ -179,7 +179,7 @@
 
             var originalContract = environment.Stumps.FindStump(model.StumpId).Contract;
 
-            var contract = new StumpContract() {
+            var contract = new StumpContract {
                 HttpMethod = model.RequestHttpMethod,
                 RawUrl = model.RequestUrl,
                 Response = new RecordedResponse(),
@@ -262,7 +262,7 @@
 
             if ( headers != null ) {
                 foreach ( var header in headers ) {
-                    var httpHeader = new HttpHeader() {
+                    var httpHeader = new HttpHeader {
                         Name = header.Name,
                         Value = header.Value
                     };
@@ -281,7 +281,7 @@
 
             if ( headers != null ) {
                 foreach ( var header in headers ) {
-                    var headerModel = new HeaderModel() {
+                    var headerModel = new HeaderModel {
                         Name = header.Name,
                         Value = header.Value
                     };
