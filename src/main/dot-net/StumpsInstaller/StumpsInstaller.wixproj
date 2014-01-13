@@ -6,7 +6,7 @@
     <ProductVersion>3.8</ProductVersion>
     <ProjectGuid>0ca5331d-1ec2-4c92-ab2a-c3e2c133d0bf</ProjectGuid>
     <SchemaVersion>2.0</SchemaVersion>
-    <OutputName>StumpsInstaller-$(Version)+$(BuildNumber)</OutputName>
+    <OutputName>StumpsInstaller-$(Version)</OutputName>
     <OutputType>Package</OutputType>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
