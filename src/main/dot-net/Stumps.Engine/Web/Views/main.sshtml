@@ -8,7 +8,7 @@
 
 	@Each.Websites
 	<div class="serverCard @Current.IsRunning @Current.IsRecording" id="card_@Current.ProxyId">
-		<div class="header"><span class="title">@Current.ExternalHostName</span><span class="status @Current.State" id="slbl_@Current.ProxyId">@Current.State</status></div>
+		<div class="header @Current.State" id="hder_@Current.ProxyId"><span class="title">@Current.ExternalHostName</span><span class="status" id="slbl_@Current.ProxyId">@Current.State</status></div>
 
 		<div class="body">
 			<table class="bodyFrame">
@@ -27,7 +27,7 @@
 		</div>
 		<div class="info"><label>Available At:</label><a href="@Current.LocalWebsite" target="_blank">@Current.LocalWebsite</a></div>
 		<div class="toolbar">
-			<img src="/content/ico_pwr.png" title="Turn Off / On" alt="Turn Off / On" class="left powerServer" id="powr_@Current.ProxyId" /><img src="/content/ico_rec.png" alt="Toggle Recording" title="Toggle Recording" class="left recordServer" id="reco_@Current.ProxyId" /><a href="/proxy/@Current.ProxyId/Configure"><img src="/content/ico_cfg.png" alt="Configure Website" title="Configure Website" class="left configureServer" /></a><a href="proxy/@Current.ProxyId/Delete"><img src="/content/ico_del.png" alt="Delete Website" title="Delete Website" class="right deleteServer" /></a>
+			<img src="/content/ph.png" title="Turn Off / On" alt="Turn Off / On" class="left powerServer pwrico@Current.IsRunning" id="powr_@Current.ProxyId" /><img src="/content/ph.png" alt="Toggle Recording" title="Toggle Recording" class="left recordServer recico@Current.IsRecording" id="reco_@Current.ProxyId" /><a href="/proxy/@Current.ProxyId/Configure"><img src="/content/ico_cfg.png" alt="Configure Website" title="Configure Website" class="left configureServer" /></a><a href="proxy/@Current.ProxyId/Delete"><img src="/content/ico_del.png" alt="Delete Website" title="Delete Website" class="right deleteServer" /></a>
 		</div>
 	</div>
 	@EndEach
@@ -130,24 +130,34 @@ function changePowerStatusUi(proxyId, runningState) {
 
 	var stateLabel = '#slbl_' + proxyId;
 	var stateImage = '#simg_' + proxyId;
-	var card = '#card_' + proxyId;
+	var icon = '#powr_' + proxyId;
+	var iconRecord = '#reco_' + proxyId;
 
-	$(stateLabel).removeClass('running');
-	$(stateLabel).removeClass('recording');
-	$(stateLabel).removeClass('stopped');
+	var card = '#card_' + proxyId;
+	var header = '#hder_' + proxyId;
+
+	$(header).removeClass('running');
+	$(header).removeClass('recording');
+	$(header).removeClass('stopped');
 	$(card).removeClass('isRecording');
 	$(card).removeClass('isRunning');
+	$(icon).removeClass('pwrico');
+	$(icon).removeClass('pwricoisRunning');
 
 	if ( runningState ) {
 		$(card).addClass('isRunning');
-		$(stateLabel).addClass('running');
+		$(header).addClass('running');
 		$(stateLabel).text('running');
 		$(stateImage).attr('src', '/content/svr_run.png');
+		$(icon).addClass('pwricoisRunning');
 	}
 	else {
-		$(stateLabel).addClass('stopped');
+		$(header).addClass('stopped');
 		$(stateLabel).text('stopped');
 		$(stateImage).attr('src', '/content/svr_stp.png');
+		$(icon).addClass('pwrico');
+		$(iconRecord).removeClass('recicoisRecording');
+		$(iconRecord).addClass('recico');
 	}
 
 }
@@ -172,22 +182,28 @@ function changeRecordingStatusUi(proxyId, recordState) {
 	var stateLabel = '#slbl_' + proxyId;
 	var stateImage = '#simg_' + proxyId;
 	var card = '#card_' + proxyId;
+	var icon = '#reco_' + proxyId;
+	var header = '#hder_' + proxyId;
 
-	$(stateLabel).removeClass('running');
-	$(stateLabel).removeClass('recording');
-	$(stateLabel).removeClass('stopped');
+	$(header).removeClass('running');
+	$(header).removeClass('recording');
+	$(header).removeClass('stopped');
 	$(card).removeClass('isRecording');
+	$(icon).removeClass('recico');
+	$(icon).removeClass('recicoisRecording');
 
 	if ( recordState ) {
 		$(card).addClass('isRecording');
-		$(stateLabel).addClass('recording');
+		$(header).addClass('recording');
 		$(stateLabel).text('recording');
 		$(stateImage).attr('src', '/content/svr_rec.png');
+		$(icon).addClass('recicoisRecording');
 	}
 	else {
-		$(stateLabel).addClass('running');
+		$(header).addClass('running');
 		$(stateLabel).text('running');
 		$(stateImage).attr('src', '/content/svr_run.png');
+		$(icon).addClass('recico');
 	}
 
 }
