@@ -167,6 +167,11 @@
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="CustomDictionary.xml" />
+    <Content Include="Web\Content\ico_pwr_off.png" />
+    <Content Include="Web\Content\ico_pwr_on.png" />
+    <Content Include="Web\Content\ico_rec_off.png" />
+    <Content Include="Web\Content\ico_rec_on.png" />
+    <Content Include="Web\Content\ph.png" />
     <Content Include="Web\Content\stumps.css" />
     <Content Include="Web\Content\multipanel.css" />
     <Content Include="Web\Content\recordings.css" />
@@ -187,8 +192,6 @@
     <Content Include="Web\Content\frm_checkon.png" />
     <Content Include="Web\Content\ico_cfg.png" />
     <Content Include="Web\Content\ico_del.png" />
-    <Content Include="Web\Content\ico_pwr.png" />
-    <Content Include="Web\Content\ico_rec.png" />
     <Content Include="Web\Content\jquery-1.10.2.min.js" />
     <Content Include="Web\Content\logo.png" />
     <Content Include="Web\Content\servercard.css" />
