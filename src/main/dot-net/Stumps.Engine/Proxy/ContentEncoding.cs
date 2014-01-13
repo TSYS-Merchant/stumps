@@ -8,7 +8,7 @@
 
     public class ContentEncoding {
 
-        private static readonly Dictionary<string, Func<Stream, ContentEncodingMode, Stream>> _streamEncoders =
+        private static readonly Dictionary<string, Func<Stream, ContentEncodingMode, Stream>> StreamEncoders =
             new Dictionary<string, Func<Stream, ContentEncodingMode, Stream>>(StringComparer.OrdinalIgnoreCase) {
                 { "gzip", CreateGzipStream },
                 { "deflate", CreateDeflateStream }
@@ -30,7 +30,7 @@
 
         public byte[] Encode(byte[] value) {
 
-            if ( !_streamEncoders.ContainsKey(this.Method) || value == null ) {
+            if ( !StreamEncoders.ContainsKey(this.Method) || value == null ) {
                 return value;
             }
 
@@ -40,7 +40,7 @@
 
                 using ( var outputStream = new MemoryStream() ) {
 
-                    using ( var encoderStream = _streamEncoders[this.Method](outputStream, ContentEncodingMode.Encode) ) {
+                    using ( var encoderStream = StreamEncoders[this.Method](outputStream, ContentEncodingMode.Encode) ) {
 
                         inputStream.CopyTo(encoderStream);
                         encoderStream.Flush();
@@ -59,7 +59,7 @@
 
         public byte[] Decode(byte[] value) {
 
-            if ( !_streamEncoders.ContainsKey(this.Method) || value == null ) {
+            if ( !StreamEncoders.ContainsKey(this.Method) || value == null ) {
                 return value;
             }
 
@@ -69,7 +69,7 @@
 
                 using ( var outputStream = new MemoryStream() ) {
 
-                    using ( var encoderStream = _streamEncoders[this.Method](inputStream, ContentEncodingMode.Decode) ) {
+                    using ( var encoderStream = StreamEncoders[this.Method](inputStream, ContentEncodingMode.Decode) ) {
 
                         encoderStream.CopyTo(outputStream);
                         output = outputStream.ToArray();

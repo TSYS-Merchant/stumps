@@ -21,7 +21,7 @@
 
                 var model = CreateStumpModel(stump, proxyId, stumpId);
 
-                return Response.AsJson<StumpModel>(model);
+                return Response.AsJson(model);
 
             };
 
@@ -77,7 +77,7 @@
 
                 var returnModel = CreateStumpModel(stump, proxyId, model.StumpId);
 
-                return Response.AsJson<StumpModel>(returnModel);
+                return Response.AsJson(returnModel);
 
             };
 
@@ -181,6 +181,10 @@
 
             var contract = new StumpContract {
                 HttpMethod = model.RequestHttpMethod,
+                MatchBodyMaximumLength = -1,
+                MatchBodyMinimumLength = -1,
+                MatchHttpMethod = model.RequestHttpMethodMatch,
+                MatchRawUrl = model.RequestUrlMatch,
                 RawUrl = model.RequestUrl,
                 Response = new RecordedResponse(),
                 StumpId = model.StumpId,
@@ -188,13 +192,7 @@
                 StumpCategory = "Uncategorized"
             };
 
-            contract.MatchRawUrl = model.RequestUrlMatch;
-            contract.MatchHttpMethod = model.RequestHttpMethodMatch;
-
             contract.MatchHeaders = CreateHeader(model.RequestHeaderMatch);
-
-            contract.MatchBodyMaximumLength = -1;
-            contract.MatchBodyMinimumLength = -1;
 
             switch ( model.RequestBodyMatch ) {
                 case BodyMatch.ContainsText:
