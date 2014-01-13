@@ -61,8 +61,10 @@
 
         private MockHttpRequest createRequest(byte[] requestBody) {
 
-            var request = new MockHttpRequest();
-            request.InputStream = new MemoryStream(requestBody);
+            var request = new MockHttpRequest {
+                InputStream = new MemoryStream(requestBody)
+            };
+
             return request;
 
         }

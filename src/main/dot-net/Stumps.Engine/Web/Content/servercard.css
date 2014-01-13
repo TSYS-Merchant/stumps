@@ -4,7 +4,7 @@
 	width: 375px;
 	margin-top: 10px;
 	margin-left: 10px;
-	margin-right: 0px;
+	margin-right: 0;
 	float: left;
 }
 
@@ -107,9 +107,9 @@
 
 		.serverCard .toolbar img
 		{
-			padding: 0px;
-			margin: 0px;
-			border: 0px;
+			padding: 0;
+			margin: 0;
+			border: 0;
 			cursor: pointer;
 		}
 
@@ -137,12 +137,12 @@
 		{
 			width: 100%;
 			border-collapse: collapse;
-			border: 0px none;
+			border: 0 none;
 		}
 
 			.serverCard .body .bodyFrame td
 			{
-				padding: 0px 0px 0px 0px;
+				padding: 0 0 0 0;
 				vertical-align: top;
 			}
 

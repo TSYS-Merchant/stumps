@@ -39,7 +39,7 @@
                     modelList.Add(model);
                 }
 
-                return Response.AsJson<List<ProxyServerDetailsModel>>(modelList);
+                return Response.AsJson(modelList);
 
             };
 

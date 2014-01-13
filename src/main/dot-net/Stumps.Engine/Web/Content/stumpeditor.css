@@ -1,6 +1,6 @@
 ﻿h2 {
-    padding: 0px;
-    margin: 0px;
+    padding: 0;
+    margin: 0;
     font-size: 16px;
     color: #808080;
     text-transform: uppercase;
@@ -8,7 +8,7 @@
 }
 
 .stumpInfo {
-    padding: 10px 10px 10px 0px;
+    padding: 10px 10px 10px 0;
     height: 35px;
     margin-top: 1px;
     overflow: hidden;
@@ -16,8 +16,8 @@
 
     .stumpInfo table {
         width: 100%;
-        padding: 0px 0px 0px 0px;
-        margin: 0px 0px 0px 0px;
+        padding: 0 0 0 0;
+        margin: 0 0 0 0;
         border-collapse: collapse;
     }
 
@@ -71,7 +71,7 @@
 table.options {
     width: 100%;
     border-collapse: collapse;
-    border: 0px none;
+    border: 0 none;
     margin-bottom: 15px;
 }
 
@@ -128,7 +128,7 @@ table.options {
 #match_tbl {
     width: 100%;
     border-collapse: collapse;
-    border: 0px none;
+    border: 0 none;
     margin-bottom: 15px;
 }
 
@@ -161,7 +161,7 @@ table.options {
 table.links {
     width: 100%;
     border-collapse: collapse;
-    border: 0px none;
+    border: 0 none;
     margin-bottom: 15px;
 }
 
@@ -183,7 +183,7 @@ table.links {
 table.selection {
     width: 100%;
     border-collapse: collapse;
-    border: 0px none;
+    border: 0 none;
     margin-bottom: 15px;
 }
 

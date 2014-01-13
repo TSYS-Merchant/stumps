@@ -162,8 +162,9 @@
 
         public MockHttpRequest CreateWithHeaders(params HttpHeader[] headers) {
 
-            var request = new MockHttpRequest();
-            request.Headers = new System.Collections.Specialized.NameValueCollection();
+            var request = new MockHttpRequest {
+                Headers = new System.Collections.Specialized.NameValueCollection()
+            };
 
             foreach ( var header in headers ) {
                 request.Headers.Add(header.Name, header.Value);

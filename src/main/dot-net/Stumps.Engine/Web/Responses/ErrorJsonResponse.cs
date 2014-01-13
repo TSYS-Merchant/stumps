@@ -60,8 +60,9 @@
             ErrorJsonResponse response = null;
 
             try {
-                response = new ErrorJsonResponse(error);
-                response.StatusCode = HttpStatusCode.InternalServerError;
+                response = new ErrorJsonResponse(error) {
+                    StatusCode = HttpStatusCode.InternalServerError
+                };
             }
             catch {
                 if ( response != null ) {

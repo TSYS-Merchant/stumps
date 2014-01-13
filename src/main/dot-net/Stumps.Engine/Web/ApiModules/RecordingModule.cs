@@ -41,7 +41,7 @@
                     modelList.Add(model);
                 }
 
-                return Response.AsJson<IList<RecordingModel>>(modelList);
+                return Response.AsJson(modelList);
             };
 
             Get["/api/proxy/{proxyId}/recording/{recordIndex}"] = _ => {
@@ -76,7 +76,7 @@
                 model.RequestHeaders = generateHeaders(record.Request);
                 model.ResponseHeaders = generateHeaders(record.Response);
 
-                return Response.AsJson<RecordingDetailsModel>(model);
+                return Response.AsJson(model);
             };
 
             Get["/api/proxy/{proxyId}/recording/{recordIndex}/request"] = _ => {
@@ -111,7 +111,7 @@
                     RecordTraffic = environment.RecordTraffic
                 };
 
-                return Response.AsJson<RecordStatusModel>(model);
+                return Response.AsJson(model);
             };
 
             Put["/api/proxy/{proxyId}/recording/status"] = _ => {
@@ -126,7 +126,7 @@
 
                 environment.RecordTraffic = model.RecordTraffic;
 
-                return Response.AsJson<RecordStatusModel>(model);
+                return Response.AsJson(model);
             };
 
         }
