@@ -41,7 +41,7 @@
                 _modules.Add(proxyServer);
                 _modules.Add(webServer);
 
-                startModules();
+                StartModules();
 
             }
 
@@ -56,19 +56,19 @@
 
                 _started = false;
 
-                stopAndDisposeModules();
+                StopAndDisposeModules();
 
             }
 
         }
 
-        private void startModules() {
+        private void StartModules() {
             foreach ( var module in _modules ) {
                 module.Start();
             }
         }
 
-        private void stopAndDisposeModules() {
+        private void StopAndDisposeModules() {
 
             foreach ( var module in _modules ) {
                 module.Shutdown();

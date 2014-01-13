@@ -33,7 +33,7 @@
 
                 using ( var hash = MD5.Create() ) {
                     var bytes = hash.ComputeHash(bodyBytes);
-                    match = isHashEqual(bytes);
+                    match = IsHashEqual(bytes);
                 }
 
             }
@@ -42,7 +42,7 @@
 
         }
 
-        private bool isHashEqual(byte[] hashBytes) {
+        private bool IsHashEqual(byte[] hashBytes) {
 
             if ( hashBytes.Length != _bodyHash.Length ) {
                 return false;

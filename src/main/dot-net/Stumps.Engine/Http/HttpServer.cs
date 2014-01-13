@@ -55,7 +55,7 @@
             _listener.Start();
             _listener.AuthenticationSchemes = AuthenticationSchemes.Anonymous;
 
-            _thread = new Thread(waitForConnections);
+            _thread = new Thread(WaitForConnections);
             _thread.Start();
 
         }
@@ -70,7 +70,7 @@
             }
         }
 
-        private void processAsyncRequest(IAsyncResult asyncResult) {
+        private void ProcessAsyncRequest(IAsyncResult asyncResult) {
 
             if ( _listener == null ) {
                 return;
@@ -130,10 +130,10 @@
 
         }
 
-        private void waitForConnections() {
+        private void WaitForConnections() {
 
             while ( _started && _listener.IsListening ) {
-                var result = _listener.BeginGetContext(processAsyncRequest, null);
+                var result = _listener.BeginGetContext(ProcessAsyncRequest, null);
                 result.AsyncWaitHandle.WaitOne();
             }
 

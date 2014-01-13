@@ -18,10 +18,6 @@ namespace Stumps.Proxy {
         private bool _started;
         private bool _disposed;
 
-        public bool IsRunning {
-            get { return _started; }
-        }
-
         public ProxyServer(ProxyEnvironment environment, ILogger logger) {
 
             if ( environment == null ) {
@@ -37,6 +33,14 @@ namespace Stumps.Proxy {
             _environment = environment;
             _logger = logger;
 
+        }
+
+        public ProxyEnvironment Environment {
+            get { return _environment; }
+        }
+
+        public bool IsRunning {
+            get { return _started; }
         }
 
         public void Start() {
@@ -61,13 +65,13 @@ namespace Stumps.Proxy {
                     _environment.IncrementRequestsServed();
 
                     if ( _environment.RecordTraffic ) {
-                        createRecordedContext(e.Context);
+                        CreateRecordedContext(e.Context);
                     }
                 };
 
                 _server.RequestFinishing += (o, e) => {
                     if ( _environment.RecordTraffic ) {
-                        completeRecordedContext(e.Context);
+                        CompleteRecordedContext(e.Context);
                     }
                 };
 
@@ -104,11 +108,7 @@ namespace Stumps.Proxy {
 
         }
 
-        public ProxyEnvironment Environment {
-            get { return _environment; }
-        }
-
-        private void createRecordedContext(StumpsHttpContext context) {
+        private void CreateRecordedContext(StumpsHttpContext context) {
 
             var recordedContext = new RecordedContext();
             var recordedRequest = new RecordedRequest();
@@ -124,7 +124,7 @@ namespace Stumps.Proxy {
                 });
             }
 
-            decodeBody(recordedRequest);
+            DecodeBody(recordedRequest);
 
             recordedContext.Request = recordedRequest;
 
@@ -132,7 +132,7 @@ namespace Stumps.Proxy {
 
         }
 
-        private void completeRecordedContext(StumpsHttpContext context) {
+        private void CompleteRecordedContext(StumpsHttpContext context) {
 
             RecordedContext recordedContext = null;
 
@@ -155,7 +155,7 @@ namespace Stumps.Proxy {
                 });
             }
 
-            decodeBody(recordedResponse);
+            DecodeBody(recordedResponse);
 
             recordedContext.Response = recordedResponse;
 
@@ -163,7 +163,7 @@ namespace Stumps.Proxy {
 
         }
 
-        private static void decodeBody(IRecordedContextPart part) {
+        private static void DecodeBody(IRecordedContextPart part) {
 
             var buffer = part.Body;
             var header = part.FindHeader("Content-Encoding");

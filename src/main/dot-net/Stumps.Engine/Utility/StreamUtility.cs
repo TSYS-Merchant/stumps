@@ -79,11 +79,11 @@
                 throw new ArgumentNullException("stream");
             }
 
-            writeStringToStream(value, stream, Encoding.UTF8);
+            WriteStringToStream(value, stream, Encoding.UTF8);
 
         }
 
-        private static void writeStringToStream(string value, Stream stream, Encoding encoding) {
+        private static void WriteStringToStream(string value, Stream stream, Encoding encoding) {
 
             using ( var writer = new StreamWriter(stream, encoding) ) {
                 writer.Write(value);
