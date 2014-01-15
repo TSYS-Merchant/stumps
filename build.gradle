@@ -27,3 +27,7 @@ msbuild {
 msbuild.outputs.upToDateWhen { false }
 task build
 build.dependsOn msbuild
+
+artifacts {
+    archives file('src/main/dot-net/StumpsInstaller/bin/Release/' + msbuild.parameters.outputName + '.msi')
+}
