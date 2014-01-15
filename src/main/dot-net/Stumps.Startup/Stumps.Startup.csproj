@@ -67,7 +67,6 @@
     <Compile Include="ProjectInstaller.Designer.cs">
       <DependentUpon>ProjectInstaller.cs</DependentUpon>
     </Compile>
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -130,6 +129,9 @@ XCOPY "$(ProjectDir)..\Stumps.Engine\Web\Views" "$(TargetDir)" /E /I /F /Y
       NeutralResourcesLanguage="en"
       OutputFile="_AssemblyInfo.cs"
     />
+    <ItemGroup>
+      <Compile Include="_AssemblyInfo.cs" />
+    </ItemGroup>
   </Target>
   <Target Name="AfterBuild">
   </Target>

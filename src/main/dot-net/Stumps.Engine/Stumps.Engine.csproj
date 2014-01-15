@@ -134,7 +134,6 @@
     <Compile Include="Http\StumpsHttpResponse.cs" />
     <Compile Include="IStumpModule.cs" />
     <Compile Include="Logging\ILogger.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Proxy\ProxyServer.cs" />
     <Compile Include="Proxy\ProxyEnvironment.cs" />
     <Compile Include="Proxy\ProxyServerModule.cs" />
@@ -227,6 +226,9 @@
         NeutralResourcesLanguage="en"
         OutputFile="_AssemblyInfo.cs"
     />
+    <ItemGroup>
+        <Compile Include="_AssemblyInfo.cs" />
+    </ItemGroup>
   </Target>
   <Target Name="AfterBuild">
   </Target>
