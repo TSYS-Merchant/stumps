@@ -1,16 +1,17 @@
 buildscript {
     repositories {
-        maven { url "http://artifactory.mw.inc/libs-release" }
-        ivy { url "http://artifactory.mw.inc/test-ivy-local" }
+        maven { url "http://artifactory.mw.inc/repo" }
     }
     dependencies {
         classpath 'com.ullink.gradle:gradle-msbuild-plugin:1.9'
-        classpath 'com.merchantwarehouse.releng:mwversion:1.0.0'
+        classpath 'com.merchantwarehouse.releng:mwversion:1.0.0-SNAPSHOT'
     }
 }
 
-version = '1.0.0'
+group = 'com.merchantwarehouse'
+version = '0.1.0-SNAPSHOT'
 apply plugin: 'mwversion'
+apply plugin: 'java'
 apply plugin: 'msbuild'
 
 
@@ -19,9 +20,15 @@ msbuild {
     projectName = project.name
     targets = ['Clean', 'Build']
     configuration = 'Release'
-    parameters.Version = project.baseVersion
-    parameters.BuildNumber = project.buildNumber
-    parameters.DllFileVersion = project.dllFileVersion
+    parameters.version = project.version
+    parameters.versionString = project.assemblyVersion
+    parameters.outputName = "${project.name}-${project.version}"
+    parameters.assemblyVersion = project.assemblyVersion
+    parameters.buildNumber = project.buildNumber
 }
-task build
+msbuild.outputs.upToDateWhen { false }
 build.dependsOn msbuild
+
+artifacts {
+    archives file('src/main/dot-net/StumpsInstaller/bin/Release/' + msbuild.parameters.outputName + '.msi')
+}

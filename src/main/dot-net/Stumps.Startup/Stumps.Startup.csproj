@@ -115,7 +115,21 @@ XCOPY "$(ProjectDir)..\Stumps.Engine\Web\Views" "$(TargetDir)" /E /I /F /Y
        Other similar extension points exist, see Microsoft.Common.targets.
   -->
   <Target Name="BeforeBuild">
-    <MSBuild.Community.Tasks.AssemblyInfo AssemblyProduct="$(Version)+$(BuildNumber)" AssemblyVersion="$(Version)" AssemblyFileVersion="$(DllFileVersion)" CodeLanguage="CS" AssemblyTitle="Stumps.Startup" AssemblyDescription="Stumps Application" OutputFile="Properties\_AssemblyInfo.cs" Guid="ae9efa41-4aaa-4568-9611-7a9b03d13c47" />
+    <MSBuild.Community.Tasks.AssemblyInfo
+      AssemblyCompany="Merchant Warehouse"
+      AssemblyCopyright="Copyright © 2013 Merchant Warehouse"
+      AssemblyDescription="Stumps Application"
+      AssemblyProduct="Stumps"
+      AssemblyTitle="Stumps.Startup"
+      AssemblyVersion="$(assemblyVersion)"
+      AssemblyFileVersion="$(version)+$(buildNumber)"
+      CLSCompliant="false"
+      CodeLanguage="CS"
+      ComVisible="false"
+      Guid="ae9efa41-4aaa-4568-9611-7a9b03d13c47"
+      NeutralResourcesLanguage="en"
+      OutputFile="_AssemblyInfo.cs"
+    />
   </Target>
   <Target Name="AfterBuild">
   </Target>
