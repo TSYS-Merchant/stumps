@@ -8,6 +8,7 @@ buildscript {
     }
 }
 
+group = 'com.merchantwarehouse'
 version = '0.1.0-SNAPSHOT'
 apply plugin: 'mwversion'
 apply plugin: 'msbuild'
