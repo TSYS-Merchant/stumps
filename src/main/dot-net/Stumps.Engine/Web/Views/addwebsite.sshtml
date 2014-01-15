@@ -62,7 +62,7 @@ $(document).ready(function() {
 
 
 function checkDomain() {
-    if (!isBlank(parseUri(document.getElementById('hostNameTextBox').value).path)) {
+    if (!isBlank(parseUri(document.getElementById("hostNameTextBox").value).path)) {
         document.getElementById('hostNameTextBox').style.background = '#e35152';
         // do inline validation and tell how to fix it
         // also need to reset the domain when they click back into it
@@ -70,7 +70,7 @@ function checkDomain() {
 
     if (parseUri(document.getElementById('hostNameTextBox').value).protocol === 'http') {
         // make the https box unclickable
-        document.getElementById("useSsl").disabled;
+        document.getElementById('useSsl').disabled;
     }
 }
 
