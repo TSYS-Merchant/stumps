@@ -68,6 +68,7 @@
     <Compile Include="Proxy\HttpPipelineHandlerTests.cs" />
     <Compile Include="Proxy\ProxyEnvironmentTests.cs" />
     <Compile Include="Proxy\ProxyHandlerTests.cs" />
+    <Compile Include="Proxy\ProxyHostTests.cs" />
     <Compile Include="Proxy\UrlRuleTests.cs" />
     <Compile Include="SampleJsonObject.cs" />
     <Compile Include="TestData.Designer.cs">

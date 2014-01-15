@@ -8,6 +8,7 @@
     using Stumps.Logging;
     using Stumps.Data;
     using Stumps.Utility;
+    using System.Text.RegularExpressions;
 
     public class ProxyHost : IProxyHost {
 
@@ -15,7 +16,7 @@
         private readonly ILogger _logger;
         private readonly IDataAccess _dataAccess;
         private bool _disposed;
-        private CultureInfo cultureInfo;
+        private static CultureInfo cultureInfo;
 
         public ProxyHost(ILogger logger, IDataAccess dataAccess) {
 
@@ -34,6 +35,41 @@
 
         }
 
+        public static bool containsProtocol(string hostName)
+        {
+            if (hostName.StartsWith("http://", true, cultureInfo) || hostName.StartsWith("https://", true, cultureInfo))
+                return true;
+            return false; 
+        }
+
+        public static bool isHttps(string hostName)
+        {
+            if (hostName.StartsWith("https://", true, cultureInfo))
+                return true;
+            return false; 
+        }
+
+        public static bool isValidFullUrl(string hostName)
+        {
+            try
+            {
+                Uri uri = new Uri(hostName);
+                WebRequest request = WebRequest.Create(uri);
+                request.Method = "HEAD";
+                request.Timeout = 1000;
+                using (WebResponse response = request.GetResponse())
+                {
+                    HttpWebResponse hRes = response as HttpWebResponse;
+                    return (int) hRes.StatusCode / 100 == 2;
+                }
+            }
+              
+            catch
+            {
+                return false;
+            }
+        }
+        
         public ProxyEnvironment CreateProxy(string externalHostName, int port, bool useSsl, bool autoStart) {
             
             if ( string.IsNullOrWhiteSpace(externalHostName) ) {
@@ -53,7 +89,6 @@
                 if(string.Equals("http",protocol,StringComparison.OrdinalIgnoreCase)){
                     externalHostName = domain;
                 }
-
                 else if (string.Equals("https", protocol, StringComparison.OrdinalIgnoreCase)) {
                     externalHostName = domain;
                     useSsl = true;
@@ -62,7 +97,6 @@
                     throw new ArgumentOutOfRangeException("Unsupported protocol.  Only HTTP and HTTPS are supported.");
                 }
             }
-
 
             var proxyEntity = new ProxyServerEntity() {
                 AutoStart = autoStart,
@@ -83,7 +117,6 @@
             }
 
             return server.Environment;
-
         }
 
         public void DeleteProxy(string proxyId) {
