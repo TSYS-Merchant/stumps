@@ -32,7 +32,6 @@
             _dataAccess = dataAccess;
 
             _proxies = new ConcurrentDictionary<string, ProxyServer>(StringComparer.OrdinalIgnoreCase);
-
         }
         
         /// <summary>
@@ -41,19 +40,14 @@
         /// </summary>
         /// <param name="hostName"></param>
         /// <returns>bool</returns>
-        public static bool containsProtocol(string hostName)
-        {
-            try
-            {
+        public static bool containsProtocol(string hostName) {
+            try {
                 Uri uri = new Uri(hostName);
-                if (uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps)
-                    return true;
+                return (uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps);
             }
-            catch
-            {
+            catch {
                 return false;
             }
-            return false;
         }
 
         /// <summary>
@@ -62,18 +56,11 @@
         /// </summary>
         /// <param name="hostName"></param>
         /// <returns>bool</returns>
-        public static bool isHttps(string hostName)
-        {
-            try
-            {
+        public static bool isHttps(string hostName) {
+            try {
                 Uri uri = new Uri(hostName);
-                if (uri.Scheme == Uri.UriSchemeHttps)
-                    return true;
-                else 
-                    return false;
-            }
-            catch
-            {
+                return (uri.Scheme == Uri.UriSchemeHttps);
+            } catch {
                 return false;
             }
         }
@@ -89,18 +76,14 @@
             }
             
             // If the user mistakenly puts in http:// or https://, grab just the domain.  If it's https://, then the UseSsl value will be automatically set to true.
-            if(containsProtocol(externalHostName)) 
-            {
+            if(containsProtocol(externalHostName)) {
                 Uri externalHost = new Uri(externalHostName);
                 string domain = externalHost.Host;
 
-                if (isHttps(externalHostName))
-                {
+                if (isHttps(externalHostName)) {
                     externalHostName = domain;
                     useSsl = true;
-                }
-                else 
-                {
+                } else {
                     externalHostName = domain;
                 }
              }
