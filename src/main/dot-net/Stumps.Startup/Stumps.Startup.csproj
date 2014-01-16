@@ -121,7 +121,7 @@ XCOPY "$(ProjectDir)..\Stumps.Engine\Web\Views" "$(TargetDir)" /E /I /F /Y
       AssemblyProduct="Stumps"
       AssemblyTitle="Stumps.Startup"
       AssemblyVersion="$(assemblyVersion)"
-      AssemblyFileVersion="$(version)+$(buildNumber)"
+      AssemblyFileVersion="$(assemblyVersion)"
       CLSCompliant="false"
       CodeLanguage="CS"
       ComVisible="false"
