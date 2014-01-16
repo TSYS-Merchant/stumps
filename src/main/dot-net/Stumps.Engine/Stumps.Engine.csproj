@@ -217,7 +217,7 @@
         AssemblyProduct="Stumps"
         AssemblyTitle="Stumps.Engine"
         AssemblyVersion="$(assemblyVersion)"
-        AssemblyFileVersion="$(version)+$(buildNumber)"
+        AssemblyFileVersion="$(assemblyVersion)"
         CLSCompliant="false"
         CodeLanguage="CS"
         ComVisible="false"
