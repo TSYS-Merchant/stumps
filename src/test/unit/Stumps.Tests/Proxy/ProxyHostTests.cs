@@ -108,27 +108,5 @@
             Assert.IsFalse(ProxyHost.isHttps("HTTP://www.google.com"));
             Assert.IsFalse(ProxyHost.isHttps("www.google.com"));
         }
-
-        [Test]
-        public void IsValidFullUrl_ReturnsTrue()
-        {
-            Assert.IsTrue(ProxyHost.isValidFullUrl("http://www.google.com"));
-            Assert.IsTrue(ProxyHost.isValidFullUrl("HTTP://www.google.com"));
-            Assert.IsTrue(ProxyHost.isValidFullUrl("https://www.google.com"));
-            Assert.IsTrue(ProxyHost.isValidFullUrl("HTTPS://www.google.com"));
-            Assert.IsTrue(ProxyHost.isValidFullUrl("http://www.google.com:80"));
-        }
-
-        [Test]
-        public void IsValidFullUrl_ReturnsFalse()
-        {
-            Assert.IsFalse(ProxyHost.isValidFullUrl("www.google.com"));
-            Assert.IsFalse(ProxyHost.isValidFullUrl("http://http://www.foo.com"));
-            Assert.IsFalse(ProxyHost.isValidFullUrl("https://https://www.foo.com"));
-            Assert.IsFalse(ProxyHost.isValidFullUrl("HTTP://http://www.foo.com"));
-            Assert.IsFalse(ProxyHost.isValidFullUrl("HTTPS://http://www.foo.com"));
-            Assert.IsFalse(ProxyHost.isValidFullUrl("http//www.foo."));
-            Assert.IsFalse(ProxyHost.isValidFullUrl("foo"));
-        }
     }
 }

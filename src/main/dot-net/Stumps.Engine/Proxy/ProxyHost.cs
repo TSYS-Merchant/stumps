@@ -65,27 +65,6 @@
                 return false;
             }
         }
-
-        public static bool isValidFullUrl(string hostName)
-        {
-            try
-            {
-                Uri uri = new Uri(hostName);
-                WebRequest request = WebRequest.Create(uri);
-                request.Method = "HEAD";
-                request.Timeout = 500;
-                using (WebResponse response = request.GetResponse())
-                {
-                    HttpWebResponse hRes = response as HttpWebResponse;
-                    return (int)hRes.StatusCode / 100 == 2;
-                }
-            }
-
-            catch
-            {
-                return false;
-            }
-        }
                 
         public ProxyEnvironment CreateProxy(string externalHostName, int port, bool useSsl, bool autoStart) {
             
