@@ -85,7 +85,6 @@
             Assert.IsTrue(ProxyHost.containsProtocol("http://www.google.com"));
             Assert.IsTrue(ProxyHost.containsProtocol("HTTPS://www.google.com"));
             Assert.IsTrue(ProxyHost.containsProtocol("HTTP://www.google.com"));
-            // need to test for bad data? (e.g., "http://http://"), or is that handled by javascript??
         }
 
         [Test]
