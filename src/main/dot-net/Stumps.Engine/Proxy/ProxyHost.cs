@@ -61,7 +61,7 @@
         /// The method returns false if the URI does not have a https protocol, or if a URI cannot be created from the input string. 
         /// </summary>
         /// <param name="hostName"></param>
-        /// <returns></returns>
+        /// <returns>bool</returns>
         public static bool isHttps(string hostName)
         {
             try
