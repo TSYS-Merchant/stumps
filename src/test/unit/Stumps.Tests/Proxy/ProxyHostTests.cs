@@ -59,6 +59,26 @@
         }
 
         [Test]
+        public void CreateProxy_WithHttpsProtocolUseSslFalse_ReturnsSameAndUseSslTrue()
+        {
+            ProxyHost proxy = new ProxyHost(Substitute.For<ILogger>(), Substitute.For<IDataAccess>());
+            ProxyEnvironment env = proxy.CreateProxy("https://www.google.com", DEFAULT_PORT, false, false);
+            Assert.IsTrue(env.UseSsl);
+            Assert.IsFalse(env.AutoStart);
+            Assert.AreEqual("www.google.com", env.ExternalHostName);
+        }
+
+        [Test]
+        public void CreateProxy_WithHttpsProtocolUseSslTrue_ReturnsSameAndUseSslTrue()
+        {
+            ProxyHost proxy = new ProxyHost(Substitute.For<ILogger>(), Substitute.For<IDataAccess>());
+            ProxyEnvironment env = proxy.CreateProxy("https://www.google.com", DEFAULT_PORT, true, false);
+            Assert.IsTrue(env.UseSsl);
+            Assert.IsFalse(env.AutoStart);
+            Assert.AreEqual("www.google.com", env.ExternalHostName);
+        }
+
+        [Test]
         public void ContainsProtocol_ReturnsTrue()
         {   
             Assert.IsTrue(ProxyHost.containsProtocol("https://www.google.com"));

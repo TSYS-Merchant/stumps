@@ -37,16 +37,33 @@
 
         public static bool containsProtocol(string hostName)
         {
-            if (hostName.StartsWith("http://", true, cultureInfo) || hostName.StartsWith("https://", true, cultureInfo))
-                return true;
-            return false; 
+            try
+            {
+                Uri uri = new Uri(hostName);
+                if (uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps)
+                    return true;
+            }
+            catch
+            {
+                return false;
+            }
+            return false;
         }
 
         public static bool isHttps(string hostName)
         {
-            if (hostName.StartsWith("https://", true, cultureInfo))
-                return true;
-            return false; 
+            try
+            {
+                Uri uri = new Uri(hostName);
+                if (uri.Scheme == Uri.UriSchemeHttps)
+                    return true;
+                else 
+                    return false;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public static bool isValidFullUrl(string hostName)
@@ -56,20 +73,20 @@
                 Uri uri = new Uri(hostName);
                 WebRequest request = WebRequest.Create(uri);
                 request.Method = "HEAD";
-                request.Timeout = 1000;
+                request.Timeout = 500;
                 using (WebResponse response = request.GetResponse())
                 {
                     HttpWebResponse hRes = response as HttpWebResponse;
-                    return (int) hRes.StatusCode / 100 == 2;
+                    return (int)hRes.StatusCode / 100 == 2;
                 }
             }
-              
+
             catch
             {
                 return false;
             }
         }
-        
+                
         public ProxyEnvironment CreateProxy(string externalHostName, int port, bool useSsl, bool autoStart) {
             
             if ( string.IsNullOrWhiteSpace(externalHostName) ) {
@@ -81,22 +98,21 @@
             }
             
             // If the user mistakenly puts in http:// or https://, grab just the domain.  If it's https://, then the UseSsl value will be automatically set to true.
-            if(externalHostName.StartsWith("http://", true, cultureInfo) || externalHostName.StartsWith("https://",true, cultureInfo)) {
+            if(containsProtocol(externalHostName)) 
+            {
                 Uri externalHost = new Uri(externalHostName);
-                string protocol = externalHost.Scheme;
                 string domain = externalHost.Host;
 
-                if(string.Equals("http",protocol,StringComparison.OrdinalIgnoreCase)){
-                    externalHostName = domain;
-                }
-                else if (string.Equals("https", protocol, StringComparison.OrdinalIgnoreCase)) {
+                if (isHttps(externalHostName))
+                {
                     externalHostName = domain;
                     useSsl = true;
                 }
-                else {
-                    throw new ArgumentOutOfRangeException("Unsupported protocol.  Only HTTP and HTTPS are supported.");
+                else 
+                {
+                    externalHostName = domain;
                 }
-            }
+             }
 
             var proxyEntity = new ProxyServerEntity() {
                 AutoStart = autoStart,
