@@ -34,7 +34,13 @@
             _proxies = new ConcurrentDictionary<string, ProxyServer>(StringComparer.OrdinalIgnoreCase);
 
         }
-
+        
+        /// <summary>
+        /// This method tries to create a new URI using an input string.  If the URI is created, it checks to see if it has http or https as the protocol.  
+        /// The method returns false if the URI does not have a http or https protocol, or if a URI cannot be created from the input string.
+        /// </summary>
+        /// <param name="hostName"></param>
+        /// <returns>bool</returns>
         public static bool containsProtocol(string hostName)
         {
             try
@@ -50,6 +56,12 @@
             return false;
         }
 
+        /// <summary>
+        /// This method tries to create a new URI using an input string.  If the URI is created, it checks to see if it has http or https as the protocol.  
+        /// The method returns false if the URI does not have a https protocol, or if a URI cannot be created from the input string. 
+        /// </summary>
+        /// <param name="hostName"></param>
+        /// <returns></returns>
         public static bool isHttps(string hostName)
         {
             try
