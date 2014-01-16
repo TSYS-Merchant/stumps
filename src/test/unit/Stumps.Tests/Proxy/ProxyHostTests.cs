@@ -104,7 +104,7 @@
         [Test]
         public void IsHttps_ReturnsFalse()
         {
-            Assert.IsTrue(ProxyHost.isHttps("http://www.google.com"));
+            Assert.IsFalse(ProxyHost.isHttps("http://www.google.com"));
             Assert.IsFalse(ProxyHost.isHttps("HTTP://www.google.com"));
             Assert.IsFalse(ProxyHost.isHttps("www.google.com"));
         }
