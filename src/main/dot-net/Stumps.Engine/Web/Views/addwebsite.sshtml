@@ -2,6 +2,7 @@
 
 @Section['HeaderStylesheets']
 	<link href="/content/forms.css" rel="stylesheet" />
+    <link href="/content/validationEngine.jquery.css" rel="stylesheet" />
 @EndSection
 
 @Section['Content']
@@ -10,11 +11,12 @@
 		<h1>Start Serving Up a New Website</h1>
 		<div class="innerForm greenDarkBackground">
 			<form method="post" id="newServerForm">
-				<div><label for="hostNameTextBox">Domain</label><input type="text" name="hostNameTextBox" /></div>
+				<div><label for="hostNameTextBox">Domain</label><input type="text" class="validate[required] text-input validate[required,custom[url]]" name="hostNameTextBox" /></div>
 				<div><label>&nbsp;</label><span class="note">Example: www.google.com or myserver.com:8000</span></div>
 
-				<div><label for="portTextBox">Port</label><input type="text" class="half" name="portTextBox" id="portBox" value="@Model.OpenPort" /></div>
-				<div><label>&nbsp;</label><span class="note">This is the port we will use to serve up the website, for example http://localhost:3400/</span></div>
+				<div><label for="portTextBox">Port</label><input type="text" class="half validate[required] validate[min[1]] validate[max[65535] validate[custom[integer]]" 
+                        name="portTextBox" id="portBox" value="@Model.OpenPort" /></div>
+				<div><label>&nbsp;</label><span class="note ">This is the port we will use to serve up the website, for example http://localhost:3400/</span></div>
 
 				<div><label>&nbsp;</label><img src="/content/frm_checkoff.png" alt="Use SSL" class='isCheck' id="useSsl" /><span class="check">The website requires SSL connections.</span><input type="checkbox" id="useSslCheckBox" name="useSslCheckBox" class="hide" /></div>
 
@@ -32,7 +34,7 @@
 @Section['Scripts']
 
 $(document).ready(function() {
-
+    $("#newServerForm").validationEngine();
 	$('.isCheck').click(function (e) {
 
 		var linkId = $(this).attr('id') + "CheckBox";
@@ -50,25 +52,6 @@ $(document).ready(function() {
 
 	});
 
-});
-
-$('#portBox').on( 'change', function() {
-    var reg = /^\d+$/
-    if (!(reg.test(portBox.value))) {
-        var warningSpan = document.createElement("span");
-        warningSpan.className = "redTextClass";
-        warningSpan.innerHTML = "Port must be a number between 1 and 65535.";
-        this.parentNode.insertBefore(warningSpan, this.nextSibling);
-    } else if (portBox.value.parseInt <= 0 || portBox.value.parseInt > 65535) {
-        var warningSpan = document.createElement("span");
-        warningSpan.className = "redTextClass";
-        warningSpan.innerHTML = "Port must be a number between 1 and 65535.";
-        this.parentNode.insertBefore(warningSpan, this.nextSibling);
-    } else {
-        var next = this.nextSibling;
-        if (next && next.className === "redTextClass")
-            this.parentNode.removeChild(next);
-    }
 });
 
 @EndSection
