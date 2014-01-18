@@ -4,10 +4,14 @@
 
     public class ServiceStartup : IStartup {
 
-        public void RunInstance(string[] args) {
+        public Configuration Configuration { get; set; }
+
+        public IMessageWriter MessageWriter { get; set; }
+
+        public void RunInstance() {
 
             var servicesToRun = new ServiceBase[] {
-                new StumpsService()
+                new StumpsService(this.Configuration)
             };
 
             ServiceBase.Run(servicesToRun);

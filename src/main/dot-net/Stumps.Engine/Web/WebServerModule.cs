@@ -1,6 +1,7 @@
 ﻿namespace Stumps.Web {
 
     using System;
+    using System.Net;
     using Nancy.Bootstrapper;
     using Nancy.Hosting.Self;
     using Stumps.Logging;
@@ -13,19 +14,25 @@
         private bool _disposed;
         private bool _started;
 
-        public WebServerModule(ILogger logger, INancyBootstrapper bootstrapper) {
+        public WebServerModule(ILogger logger, INancyBootstrapper bootstrapper, int port) {
 
             if ( logger == null ) {
                 throw new ArgumentNullException("logger");
             }
 
+            if ( port < IPEndPoint.MinPort || port > IPEndPoint.MaxPort ) {
+                throw new ArgumentOutOfRangeException("port");
+            }
+
             _logger = logger;
 
+            var urlString = String.Format(System.Globalization.CultureInfo.InvariantCulture, "http://localhost:{0}/", port);
+
             if ( bootstrapper == null ) {
-                _server = new NancyHost(new Uri("http://localhost:8888/"));
+                _server = new NancyHost(new Uri(urlString));
             }
             else {
-                _server = new NancyHost(bootstrapper, new Uri("http://localhost:8888/"));
+                _server = new NancyHost(bootstrapper, new Uri(urlString));
             }
 
         }

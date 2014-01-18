@@ -15,7 +15,6 @@
         private readonly ILogger _logger;
         private readonly IDataAccess _dataAccess;
         private bool _disposed;
-        private CultureInfo cultureInfo;
 
         public ProxyHost(ILogger logger, IDataAccess dataAccess) {
 
@@ -45,8 +44,8 @@
             }
             
             // If the user mistakenly puts in http:// or https://, grab just the domain.  If it's https://, then the UseSsl value will be automatically set to true.
-            if(externalHostName.StartsWith("http://", true, cultureInfo) || externalHostName.StartsWith("https://",true, cultureInfo)) {
-                Uri externalHost = new Uri(externalHostName);
+            if(externalHostName.StartsWith("http://", StringComparison.OrdinalIgnoreCase) || externalHostName.StartsWith("https://", StringComparison.OrdinalIgnoreCase)) {
+                var externalHost = new Uri(externalHostName);
                 string protocol = externalHost.Scheme;
                 string domain = externalHost.Host;
 

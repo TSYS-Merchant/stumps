@@ -1,12 +1,12 @@
 ﻿namespace Stumps {
 
-    using System;
-
     public interface IMessageWriter {
 
-        void WriteError(string value);
+        void Debug(string message);
 
-        void WriteMessage(string value);
+        void Error(string message);
+
+        void Information(string message);
 
     }
 
