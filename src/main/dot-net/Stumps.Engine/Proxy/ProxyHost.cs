@@ -8,7 +8,6 @@
     using Stumps.Logging;
     using Stumps.Data;
     using Stumps.Utility;
-    using System.Text.RegularExpressions;
 
     public class ProxyHost : IProxyHost {
 
@@ -16,7 +15,6 @@
         private readonly ILogger _logger;
         private readonly IDataAccess _dataAccess;
         private bool _disposed;
-        private static CultureInfo cultureInfo;
 
         public ProxyHost(ILogger logger, IDataAccess dataAccess) {
 
@@ -32,39 +30,9 @@
             _dataAccess = dataAccess;
 
             _proxies = new ConcurrentDictionary<string, ProxyServer>(StringComparer.OrdinalIgnoreCase);
-        }
-        
-        /// <summary>
-        /// This method tries to create a new URI using an input string.  If the URI is created, it checks to see if it has http or https as the protocol.  
-        /// The method returns false if the URI does not have a http or https protocol, or if a URI cannot be created from the input string.
-        /// </summary>
-        /// <param name="hostName"></param>
-        /// <returns>bool</returns>
-        public static bool containsProtocol(string hostName) {
-            try {
-                Uri uri = new Uri(hostName);
-                return (uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps);
-            }
-            catch {
-                return false;
-            }
+
         }
 
-        /// <summary>
-        /// This method tries to create a new URI using an input string.  If the URI is created, it checks to see if it has http or https as the protocol.  
-        /// The method returns false if the URI does not have a https protocol, or if a URI cannot be created from the input string. 
-        /// </summary>
-        /// <param name="hostName"></param>
-        /// <returns>bool</returns>
-        public static bool isHttps(string hostName) {
-            try {
-                Uri uri = new Uri(hostName);
-                return (uri.Scheme == Uri.UriSchemeHttps);
-            } catch {
-                return false;
-            }
-        }
-                
         public ProxyEnvironment CreateProxy(string externalHostName, int port, bool useSsl, bool autoStart) {
             
             if ( string.IsNullOrWhiteSpace(externalHostName) ) {
@@ -76,15 +44,21 @@
             }
             
             // If the user mistakenly puts in http:// or https://, grab just the domain.  If it's https://, then the UseSsl value will be automatically set to true.
-            if(containsProtocol(externalHostName)) {
-                Uri externalHost = new Uri(externalHostName);
+            if(externalHostName.StartsWith("http://", StringComparison.OrdinalIgnoreCase) || externalHostName.StartsWith("https://", StringComparison.OrdinalIgnoreCase)) {
+                var externalHost = new Uri(externalHostName);
+                string protocol = externalHost.Scheme;
                 string domain = externalHost.Host;
 
-                if (isHttps(externalHostName)) {
+                if(string.Equals("http",protocol,StringComparison.OrdinalIgnoreCase)){
+                    externalHostName = domain;
+                }
+
+                else if (string.Equals("https", protocol, StringComparison.OrdinalIgnoreCase)) {
                     externalHostName = domain;
                     useSsl = true;
-                } else {
-                    externalHostName = domain;
+                }
+                else {
+                    throw new ArgumentOutOfRangeException("Unsupported protocol.  Only HTTP and HTTPS are supported.");
                 }
             }
 
@@ -107,6 +81,7 @@
             }
 
             return server.Environment;
+
         }
 
         public void DeleteProxy(string proxyId) {

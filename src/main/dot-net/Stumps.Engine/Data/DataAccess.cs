@@ -11,23 +11,13 @@
         public const string BodyResponseFileExtension = ".body.response";
         public const string ProxyFileExtension = ".proxy";
         public const string RecordingPathName = "recordings";
-        public const string RootPathName = "Stumps";
         public const string StumpFileExtension = ".stump";
         public const string StumpsPathName = "stumps";
 
         private readonly string _dataPath;
 
-        public DataAccess() {
-
-            var dataPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-            dataPath = Path.Combine(dataPath, DataAccess.RootPathName);
-
-            if ( !Directory.Exists(dataPath) ) {
-                Directory.CreateDirectory(dataPath);
-            }
-
+        public DataAccess(string dataPath) {
             _dataPath = dataPath;
-
         }
 
         public void ProxyServerCreate(ProxyServerEntity server) {
