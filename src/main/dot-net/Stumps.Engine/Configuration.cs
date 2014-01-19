@@ -10,6 +10,10 @@
         private readonly IConfigurationDataAccess _dataAccess;
         private ConfigurationEntity _configurationEntity;
 
+        public const int MaximumDataCompatibilityVersion = 1000;
+
+        public const int MinimumDataCompatibilityVersion = 1;
+
         public Configuration(IConfigurationDataAccess dataAccess) {
 
             if ( dataAccess == null ) {
@@ -30,7 +34,7 @@
             }
         }
 
-        public string StorageDirectory {
+        public string StoragePath {
             get {
                 return _configurationEntity.StoragePath;
             }
@@ -60,7 +64,9 @@
 
             var isConfigurationInvalid = this.WebApiPort < IPEndPoint.MinPort ||
                                          this.WebApiPort > IPEndPoint.MaxPort ||
-                                         !DirectoryIsValid(this.StorageDirectory);
+                                         this.DataCompatibilityVersion < Configuration.MinimumDataCompatibilityVersion ||
+                                         this.DataCompatibilityVersion > Configuration.MaximumDataCompatibilityVersion ||
+                                         !DirectoryIsValid(this.StoragePath);
 
             return !isConfigurationInvalid;
 
