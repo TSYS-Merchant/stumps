@@ -46,7 +46,7 @@
 
                 var logger = new DebugLogger();
 
-                var dataAccess = new DataAccess(this.Configuration.StorageDirectory);
+                var dataAccess = new DataAccess(this.Configuration.StoragePath);
                 var host = new ProxyHost(logger, dataAccess);
                 host.Load();
 
