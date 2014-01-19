@@ -9,11 +9,27 @@
 
     public sealed class StumpsServer : IDisposable {
 
-        private readonly object _syncRoot = new object();
+        private readonly object _syncRoot;
         private List<IStumpModule> _modules;
         private bool _disposed;
 
         private bool _started;
+
+        public StumpsServer(Configuration configuration) {
+
+            if ( configuration == null ) {
+                throw new ArgumentNullException("configuration");
+            }
+
+            this.Configuration = configuration;
+            _syncRoot = new object();
+
+        }
+
+        public Configuration Configuration { 
+            get; 
+            private set; 
+        }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Objects are disposed when the modules are stopped.")]
         public void Start() {
@@ -29,7 +45,8 @@
                 _modules = new List<IStumpModule>();
 
                 var logger = new DebugLogger();
-                var dataAccess = new DataAccess();
+
+                var dataAccess = new DataAccess(this.Configuration.StoragePath);
                 var host = new ProxyHost(logger, dataAccess);
                 host.Load();
 
@@ -37,7 +54,7 @@
 
                 var bootStrapper = new Bootstrapper(host);
 
-                var webServer = new WebServerModule(logger, bootStrapper);
+                var webServer = new WebServerModule(logger, bootStrapper, this.Configuration.WebApiPort);
 
                 _modules.Add(proxyServer);
                 _modules.Add(webServer);
