@@ -44,9 +44,6 @@
             this.Headers.Add(name, value);
         }
 
-        public void AppendHeader(string name, string value) {
-        }
-
         public void ClearOutputStream() {
             this.OutputStream = new System.IO.MemoryStream();
         }

@@ -85,5 +85,14 @@ namespace Stumps {
                 return ResourceManager.GetString("SampleConfiguration", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hello, World..
+        /// </summary>
+        internal static string SampleTextResponse {
+            get {
+                return ResourceManager.GetString("SampleTextResponse", resourceCulture);
+            }
+        }
     }
 }

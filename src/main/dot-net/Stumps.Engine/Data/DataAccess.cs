@@ -17,7 +17,17 @@
         private readonly string _dataPath;
 
         public DataAccess(string dataPath) {
+
+            if ( dataPath == null ) {
+                throw new ArgumentNullException("dataPath");
+            }
+
             _dataPath = dataPath;
+
+        }
+
+        public string DataPath {
+            get { return _dataPath; }
         }
 
         public void ProxyServerCreate(ProxyServerEntity server) {

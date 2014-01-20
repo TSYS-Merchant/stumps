@@ -20,8 +20,6 @@
 
         void AddHeader(string name, string value);
 
-        void AppendHeader(string name, string value);
-
         void ClearOutputStream();
 
         void FlushResponse();

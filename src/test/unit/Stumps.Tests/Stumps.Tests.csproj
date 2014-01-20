@@ -59,6 +59,13 @@
   <ItemGroup>
     <Compile Include="ConfigurationTests.cs" />
     <Compile Include="Data\ConfigurationDataAccessTests.cs" />
+    <Compile Include="Data\DataAccessTests.cs" />
+    <Compile Include="Http\HttpHelper.cs" />
+    <Compile Include="Http\HttpServerTests.cs" />
+    <Compile Include="Http\StumpsHttpContextTests.cs" />
+    <Compile Include="Http\StumpsHttpRequestTests.cs" />
+    <Compile Include="Http\StumpsHttpResponseTests.cs" />
+    <Compile Include="MockHandler.cs" />
     <Compile Include="MockHttpContext.cs" />
     <Compile Include="MockHttpRequest.cs" />
     <Compile Include="MockHttpResponse.cs" />
@@ -107,6 +114,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\SampleConfiguration.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SampleTextResponse.txt" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
