@@ -45,7 +45,16 @@
             var configuration = new Configuration(configurationDal);
 
             if ( !File.Exists(configurationFile) ) {
+
+                var configurationFileDirectory = Path.GetDirectoryName(configurationFile);
+                configurationFileDirectory = String.IsNullOrEmpty(configurationFileDirectory) ? "." : configurationFileDirectory;
+
+                if ( !Directory.Exists(configurationFileDirectory) ) {
+                    Directory.CreateDirectory(configurationFileDirectory);
+                }
+
                 configuration.SaveConfiguration();
+
             }
 
             configuration.LoadConfiguration();
