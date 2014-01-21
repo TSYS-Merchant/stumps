@@ -11,7 +11,7 @@
 		<h1>Start Serving Up a New Website</h1>
 		<div class="innerForm greenDarkBackground">
 			<form method="post" id="newServerForm">
-				<div><label for="hostNameTextBox">Domain</label><input type="text" class="validate[required,custom[url]]" name="hostNameTextBox" /></div>
+				<div><label for="hostNameTextBox">Domain</label><input type="text" class="validate[required]" name="hostNameTextBox" id="hostName"/></div>
 				<div><label>&nbsp;</label><span class="note">Example: www.google.com or myserver.com:8000</span></div>
 
 				<div><label for="portTextBox">Port</label><input type="text" class="half validate[required] validate[min[1]] validate[max[65535] validate[custom[integer]]" 
