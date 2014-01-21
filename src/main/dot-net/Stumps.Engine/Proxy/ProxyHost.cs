@@ -33,7 +33,7 @@
 
             _proxies = new ConcurrentDictionary<string, ProxyServer>(StringComparer.OrdinalIgnoreCase);
         }
-        
+
         /// <summary>
         /// This method tries to create a new URI using an input string.  If the URI is created, it checks to see if it has http or https as the protocol.  
         /// The method returns false if the URI does not have a http or https protocol, or if a URI cannot be created from the input string.
@@ -60,13 +60,14 @@
             try {
                 Uri uri = new Uri(hostName);
                 return (uri.Scheme == Uri.UriSchemeHttps);
-            } catch {
+            }
+            catch {
                 return false;
             }
         }
-                
+
         public ProxyEnvironment CreateProxy(string externalHostName, int port, bool useSsl, bool autoStart) {
-            
+
             if ( string.IsNullOrWhiteSpace(externalHostName) ) {
                 throw new ArgumentNullException("externalHostName");
             }
@@ -74,16 +75,17 @@
             if ( port < IPEndPoint.MinPort || port > IPEndPoint.MaxPort ) {
                 throw new ArgumentOutOfRangeException("port");
             }
-            
+
             // If the user mistakenly puts in http:// or https://, grab just the domain.  If it's https://, then the UseSsl value will be automatically set to true.
-            if(containsProtocol(externalHostName)) {
+            if ( containsProtocol(externalHostName) ) {
                 Uri externalHost = new Uri(externalHostName);
                 string domain = externalHost.Host;
 
-                if (isHttps(externalHostName)) {
+                if ( isHttps(externalHostName) ) {
                     externalHostName = domain;
                     useSsl = true;
-                } else {
+                }
+                else {
                     externalHostName = domain;
                 }
             }

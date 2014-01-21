@@ -1,14 +1,20 @@
 ﻿namespace Stumps {
 
+    using System;
     using System.ServiceProcess;
 
     partial class StumpsService : ServiceBase {
 
         private readonly StumpsServer _server;
 
-        public StumpsService() {
+        public StumpsService(Configuration configuration) {
+
+            if ( configuration == null ) {
+                throw new ArgumentNullException("configuration");
+            }
+
             InitializeComponent();
-            _server = new StumpsServer();
+            _server = new StumpsServer(configuration);
         }
 
         protected override void OnStart(string[] args) {

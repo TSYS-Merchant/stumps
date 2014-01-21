@@ -24,6 +24,10 @@
                 throw new ArgumentNullException("logger");
             }
 
+            if ( handler == null ) {
+                throw new ArgumentNullException("handler");
+            }
+
             if ( port < IPEndPoint.MinPort || port > IPEndPoint.MaxPort ) {
                 throw new ArgumentOutOfRangeException("port");
             }
@@ -33,6 +37,10 @@
             _port = port;
             _handler = handler;
 
+        }
+
+        public int Port {
+            get { return _port; }
         }
 
         public bool Started {
@@ -99,18 +107,16 @@
                     // Set the status code
                     ((StumpsHttpResponse) stumpsContext.Response).ListenerResponse.StatusCode =
                         stumpsContext.Response.StatusCode;
+
                     ((StumpsHttpResponse) stumpsContext.Response).ListenerResponse.StatusDescription =
                         stumpsContext.Response.StatusDescription;
 
                     // Use HTTP chunked transfer encoding if requested
                     ((StumpsHttpResponse) stumpsContext.Response).ListenerResponse.SendChunked =
                         stumpsContext.Response.SendChunked;
+
                     ((StumpsHttpResponse) stumpsContext.Response).ListenerResponse.ContentLength64 =
                         stumpsContext.Response.OutputStream.Length;
-
-                    if ( this.RequestFinishing != null ) {
-                        this.RequestFinishing(this, new StumpsContextEventArgs(stumpsContext));
-                    }
 
                     stumpsContext.End();
                 }

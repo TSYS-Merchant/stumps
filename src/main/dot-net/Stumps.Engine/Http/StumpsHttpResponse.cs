@@ -56,10 +56,6 @@
             _response.AddHeader(name, value);
         }
 
-        public void AppendHeader(string name, string value) {
-            _response.AppendHeader(name, value);
-        }
-
         public void ClearOutputStream() {
             _responseStream.Close();
             _responseStream = new MemoryStream();
