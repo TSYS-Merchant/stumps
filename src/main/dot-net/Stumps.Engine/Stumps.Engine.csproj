@@ -223,11 +223,7 @@
        Other similar extension points exist, see Microsoft.Common.targets.
   -->
   <Target Name="BeforeBuild">
-<<<<<<< HEAD
     <MSBuild.Community.Tasks.AssemblyInfo AssemblyCompany="Merchant Warehouse" AssemblyCopyright="Copyright © 2013 Merchant Warehouse" AssemblyDescription="Stumps Runtime Engine" AssemblyProduct="Stumps" AssemblyTitle="Stumps.Engine" AssemblyVersion="$(assemblyVersion)" AssemblyFileVersion="$(assemblyVersion)" CLSCompliant="false" CodeLanguage="CS" ComVisible="false" Guid="3a65988b-7beb-4d38-b944-4390b9ea8c7f" InternalsVisibleTo="Stumps.Tests;DynamicProxyGenAssembly2" NeutralResourcesLanguage="en" OutputFile="_AssemblyInfo.cs" />
-=======
-    <MSBuild.Community.Tasks.AssemblyInfo AssemblyCompany="Merchant Warehouse" AssemblyCopyright="Copyright © 2013 Merchant Warehouse" AssemblyDescription="Stumps Runtime Engine" AssemblyProduct="Stumps" AssemblyTitle="Stumps.Engine" AssemblyVersion="$(assemblyVersion)" AssemblyFileVersion="$(version)+$(buildNumber)" CLSCompliant="false" CodeLanguage="CS" ComVisible="false" Guid="3a65988b-7beb-4d38-b944-4390b9ea8c7f" InternalsVisibleTo="Stumps.Tests;DynamicProxyGenAssembly2" NeutralResourcesLanguage="en" OutputFile="_AssemblyInfo.cs" />
->>>>>>> develop
     <ItemGroup>
       <Compile Include="_AssemblyInfo.cs" />
     </ItemGroup>
