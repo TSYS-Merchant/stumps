@@ -180,6 +180,8 @@
     <Content Include="Web\Content\ico_pwr_on.png" />
     <Content Include="Web\Content\ico_rec_off.png" />
     <Content Include="Web\Content\ico_rec_on.png" />
+    <Content Include="Web\Content\jquery.validationEngine-en.js" />
+    <Content Include="Web\Content\jquery.validationEngine.js" />
     <Content Include="Web\Content\ph.png" />
     <Content Include="Web\Content\stumps.css" />
     <Content Include="Web\Content\multipanel.css" />
@@ -193,6 +195,7 @@
     <Content Include="Web\Content\tb_save.png" />
     <Content Include="Web\Content\toolbar.css" />
     <Content Include="Web\Content\stumpeditor.css" />
+    <Content Include="Web\Content\validationEngine.jquery.css" />
     <None Include="Resources\PageInternalServerError.html" />
     <None Include="Resources\PageNotFound.html" />
     <EmbeddedResource Include="Resources\favicon.ico" />
@@ -220,7 +223,7 @@
        Other similar extension points exist, see Microsoft.Common.targets.
   -->
   <Target Name="BeforeBuild">
-    <MSBuild.Community.Tasks.AssemblyInfo AssemblyCompany="Merchant Warehouse" AssemblyCopyright="Copyright © 2013 Merchant Warehouse" AssemblyDescription="Stumps Runtime Engine" AssemblyProduct="Stumps" AssemblyTitle="Stumps.Engine" AssemblyVersion="$(assemblyVersion)" AssemblyFileVersion="$(version)+$(buildNumber)" CLSCompliant="false" CodeLanguage="CS" ComVisible="false" Guid="3a65988b-7beb-4d38-b944-4390b9ea8c7f" InternalsVisibleTo="Stumps.Tests;DynamicProxyGenAssembly2" NeutralResourcesLanguage="en" OutputFile="_AssemblyInfo.cs" />
+    <MSBuild.Community.Tasks.AssemblyInfo AssemblyCompany="Merchant Warehouse" AssemblyCopyright="Copyright © 2013 Merchant Warehouse" AssemblyDescription="Stumps Runtime Engine" AssemblyProduct="Stumps" AssemblyTitle="Stumps.Engine" AssemblyVersion="$(assemblyVersion)" AssemblyFileVersion="$(assemblyVersion)" CLSCompliant="false" CodeLanguage="CS" ComVisible="false" Guid="3a65988b-7beb-4d38-b944-4390b9ea8c7f" InternalsVisibleTo="Stumps.Tests;DynamicProxyGenAssembly2" NeutralResourcesLanguage="en" OutputFile="_AssemblyInfo.cs" />
     <ItemGroup>
       <Compile Include="_AssemblyInfo.cs" />
     </ItemGroup>
