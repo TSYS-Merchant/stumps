@@ -5,6 +5,7 @@
     using NUnit.Framework;
     using Stumps.Data;
     using Stumps.Logging;
+    using Stumps.Utility;
 
     [TestFixture]
     class ProxyHostTests
@@ -46,7 +47,31 @@
             );
         }
 
+        [Test]
+        public void Constructor_PortInUse_ThrowsException()
+        {
+            ProxyHost proxy = new ProxyHost(Substitute.For<ILogger>(), Substitute.For<IDataAccess>());
+            Assert.That(
+                () => proxy.CreateProxy("www.foo.com", 80, true, false),
+                Throws.Exception
+                    .TypeOf<PortInUseException>()
+                    .With.Property("Message")
+                    .EqualTo("port")
+            );
+        }
 
+        [Test]
+        public void IsPortAvailable_ReturnsFalse()
+        {
+            Assert.IsFalse(ProxyHost.isPortAvailable(80));
+        }
+
+        [Test]
+        public void IsPortAvailable_ReturnsTrue()
+        {
+            int port = NetworkUtility.FindRandomOpenPort();
+            Assert.IsTrue(ProxyHost.isPortAvailable(port));
+        }
 
         [Test]
         public void CreateProxy_WithHttpProtocol_ReturnsSame()

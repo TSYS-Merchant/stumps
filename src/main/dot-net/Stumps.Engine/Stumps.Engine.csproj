@@ -85,6 +85,7 @@
     <Compile Include="Proxy\TextContainsMatch.cs" />
     <Compile Include="Proxy\TextMatch.cs" />
     <Compile Include="Proxy\UrlRule.cs" />
+    <Compile Include="Utility\PortInUseException.cs" />
     <Compile Include="Utility\RandomGenerator.cs" />
     <Compile Include="Proxy\BodyMatchRule.cs" />
     <Compile Include="Utility\StringUtility.cs" />

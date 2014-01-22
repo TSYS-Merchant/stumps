@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Collections.Concurrent;
     using System.Globalization;
+    using System.Net.NetworkInformation;
     using System.Net;
     using Stumps.Logging;
     using Stumps.Data;
@@ -32,6 +33,25 @@
             _dataAccess = dataAccess;
 
             _proxies = new ConcurrentDictionary<string, ProxyServer>(StringComparer.OrdinalIgnoreCase);
+        }
+
+        /// <summary>
+        /// This method checks to see if the port entered by the user is already in use.
+        /// </summary>
+        /// <param name="port"></param>
+        /// <returns>bool</returns>
+        public static bool isPortAvailable(int port)
+        {
+            IPGlobalProperties ipGlobalProps = IPGlobalProperties.GetIPGlobalProperties();
+            IPEndPoint[] tcpConnections = ipGlobalProps.GetActiveTcpListeners();
+
+            foreach (IPEndPoint endpoint in tcpConnections)
+            {
+                if (endpoint.Port == port)
+                    return false;
+            }
+
+            return true;
         }
 
         /// <summary>
@@ -68,12 +88,19 @@
 
         public ProxyEnvironment CreateProxy(string externalHostName, int port, bool useSsl, bool autoStart) {
 
-            if ( string.IsNullOrWhiteSpace(externalHostName) ) {
+            if ( string.IsNullOrWhiteSpace(externalHostName) ) 
+            {
                 throw new ArgumentNullException("externalHostName");
             }
 
-            if ( port < IPEndPoint.MinPort || port > IPEndPoint.MaxPort ) {
+            if ( port < IPEndPoint.MinPort || port > IPEndPoint.MaxPort ) 
+            {
                 throw new ArgumentOutOfRangeException("port");
+            }
+
+            if (!isPortAvailable(port))
+            {
+                throw new PortInUseException("port");
             }
 
             // If the user mistakenly puts in http:// or https://, grab just the domain.  If it's https://, then the UseSsl value will be automatically set to true.
