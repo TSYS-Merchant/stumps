@@ -49,6 +49,19 @@
         }
 
         [Test]
+        public void Constructor_PortInUse_ThrowsException()
+        {
+            ProxyHost proxy = new ProxyHost(Substitute.For<ILogger>(), Substitute.For<IDataAccess>());
+            Assert.That(
+                () => proxy.CreateProxy("www.foo.com", 135, true, false),
+                Throws.Exception
+                    .TypeOf<PortInUseException>()
+                    .With.Property("Message")
+                    .EqualTo("port")
+            );
+        }
+
+        [Test]
         public void CreateProxy_WithHttpProtocol_ReturnsSame()
         {
             ProxyHost proxy = new ProxyHost(Substitute.For<ILogger>(), Substitute.For<IDataAccess>());
