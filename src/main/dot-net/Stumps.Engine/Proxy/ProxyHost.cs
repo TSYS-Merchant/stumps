@@ -36,25 +36,6 @@
         }
 
         /// <summary>
-        /// This method checks to see if the port entered by the user is already in use.
-        /// </summary>
-        /// <param name="port"></param>
-        /// <returns>bool</returns>
-        public static bool isPortAvailable(int port)
-        {
-            IPGlobalProperties ipGlobalProps = IPGlobalProperties.GetIPGlobalProperties();
-            IPEndPoint[] tcpConnections = ipGlobalProps.GetActiveTcpListeners();
-
-            foreach (IPEndPoint endpoint in tcpConnections)
-            {
-                if (endpoint.Port == port)
-                    return false;
-            }
-
-            return true;
-        }
-
-        /// <summary>
         /// This method tries to create a new URI using an input string.  If the URI is created, it checks to see if it has http or https as the protocol.  
         /// The method returns false if the URI does not have a http or https protocol, or if a URI cannot be created from the input string.
         /// </summary>
@@ -98,7 +79,7 @@
                 throw new ArgumentOutOfRangeException("port");
             }
 
-            if (!isPortAvailable(port))
+            if (NetworkUtility.IsPortBeingUsed(port))
             {
                 throw new PortInUseException("port");
             }
