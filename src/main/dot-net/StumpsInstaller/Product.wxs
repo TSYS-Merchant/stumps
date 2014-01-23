@@ -1,16 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-	<Product Id="*" Name="Stumps" Language="1033" Version="$(var.VersionString)" Manufacturer="Merchant Warehouse" UpgradeCode="83bf5dc5-bce7-4f91-89f1-c1ba58ae2383">
-		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+  <?ifdef env.BUILD_NUMBER ?>
+  <?define productVersion = "1.0.$(env.BUILD_NUMBER)" ?>
+  <?else?>
+  <?define productVersion = "2.0.0" ?>
+  <?endif?>
+
+  <?define upgradeCode = "C72DF66E-6854-4282-A0A3-43EBAAF12251" ?>
+  	
+  <Product Id="*" Name="Stumps" Language="1033" Version="$(var.VersionString)" Manufacturer="Merchant Warehouse" UpgradeCode="83bf5dc5-bce7-4f91-89f1-c1ba58ae2383">
+    <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
     <Media Id="1" Cabinet="FileWriter.cab" EmbedCab="yes"></Media>
 
-    <UIRef Id="UserInterface" />
-
-		<MajorUpgrade DowngradeErrorMessage="A newer version of Stumps is already installed." />
-
-    <FeatureGroupRef Id="StumpsFeatures" />
     <DirectoryRef Id="TARGETDIR" />
+    <UIRef Id="UserInterface" />
+    <FeatureGroupRef Id="StumpsFeatures" />
+    
+    <Upgrade Id="$(var.upgradeCode)">
+      <UpgradeVersion Minimum="$(var.productVersion)" IncludeMinimum="no" OnlyDetect="yes" Property="NEWPRODUCTFOUND" />
+      <UpgradeVersion Minimum="0.0.1" IncludeMinimum="yes" Maximum="$(var.productVersion)" IncludeMaximum="no" Property="UPGRADEFOUND" />
+    </Upgrade>
+    <CustomAction Id="PreventDowngrading"
+              Error="Newer version of the Store and Forward service is already installed." />
+    <InstallExecuteSequence>
+      <Custom Action="PreventDowngrading"
+              After="FindRelatedProducts">NEWPRODUCTFOUND</Custom>
+      <RemoveExistingProducts After="InstallFinalize" />
+    </InstallExecuteSequence>
+    <InstallUISequence>
+      <Custom Action="PreventDowngrading"
+              After="FindRelatedProducts">NEWPRODUCTFOUND</Custom>
+    </InstallUISequence>
 
-	</Product>
+    
+    
+
+  </Product>
+  
+  
 
 </Wix>
