@@ -1,18 +1,22 @@
-﻿using System;
-
-public class PortInUseException : Exception
+﻿namespace Stumps.Utility
 {
-    public PortInUseException()
-    {
-    }
 
-    public PortInUseException(string message)
-        : base(message)
-    {
-    }
+    using System;
 
-    public PortInUseException(string message, Exception inner)
-        : base(message, inner)
+    public class PortInUseException : Exception
     {
+        public PortInUseException()
+        {
+        }
+
+        public PortInUseException(string message)
+            : base(message)
+        {
+        }
+
+        public PortInUseException(string message, Exception inner)
+            : base(message, inner)
+        {
+        }
     }
 }
