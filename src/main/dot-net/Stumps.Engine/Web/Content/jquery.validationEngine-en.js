@@ -167,7 +167,7 @@
 	                    "alertTextLoad": "* Validating, please wait"
 	                },
                 "validate2fields": {
-                    "alertText": "* Please input HELLO"
+                    "alertText": "The port you entered is already in use"
                 },
 	            //tls warning:homegrown not fielded 
                 "dateFormat":{

@@ -14,7 +14,7 @@
 				<div><label for="hostNameTextBox">Domain</label><input type="text" class="validate[required]" name="hostNameTextBox" id="hostName"/></div>
 				<div><label>&nbsp;</label><span class="note">Example: www.google.com or myserver.com:8000</span></div>
 
-				<div><label for="portTextBox">Port</label><input type="text" class="half validate[required] validate[min[1]] validate[max[65535] validate[custom[integer]]" 
+				<div><label for="portTextBox">Port</label><input type="text" class="half validate[required] validate[min[1]] validate[max[65535] validate[custom[integer]" 
                         name="portTextBox" id="portBox" value="@Model.OpenPort" /></div>
 				<div><label>&nbsp;</label><span class="note ">This is the port we will use to serve up the website, for example http://localhost:3400/</span></div>
 
@@ -52,6 +52,29 @@ $(document).ready(function() {
 
 	});
 
+    $("#portBox").blur(function() {
+        var port = parseInt($(this).val()); 
+        $.ajax({
+            type: 'GET',
+            contentType: 'application/json; charset-utf-8',
+            url: '/api/portAvailable/' + port,
+            cache: false,
+            success: function(msg) {
+                if ( !msg.PortAvailable ) {
+                     alert('Nope!');
+                }
+            },
+            error: function() {
+                alert('Oops1!');
+            }
+        });
+
+    });
 });
 
+
+
+function refreshPage() {
+location.reload();
+} 
 @EndSection

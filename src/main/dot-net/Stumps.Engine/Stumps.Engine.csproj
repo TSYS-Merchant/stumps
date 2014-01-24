@@ -89,6 +89,8 @@
     <Compile Include="Utility\RandomGenerator.cs" />
     <Compile Include="Proxy\BodyMatchRule.cs" />
     <Compile Include="Utility\StringUtility.cs" />
+    <Compile Include="Web\ApiModules\PortAvailableModule.cs" />
+    <Compile Include="Web\Models\PortAvailableModel.cs" />
     <Compile Include="Web\NancyModuleHelper.cs" />
     <Compile Include="Utility\NetworkUtility.cs" />
     <Compile Include="Web\ApiModules\ProxyServerStatusModule.cs" />
