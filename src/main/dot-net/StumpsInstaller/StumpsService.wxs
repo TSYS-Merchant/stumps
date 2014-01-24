@@ -7,7 +7,7 @@
         <File Id="Stumps_exe" Source="..\Stumps.Startup\bin\Release\Stumps.exe" />
         <File Id="Stumps_exe_config" Source="..\Stumps.Startup\bin\Release\Stumps.exe.config" />
         <ServiceInstall Id="StumpsInstall" Name="Stumps" DisplayName="Stumps" Description="Stumps which runs a Mock Proxy." Type="ownProcess" Start="auto" ErrorControl="ignore" Interactive="no" Vital="yes" />
-        <ServiceControl Id="StumpsInstall_Control" Name="Stumps" Remove="uninstall"  Stop="both"  Wait="yes" />
+        <ServiceControl Id="StumpsInstall_Control" Name="Stumps" Start="install" Remove="uninstall" Stop="both" Wait="yes" />
       </Component>
       
       <Component Id="StumpsEngine" Guid="{6B78169B-555B-4B73-8723-B2F83C319881}">
