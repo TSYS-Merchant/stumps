@@ -22,7 +22,7 @@
                 
                 var model = new PortAvailableModel
                 {
-                    PortAvailable = !NetworkUtility.IsPortBeingUsed(port)
+                    PortAvailable = !NetworkUtility.IsPortBeingUsed(port),
                 };
 
                 return Response.AsJson(model);

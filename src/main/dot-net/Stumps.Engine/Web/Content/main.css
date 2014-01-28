@@ -7,6 +7,18 @@
 	font-family: "Segoe UI", Helvetica, Arial, Sans-Serif;
 }
 
+.advice
+{
+    padding-left: 15px; 
+    color: red;
+
+}
+label input
+{
+    margin-left: 10px;
+
+}
+
 html
 {
 	height: 100%;
