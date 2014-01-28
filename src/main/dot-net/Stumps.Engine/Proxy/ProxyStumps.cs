@@ -39,7 +39,7 @@
             var stump = stumpList.Find(s => s.StumpName == contract.StumpName);
             if (stump != null)
             {
-                //TODO: write DuplicateStumpException 
+                throw new ArgumentException("Stump name already exists.  Stump names but me unique.");
             }
 
             if ( contract == null ) {
