@@ -35,6 +35,13 @@
 
         public StumpContract CreateStump(StumpContract contract) {
 
+            var stumpList = new List<StumpContract>(FindAllContracts());
+            var stump = stumpList.Find(s => s.StumpName == contract.StumpName);
+            if (stump != null)
+            {
+                //TODO: write DuplicateStumpException 
+            }
+
             if ( contract == null ) {
                 throw new ArgumentNullException("contract");
             }
