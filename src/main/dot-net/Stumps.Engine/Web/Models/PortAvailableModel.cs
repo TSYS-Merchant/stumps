@@ -1,6 +1,6 @@
 ﻿namespace Stumps.Web.Models
 {
-    class PortAvailableModel {
+    public class PortAvailableModel {
 
         public bool PortAvailable { get; set; }
 

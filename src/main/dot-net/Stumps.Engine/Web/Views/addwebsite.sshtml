@@ -53,6 +53,17 @@ $(document).ready(function() {
 
 	});
 
+    $("#hostName").blur(function() {
+        var domainPattern = /^((?:www\.)?(?:\w[-\w]{0-61}\w|\w)(?:\.\w[-\w]{0-61}\w|\w)*?)\.((?:\w{2-3}\.)?\w+)$/;
+
+
+        var inputVal = $(this).val();
+        if(!domainPattern.test(inputVal)) {
+            showAdvice(this, "Invalid Domain Name");
+            return(false);
+        }
+    });
+
     $("#portBox").keypress(function(e) {
         // between 0 and 9
         if (e.which < 48 || e.which > 57) {
@@ -86,7 +97,6 @@ $(document).ready(function() {
         });
     });
 });
-
 
 function refreshPage() {
 location.reload();

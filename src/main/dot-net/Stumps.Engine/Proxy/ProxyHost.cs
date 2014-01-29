@@ -48,7 +48,7 @@
 
             if (NetworkUtility.IsPortBeingUsed(port))
             {
-                throw new PortInUseException("port");
+                throw new StumpsNetworkException("Port is in use");
             }
 
             var proxyEntity = new ProxyServerEntity {

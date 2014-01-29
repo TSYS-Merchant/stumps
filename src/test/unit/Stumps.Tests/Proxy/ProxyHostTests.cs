@@ -55,9 +55,9 @@
             Assert.That(
                 () => proxy.CreateProxy("www.foo.com", 135, true, false),
                 Throws.Exception
-                    .TypeOf<PortInUseException>()
+                    .TypeOf<StumpsNetworkException>()
                     .With.Property("Message")
-                    .EqualTo("port")
+                    .EqualTo("Port is in use")
             );
         }
     }
