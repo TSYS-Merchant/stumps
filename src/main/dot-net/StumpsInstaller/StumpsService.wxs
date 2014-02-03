@@ -43,6 +43,7 @@
         <File Id="ico_rec_on_png" Source="..\Stumps.Startup\bin\Release\Content\ico_rec_on.png" />
         <File Id="ico_rec_off_png" Source="..\Stumps.Startup\bin\Release\Content\ico_rec_off.png" />
         <File Id="jquery_1.10.2_min_js" Source="..\Stumps.Startup\bin\Release\Content\jquery-1.10.2.min.js" />
+        <File Id="url_min_js" Source="..\Stumps.Startup\bin\Release\Content\url.min.js" />
         <File Id="logo_png" Source="..\Stumps.Startup\bin\Release\Content\logo.png" />
         <File Id="main_css" Source="..\Stumps.Startup\bin\Release\Content\main.css" />
         <File Id="multipanel_css" Source="..\Stumps.Startup\bin\Release\Content\multipanel.css" />
@@ -62,6 +63,7 @@
         <File Id="tb_recstart_png" Source="..\Stumps.Startup\bin\Release\Content\tb_recstart.png" />
         <File Id="tb_recstop_png" Source="..\Stumps.Startup\bin\Release\Content\tb_recstop.png" />
         <File Id="tb_save_png" Source="..\Stumps.Startup\bin\Release\Content\tb_save.png" />
+        <File Id="exclamation_error_png" Source="..\Stumps.Startup\bin\Release\Content\exclamation-error.png" />
         <File Id="toolbar_css" Source="..\Stumps.Startup\bin\Release\Content\toolbar.css" />
 
       </Component>

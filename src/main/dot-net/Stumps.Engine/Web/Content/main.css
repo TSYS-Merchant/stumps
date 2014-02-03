@@ -7,6 +7,20 @@
 	font-family: "Segoe UI", Helvetica, Arial, Sans-Serif;
 }
 
+.advice
+{
+    padding-left: 5px; 
+    font-style: oblique;
+    font-weight: bold;
+    color: #cf5a13;
+
+}
+label input
+{
+    margin-left: 10px;
+
+}
+
 html
 {
 	height: 100%;
