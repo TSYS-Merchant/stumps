@@ -85,9 +85,12 @@
     <Compile Include="Proxy\TextContainsMatch.cs" />
     <Compile Include="Proxy\TextMatch.cs" />
     <Compile Include="Proxy\UrlRule.cs" />
+    <Compile Include="StumpsNetworkException.cs" />
     <Compile Include="Utility\RandomGenerator.cs" />
     <Compile Include="Proxy\BodyMatchRule.cs" />
     <Compile Include="Utility\StringUtility.cs" />
+    <Compile Include="Web\ApiModules\PortAvailableModule.cs" />
+    <Compile Include="Web\Models\PortAvailableModel.cs" />
     <Compile Include="Web\NancyModuleHelper.cs" />
     <Compile Include="Utility\NetworkUtility.cs" />
     <Compile Include="Web\ApiModules\ProxyServerStatusModule.cs" />
@@ -180,8 +183,6 @@
     <Content Include="Web\Content\ico_pwr_on.png" />
     <Content Include="Web\Content\ico_rec_off.png" />
     <Content Include="Web\Content\ico_rec_on.png" />
-    <Content Include="Web\Content\jquery.validationEngine-en.js" />
-    <Content Include="Web\Content\jquery.validationEngine.js" />
     <Content Include="Web\Content\ph.png" />
     <Content Include="Web\Content\stumps.css" />
     <Content Include="Web\Content\multipanel.css" />
@@ -195,7 +196,6 @@
     <Content Include="Web\Content\tb_save.png" />
     <Content Include="Web\Content\toolbar.css" />
     <Content Include="Web\Content\stumpeditor.css" />
-    <Content Include="Web\Content\validationEngine.jquery.css" />
     <None Include="Resources\PageInternalServerError.html" />
     <None Include="Resources\PageNotFound.html" />
     <EmbeddedResource Include="Resources\favicon.ico" />

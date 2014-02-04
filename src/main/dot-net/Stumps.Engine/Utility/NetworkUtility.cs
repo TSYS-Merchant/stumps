@@ -47,15 +47,17 @@
                 return true;
             }
 
-            var properties = IPGlobalProperties.GetIPGlobalProperties();
-            var endpointList = properties.GetActiveTcpConnections();
 
-            foreach ( var endpoint in endpointList ) {
-                if ( endpoint.LocalEndPoint.Port == localPort ) {
+            IPGlobalProperties properties = IPGlobalProperties.GetIPGlobalProperties();
+            IPEndPoint[] endpointList = properties.GetActiveTcpListeners();
+
+            foreach (IPEndPoint endpoint in endpointList)
+            {
+                if (endpoint.Port == localPort)
+                {
                     return true;
                 }
             }
-
             return false;
 
         }
