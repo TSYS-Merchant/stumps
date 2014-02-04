@@ -4,10 +4,12 @@
     using System.Collections.Generic;
     using System.Collections.Concurrent;
     using System.Globalization;
+    using System.Net.NetworkInformation;
     using System.Net;
     using Stumps.Logging;
     using Stumps.Data;
     using Stumps.Utility;
+    using System.Text.RegularExpressions;
 
     public class ProxyHost : IProxyHost {
 
@@ -15,7 +17,6 @@
         private readonly ILogger _logger;
         private readonly IDataAccess _dataAccess;
         private bool _disposed;
-        private CultureInfo cultureInfo;
 
         public ProxyHost(ILogger logger, IDataAccess dataAccess) {
 
@@ -31,52 +32,26 @@
             _dataAccess = dataAccess;
 
             _proxies = new ConcurrentDictionary<string, ProxyServer>(StringComparer.OrdinalIgnoreCase);
-
         }
 
         public ProxyEnvironment CreateProxy(string externalHostName, int port, bool useSsl, bool autoStart) {
-            
-            if ( string.IsNullOrWhiteSpace(externalHostName) ) {
+
+            if ( string.IsNullOrWhiteSpace(externalHostName) ) 
+            {
                 throw new ArgumentNullException("externalHostName");
             }
 
-            if ( port < IPEndPoint.MinPort || port > IPEndPoint.MaxPort ) {
+            if ( port < IPEndPoint.MinPort || port > IPEndPoint.MaxPort ) 
+            {
                 throw new ArgumentOutOfRangeException("port");
             }
-            
-            // If the user mistakenly puts in http:// or https://, grab just the domain.  If it's https://, then the UseSsl value will be automatically set to true.
-            if(externalHostName.StartsWith("http://", true, cultureInfo) || externalHostName.StartsWith("https://",true, cultureInfo)) {
-                Uri externalHost = new Uri(externalHostName);
-                string protocol = externalHost.Scheme;
-                string domain = externalHost.Host;
 
-            if(string.Equals("http",protocol,StringComparison.OrdinalIgnoreCase)) {
-                externalHostName = domain;
+            if (NetworkUtility.IsPortBeingUsed(port))
+            {
+                throw new StumpsNetworkException("Port is in use");
             }
 
-            else if (string.Equals("https", protocol, StringComparison.OrdinalIgnoreCase)) {
-                externalHostName = domain;
-                useSsl = true;
-            }
-
-            else {
-                throw new ArgumentOutOfRangeException("Protocol not unsupported.  Only http and https are supported");
-            }
-                if(string.Equals("http",protocol,StringComparison.OrdinalIgnoreCase)){
-                    externalHostName = domain;
-                }
-
-                else if (string.Equals("https", protocol, StringComparison.OrdinalIgnoreCase)) {
-                    externalHostName = domain;
-                    useSsl = true;
-                }
-                else {
-                    throw new ArgumentOutOfRangeException("Unsupported protocol.  Only HTTP and HTTPS are supported.");
-                }
-            }
-
-
-            var proxyEntity = new ProxyServerEntity() {
+            var proxyEntity = new ProxyServerEntity {
                 AutoStart = autoStart,
                 ExternalHostName = externalHostName,
                 Port = port,
@@ -86,7 +61,7 @@
 
             _dataAccess.ProxyServerCreate(proxyEntity);
 
-            unwrapAndRegisterProxy(proxyEntity);
+            UnwrapAndRegisterProxy(proxyEntity);
 
             var server = _proxies[proxyEntity.ProxyId];
 
@@ -95,7 +70,6 @@
             }
 
             return server.Environment;
-
         }
 
         public void DeleteProxy(string proxyId) {
@@ -110,7 +84,7 @@
                 _proxies[proxyId].Stop();
                 _proxies[proxyId].Dispose();
 
-                ProxyServer server = null;
+                ProxyServer server;
                 _proxies.TryRemove(proxyId, out server);
 
                 _dataAccess.ProxyServerDelete(hostName);
@@ -133,9 +107,9 @@
 
         public ProxyEnvironment FindProxy(string proxyId) {
 
-            ProxyServer server = null;
             ProxyEnvironment environment = null;
 
+            ProxyServer server;
             _proxies.TryGetValue(proxyId, out server);
 
             if ( server != null ) {
@@ -151,7 +125,7 @@
             var proxyEntities = _dataAccess.ProxyServerFindAll();
 
             foreach ( var proxyEntity in proxyEntities ) {
-                unwrapAndRegisterProxy(proxyEntity);
+                UnwrapAndRegisterProxy(proxyEntity);
             }
 
         }
@@ -172,7 +146,7 @@
                 throw new ArgumentNullException("proxyId");
             }
 
-            ProxyServer server = null;
+            ProxyServer server;
             _proxies.TryGetValue(proxyId, out server);
 
             if ( server != null ) {
@@ -195,7 +169,7 @@
                 throw new ArgumentNullException("proxyId");
             }
 
-            ProxyServer server = null;
+            ProxyServer server;
             _proxies.TryGetValue(proxyId, out server);
 
             if ( server != null ) {
@@ -204,7 +178,7 @@
 
         }
 
-        private void unwrapAndRegisterProxy(ProxyServerEntity entity) {
+        private void UnwrapAndRegisterProxy(ProxyServerEntity entity) {
 
             var environment = new ProxyEnvironment(entity.ExternalHostName, _dataAccess) {
                 Port = entity.Port,

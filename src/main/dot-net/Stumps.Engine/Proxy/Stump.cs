@@ -25,7 +25,6 @@
                 match &= rule.IsMatch(context.Request);
 
                 if ( !match ) {
-                    match = false;
                     break;
                 }
             }

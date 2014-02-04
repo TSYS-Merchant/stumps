@@ -15,7 +15,7 @@
                 throw new ArgumentNullException("context");
             }
 
-            var clientWantsHtml = shouldReturnFriendlyErrorPage(context);
+            var clientWantsHtml = ShouldReturnFriendlyErrorPage(context);
 
             if ( !clientWantsHtml && context.Response is NotFoundResponse ) {
                 context.Response = ErrorJsonResponse.FromMessage(Resources.ErrorResourceNotFound);
@@ -31,7 +31,7 @@
             || statusCode == HttpStatusCode.InternalServerError;
         }
 
-        private bool shouldReturnFriendlyErrorPage(NancyContext context) {
+        private bool ShouldReturnFriendlyErrorPage(NancyContext context) {
 
             var enumerable = context.Request.Headers.Accept;
 

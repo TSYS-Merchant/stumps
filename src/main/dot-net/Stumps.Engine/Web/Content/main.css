@@ -1,8 +1,8 @@
 ﻿body
 {
 	height: 100%;
-	padding: 0px;
-	margin: 0px;
+	padding: 0;
+	margin: 0;
 	background-color: #e0e0e0;
 	font-family: "Segoe UI", Helvetica, Arial, Sans-Serif;
 }
@@ -24,15 +24,15 @@ label input
 html
 {
 	height: 100%;
-	padding: 0px;
-	margin: 0px;
+	padding: 0;
+	margin: 0;
 }
 
 p
 {
 	font-size: 14px;
-	margin-top: 0px;
-	padding-top: 0px;
+	margin-top: 0;
+	padding-top: 0;
 }
 
 a
@@ -43,8 +43,8 @@ a
 
 form
 {
-	margin: 0px 0px 0px 0px;
-	padding: 0px 0px 0px 0px;
+	margin: 0 0 0 0;
+	padding: 0 0 0 0;
 }
 
 .hide
@@ -144,15 +144,15 @@ form
 .navbar
 {
 	background-color: #3c405e;
-	padding: 0px;
-	margin: 0px;
+	padding: 0;
+	margin: 0;
 	height: 50px;
 	margin-bottom: 1px;
 }
 
 .narbar img
 {
-	margin: 0px;
-	padding: 0px;
-	border-width: 0px 0px 0px 0px;
+	margin: 0;
+	padding: 0;
+	border-width: 0 0 0 0;
 }

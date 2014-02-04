@@ -1,6 +1,7 @@
 ﻿namespace Stumps.Utility {
 
     using System;
+    using System.Net;
     using System.Net.NetworkInformation;
 
     internal static class NetworkUtility {
@@ -37,6 +38,27 @@
             }
 
             return foundPort;
+
+        }
+
+        public static bool IsPortBeingUsed(int localPort) {
+
+            if ( localPort < IPEndPoint.MinPort || localPort > IPEndPoint.MaxPort ) {
+                return true;
+            }
+
+
+            IPGlobalProperties properties = IPGlobalProperties.GetIPGlobalProperties();
+            IPEndPoint[] endpointList = properties.GetActiveTcpListeners();
+
+            foreach (IPEndPoint endpoint in endpointList)
+            {
+                if (endpoint.Port == localPort)
+                {
+                    return true;
+                }
+            }
+            return false;
 
         }
 

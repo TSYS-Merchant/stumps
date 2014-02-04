@@ -26,7 +26,7 @@
             _environment = environment;
             _logger = logger;
 
-            _externalHostUri = createUriFromEnvironment();
+            _externalHostUri = CreateUriFromEnvironment();
 
         }
 
@@ -36,13 +36,52 @@
                 throw new ArgumentNullException("context");
             }
 
-            processRequest(context);
+            var remoteUrl = BuildRemoteUrlFromContext(context);
+
+            // Create a new HTTP web request
+            var remoteWebRequest = (HttpWebRequest)WebRequest.Create(remoteUrl);
+            remoteWebRequest.AllowAutoRedirect = false;
+
+            // Populate the headers for the new HTTP request from the incoming HTTP request
+            PopulateRemoteHeadersFromContext(context, remoteWebRequest);
+
+            // Setup a repsponse used by the class
+            HttpWebResponse response = null;
+
+            // Populate the HTTP body for the request
+            var continueProcess = PopulateRemoteBodyFromContext(context, remoteWebRequest, ref response);
+
+            // Execute the remote web request
+            if (continueProcess) {
+                continueProcess = ExecuteRemoteWebRequest(remoteWebRequest, ref response);
+            }
+
+            if (!continueProcess) {
+
+                // Return a response to the client that the service is unavailable at this time.
+                context.Response.StatusCode = HttpStatusCodes.HttpServiceUnavailable;
+                context.Response.StatusDescription = HttpStatusCodes.GetStatusDescription(HttpStatusCodes.HttpServiceUnavailable);
+
+            }
+            else if (response != null) {
+
+                // Write the headers and the body of the response from the remote HTTP request
+                // to the incoming HTTP context.
+                WriteContextHeadersFromResponse(context, response);
+                WriteContextBodyFromRemoteResponse(context, response);
+                context.Response.StatusCode = (int)response.StatusCode;
+                context.Response.StatusDescription = response.StatusDescription;
+
+                var disposable = response as IDisposable;
+                disposable.Dispose();
+
+            }
 
             return ProcessHandlerResult.Continue;
 
         }
 
-        private string buildRemoteUrlFromContext(IStumpsHttpContext incommingHttpContext) {
+        private string BuildRemoteUrlFromContext(IStumpsHttpContext incommingHttpContext) {
 
             var urlPath = incommingHttpContext.Request.RawUrl;
 
@@ -56,7 +95,7 @@
 
         }
 
-        private Uri createUriFromEnvironment() {
+        private Uri CreateUriFromEnvironment() {
 
             var schema = _environment.UseSsl ? "https://" : "http://";
 
@@ -67,7 +106,7 @@
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Errors are logged.")]
-        private bool executeRemoteWebRequest(HttpWebRequest remoteWebRequest, ref HttpWebResponse remoteWebResponse) {
+        private bool ExecuteRemoteWebRequest(HttpWebRequest remoteWebRequest, ref HttpWebResponse remoteWebResponse) {
 
             var success = true;
 
@@ -94,14 +133,14 @@
 
         }
 
-        private string getHeaderValue(Dictionary<string, string> headers, string headerName, string defaultValue) {
+        private string GetHeaderValue(Dictionary<string, string> headers, string headerName, string defaultValue) {
 
             var headerValue = headers.ContainsKey(headerName) ? headers[headerName] : defaultValue;
             return headerValue;
 
         }
 
-        private bool populateRemoteBodyFromContext(IStumpsHttpContext incommingHttpContext, HttpWebRequest remoteWebRequest, ref HttpWebResponse remoteWebResponse) {
+        private bool PopulateRemoteBodyFromContext(IStumpsHttpContext incommingHttpContext, HttpWebRequest remoteWebRequest, ref HttpWebResponse remoteWebResponse) {
 
             var success = true;
 
@@ -134,7 +173,7 @@
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Errors are logged.")]
-        private void populateRemoteHeadersFromContext(IStumpsHttpContext incommingHttpContext, HttpWebRequest remoteWebRequest) {
+        private void PopulateRemoteHeadersFromContext(IStumpsHttpContext incommingHttpContext, HttpWebRequest remoteWebRequest) {
 
             var headers = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
@@ -143,11 +182,11 @@
             }
 
             remoteWebRequest.Method = incommingHttpContext.Request.HttpMethod;
-            remoteWebRequest.Accept = getHeaderValue(headers, "accept", null);
-            remoteWebRequest.ContentType = getHeaderValue(headers, "content-type", incommingHttpContext.Request.ContentType);
-            remoteWebRequest.Referer = getHeaderValue(headers, "referer", incommingHttpContext.Request.Referer);
-            remoteWebRequest.TransferEncoding = getHeaderValue(headers, "transfer-encoding", null);
-            remoteWebRequest.UserAgent = getHeaderValue(headers, "user-agent", incommingHttpContext.Request.UserAgent);
+            remoteWebRequest.Accept = GetHeaderValue(headers, "accept", null);
+            remoteWebRequest.ContentType = GetHeaderValue(headers, "content-type", incommingHttpContext.Request.ContentType);
+            remoteWebRequest.Referer = GetHeaderValue(headers, "referer", incommingHttpContext.Request.Referer);
+            remoteWebRequest.TransferEncoding = GetHeaderValue(headers, "transfer-encoding", null);
+            remoteWebRequest.UserAgent = GetHeaderValue(headers, "user-agent", incommingHttpContext.Request.UserAgent);
 
             headers.Remove("accept");
             headers.Remove("connection");
@@ -177,50 +216,8 @@
             }
 
         }
-
-        private void processRequest(IStumpsHttpContext incommingHttpContext) {
-
-            var remoteUrl = buildRemoteUrlFromContext(incommingHttpContext);
-
-            // Create a new HTTP web request
-            var remoteWebRequest = (HttpWebRequest) WebRequest.Create(remoteUrl);
-            remoteWebRequest.AllowAutoRedirect = false;
-
-            // Populate the headers for the new HTTP request from the incoming HTTP request
-            populateRemoteHeadersFromContext(incommingHttpContext, remoteWebRequest);
-
-            // Setup a repsponse used by the class
-            HttpWebResponse response = null;
-
-            // Populate the HTTP body for the request
-            var continueProcess = populateRemoteBodyFromContext(incommingHttpContext, remoteWebRequest, ref response);
-
-            // Execute the remote web request
-            if ( continueProcess ) {
-                continueProcess = executeRemoteWebRequest(remoteWebRequest, ref response);
-            }
-
-            if ( !continueProcess ) {
-                // Return a response to the client that the service is unavailable at this time.
-                incommingHttpContext.Response.StatusCode = HttpStatusCodes.HttpServiceUnavailable;
-                incommingHttpContext.Response.StatusDescription = HttpStatusCodes.GetStatusDescription(HttpStatusCodes.HttpServiceUnavailable);
-            }
-            else if ( response != null ) {
-                // Write the headers and the body of the response from the remote HTTP request
-                // to the incoming HTTP context.
-                writeContextHeadersFromResponse(incommingHttpContext, response);
-                writeContextBodyFromRemoteResponse(incommingHttpContext, response);
-                incommingHttpContext.Response.StatusCode = (int) response.StatusCode;
-                incommingHttpContext.Response.StatusDescription = response.StatusDescription;
-
-                var disposable = response as IDisposable;
-                disposable.Dispose();
-
-            }
-
-        }
-
-        private void writeContextBodyFromRemoteResponse(IStumpsHttpContext incommingHttpContext, HttpWebResponse remoteWebResponse) {
+        
+        private void WriteContextBodyFromRemoteResponse(IStumpsHttpContext incommingHttpContext, HttpWebResponse remoteWebResponse) {
 
             if ( remoteWebResponse.ContentLength != 0 ) {
                 var responseStream = remoteWebResponse.GetResponseStream();
@@ -231,7 +228,7 @@
 
         }
 
-        private void writeContextHeadersFromResponse(IStumpsHttpContext incommingHttpContext, HttpWebResponse remoteWebResponse) {
+        private void WriteContextHeadersFromResponse(IStumpsHttpContext incommingHttpContext, HttpWebResponse remoteWebResponse) {
 
             var headers = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 

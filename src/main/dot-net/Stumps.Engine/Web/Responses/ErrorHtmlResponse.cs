@@ -11,7 +11,7 @@
             this.StatusCode = statusCode;
             this.ContentType = Resources.ContentTypeHtmlUtf8;
 
-            this.Contents = (stream) => {
+            this.Contents = stream => {
 
                 var page = string.Empty;
 

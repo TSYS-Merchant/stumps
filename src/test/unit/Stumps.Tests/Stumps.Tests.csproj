@@ -8,7 +8,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Stumps</RootNamespace>
     <AssemblyName>Stumps.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -28,6 +28,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -36,6 +37,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="NSubstitute">
@@ -55,6 +57,15 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="ConfigurationTests.cs" />
+    <Compile Include="Data\ConfigurationDataAccessTests.cs" />
+    <Compile Include="Data\DataAccessTests.cs" />
+    <Compile Include="Http\HttpHelper.cs" />
+    <Compile Include="Http\HttpServerTests.cs" />
+    <Compile Include="Http\StumpsHttpContextTests.cs" />
+    <Compile Include="Http\StumpsHttpRequestTests.cs" />
+    <Compile Include="Http\StumpsHttpResponseTests.cs" />
+    <Compile Include="MockHandler.cs" />
     <Compile Include="MockHttpContext.cs" />
     <Compile Include="MockHttpRequest.cs" />
     <Compile Include="MockHttpResponse.cs" />
@@ -68,8 +79,10 @@
     <Compile Include="Proxy\HttpPipelineHandlerTests.cs" />
     <Compile Include="Proxy\ProxyEnvironmentTests.cs" />
     <Compile Include="Proxy\ProxyHandlerTests.cs" />
+    <Compile Include="Proxy\ProxyHostTests.cs" />
     <Compile Include="Proxy\UrlRuleTests.cs" />
     <Compile Include="SampleJsonObject.cs" />
+    <Compile Include="StumpServerTests.cs" />
     <Compile Include="TestData.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -98,6 +111,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\JsonSampleData.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SampleConfiguration.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SampleTextResponse.txt" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

@@ -59,6 +59,7 @@
   <ItemGroup>
     <Content Include="content\arrow-blue.png" />
     <Content Include="content\blog-mh.png" />
+    <Content Include="content\demo-animation-long.gif" />
     <Content Include="content\logo-text-white-lg.png" />
     <Content Include="content\logo-text-white.png" />
     <Content Include="content\Master-Backup.css" />

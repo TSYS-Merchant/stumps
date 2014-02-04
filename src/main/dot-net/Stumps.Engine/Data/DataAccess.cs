@@ -11,23 +11,23 @@
         public const string BodyResponseFileExtension = ".body.response";
         public const string ProxyFileExtension = ".proxy";
         public const string RecordingPathName = "recordings";
-        public const string RootPathName = "Stumps";
         public const string StumpFileExtension = ".stump";
         public const string StumpsPathName = "stumps";
 
         private readonly string _dataPath;
 
-        public DataAccess() {
+        public DataAccess(string dataPath) {
 
-            var dataPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-            dataPath = Path.Combine(dataPath, DataAccess.RootPathName);
-
-            if ( !Directory.Exists(dataPath) ) {
-                Directory.CreateDirectory(dataPath);
+            if ( dataPath == null ) {
+                throw new ArgumentNullException("dataPath");
             }
 
             _dataPath = dataPath;
 
+        }
+
+        public string DataPath {
+            get { return _dataPath; }
         }
 
         public void ProxyServerCreate(ProxyServerEntity server) {
@@ -36,7 +36,7 @@
                 throw new ArgumentNullException("server");
             }
 
-            var externalHostName = cleanExternalHostName(server.ExternalHostName);
+            var externalHostName = CleanExternalHostName(server.ExternalHostName);
 
             var proxyFile = Path.Combine(_dataPath, externalHostName + DataAccess.ProxyFileExtension);
             JsonUtility.SerializeToFile(server, proxyFile);
@@ -49,7 +49,7 @@
 
         public void ProxyServerDelete(string externalHostName) {
 
-            externalHostName = cleanExternalHostName(externalHostName);
+            externalHostName = CleanExternalHostName(externalHostName);
 
             var proxyFile = Path.Combine(_dataPath, externalHostName + DataAccess.ProxyFileExtension);
             File.Delete(proxyFile);
@@ -74,7 +74,7 @@
                 throw new ArgumentNullException("entity");
             }
 
-            externalHostName = cleanExternalHostName(externalHostName);
+            externalHostName = CleanExternalHostName(externalHostName);
             var stumpsPath = Path.Combine(_dataPath, externalHostName, DataAccess.StumpsPathName);
 
             var stumpFileName = Path.Combine(stumpsPath, entity.StumpId + DataAccess.StumpFileExtension);
@@ -99,7 +99,7 @@
 
         public void StumpDelete(string externalHostName, string stumpId) {
 
-            externalHostName = cleanExternalHostName(externalHostName);
+            externalHostName = CleanExternalHostName(externalHostName);
             var stumpsPath = Path.Combine(_dataPath, externalHostName, DataAccess.StumpsPathName);
 
             var stumpFileName = Path.Combine(stumpsPath, stumpId + DataAccess.StumpFileExtension);
@@ -122,7 +122,7 @@
 
         public IList<StumpEntity> StumpFindAll(string externalHostName) {
 
-            externalHostName = cleanExternalHostName(externalHostName);
+            externalHostName = CleanExternalHostName(externalHostName);
             var stumpsPath = Path.Combine(_dataPath, externalHostName, DataAccess.StumpsPathName);
 
             var stumpEntities = JsonUtility.DeserializeFromDirectory<StumpEntity>(
@@ -132,7 +132,7 @@
 
         }
 
-        private static string cleanExternalHostName(string externalHostName) {
+        private static string CleanExternalHostName(string externalHostName) {
             externalHostName = externalHostName.Replace(':', '.');
             return externalHostName;
         }

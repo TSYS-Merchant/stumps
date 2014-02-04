@@ -9,7 +9,7 @@
 
         private readonly HttpListenerRequest _request;
         private MemoryStream _requestStream;
-        private bool _disposed = false;
+        private bool _disposed;
 
         public StumpsHttpRequest(HttpListenerRequest request) {
 

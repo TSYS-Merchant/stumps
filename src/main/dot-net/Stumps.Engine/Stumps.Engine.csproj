@@ -12,7 +12,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Stumps</RootNamespace>
     <AssemblyName>Stumps.Engine</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
@@ -30,6 +30,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <RunCodeAnalysis>false</RunCodeAnalysis>
     <CodeAnalysisRuleSet>..\CodeQuality.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -39,27 +40,36 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Nancy">
+    <Reference Include="Nancy, Version=0.21.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Nancy.0.21.1\lib\net40\Nancy.dll</HintPath>
     </Reference>
-    <Reference Include="Nancy.Hosting.Self">
+    <Reference Include="Nancy.Hosting.Self, Version=0.21.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Nancy.Hosting.Self.0.21.1\lib\net40\Nancy.Hosting.Self.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.5.0.8\lib\net40\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.5.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration.cs" />
+    <Compile Include="Data\ConfigurationDataAccess.cs" />
+    <Compile Include="Data\ConfigurationEntity.cs" />
     <Compile Include="Data\DataAccess.cs" />
     <Compile Include="Data\HeaderEntity.cs" />
+    <Compile Include="Data\IConfigurationDataAccess.cs" />
     <Compile Include="Data\IDataAccess.cs" />
     <Compile Include="Data\ProxyServerEntity.cs" />
     <Compile Include="Data\StumpEntity.cs" />
+    <Compile Include="DefaultConfigurationSettings.cs" />
     <Compile Include="Proxy\BodyContentRule.cs" />
     <Compile Include="Proxy\BodyLengthRule.cs" />
     <Compile Include="Proxy\ContentEncodingMode.cs" />
@@ -75,9 +85,12 @@
     <Compile Include="Proxy\TextContainsMatch.cs" />
     <Compile Include="Proxy\TextMatch.cs" />
     <Compile Include="Proxy\UrlRule.cs" />
+    <Compile Include="StumpsNetworkException.cs" />
     <Compile Include="Utility\RandomGenerator.cs" />
     <Compile Include="Proxy\BodyMatchRule.cs" />
     <Compile Include="Utility\StringUtility.cs" />
+    <Compile Include="Web\ApiModules\PortAvailableModule.cs" />
+    <Compile Include="Web\Models\PortAvailableModel.cs" />
     <Compile Include="Web\NancyModuleHelper.cs" />
     <Compile Include="Utility\NetworkUtility.cs" />
     <Compile Include="Web\ApiModules\ProxyServerStatusModule.cs" />
@@ -134,7 +147,6 @@
     <Compile Include="Http\StumpsHttpResponse.cs" />
     <Compile Include="IStumpModule.cs" />
     <Compile Include="Logging\ILogger.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Proxy\ProxyServer.cs" />
     <Compile Include="Proxy\ProxyEnvironment.cs" />
     <Compile Include="Proxy\ProxyServerModule.cs" />
@@ -213,22 +225,10 @@
        Other similar extension points exist, see Microsoft.Common.targets.
   -->
   <Target Name="BeforeBuild">
-    <MSBuild.Community.Tasks.AssemblyInfo
-        AssemblyCompany="Merchant Warehouse"
-        AssemblyCopyright="Copyright © 2013 Merchant Warehouse"
-        AssemblyDescription="Stumps Runtime Engine"
-        AssemblyProduct="Stumps"
-        AssemblyTitle="Stumps.Engine"
-        AssemblyVersion="$(assemblyVersion)"
-        AssemblyFileVersion="$(version)+$(buildNumber)"
-        CLSCompliant="false"
-        CodeLanguage="CS"
-        ComVisible="false"
-        Guid="3a65988b-7beb-4d38-b944-4390b9ea8c7f"
-        InternalsVisibleTo="Stumps.Tests;DynamicProxyGenAssembly2"
-        NeutralResourcesLanguage="en"
-        OutputFile="_AssemblyInfo.cs"
-    />
+    <MSBuild.Community.Tasks.AssemblyInfo AssemblyCompany="Merchant Warehouse" AssemblyCopyright="Copyright © 2013 Merchant Warehouse" AssemblyDescription="Stumps Runtime Engine" AssemblyProduct="Stumps" AssemblyTitle="Stumps.Engine" AssemblyVersion="$(assemblyVersion)" AssemblyFileVersion="$(assemblyVersion)" CLSCompliant="false" CodeLanguage="CS" ComVisible="false" Guid="3a65988b-7beb-4d38-b944-4390b9ea8c7f" InternalsVisibleTo="Stumps.Tests;DynamicProxyGenAssembly2" NeutralResourcesLanguage="en" OutputFile="_AssemblyInfo.cs" />
+    <ItemGroup>
+      <Compile Include="_AssemblyInfo.cs" />
+    </ItemGroup>
   </Target>
   <Target Name="AfterBuild">
   </Target>

@@ -8,8 +8,10 @@ buildscript {
     }
 }
 
+group = 'com.merchantwarehouse'
 version = '0.1.0-SNAPSHOT'
 apply plugin: 'mwversion'
+apply plugin: 'java'
 apply plugin: 'msbuild'
 
 
@@ -19,9 +21,14 @@ msbuild {
     targets = ['Clean', 'Build']
     configuration = 'Release'
     parameters.version = project.version
+    parameters.versionString = project.assemblyVersion
+    parameters.outputName = "${project.name}-${project.version}"
     parameters.assemblyVersion = project.assemblyVersion
     parameters.buildNumber = project.buildNumber
 }
 msbuild.outputs.upToDateWhen { false }
-task build
 build.dependsOn msbuild
+
+artifacts {
+    archives file('src/main/dot-net/StumpsInstaller/bin/Release/' + msbuild.parameters.outputName + '.msi')
+}
