@@ -36,7 +36,8 @@
         public StumpContract CreateStump(StumpContract contract) {
 
             var stumpList = new List<StumpContract>(FindAllContracts());
-            var stump = stumpList.Find(s => s.StumpName == contract.StumpName);
+            var stump = stumpList.Find(s => s.StumpName.Equals(contract.StumpName, StringComparison.OrdinalIgnoreCase));
+            
             if (stump != null)
             {
                 throw new ArgumentException("Stump name already exists.  Stump names but me unique.");
