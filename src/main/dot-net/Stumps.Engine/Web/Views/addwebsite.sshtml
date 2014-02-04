@@ -69,6 +69,11 @@ $("#hostName").blur(function () {
     else {
         $(this).val(url('hostname', inputValue) + ':' + url('port', inputValue));
     }
+    
+    // check the useSsl checkbox if user puts in an https URL
+    if (regexp443.test(inputValue) || port == 443 || $("#useSsl").prop("checked")) {
+        $("#useSsl").attr('src', '/content/frm_checkon.png');
+    }
 
 });
 
