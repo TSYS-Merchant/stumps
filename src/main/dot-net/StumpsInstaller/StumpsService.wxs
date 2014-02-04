@@ -43,9 +43,6 @@
         <File Id="ico_rec_on_png" Source="..\Stumps.Startup\bin\Release\Content\ico_rec_on.png" />
         <File Id="ico_rec_off_png" Source="..\Stumps.Startup\bin\Release\Content\ico_rec_off.png" />
         <File Id="jquery_1.10.2_min_js" Source="..\Stumps.Startup\bin\Release\Content\jquery-1.10.2.min.js" />
-        <File Id="jquery_validationEngine_js" Source="..\Stumps.Startup\bin\Release\Content\jquery.validationEngine.js" />
-        <File Id="jquery_validationEngine_en_js" Source="..\Stumps.Startup\bin\Release\Content\jquery.validationEngine-en.js" />
-        <File Id="validationEngine_jquery_css" Source="..\Stumps.Startup\bin\Release\Content\validationEngine.jquery.css" />
         <File Id="logo_png" Source="..\Stumps.Startup\bin\Release\Content\logo.png" />
         <File Id="main_css" Source="..\Stumps.Startup\bin\Release\Content\main.css" />
         <File Id="multipanel_css" Source="..\Stumps.Startup\bin\Release\Content\multipanel.css" />
