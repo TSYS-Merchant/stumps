@@ -32,7 +32,7 @@
                 if ( !string.IsNullOrEmpty(hostNameTextBox) && port > 0 ) {
                     host.CreateProxy(hostNameTextBox, port, useSsl, true);
                 }
-
+                
                 return Response.AsRedirect("/");
 
             };

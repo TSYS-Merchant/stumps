@@ -6,8 +6,6 @@
     <title>Stumps</title>
 	<link href="/content/main.css" rel="stylesheet" />
 	<script src="/content/jquery-1.10.2.min.js" type="text/javascript"></script>
-    <script src="/content/jquery.validationEngine-en.js" type="text/javascript" charset="utf-8"></script>
-    <script src="/content/jquery.validationEngine.js" type="text/javascript" charset="utf-8"></script>
 	@Section['HeaderStylesheets']
 	@Section['HeaderScript']
 </head>

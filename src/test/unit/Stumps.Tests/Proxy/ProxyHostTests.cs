@@ -5,6 +5,8 @@
     using NUnit.Framework;
     using Stumps.Data;
     using Stumps.Logging;
+    using Stumps.Utility;
+    using System.Net.NetworkInformation; 
 
     [TestFixture]
     class ProxyHostTests
@@ -46,67 +48,17 @@
             );
         }
 
-
-
         [Test]
-        public void CreateProxy_WithHttpProtocol_ReturnsSame()
+        public void Constructor_PortInUse_ThrowsException()
         {
             ProxyHost proxy = new ProxyHost(Substitute.For<ILogger>(), Substitute.For<IDataAccess>());
-            ProxyEnvironment env = proxy.CreateProxy("http://www.google.com", DEFAULT_PORT, true, false);
-            Assert.IsTrue(env.UseSsl);
-            Assert.IsFalse(env.AutoStart);
-            Assert.AreEqual("www.google.com", env.ExternalHostName);
-        }
-
-        [Test]
-        public void CreateProxy_WithHttpsProtocolUseSslFalse_ReturnsSameAndUseSslTrue()
-        {
-            ProxyHost proxy = new ProxyHost(Substitute.For<ILogger>(), Substitute.For<IDataAccess>());
-            ProxyEnvironment env = proxy.CreateProxy("https://www.google.com", DEFAULT_PORT, false, false);
-            Assert.IsTrue(env.UseSsl);
-            Assert.IsFalse(env.AutoStart);
-            Assert.AreEqual("www.google.com", env.ExternalHostName);
-        }
-
-        [Test]
-        public void CreateProxy_WithHttpsProtocolUseSslTrue_ReturnsSameAndUseSslTrue()
-        {
-            ProxyHost proxy = new ProxyHost(Substitute.For<ILogger>(), Substitute.For<IDataAccess>());
-            ProxyEnvironment env = proxy.CreateProxy("https://www.google.com", DEFAULT_PORT, true, false);
-            Assert.IsTrue(env.UseSsl);
-            Assert.IsFalse(env.AutoStart);
-            Assert.AreEqual("www.google.com", env.ExternalHostName);
-        }
-
-        [Test]
-        public void ContainsProtocol_ReturnsTrue()
-        {   
-            Assert.IsTrue(ProxyHost.containsProtocol("https://www.google.com"));
-            Assert.IsTrue(ProxyHost.containsProtocol("http://www.google.com"));
-            Assert.IsTrue(ProxyHost.containsProtocol("HTTPS://www.google.com"));
-            Assert.IsTrue(ProxyHost.containsProtocol("HTTP://www.google.com"));
-        }
-
-        [Test]
-        public void ContainsProtocol_ReturnsFalse()
-        {
-            Assert.IsFalse(ProxyHost.containsProtocol("www.google.com"));
-            Assert.IsFalse(ProxyHost.containsProtocol("htttp://www.google.com"));
-        }
-
-        [Test]
-        public void IsHttps_ReturnsTrue()
-        {
-            Assert.IsTrue(ProxyHost.isHttps("https://www.google.com"));
-            Assert.IsTrue(ProxyHost.isHttps("HTTPS://www.google.com"));
-        }
-
-        [Test]
-        public void IsHttps_ReturnsFalse()
-        {
-            Assert.IsFalse(ProxyHost.isHttps("http://www.google.com"));
-            Assert.IsFalse(ProxyHost.isHttps("HTTP://www.google.com"));
-            Assert.IsFalse(ProxyHost.isHttps("www.google.com"));
+            Assert.That(
+                () => proxy.CreateProxy("www.foo.com", 135, true, false),
+                Throws.Exception
+                    .TypeOf<StumpsNetworkException>()
+                    .With.Property("Message")
+                    .EqualTo("Port is in use")
+            );
         }
     }
 }
