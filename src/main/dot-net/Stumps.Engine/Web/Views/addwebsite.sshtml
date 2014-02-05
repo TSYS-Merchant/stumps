@@ -74,6 +74,9 @@ $("#hostName").blur(function () {
     if (regexp443.test(inputValue) || port == 443 || $("#useSsl").prop("checked")) {
         $("#useSsl").attr('src', '/content/frm_checkon.png');
     }
+    else {
+        $("#useSsl").attr('src', '/content/frm_checkoff.png');
+    }
 
 });
 
