@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-	<Product Id="*" Name="Stumps" Language="1033" Version="$(var.VersionString)" Manufacturer="Merchant Warehouse" UpgradeCode="83bf5dc5-bce7-4f91-89f1-c1ba58ae2383">
-		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+  <Product Id="*" Name="Stumps" Language="1033" Version="$(var.VersionString)" Manufacturer="Merchant Warehouse" UpgradeCode="83bf5dc5-bce7-4f91-89f1-c1ba58ae2383">
+    <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
     <Media Id="1" Cabinet="FileWriter.cab" EmbedCab="yes"></Media>
 
-    <UIRef Id="UserInterface" />
-
-		<MajorUpgrade DowngradeErrorMessage="A newer version of Stumps is already installed." />
-
-    <FeatureGroupRef Id="StumpsFeatures" />
     <DirectoryRef Id="TARGETDIR" />
+    <UIRef Id="UserInterface" />
+    <FeatureGroupRef Id="StumpsFeatures" />
 
-	</Product>
-
+    <MajorUpgrade AllowSameVersionUpgrades="yes" DowngradeErrorMessage="A later version of [ProductName] is already installed. Setup will now exit." Schedule="afterInstallInitialize" />
+  </Product>
 </Wix>

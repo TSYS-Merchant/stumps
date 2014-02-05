@@ -6,17 +6,17 @@
       <Component Id="StumpsService" Guid="{A3679ACA-A094-4410-BF68-9DE53D69B01D}">
         <File Id="Stumps_exe" Source="..\Stumps.Startup\bin\Release\Stumps.exe" />
         <File Id="Stumps_exe_config" Source="..\Stumps.Startup\bin\Release\Stumps.exe.config" />
-        <ServiceInstall Id="StumpsInstall" Name="Stumps" DisplayName="Stumps" Description="Stumps which runs a Mock Proxy." Type="ownProcess" Start="auto" ErrorControl="ignore" Interactive="no" Vital="yes" />
-        <ServiceControl Id="StumpsInstall_Control" Name="Stumps" Remove="uninstall"  Stop="both"  Wait="yes" />
+        <ServiceInstall Id="StumpsInstall" Name="Stumps" DisplayName="Stumps" Description="Stumps which runs a Mock Proxy. v$(var.VersionString)" Type="ownProcess" Start="auto" ErrorControl="ignore" Interactive="no" Vital="yes" />
+        <ServiceControl Id="StumpsInstall_Control" Name="Stumps" Start="install" Remove="uninstall" Stop="both" Wait="yes" />
       </Component>
-      
+
       <Component Id="StumpsEngine" Guid="{6B78169B-555B-4B73-8723-B2F83C319881}">
         <File Id="Stumps_Engine_dll" Source="..\Stumps.Startup\bin\Release\Stumps.Engine.dll" />
         <File Id="Nancy_dll" Source="..\Stumps.Startup\bin\Release\Nancy.dll" />
         <File Id="Nancy_Hosting_Self_dll" Source="..\Stumps.Startup\bin\Release\Nancy.Hosting.Self.dll" />
         <File Id="Newtonsoft_Json_dll" Source="..\Stumps.Startup\bin\Release\Newtonsoft.Json.dll" />
       </Component>
-      
+
       <Component Id="StumpsWebsite" Guid="{371FCA76-AD54-469E-B00A-77C21949E2F9}">
         <File Id="addwebsite_sshtml" Source="..\Stumps.Startup\bin\Release\addwebsite.sshtml" />
         <File Id="deletestump_sshtml" Source="..\Stumps.Startup\bin\Release\deletestump.sshtml" />
@@ -31,7 +31,7 @@
     </DirectoryRef>
 
     <DirectoryRef Id="ContentFolder">
-      
+
       <Component Id="StumpsContent" Guid="{F79BA6F1-C1EE-4242-9CAC-6E7933789009}">
         <File Id="forms_css" Source="..\Stumps.Startup\bin\Release\Content\forms.css" />
         <File Id="frm_checkon_png" Source="..\Stumps.Startup\bin\Release\Content\frm_checkon.png" />
@@ -68,7 +68,7 @@
 
       </Component>
     </DirectoryRef>
-    
+
 	</Fragment>
 
   <Fragment>
