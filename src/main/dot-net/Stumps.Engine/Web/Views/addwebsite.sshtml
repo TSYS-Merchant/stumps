@@ -14,7 +14,7 @@
 				<div><label>&nbsp;</label><span class="note">Example: www.google.com or myserver.com:8000</span></div>
 
 				<div><label for="portTextBox">Port</label><input type="text" class="half" 
-                        name="portTextBox" id="portBox" value="@Model.OpenPort" /></div>
+                        name="portTextBox" id="portBox" value="@Model.OpenPort" maxlength="5"/></div>
 				<div><label>&nbsp;</label><span class="note ">This is the port we will use to serve up the website, for example http://localhost:3400/</span></div>
 
 				<div><label>&nbsp;</label><img src="/content/frm_checkoff.png" alt="Use SSL" class='isCheck' id="useSsl" /><span class="check">The website requires SSL connections.</span><input type="checkbox" id="useSslCheckBox" name="useSslCheckBox" class="hide" /></div>
