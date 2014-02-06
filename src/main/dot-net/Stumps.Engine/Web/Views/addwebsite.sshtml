@@ -51,24 +51,10 @@ $(document).ready(function() {
     });
 });
 
-//function verifyAndSubmit() {
-//    if ( $('#singleAdvice').length ) {
-//        if ( $('#singleAdvice').is(':visible') ) {
-//  alert('Nope!');
-//            return;
-//        }
-//    }
-//    $('#newServerForm').submit();
-//}
-
 function verifyAndSubmit() {
-    // if ($("#newServerForm").hasClass("advice")) {
     if ( $('.advice').is(':visible') ) {
-        //  alert('Nope!');
         return;
     }
-    // }
-
     $('#newServerForm').submit();
 } 
 
