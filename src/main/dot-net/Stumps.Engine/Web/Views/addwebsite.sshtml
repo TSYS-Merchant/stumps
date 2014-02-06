@@ -54,7 +54,7 @@ $(document).ready(function() {
 function verifyAndSubmit() {
     if ( $('#singleAdvice').length ) {
         if ( $('#singleAdvice').is(':visible') ) {
-          //  alert('Nope!');
+            //  alert('Nope!');
             return;
         }
     }
@@ -82,12 +82,14 @@ $("#hostName").blur(function () {
         $(this).val(url('hostname', inputValue) + ':' + url('port', inputValue));
     }
     
-    if(!domainPattern.test(inputValue)) {
+    if(!domainPattern.test($(this).val())) {
         showAdvice(this, "Invalid Domain Name");
-         $("#hostName").click(function() {
-                $("#singleAdvice").hide();   
-                $("#icon").hide();
-            });
+        $("#hostName").css("width", 255);
+        $("#hostName").click(function() {
+            $("#singleAdvice").hide();   
+            $("#icon").hide();
+            $("#hostName").css("width", 525);
+        });
     }
 
     // check the useSsl checkbox if user puts in an https URL
