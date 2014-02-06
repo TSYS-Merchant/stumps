@@ -7,8 +7,6 @@
     using Nancy.ModelBinding;
     using Stumps.Proxy;
     using Stumps.Web.Models;
-    using System.Web.Extensions;
-    using System.Web.Script.Serialization;
 
     public class StumpsModule : NancyModule {
 
