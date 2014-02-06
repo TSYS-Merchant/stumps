@@ -2,10 +2,13 @@
 
     using System.Collections.Generic;
     using System.Text;
+    using System;
     using Nancy;
     using Nancy.ModelBinding;
     using Stumps.Proxy;
     using Stumps.Web.Models;
+    using System.Web.Extensions;
+    using System.Web.Script.Serialization;
 
     public class StumpsModule : NancyModule {
 
@@ -55,10 +58,12 @@
                 var model = this.Bind<StumpModel>();
                 var contract = CreateContractFromRecord(model, environment);
 
-                environment.Stumps.CreateStump(contract);
-
-                return HttpStatusCode.OK;
-
+                if(environment.Stumps.CreateStump(contract)) {
+                    return HttpStatusCode.OK;
+                }
+                else {
+                    return HttpStatusCode.BadRequest;
+                }
             };
 
             Put["/api/proxy/{proxyId}/stumps/{stumpId}"] = _ => {
