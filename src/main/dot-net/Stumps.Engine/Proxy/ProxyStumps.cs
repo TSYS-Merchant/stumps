@@ -33,14 +33,14 @@
             get { return _stumpList.Count; }
         }
 
-        public StumpContract CreateStump(StumpContract contract) {
+        public Boolean CreateStump(StumpContract contract) {
 
             var stumpList = new List<StumpContract>(FindAllContracts());
             var stump = stumpList.Find(s => s.StumpName.Equals(contract.StumpName, StringComparison.OrdinalIgnoreCase));
             
             if (stump != null)
             {
-                throw new ArgumentException("Stump name already exists.  Stump names but me unique.");
+                return false;
             }
 
             if ( contract == null ) {
@@ -57,7 +57,7 @@
 
             UnwrapAndAddStump(contract);
 
-            return contract;
+            return false;
 
         }
 
