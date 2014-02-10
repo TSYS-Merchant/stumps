@@ -33,15 +33,16 @@
             get { return _stumpList.Count; }
         }
 
-        public Boolean CreateStump(StumpContract contract) {
+        public bool StumpNameExists(string stumpName) {
 
             var stumpList = new List<StumpContract>(FindAllContracts());
-            var stump = stumpList.Find(s => s.StumpName.Equals(contract.StumpName, StringComparison.OrdinalIgnoreCase));
-            
-            if (stump != null)
-            {
-                return false;
-            }
+            var stump = stumpList.Find(s => s.StumpName.Equals(stumpName, StringComparison.OrdinalIgnoreCase));
+
+            return stump == null;
+
+        }
+
+        public StumpContract CreateStump(StumpContract contract) {
 
             if ( contract == null ) {
                 throw new ArgumentNullException("contract");
@@ -51,13 +52,19 @@
                 contract.StumpId = RandomGenerator.GenerateIdentifier();
             }
 
+            if (this.StumpNameExists(contract.StumpName))
+            {
+                throw new ArgumentException("A stump with that name already exists.");
+            }
+
+
             var entity = CreateEntityFromContract(contract);
 
             _dataAccess.StumpCreate(_externalHostName, entity, contract.MatchBody, contract.Response.Body);
 
             UnwrapAndAddStump(contract);
 
-            return false;
+            return contract;
 
         }
 

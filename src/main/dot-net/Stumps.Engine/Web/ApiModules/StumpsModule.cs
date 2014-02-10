@@ -56,12 +56,8 @@
                 var model = this.Bind<StumpModel>();
                 var contract = CreateContractFromRecord(model, environment);
 
-                if(environment.Stumps.CreateStump(contract)) {
-                    return HttpStatusCode.OK;
-                }
-                else {
-                    return HttpStatusCode.BadRequest;
-                }
+                return HttpStatusCode.OK;
+
             };
 
             Put["/api/proxy/{proxyId}/stumps/{stumpId}"] = _ => {
