@@ -40,6 +40,9 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Nancy">
+      <HintPath>..\..\..\main\dot-net\packages\Nancy.0.22.0\lib\net40\Nancy.dll</HintPath>
+    </Reference>
     <Reference Include="NSubstitute">
       <HintPath>..\..\..\main\dot-net\packages\NSubstitute.1.6.1.0\lib\NET40\NSubstitute.dll</HintPath>
     </Reference>
@@ -80,6 +83,7 @@
     <Compile Include="Proxy\ProxyEnvironmentTests.cs" />
     <Compile Include="Proxy\ProxyHandlerTests.cs" />
     <Compile Include="Proxy\ProxyHostTests.cs" />
+    <Compile Include="Proxy\ProxyStumpsTests.cs" />
     <Compile Include="Proxy\UrlRuleTests.cs" />
     <Compile Include="SampleJsonObject.cs" />
     <Compile Include="StumpServerTests.cs" />
