@@ -61,7 +61,6 @@ function verifyAndSubmit() {
 $('#hostName').blur(function () {
     var regexp80 = /:80\b/;
     var regexp443 = /:443\b/;
-    var domainPattern = /^(?:(ht|f)tp(s?)\:\/\/)?((?:www\.)?(?:\w[-\w]{0-61}\w|\w)(?:\.\w[-\w]{0-61}\w|\w)*?)\.((?:\w{2-3}\.)?\w+)(:\d+)?$/;
     var inputValue = $(this).val();
     var port = url('port', inputValue);
     var protocol = (url('protocol', inputValue)).toLowerCase();
@@ -80,12 +79,12 @@ $('#hostName').blur(function () {
         $(this).val(url('hostname', inputValue) + ':' + url('port', inputValue));
     }
     
-    if(!domainPattern.test($(this).val())) {
+    if(!validateDomain($(this).val())) {
         showAdvice(this, location,  "Invalid Domain Name");
     } else {
         $('#singleAdvice' + location).hide();   
         $('#icon' + location).hide();
-    }
+     }
 
     // check the useSsl checkbox if user puts in an https URL
     if ( $('#useSsl').prop("checked") || protocol === "https") {
@@ -96,6 +95,108 @@ $('#hostName').blur(function () {
     }
 
 });
+
+function validateDomain(domainName) {
+
+    if (!(isHostValid(domainName))) {
+        return false;
+    }
+    else {
+        return true;
+    }
+                     
+}
+
+function isHostValid(value) {
+              
+    var port = 1;
+    var hostName = value;
+                     
+    if (value.indexOf(':') > -1) {
+        var parts = value.split(':');
+        if (parts.length != 2) {
+            return false;
+        }
+                           
+        hostName = parts[0];
+        port = parts[1];
+    }
+                     
+    var number = parseInt(port);
+                     
+    if(isNaN(number) || number < 0 || number > 65535) {
+        return false;
+    }
+                     
+    return isIpAddress(hostName) || isDomainName(hostName);
+                     
+}
+              
+function isIpAddress(value) {
+
+    var parts = value.split('.');
+    if (parts.length != 4) {
+        return false;
+    }
+            
+    for (var i = 0; i < 4; i++) {
+        var number = parseInt(parts[i]);
+        if (isNaN(number) || number < 0 || number > 255) {
+            return false;
+        }
+                
+    }
+
+    if (parts[0] == 0) {
+        return false;
+    }
+
+    return true;
+            
+}
+
+function isDomainName(value) {
+            
+    if (value.length == 0) {
+        return false;
+    }
+            
+    if (value.charAt(0) == '.' || value.charAt(value.length - 1) == '.') {
+        return false;
+    }
+
+    if (value.indexOf('..') > -1) {
+        return false;
+    }
+
+    var parts = value.split('.');
+
+    for (var i = 0; i < parts.length; i++) {
+        if (parts[i].length > 64) {
+            return false;
+        }
+
+        for (var j = 0; j < parts[i].length; j++) {
+            if (!isValidCharacter(parts[i].charAt(j))) {
+                return false;
+            }
+        }
+    }
+
+    var number = parseInt(parts[parts.length - 1]);
+    if ( !isNaN(number) ) {
+        return false;
+    }
+
+    return true;
+            
+}
+        
+function isValidCharacter(value) {
+    return (value >= 'a' && value <= 'z') || (value >= 'A' && value <= 'Z') || (value >= '0' && value <= '9') || value == '_' || value == '-';
+}
+
+
 
 $('#portBox').keydown(function (event) {
     var num = event.keyCode;
@@ -122,10 +223,12 @@ function showAdvice(obj, location, msg) {
     img.setAttribute('src', 'Content/exclamation-error.png');
     img.setAttribute('class', 'advice');
     img.setAttribute('id', 'icon' + location);
+    img.setAttribute('title', msg);
+    img.setAttribute('alt', msg);
 
     $('#singleAdvice' + location).stop(true, false).remove();  // remove any prev msg
     $('#icon' + location).stop(true, false).remove();
-    $('<span id="singleAdvice' + location +'" class="advice">' + msg + '</span>').insertAfter(obj);
+    $('<span id="singleAdvice' + location + '" class="advice"></span>').insertAfter(obj);
     $('#singleAdvice' + location).before(img);
 }
 
