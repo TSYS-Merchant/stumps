@@ -179,6 +179,8 @@
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="CustomDictionary.xml" />
+    <Content Include="Web\Content\exclamation-error-b.png" />
+    <Content Include="Web\Content\exclamation-error.png" />
     <Content Include="Web\Content\ico_pwr_off.png" />
     <Content Include="Web\Content\ico_pwr_on.png" />
     <Content Include="Web\Content\ico_rec_off.png" />
@@ -196,6 +198,7 @@
     <Content Include="Web\Content\tb_save.png" />
     <Content Include="Web\Content\toolbar.css" />
     <Content Include="Web\Content\stumpeditor.css" />
+    <Content Include="Web\Content\url.min.js" />
     <None Include="Resources\PageInternalServerError.html" />
     <None Include="Resources\PageNotFound.html" />
     <EmbeddedResource Include="Resources\favicon.ico" />
