@@ -179,6 +179,7 @@
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="CustomDictionary.xml" />
+    <Content Include="Web\Content\exclamation-error-b.png" />
     <Content Include="Web\Content\exclamation-error.png" />
     <Content Include="Web\Content\ico_pwr_off.png" />
     <Content Include="Web\Content\ico_pwr_on.png" />
