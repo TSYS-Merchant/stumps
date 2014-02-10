@@ -64,6 +64,7 @@
         <File Id="tb_recstop_png" Source="..\Stumps.Startup\bin\Release\Content\tb_recstop.png" />
         <File Id="tb_save_png" Source="..\Stumps.Startup\bin\Release\Content\tb_save.png" />
         <File Id="exclamation_error_png" Source="..\Stumps.Startup\bin\Release\Content\exclamation-error.png" />
+        <File Id="exclamation_error_b_png" Source="..\Stumps.Startup\bin\Release\Content\exclamation-error-b.png" />
         <File Id="toolbar_css" Source="..\Stumps.Startup\bin\Release\Content\toolbar.css" />
 
       </Component>
