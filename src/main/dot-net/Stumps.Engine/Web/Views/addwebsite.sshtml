@@ -4,6 +4,9 @@
 	<link href="/content/forms.css" rel="stylesheet" />
 @EndSection
 
+@Section['HeaderScript']
+    <script src="/content/url.min.js" type="text/javascript" charset="utf-8"></script>
+@EndSection
 @Section['Content']
 
 	<div class="displayForm greenBackground">
