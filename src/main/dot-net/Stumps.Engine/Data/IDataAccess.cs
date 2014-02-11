@@ -6,15 +6,15 @@
 
         void ProxyServerCreate(ProxyServerEntity server);
 
-        void ProxyServerDelete(string externalHostName);
+        void ProxyServerDelete(string proxyId);
 
         IList<ProxyServerEntity> ProxyServerFindAll();
 
-        StumpEntity StumpCreate(string externalHostName, StumpEntity entity, byte[] matchBody, byte[] responseBody);
+        StumpEntity StumpCreate(string proxyId, StumpEntity entity, byte[] matchBody, byte[] responseBody);
 
-        void StumpDelete(string externalHostName, string stumpId);
+        void StumpDelete(string proxyId, string stumpId);
 
-        IList<StumpEntity> StumpFindAll(string externalHostName);
+        IList<StumpEntity> StumpFindAll(string proxyId);
 
     }
 

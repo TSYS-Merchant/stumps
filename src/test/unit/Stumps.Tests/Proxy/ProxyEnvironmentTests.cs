@@ -8,10 +8,10 @@
     public class ProxyEnvironmentTests {
 
         [Test]
-        public void Constructor_InitializesWithHostName() {
+        public void Constructor_InitializesWithProxyId() {
 
             var environment = new ProxyEnvironment("ABC", Substitute.For<IDataAccess>());
-            Assert.AreEqual("ABC", environment.ExternalHostName);
+            Assert.AreEqual("ABC", environment.ProxyId);
 
         }
 
