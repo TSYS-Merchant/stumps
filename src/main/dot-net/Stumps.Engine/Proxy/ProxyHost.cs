@@ -186,17 +186,8 @@
                 Port = entity.Port,
                 UseSsl = entity.UseSsl,
                 AutoStart = entity.AutoStart,
-                ProxyId = entity.ProxyId,
                 ExternalHostName = entity.ExternalHostName
             };
-
-            //var environment = new ProxyEnvironment(entity.ExternalHostName, _dataAccess, entity.ProxyId)
-            //{
-            //    Port = entity.Port,
-            //    UseSsl = entity.UseSsl,
-            //    AutoStart = entity.AutoStart,
-            //    ProxyId = entity.ProxyId
-            //};
 
             var server = new ProxyServer(environment, _logger);
 
