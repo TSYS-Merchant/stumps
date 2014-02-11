@@ -51,7 +51,11 @@
         }
 
         private ProxyEnvironment createTestEnvironment() {
-            var environment = new ProxyEnvironment("www.google.com", Substitute.For<IDataAccess>());
+            var environment = new ProxyEnvironment("ABCD", Substitute.For<IDataAccess>())
+            {
+                ExternalHostName = "localhost"
+            };
+
             return environment;
         }
 
