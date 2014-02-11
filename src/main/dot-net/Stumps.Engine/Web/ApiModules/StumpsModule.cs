@@ -56,6 +56,8 @@
                 var model = this.Bind<StumpModel>();
                 var contract = CreateContractFromRecord(model, environment);
 
+                environment.Stumps.CreateStump(contract);
+
                 return HttpStatusCode.OK;
 
             };
