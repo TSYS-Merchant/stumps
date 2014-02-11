@@ -6,7 +6,7 @@
 
         void ProxyServerCreate(ProxyServerEntity server);
 
-        void ProxyServerDelete(string externalHostName);
+        void ProxyServerDelete(string proxyId);
 
         IList<ProxyServerEntity> ProxyServerFindAll();
 

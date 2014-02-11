@@ -72,7 +72,8 @@
             return server.Environment;
         }
 
-        public void DeleteProxy(string proxyId) {
+        public void DeleteProxy(string proxyId)
+        {
 
             if ( string.IsNullOrWhiteSpace(proxyId) ) {
                 throw new ArgumentNullException("proxyId");
@@ -84,10 +85,10 @@
                 _proxies[proxyId].Stop();
                 _proxies[proxyId].Dispose();
 
-                ProxyServer server;
-                _proxies.TryRemove(proxyId, out server);
+                ProxyServer proxyServer;
+                _proxies.TryRemove(proxyId, out proxyServer);
 
-                _dataAccess.ProxyServerDelete(hostName);
+                _dataAccess.ProxyServerDelete(proxyId);
             }
 
         }
@@ -180,12 +181,22 @@
 
         private void UnwrapAndRegisterProxy(ProxyServerEntity entity) {
 
-            var environment = new ProxyEnvironment(entity.ExternalHostName, _dataAccess) {
+            var environment = new ProxyEnvironment(entity.ProxyId, _dataAccess)
+            {
                 Port = entity.Port,
                 UseSsl = entity.UseSsl,
                 AutoStart = entity.AutoStart,
-                ProxyId = entity.ProxyId
+                ProxyId = entity.ProxyId,
+                ExternalHostName = entity.ExternalHostName
             };
+
+            //var environment = new ProxyEnvironment(entity.ExternalHostName, _dataAccess, entity.ProxyId)
+            //{
+            //    Port = entity.Port,
+            //    UseSsl = entity.UseSsl,
+            //    AutoStart = entity.AutoStart,
+            //    ProxyId = entity.ProxyId
+            //};
 
             var server = new ProxyServer(environment, _logger);
 
