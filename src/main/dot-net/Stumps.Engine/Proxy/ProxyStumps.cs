@@ -37,17 +37,8 @@
 
             var stumpList = new List<StumpContract>(FindAllContracts());
             var stump = stumpList.Find(s => s.StumpName.Equals(stumpName, StringComparison.OrdinalIgnoreCase));
-
             
-            //return stump == null;
-            if (stump == null)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
+            return (stump == null);
         }
 
         public StumpContract CreateStump(StumpContract contract) {
