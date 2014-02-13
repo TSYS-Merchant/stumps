@@ -375,6 +375,11 @@ $('#stmp_name').blur(function() {
 	$('#singleAdvice' + location).hide();   
     $('#icon' + location).hide();
 
+	var currentStumpName = '@Model.StumpName';
+	if (currentStumpName.toUpperCase() === $(this).val().toUpperCase()) {
+		return;
+	}
+
     // verifies a user does not attempt to create a stump with a blank name
     if(!$(this).val() || 0 === $(this).val().length) {
         showAdvice('#stmp_name', location, "Name required");
@@ -396,7 +401,7 @@ $('#stmp_name').blur(function() {
             }
         },
         error: function() {
-            showAdvice('#portBox', location, "Danger, DANGER, Will Robinson!");
+            showAdvice('#stmp_name', location, "Danger, DANGER, Will Robinson!");
         }
     });
     
