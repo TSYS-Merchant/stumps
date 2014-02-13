@@ -93,6 +93,24 @@
 
             };
 
+            Get["/api/proxy/{proxyId}/stumps/isStumpNameAvailable/{stumpName}"] = _ =>
+            {
+
+                var proxyId = (string)_.proxyId;
+                var stumpName = (string)_.stumpName;
+                var environment = proxyHost.FindProxy(proxyId);
+
+                var isStumpNameAvailable = environment.Stumps.StumpNameExists(stumpName);
+
+                var model = new
+                {
+                    StumpNameIsAvailable = isStumpNameAvailable
+                };
+
+                return Response.AsJson(model);
+
+            };
+
         }
 
         private StumpContract CreateContractFromRecord(StumpModel model, ProxyEnvironment environment) {
