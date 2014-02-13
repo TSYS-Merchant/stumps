@@ -324,9 +324,9 @@ function saveStump() {
 		  "ResponseHeaders" : saveHeaders('reshdr'),
 		  "ResponseStatusCode" : $('#resstatuscode_text').val(),
 		  "ResponseStatusDescription" : $('#resstatusdesc_text').val(),
-		  "StumpId" : "@Model.StumpI"d
+		  "StumpId" : "@Model.StumpId"
 		};
-
+		 
     $.ajax({
         type: 'POST',
         contentType: 'application/json; charset-utf-8',
@@ -349,7 +349,7 @@ function saveButton_success() {
 }
 
 function saveButton_error(event, request, settings) {
-	
+	alert('An exception was thrown!');
 }
 
 function saveButton_complete() {
