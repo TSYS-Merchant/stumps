@@ -358,7 +358,7 @@ function saveButton_complete() {
 
 function showAdvice(obj, location, msg) {
     var img = document.createElement('IMG');
-    img.setAttribute('src', 'Content/exclamation-error-b.png');
+    img.setAttribute('src', '/content/exclamation-error-b.png');
     img.setAttribute('class', 'advice');
     img.setAttribute('id', 'icon' + location);
     img.setAttribute('title', msg);
