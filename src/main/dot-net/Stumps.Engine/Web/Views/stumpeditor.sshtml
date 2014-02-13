@@ -370,6 +370,36 @@ function showAdvice(obj, location, msg) {
     $('#singleAdvice' + location).before(img);
 }
 
+$('#stmp_name').blur(function() {
+    var location = 'stmp_name';
+
+    // verifies a user does not attempt to create a stump with a blank name
+    if(!$(this).val() || 0 === $(this).val().length) {
+        showAdvice('#stmp_name', location, "Name required");
+    }
+
+	if ($(this).val().length > 50) {
+        showAdvice('#stmp_name', location, "Max name length is 50 characters.");
+    }
+    
+	$.ajax({
+        type: 'GET',
+        contentType: 'application/json; charset-utf-8',
+        url: '/api/proxy/@Model.ProxyId/stumps/isStumpNameAvailable/' + $(this).val(),
+        cache: false,
+        async: false,
+        success: function(msg) {
+            if ( !msg.isStumpNameAvailable ) {
+                showAdvice('#stmp_name', location, "Stump name already in use.");
+            }
+        },
+        error: function() {
+            showAdvice('#portBox', location, "Danger, DANGER, Will Robinson!");
+        }
+    });
+    
+});
+
 function saveMatchText() {
 
 	var values = new Array();
