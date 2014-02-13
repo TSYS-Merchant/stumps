@@ -13,17 +13,17 @@
         private readonly List<Stump> _stumpList;
         private readonly Dictionary<string, Stump> _stumpReference;
         private readonly IDataAccess _dataAccess;
-        private readonly string _externalHostName;
+        private readonly string _proxyId;
         private ReaderWriterLockSlim _lock;
         private bool _disposed;
 
-        public ProxyStumps(string externalHostName, IDataAccess dataAccess) {
+        public ProxyStumps(string proxyId, IDataAccess dataAccess) {
 
             _stumpList = new List<Stump>();
             _stumpReference = new Dictionary<string, Stump>(StringComparer.OrdinalIgnoreCase);
 
             _dataAccess = dataAccess;
-            _externalHostName = externalHostName;
+            _proxyId = proxyId;
 
             _lock = new ReaderWriterLockSlim(LockRecursionPolicy.NoRecursion);
 
@@ -59,7 +59,7 @@
 
             var entity = CreateEntityFromContract(contract);
 
-            _dataAccess.StumpCreate(_externalHostName, entity, contract.MatchBody, contract.Response.Body);
+            _dataAccess.StumpCreate(_proxyId, entity, contract.MatchBody, contract.Response.Body);
 
             UnwrapAndAddStump(contract);
 
@@ -75,7 +75,7 @@
             _stumpReference.Remove(stumpId);
             _stumpList.Remove(stump);
 
-            _dataAccess.StumpDelete(_externalHostName, stumpId);
+            _dataAccess.StumpDelete(_proxyId, stumpId);
 
             _lock.ExitWriteLock();
 
@@ -83,7 +83,7 @@
 
         public void Load() {
 
-            var entities = _dataAccess.StumpFindAll(_externalHostName);
+            var entities = _dataAccess.StumpFindAll(_proxyId);
 
             foreach ( var entity in entities ) {
                 var contract = CreateContractFromEntity(entity);

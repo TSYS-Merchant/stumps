@@ -9,12 +9,13 @@
         private int _requestsServed;
         private IDataAccess _dataAccess;
 
-        public ProxyEnvironment(string externalHostName, IDataAccess dataAccess) {
+        public ProxyEnvironment(string proxyId, IDataAccess dataAccess)
+        {
             this.Recordings = new ProxyRecordings();
-            this.Stumps = new ProxyStumps(externalHostName, dataAccess);
+            this.Stumps = new ProxyStumps(proxyId, dataAccess);
 
             _dataAccess = dataAccess;
-            this.ExternalHostName = externalHostName;
+            this.ProxyId = proxyId;
         }
 
         public bool AutoStart { get; set; }
