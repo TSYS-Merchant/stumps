@@ -372,6 +372,8 @@ function showAdvice(obj, location, msg) {
 
 $('#stmp_name').blur(function() {
     var location = 'stmp_name';
+	$('#singleAdvice' + location).hide();   
+    $('#icon' + location).hide();
 
     // verifies a user does not attempt to create a stump with a blank name
     if(!$(this).val() || 0 === $(this).val().length) {
