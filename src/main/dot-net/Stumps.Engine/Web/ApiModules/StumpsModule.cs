@@ -100,7 +100,7 @@
                 var stumpName = (string)_.stumpName;
                 var environment = proxyHost.FindProxy(proxyId);
 
-                var isStumpNameAvailable = environment.Stumps.StumpNameExists(stumpName);
+                var isStumpNameAvailable = !environment.Stumps.StumpNameExists(stumpName);
 
                 var model = new
                 {

@@ -389,7 +389,7 @@ $('#stmp_name').blur(function() {
         cache: false,
         async: false,
         success: function(msg) {
-            if ( !msg.isStumpNameAvailable ) {
+            if ( !msg.StumpNameIsAvailable ) {
                 showAdvice('#stmp_name', location, "Stump name already in use.");
             }
         },
