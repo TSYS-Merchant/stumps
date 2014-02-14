@@ -41,7 +41,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="NSubstitute">
-      <HintPath>..\..\..\main\dot-net\packages\NSubstitute.1.6.1.0\lib\NET40\NSubstitute.dll</HintPath>
+      <HintPath>..\..\..\main\dot-net\packages\NSubstitute.1.7.1.0\lib\NET40\NSubstitute.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework, Version=2.6.3.13283, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <HintPath>..\..\..\main\dot-net\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
@@ -80,6 +80,7 @@
     <Compile Include="Proxy\ProxyEnvironmentTests.cs" />
     <Compile Include="Proxy\ProxyHandlerTests.cs" />
     <Compile Include="Proxy\ProxyHostTests.cs" />
+    <Compile Include="Proxy\ProxyStumpsTests.cs" />
     <Compile Include="Proxy\UrlRuleTests.cs" />
     <Compile Include="SampleJsonObject.cs" />
     <Compile Include="StumpServerTests.cs" />

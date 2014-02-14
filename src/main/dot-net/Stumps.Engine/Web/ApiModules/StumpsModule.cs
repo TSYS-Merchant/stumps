@@ -2,6 +2,7 @@
 
     using System.Collections.Generic;
     using System.Text;
+    using System;
     using Nancy;
     using Nancy.ModelBinding;
     using Stumps.Proxy;
@@ -70,6 +71,19 @@
                 var model = this.Bind<StumpModel>();
                 var contract = CreateContractFromStump(model, environment);
 
+                if(environment.Stumps.FindStump(contract.StumpId).Equals(null)){
+                    throw new ArgumentException("Stump name cannot be null.");
+                }
+
+                if (environment.Stumps.StumpNameExists(contract.StumpName))
+                {
+                    var oldStump = environment.Stumps.FindStump(contract.StumpId);
+                    if (!oldStump.Contract.StumpName.Equals(contract.StumpName, StringComparison.OrdinalIgnoreCase))
+                    {
+                        throw new ArgumentException("Attempting to create a stump with a name that already exists.");
+                    }
+                }
+
                 environment.Stumps.DeleteStump(model.StumpId);
                 environment.Stumps.CreateStump(contract);
 
@@ -89,6 +103,24 @@
                 environment.Stumps.DeleteStump(stumpId);
 
                 return HttpStatusCode.OK;
+
+            };
+
+            Get["/api/proxy/{proxyId}/stumps/isStumpNameAvailable/{stumpName}"] = _ =>
+            {
+
+                var proxyId = (string)_.proxyId;
+                var stumpName = (string)_.stumpName;
+                var environment = proxyHost.FindProxy(proxyId);
+
+                var isStumpNameAvailable = !environment.Stumps.StumpNameExists(stumpName);
+
+                var model = new
+                {
+                    StumpNameIsAvailable = isStumpNameAvailable
+                };
+
+                return Response.AsJson(model);
 
             };
 
