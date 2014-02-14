@@ -71,6 +71,15 @@
                 var model = this.Bind<StumpModel>();
                 var contract = CreateContractFromStump(model, environment);
 
+                if (environment.Stumps.StumpNameExists(contract.StumpName))
+                {
+                    var oldStump = environment.Stumps.FindStump(contract.StumpId);
+                    if (!oldStump.Contract.StumpName.Equals(contract.StumpName, StringComparison.OrdinalIgnoreCase))
+                    {
+                        throw new ArgumentException("Attempting to create a stump with a name that already exists.");
+                    }
+                }
+
                 environment.Stumps.DeleteStump(model.StumpId);
                 environment.Stumps.CreateStump(contract);
 
