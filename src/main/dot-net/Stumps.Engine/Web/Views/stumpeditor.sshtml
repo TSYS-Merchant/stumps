@@ -357,7 +357,7 @@ function saveButton_success() {
 }
 
 function saveButton_error(event, request, settings) {
-	alert('An exception was thrown!');
+	location.href = "/proxy/@Model.ProxyId/stumps";
 }
 
 function saveButton_complete() {
@@ -391,10 +391,12 @@ $('#stmp_name').blur(function() {
     // verifies a user does not attempt to create a stump with a blank name
     if(!$(this).val() || 0 === $(this).val().length) {
         showAdvice('#stmp_name', location, "Name required");
+		return;
     }
 
 	if ($(this).val().length > 50) {
         showAdvice('#stmp_name', location, "Max name length is 50 characters.");
+		return;
     }
     
 	$.ajax({

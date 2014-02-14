@@ -71,6 +71,10 @@
                 var model = this.Bind<StumpModel>();
                 var contract = CreateContractFromStump(model, environment);
 
+                if(environment.Stumps.FindStump(contract.StumpId).Equals(null)){
+                    throw new ArgumentException("Stump name cannot be null.");
+                }
+
                 if (environment.Stumps.StumpNameExists(contract.StumpName))
                 {
                     var oldStump = environment.Stumps.FindStump(contract.StumpId);

@@ -111,13 +111,10 @@
         public Stump FindStump(string stumpId) {
 
             _lock.EnterReadLock();
-
+            
             var stump = _stumpReference[stumpId];
-
-            _lock.ExitReadLock();
-
-            return stump;
-
+                _lock.ExitReadLock();
+                return stump;
         }
 
         public Stump FindStump(IStumpsHttpContext context) {

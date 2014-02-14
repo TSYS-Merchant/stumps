@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Stumps.Proxy
+﻿namespace Stumps.Proxy
 {
 
     using System;
@@ -19,13 +13,32 @@ namespace Stumps.Proxy
     class ProxyStumpsTests
     {
         
-        private static string DOMAIN = "www.google.com";
+        private static string Domain = "www.google.com";
 
         [Test]
-        public void CreateStump_UniqueName_CreateStumpSuccessfully()
+        public void StumpNameExists_WithNonExistantName_ReturnsFalse()
         {
-            //ProxyStumps stump = new ProxyStumps(DOMAIN, Substitute.For<IDataAccess>());
-            //Assert.IsTrue(stump.StumpNameExists("nameDNE"));
+            var dal = Substitute.For<IDataAccess>();
+
+            ProxyStumps stump = new ProxyStumps(Domain, dal);
+            Assert.IsFalse(stump.StumpNameExists("nameDNE"));
         }
+
+        [Test]
+        public void StumpNameExists_WithExistantName_ReturnsTrue()
+        {
+            var dal = Substitute.For<IDataAccess>();
+            StumpContract contract = new StumpContract();
+            contract.StumpName = "name";
+            contract.StumpId = "abc";
+            contract.MatchHeaders = new HttpHeader[] { };
+            contract.Response = new RecordedResponse();
+
+            ProxyStumps stump = new ProxyStumps(Domain, dal);
+            stump.CreateStump(contract);
+            Assert.IsTrue(stump.StumpNameExists("name"));
+        }
+
     }
+
 }
