@@ -259,8 +259,12 @@ function ensureSingleTextCriteria() {
 }
 
 @If.LoadStump
-function saveStump() {
-	
+function saveStump() {	
+
+	if ( $('.advice').is(':visible') ) {
+        return;
+    }
+
 	if ( lockSaveStump ) {
 		return;
 	}
@@ -304,6 +308,10 @@ function saveStump() {
 @If.LoadRecord
 function saveStump() {
 	
+	if ( $('.advice').is(':visible') ) {
+        return;
+    }
+
 	if ( lockSaveStump ) {
 		return;
 	}
