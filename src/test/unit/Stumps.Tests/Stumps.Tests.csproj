@@ -40,9 +40,6 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Nancy">
-      <HintPath>..\..\..\main\dot-net\packages\Nancy.0.22.0\lib\net40\Nancy.dll</HintPath>
-    </Reference>
     <Reference Include="NSubstitute">
       <HintPath>..\..\..\main\dot-net\packages\NSubstitute.1.7.1.0\lib\NET40\NSubstitute.dll</HintPath>
     </Reference>
