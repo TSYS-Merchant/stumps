@@ -11,7 +11,6 @@ buildscript {
 group = 'com.merchantwarehouse'
 version = '0.1.0-SNAPSHOT'
 apply plugin: 'mwversion'
-apply plugin: 'java'
 apply plugin: 'msbuild'
 
 
@@ -27,6 +26,7 @@ msbuild {
     parameters.buildNumber = project.buildNumber
 }
 msbuild.outputs.upToDateWhen { false }
+task build
 build.dependsOn msbuild
 
 artifacts {
