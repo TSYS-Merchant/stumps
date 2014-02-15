@@ -108,8 +108,6 @@
     <Compile Include="Proxy\RecordedContext.cs" />
     <Compile Include="Http\StumpsContextEventArgs.cs" />
     <Compile Include="Http\HttpServer.cs" />
-    <Compile Include="Http\HttpServer_Threaded.cs" />
-    <Compile Include="Http\HttpServer_Net45.cs" />
     <Compile Include="Logging\DebugLogger.cs" />
     <Compile Include="Proxy\IProxyHost.cs" />
     <Compile Include="Proxy\ProxyHost.cs" />
