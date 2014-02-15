@@ -73,10 +73,8 @@
 
             try
             {
-                response = new ErrorJsonResponse(error)
-                {
-                    StatusCode = HttpStatusCode.InternalServerError
-                };
+                response = new ErrorJsonResponse(error);
+                response.StatusCode = HttpStatusCode.InternalServerError;
             }
             catch
             {

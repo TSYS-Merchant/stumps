@@ -140,12 +140,6 @@
 
         }
 
-        private static string CleanExternalHostName(string externalHostName)
-        {
-            externalHostName = externalHostName.Replace(':', '.');
-            return externalHostName;
-        }
-
     }
 
 }

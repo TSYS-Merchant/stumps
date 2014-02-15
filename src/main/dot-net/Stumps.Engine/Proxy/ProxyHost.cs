@@ -87,8 +87,6 @@
 
             if (_proxies.ContainsKey(proxyId))
             {
-                var hostName = _proxies[proxyId].Environment.ExternalHostName;
-
                 _proxies[proxyId].Stop();
                 _proxies[proxyId].Dispose();
 
