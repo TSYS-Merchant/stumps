@@ -20,7 +20,6 @@
             mockHandler.UpdateBody(TestData.SampleTextResponse);
             mockHandler.AddHeader("X-Stumps", "V1");
 
-            var startingEventCount = 0;
             var finishingEventCount = 0;
 
             using (var server = HttpHelper.CreateHttpServer(mockHandler))
