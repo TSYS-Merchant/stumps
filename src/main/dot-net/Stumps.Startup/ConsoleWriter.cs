@@ -6,12 +6,12 @@
     public class ConsoleWriter : IMessageWriter
     {
 
-        public void Debug(string message)
+        public void WriteDebug(string message)
         {
             WriteToConsole(message, ConsoleColor.Yellow);
         }
 
-        public void Error(string message)
+        public void WriteError(string message)
         {
             WriteToConsole(message, ConsoleColor.Red);
         }

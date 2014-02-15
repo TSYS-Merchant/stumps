@@ -13,6 +13,7 @@
         /// <summary>
         ///     The main entry point for the application.
         /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1303:Do not pass literals as localized parameters", MessageId = "Stumps.IMessageWriter.WriteError(System.String)", Justification = "The literal is just an empty space.")]
         public static void Main(string[] args)
         {
 
@@ -24,7 +25,7 @@
 
             if (IsApplicationAlreadyRunning())
             {
-                writer.Error(Resources.ApplicationRunning);
+                writer.WriteError(Resources.ApplicationRunning);
                 return;
             }
 
@@ -39,7 +40,7 @@
             if (configurationFile == null)
             {
 
-                writer.Error(Resources.InvalidArguments + string.Join(" ", args));
+                writer.WriteError(Resources.InvalidArguments + string.Join(@" ", args));
 
                 if (isRunningAsConsole)
                 {
