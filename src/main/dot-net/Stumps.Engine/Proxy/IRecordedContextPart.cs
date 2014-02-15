@@ -1,8 +1,10 @@
-﻿namespace Stumps.Proxy {
+﻿namespace Stumps.Proxy
+{
 
     using System.Collections.Generic;
 
-    internal interface IRecordedContextPart {
+    internal interface IRecordedContextPart
+    {
 
         byte[] Body { get; set; }
 

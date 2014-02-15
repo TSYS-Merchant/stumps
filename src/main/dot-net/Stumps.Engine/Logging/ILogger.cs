@@ -1,8 +1,10 @@
-﻿namespace Stumps.Logging {
+﻿namespace Stumps.Logging
+{
 
     using System;
 
-    public interface ILogger {
+    public interface ILogger
+    {
 
         void LogInfo(string data);
 

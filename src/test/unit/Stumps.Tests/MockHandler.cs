@@ -1,16 +1,19 @@
-﻿namespace Stumps {
+﻿namespace Stumps
+{
 
     using System;
     using System.Collections.Generic;
     using System.Text;
     using Stumps.Http;
 
-    public class MockHandler : IHttpHandler {
+    public class MockHandler : IHttpHandler
+    {
 
-        private List<Tuple<string, string>> _headers;
+        private readonly List<Tuple<string, string>> _headers;
         private byte[] _body;
 
-        public MockHandler() {
+        public MockHandler()
+        {
 
             _headers = new List<Tuple<string, string>>();
 
@@ -21,36 +24,17 @@
 
         }
 
-        public string ContentType {
-            get;
-            set;
-        }
+        public string ContentType { get; set; }
 
-        public int StatusCode {
-            get;
-            set;
-        }
+        public int StatusCode { get; set; }
 
-        public string StatusDescription {
-            get;
-            set;
-        }
+        public string StatusDescription { get; set; }
 
-        public void AddHeader(string headerName, string headerValue) {
+        public ProcessHandlerResult ProcessRequest(IStumpsHttpContext context)
+        {
 
-            _headers.Add(new Tuple<string, string>(headerName, headerValue));
-
-        }
-
-        public void UpdateBody(string value) {
-
-            _body = Encoding.UTF8.GetBytes(value);
-
-        }
-
-        public ProcessHandlerResult ProcessRequest(IStumpsHttpContext context) {
-
-            foreach ( var value in _headers ) {
+            foreach (var value in _headers)
+            {
                 context.Response.AddHeader(value.Item1, value.Item2);
             }
 
@@ -58,11 +42,26 @@
             context.Response.StatusCode = this.StatusCode;
             context.Response.StatusDescription = this.StatusDescription;
 
-            if ( _body != null && _body.Length > 0 ) {
+            if (_body != null && _body.Length > 0)
+            {
                 context.Response.OutputStream.Write(_body, 0, _body.Length);
             }
-            
+
             return ProcessHandlerResult.Terminate;
+
+        }
+
+        public void AddHeader(string headerName, string headerValue)
+        {
+
+            _headers.Add(new Tuple<string, string>(headerName, headerValue));
+
+        }
+
+        public void UpdateBody(string value)
+        {
+
+            _body = Encoding.UTF8.GetBytes(value);
 
         }
 

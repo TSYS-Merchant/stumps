@@ -1,16 +1,19 @@
-﻿namespace Stumps.Data {
+﻿namespace Stumps.Data
+{
 
     using System;
-    using System.IO;
     using Stumps.Utility;
 
-    public class ConfigurationDataAccess : IConfigurationDataAccess {
+    public class ConfigurationDataAccess : IConfigurationDataAccess
+    {
 
         private readonly string _configurationFile;
 
-        public ConfigurationDataAccess(string configurationFile) {
+        public ConfigurationDataAccess(string configurationFile)
+        {
 
-            if ( configurationFile == null ) {
+            if (configurationFile == null)
+            {
                 throw new ArgumentNullException("configurationFile");
             }
 
@@ -18,16 +21,19 @@
 
         }
 
-        public ConfigurationEntity LoadConfiguration() {
+        public ConfigurationEntity LoadConfiguration()
+        {
 
             var loadedConfiguration = JsonUtility.DeserializeFromFile<ConfigurationEntity>(_configurationFile);
             return loadedConfiguration;
 
         }
 
-        public void SaveConfiguration(ConfigurationEntity value) {
+        public void SaveConfiguration(ConfigurationEntity value)
+        {
 
-            if ( value == null ) {
+            if (value == null)
+            {
                 throw new ArgumentNullException("value");
             }
 

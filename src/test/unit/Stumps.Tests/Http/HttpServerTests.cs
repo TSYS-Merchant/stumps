@@ -1,4 +1,5 @@
-﻿namespace Stumps.Http {
+﻿namespace Stumps.Http
+{
 
     using System;
     using System.Globalization;
@@ -9,42 +10,38 @@
     using Stumps.Logging;
 
     [TestFixture]
-    public class HttpServerTests {
+    public class HttpServerTests
+    {
 
         [Test]
-        public void Constructor_WithInvalidHandler_ThrowsException() {
+        public void Constructor_WithInvalidHandler_ThrowsException()
+        {
 
             ILogger logger = Substitute.For<ILogger>();
             IHttpHandler handler = null;
 
             Assert.That(
                 () => new HttpServer(8080, handler, logger),
-                Throws.Exception
-                    .TypeOf<ArgumentNullException>()
-                    .With.Property("ParamName")
-                    .EqualTo("handler")
-            );
+                Throws.Exception.TypeOf<ArgumentNullException>().With.Property("ParamName").EqualTo("handler"));
 
         }
 
         [Test]
-        public void Constructor_WithInvalidLogger_ThrowsException() {
+        public void Constructor_WithInvalidLogger_ThrowsException()
+        {
 
             ILogger logger = null;
             IHttpHandler handler = Substitute.For<IHttpHandler>();
 
             Assert.That(
                 () => new HttpServer(8080, handler, logger),
-                Throws.Exception
-                    .TypeOf<ArgumentNullException>()
-                    .With.Property("ParamName")
-                    .EqualTo("logger")
-            );
+                Throws.Exception.TypeOf<ArgumentNullException>().With.Property("ParamName").EqualTo("logger"));
 
         }
 
         [Test]
-        public void Constructor_WithInvalidPort_ThrowsException() {
+        public void Constructor_WithInvalidPort_ThrowsException()
+        {
 
             int exceedsMaximumPort = IPEndPoint.MaxPort + 1;
             int exceedsMinimumPort = IPEndPoint.MinPort - 1;
@@ -54,40 +51,38 @@
 
             Assert.That(
                 () => new HttpServer(exceedsMaximumPort, handler, logger),
-                Throws.Exception
-                    .TypeOf<ArgumentOutOfRangeException>()
-                    .With.Property("ParamName")
-                    .EqualTo("port")
-            );
+                Throws.Exception.TypeOf<ArgumentOutOfRangeException>().With.Property("ParamName").EqualTo("port"));
 
             Assert.That(
                 () => new HttpServer(exceedsMinimumPort, handler, logger),
-                Throws.Exception
-                    .TypeOf<ArgumentOutOfRangeException>()
-                    .With.Property("ParamName")
-                    .EqualTo("port")
-            );
+                Throws.Exception.TypeOf<ArgumentOutOfRangeException>().With.Property("ParamName").EqualTo("port"));
 
         }
 
         [Test]
-        public void HttpServer_StartStop_Success() {
+        public void HttpServer_StartStop_Success()
+        {
 
-            Assert.DoesNotThrow(() => {
-                using ( var server = HttpHelper.CreateHttpServer() ) {
+            Assert.DoesNotThrow(
+                () =>
+                {
+                    using (var server = HttpHelper.CreateHttpServer())
+                    {
 
-                    server.StartListening();
-                    server.StopListening();
+                        server.StartListening();
+                        server.StopListening();
 
-                }
-            });
+                    }
+                });
 
         }
 
         [Test]
-        public void HttpServer_StartStop_UpdatesProperty() {
+        public void HttpServer_StartStop_UpdatesProperty()
+        {
 
-            using ( var server = HttpHelper.CreateHttpServer() ) {
+            using (var server = HttpHelper.CreateHttpServer())
+            {
 
                 Assert.IsFalse(server.Started);
 
@@ -104,42 +99,8 @@
         }
 
         [Test]
-        public void ProcessAsyncRequest_WithValidRequest_ReturnsResponseFromHandler() {
-
-            var mockHandler = new MockHandler();
-            mockHandler.StatusCode = 202;
-            mockHandler.StatusDescription = "Bob";
-            mockHandler.UpdateBody(TestData.SampleTextResponse);
-
-            using ( var server = HttpHelper.CreateHttpServer(mockHandler) ) {
-
-                server.StartListening();
-
-                var uri = new Uri("http://localhost:" + server.Port.ToString(CultureInfo.InvariantCulture) + "/");
-
-                var request = WebRequest.CreateHttp(uri);
-
-                using ( var response = (HttpWebResponse) request.GetResponse() ) {
-
-                    Assert.AreEqual(HttpStatusCode.Accepted, response.StatusCode);
-                    Assert.AreEqual(mockHandler.StatusDescription, response.StatusDescription);
-
-                    string body;
-
-                    using ( var sr = new StreamReader(response.GetResponseStream()) ) {
-                        body = sr.ReadToEnd();
-                    }
-
-                    Assert.AreEqual(TestData.SampleTextResponse, body);
-
-                }
-
-            }
-
-        }
-
-        [Test]
-        public void ProcessAsyncRequest_WithValidRequest_RaisesServerEvents() {
+        public void ProcessAsyncRequest_WithValidRequest_RaisesServerEvents()
+        {
 
             var mockHandler = new MockHandler();
             mockHandler.StatusCode = 202;
@@ -149,9 +110,11 @@
             var startingEventCount = 0;
             var finishingEventCount = 0;
 
-            using ( var server = HttpHelper.CreateHttpServer(mockHandler) ) {
+            using (var server = HttpHelper.CreateHttpServer(mockHandler))
+            {
 
-                server.RequestStarting += (o, i) => {
+                server.RequestStarting += (o, i) =>
+                {
                     startingEventCount++;
                     Assert.IsNotNull(o);
                     Assert.IsNotNull(i);
@@ -160,7 +123,8 @@
                     Assert.IsNotNull(i.Context.Response);
                 };
 
-                server.RequestFinishing += (o, i) => {
+                server.RequestFinishing += (o, i) =>
+                {
                     finishingEventCount++;
                     Assert.IsNotNull(o);
                     Assert.IsNotNull(i);
@@ -175,7 +139,8 @@
 
                 var request = WebRequest.CreateHttp(uri);
 
-                using ( var response = (HttpWebResponse) request.GetResponse() ) {
+                using (var response = (HttpWebResponse)request.GetResponse())
+                {
                     Assert.IsNotNull(response);
                 }
 
@@ -187,35 +152,82 @@
         }
 
         [Test]
-        public void StartListening_CalledTwice_Accepted() {
+        public void ProcessAsyncRequest_WithValidRequest_ReturnsResponseFromHandler()
+        {
 
-            Assert.DoesNotThrow(() => {
-                using ( var server = HttpHelper.CreateHttpServer() ) {
+            var mockHandler = new MockHandler();
+            mockHandler.StatusCode = 202;
+            mockHandler.StatusDescription = "Bob";
+            mockHandler.UpdateBody(TestData.SampleTextResponse);
 
-                    server.StartListening();
-                    server.StartListening();
-                    server.StopListening();
+            using (var server = HttpHelper.CreateHttpServer(mockHandler))
+            {
+
+                server.StartListening();
+
+                var uri = new Uri("http://localhost:" + server.Port.ToString(CultureInfo.InvariantCulture) + "/");
+
+                var request = WebRequest.CreateHttp(uri);
+
+                using (var response = (HttpWebResponse)request.GetResponse())
+                {
+
+                    Assert.AreEqual(HttpStatusCode.Accepted, response.StatusCode);
+                    Assert.AreEqual(mockHandler.StatusDescription, response.StatusDescription);
+
+                    string body;
+
+                    using (var sr = new StreamReader(response.GetResponseStream()))
+                    {
+                        body = sr.ReadToEnd();
+                    }
+
+                    Assert.AreEqual(TestData.SampleTextResponse, body);
 
                 }
-            });
+
+            }
 
         }
 
         [Test]
-        public void StopListening_CalledTwice_Accepted() {
+        public void StartListening_CalledTwice_Accepted()
+        {
 
-            Assert.DoesNotThrow(() => {
-                using ( var server = HttpHelper.CreateHttpServer() ) {
+            Assert.DoesNotThrow(
+                () =>
+                {
+                    using (var server = HttpHelper.CreateHttpServer())
+                    {
 
-                    server.StartListening();
-                    server.StopListening();
-                    server.StopListening();
+                        server.StartListening();
+                        server.StartListening();
+                        server.StopListening();
 
-                }
-            });
+                    }
+                });
 
         }
-        
+
+        [Test]
+        public void StopListening_CalledTwice_Accepted()
+        {
+
+            Assert.DoesNotThrow(
+                () =>
+                {
+                    using (var server = HttpHelper.CreateHttpServer())
+                    {
+
+                        server.StartListening();
+                        server.StopListening();
+                        server.StopListening();
+
+                    }
+                });
+
+        }
+
     }
 
 }

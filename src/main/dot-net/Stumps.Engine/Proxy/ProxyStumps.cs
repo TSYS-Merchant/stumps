@@ -1,4 +1,5 @@
-﻿namespace Stumps.Proxy {
+﻿namespace Stumps.Proxy
+{
 
     using System;
     using System.Collections.Generic;
@@ -8,16 +9,18 @@
     using Stumps.Http;
     using Stumps.Utility;
 
-    public class ProxyStumps : IDisposable {
+    public class ProxyStumps : IDisposable
+    {
 
-        private readonly List<Stump> _stumpList;
-        private readonly Dictionary<string, Stump> _stumpReference;
         private readonly IDataAccess _dataAccess;
         private readonly string _proxyId;
-        private ReaderWriterLockSlim _lock;
+        private readonly List<Stump> _stumpList;
+        private readonly Dictionary<string, Stump> _stumpReference;
         private bool _disposed;
+        private ReaderWriterLockSlim _lock;
 
-        public ProxyStumps(string proxyId, IDataAccess dataAccess) {
+        public ProxyStumps(string proxyId, IDataAccess dataAccess)
+        {
 
             _stumpList = new List<Stump>();
             _stumpReference = new Dictionary<string, Stump>(StringComparer.OrdinalIgnoreCase);
@@ -29,25 +32,32 @@
 
         }
 
-        public int Count {
+        public int Count
+        {
             get { return _stumpList.Count; }
         }
 
-        public bool StumpNameExists(string stumpName) {
+        public bool StumpNameExists(string stumpName)
+        {
 
             var stumpList = new List<StumpContract>(FindAllContracts());
             var stump = stumpList.Find(s => s.StumpName.Equals(stumpName, StringComparison.OrdinalIgnoreCase));
+            var stumpNameExists = stump != null;
             
-            return (stump != null);
+            return stumpNameExists;
+
         }
 
-        public StumpContract CreateStump(StumpContract contract) {
+        public StumpContract CreateStump(StumpContract contract)
+        {
 
-            if ( contract == null ) {
+            if (contract == null)
+            {
                 throw new ArgumentNullException("contract");
             }
 
-            if ( string.IsNullOrEmpty(contract.StumpId) ) {
+            if (string.IsNullOrEmpty(contract.StumpId))
+            {
                 contract.StumpId = RandomGenerator.GenerateIdentifier();
             }
 
@@ -55,7 +65,6 @@
             {
                 throw new ArgumentException("A stump with that name already exists.");
             }
-
 
             var entity = CreateEntityFromContract(contract);
 
@@ -67,7 +76,8 @@
 
         }
 
-        public void DeleteStump(string stumpId) {
+        public void DeleteStump(string stumpId)
+        {
 
             _lock.EnterWriteLock();
 
@@ -81,24 +91,36 @@
 
         }
 
-        public void Load() {
+        public void Dispose()
+        {
+
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+
+        }
+
+        public void Load()
+        {
 
             var entities = _dataAccess.StumpFindAll(_proxyId);
 
-            foreach ( var entity in entities ) {
+            foreach (var entity in entities)
+            {
                 var contract = CreateContractFromEntity(entity);
                 UnwrapAndAddStump(contract);
             }
 
         }
 
-        public IList<StumpContract> FindAllContracts() {
+        public IList<StumpContract> FindAllContracts()
+        {
 
             var stumpContractList = new List<StumpContract>();
 
             _lock.EnterReadLock();
 
-            foreach ( var stump in _stumpList ) {
+            foreach (var stump in _stumpList)
+            {
                 stumpContractList.Add(stump.Contract);
             }
 
@@ -108,23 +130,27 @@
 
         }
 
-        public Stump FindStump(string stumpId) {
+        public Stump FindStump(string stumpId)
+        {
 
             _lock.EnterReadLock();
-            
+
             var stump = _stumpReference[stumpId];
-                _lock.ExitReadLock();
-                return stump;
+            _lock.ExitReadLock();
+            return stump;
         }
 
-        public Stump FindStump(IStumpsHttpContext context) {
+        public Stump FindStump(IStumpsHttpContext context)
+        {
 
             Stump foundStump = null;
 
             _lock.EnterReadLock();
 
-            foreach ( var stump in _stumpList ) {
-                if ( stump.IsMatch(context) ) {
+            foreach (var stump in _stumpList)
+            {
+                if (stump.IsMatch(context))
+                {
                     foundStump = stump;
                     break;
                 }
@@ -136,9 +162,28 @@
 
         }
 
-        private StumpContract CreateContractFromEntity(StumpEntity entity) {
+        protected virtual void Dispose(bool disposing)
+        {
 
-            var contract = new StumpContract {
+            if (disposing && !_disposed)
+            {
+                _disposed = true;
+
+                if (_lock != null)
+                {
+                    _lock.Dispose();
+                    _lock = null;
+                }
+
+            }
+
+        }
+
+        private StumpContract CreateContractFromEntity(StumpEntity entity)
+        {
+
+            var contract = new StumpContract
+            {
                 HttpMethod = entity.HttpMethod,
                 MatchBody = LoadFile(entity.MatchBodyFileName),
                 MatchBodyContentType = entity.MatchBodyContentType ?? string.Empty,
@@ -151,7 +196,8 @@
                 MatchHttpMethod = entity.MatchHttpMethod,
                 MatchRawUrl = entity.MatchRawUrl,
                 RawUrl = entity.RawUrl,
-                Response = new RecordedResponse {
+                Response = new RecordedResponse
+                {
                     Body = LoadFile(entity.ResponseBodyFileName),
                     BodyContentType = entity.ResponseBodyContentType,
                     BodyIsImage = entity.ResponseBodyIsImage,
@@ -169,9 +215,11 @@
 
         }
 
-        private StumpEntity CreateEntityFromContract(StumpContract contract) {
+        private StumpEntity CreateEntityFromContract(StumpContract contract)
+        {
 
-            var entity = new StumpEntity {
+            var entity = new StumpEntity
+            {
                 HttpMethod = contract.HttpMethod,
                 MatchBodyFileName = string.Empty,
                 MatchBodyContentType = contract.MatchBodyContentType ?? string.Empty,
@@ -200,12 +248,15 @@
 
         }
 
-        private HeaderEntity[] CreateHeaderEntity(IEnumerable<HttpHeader> headers) {
+        private HeaderEntity[] CreateHeaderEntity(IEnumerable<HttpHeader> headers)
+        {
 
             var headerList = new List<HeaderEntity>();
 
-            foreach ( var httpHeader in headers ) {
-                var header = new HeaderEntity {
+            foreach (var httpHeader in headers)
+            {
+                var header = new HeaderEntity
+                {
                     Name = httpHeader.Name,
                     Value = httpHeader.Value
                 };
@@ -217,12 +268,15 @@
 
         }
 
-        private HttpHeader[] CreateHttpHeader(IEnumerable<HeaderEntity> headers) {
+        private HttpHeader[] CreateHttpHeader(IEnumerable<HeaderEntity> headers)
+        {
 
             var headerList = new List<HttpHeader>();
 
-            foreach ( var entityHeader in headers ) {
-                var header = new HttpHeader {
+            foreach (var entityHeader in headers)
+            {
+                var header = new HttpHeader
+                {
                     Name = entityHeader.Name,
                     Value = entityHeader.Value
                 };
@@ -234,33 +288,41 @@
 
         }
 
-        private Stump CreateStumpFromContract(StumpContract contract) {
+        private Stump CreateStumpFromContract(StumpContract contract)
+        {
 
             var stump = new Stump();
 
             stump.Contract = contract;
 
-            if ( contract.MatchRawUrl && !string.IsNullOrWhiteSpace(contract.RawUrl) ) {
+            if (contract.MatchRawUrl && !string.IsNullOrWhiteSpace(contract.RawUrl))
+            {
                 stump.AddRule(new UrlRule(contract.RawUrl));
             }
 
-            if ( contract.MatchHttpMethod && !string.IsNullOrWhiteSpace(contract.HttpMethod) ) {
+            if (contract.MatchHttpMethod && !string.IsNullOrWhiteSpace(contract.HttpMethod))
+            {
                 stump.AddRule(new HttpMethodRule(contract.HttpMethod));
             }
 
-            foreach ( var header in contract.MatchHeaders ) {
-                if ( !string.IsNullOrWhiteSpace(header.Name) && !string.IsNullOrWhiteSpace(header.Value) ) {
+            foreach (var header in contract.MatchHeaders)
+            {
+                if (!string.IsNullOrWhiteSpace(header.Name) && !string.IsNullOrWhiteSpace(header.Value))
+                {
                     stump.AddRule(new HeaderRule(header.Name, header.Value));
                 }
             }
 
-            if ( contract.MatchBodyMaximumLength != -1 ) {
+            if (contract.MatchBodyMaximumLength != -1)
+            {
                 stump.AddRule(new BodyLengthRule(contract.MatchBodyMinimumLength, contract.MatchBodyMaximumLength));
             }
-            else if ( contract.MatchBodyText != null && contract.MatchBodyText.Length > 0 ) {
+            else if (contract.MatchBodyText != null && contract.MatchBodyText.Length > 0)
+            {
                 stump.AddRule(new BodyContentRule(contract.MatchBodyText));
             }
-            else if ( contract.MatchBody.Length > 0 ) {
+            else if (contract.MatchBody.Length > 0)
+            {
                 stump.AddRule(new BodyMatchRule(contract.MatchBody));
             }
 
@@ -268,11 +330,15 @@
 
         }
 
-        private byte[] LoadFile(string fileName) {
+        private byte[] LoadFile(string fileName)
+        {
 
-            var response = new byte[] { };
+            var response = new byte[]
+            {
+            };
 
-            if ( !string.IsNullOrWhiteSpace(fileName) ) {
+            if (!string.IsNullOrWhiteSpace(fileName))
+            {
                 response = File.ReadAllBytes(fileName);
             }
 
@@ -280,7 +346,8 @@
 
         }
 
-        private void UnwrapAndAddStump(StumpContract contract) {
+        private void UnwrapAndAddStump(StumpContract contract)
+        {
 
             _lock.EnterWriteLock();
 
@@ -293,31 +360,6 @@
 
         }
 
-
-        #region IDisposable Members
-
-        protected virtual void Dispose(bool disposing) {
-
-            if ( disposing && !_disposed ) {
-                _disposed = true;
-
-                if ( _lock != null ) {
-                    _lock.Dispose();
-                    _lock = null;
-                }
-
-            }
-
-        }
-
-        public void Dispose() {
-
-            this.Dispose(true);
-            GC.SuppressFinalize(this);
-
-        }
-
-        #endregion
     }
 
 }

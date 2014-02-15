@@ -1,6 +1,8 @@
-﻿namespace Stumps.Web.Models {
+﻿namespace Stumps.Web.Models
+{
 
-    public class ProxyServerModel {
+    public class ProxyServerModel
+    {
 
         public bool AutoStart { get; set; }
 

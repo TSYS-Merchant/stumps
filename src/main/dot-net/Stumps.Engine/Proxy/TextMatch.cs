@@ -1,36 +1,44 @@
-﻿namespace Stumps.Proxy {
+﻿namespace Stumps.Proxy
+{
 
     using System;
     using System.Text.RegularExpressions;
 
-    internal sealed class TextMatch {
+    internal sealed class TextMatch
+    {
 
-        private readonly bool _not;
-        private readonly bool _matchUsesRegex;
+        private readonly bool _ignoreCase;
         private readonly Regex _matchRegexValue;
         private readonly string _matchStringValue;
-        private readonly bool _ignoreCase;
+        private readonly bool _matchUsesRegex;
+        private readonly bool _not;
 
-        public TextMatch(string value, bool ignoreCase) {
+        public TextMatch(string value, bool ignoreCase)
+        {
 
-            if ( value.StartsWith(Resources.NotPattern, StringComparison.OrdinalIgnoreCase) ) {
+            if (value.StartsWith(Resources.NotPattern, StringComparison.OrdinalIgnoreCase))
+            {
                 _not = true;
                 value = value.Remove(0, Resources.NotPattern.Length);
             }
 
-            if ( value.StartsWith(Resources.RegExPattern, StringComparison.OrdinalIgnoreCase) ) {
+            if (value.StartsWith(Resources.RegExPattern, StringComparison.OrdinalIgnoreCase))
+            {
                 _matchUsesRegex = true;
                 value = value.Remove(0, Resources.RegExPattern.Length);
 
-                if ( ignoreCase ) {
+                if (ignoreCase)
+                {
                     _matchRegexValue = new Regex(value, RegexOptions.IgnoreCase);
                 }
-                else {
+                else
+                {
                     _matchRegexValue = new Regex(value);
                 }
 
             }
-            else {
+            else
+            {
                 _matchStringValue = value;
             }
 
@@ -38,7 +46,8 @@
 
         }
 
-        public bool IsMatch(string value) {
+        public bool IsMatch(string value)
+        {
 
             var comparison = _ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
 

@@ -1,6 +1,8 @@
-﻿namespace Stumps.Proxy {
+﻿namespace Stumps.Proxy
+{
 
-    public class StumpContract {
+    public class StumpContract
+    {
 
         public string HttpMethod { get; set; }
 

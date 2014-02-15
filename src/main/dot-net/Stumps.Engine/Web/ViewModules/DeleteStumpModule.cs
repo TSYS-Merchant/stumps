@@ -1,19 +1,24 @@
-﻿namespace Stumps.Web.ViewModules {
+﻿namespace Stumps.Web.ViewModules
+{
 
     using Nancy;
     using Stumps.Proxy;
 
-    public class DeleteStumpModule : NancyModule {
+    public class DeleteStumpModule : NancyModule
+    {
 
-        public DeleteStumpModule(IProxyHost proxyHost) {
+        public DeleteStumpModule(IProxyHost proxyHost)
+        {
 
-            Get["/proxy/{proxyId}/stumps/{stumpId}/delete"] = _ => {
-                var proxyId = (string) _.proxyId;
-                var stumpId = (string) _.stumpId;
+            Get["/proxy/{proxyId}/stumps/{stumpId}/delete"] = _ =>
+            {
+                var proxyId = (string)_.proxyId;
+                var stumpId = (string)_.stumpId;
                 var environment = proxyHost.FindProxy(proxyId);
                 var stump = environment.Stumps.FindStump(stumpId);
 
-                var model = new {
+                var model = new
+                {
                     StumpName = stump.Contract.StumpName,
                     StumpId = stump.Contract.StumpId,
                     ProxyId = environment.ProxyId

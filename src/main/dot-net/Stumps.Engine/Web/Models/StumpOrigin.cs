@@ -1,6 +1,8 @@
-﻿namespace Stumps.Web.Models {
+﻿namespace Stumps.Web.Models
+{
 
-    public enum StumpOrigin {
+    public enum StumpOrigin
+    {
 
         Nothing = 0,
 

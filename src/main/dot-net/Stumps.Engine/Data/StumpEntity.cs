@@ -1,6 +1,8 @@
-﻿namespace Stumps.Data {
+﻿namespace Stumps.Data
+{
 
-    public class StumpEntity {
+    public class StumpEntity
+    {
 
         public string HttpMethod { get; set; }
 

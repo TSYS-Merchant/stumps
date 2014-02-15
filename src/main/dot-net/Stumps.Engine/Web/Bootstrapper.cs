@@ -1,4 +1,5 @@
-﻿namespace Stumps.Web {
+﻿namespace Stumps.Web
+{
 
     using System;
     using Nancy;
@@ -6,36 +7,49 @@
     using Stumps.Utility;
     using Stumps.Web.Responses;
 
-    public class Bootstrapper : DefaultNancyBootstrapper, IDisposable {
+    public class Bootstrapper : DefaultNancyBootstrapper, IDisposable
+    {
 
-        private IProxyHost _host;
-        private bool _disposed;
         private readonly byte[] _favIcon;
+        private bool _disposed;
+        private IProxyHost _host;
 
-        public Bootstrapper(IProxyHost proxyHost) {
+        public Bootstrapper(IProxyHost proxyHost)
+        {
 
-            if ( proxyHost == null ) {
+            if (proxyHost == null)
+            {
                 throw new ArgumentNullException("proxyHost");
             }
 
-            using ( var resourceStream = this.GetType().Assembly.GetManifestResourceStream("Stumps.Resources.favicon.ico") ) {
+            using (
+                var resourceStream = this.GetType().Assembly.GetManifestResourceStream("Stumps.Resources.favicon.ico"))
+            {
                 _favIcon = StreamUtility.ConvertStreamToByteArray(resourceStream);
             }
 
             _host = proxyHost;
 
+        }
+
+        protected override byte[] FavIcon
+        {
+            get { return _favIcon; }
+        }
+
+        public new void Dispose()
+        {
+
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
 
         }
 
-        protected override byte[] FavIcon {
-            get {
-                return _favIcon;
-            }
-        }
+        protected override void ConfigureApplicationContainer(Nancy.TinyIoc.TinyIoCContainer container)
+        {
 
-        protected override void ConfigureApplicationContainer(Nancy.TinyIoc.TinyIoCContainer container) {
-
-            if ( container == null ) {
+            if (container == null)
+            {
                 throw new ArgumentNullException("container");
             }
 
@@ -45,34 +59,16 @@
 
         }
 
-        protected override void RequestStartup(Nancy.TinyIoc.TinyIoCContainer container, Nancy.Bootstrapper.IPipelines pipelines, NancyContext context) {
+        protected virtual void Dispose(bool disposing)
+        {
 
-            if ( container == null ) {
-                throw new ArgumentNullException("container");
-            }
-
-            if ( pipelines == null ) {
-                throw new ArgumentNullException("pipelines");
-            }
-
-            if ( context == null ) {
-                throw new ArgumentNullException("context");
-            }
-
-            pipelines.OnError.AddItemToEndOfPipeline((z, a) => ErrorJsonResponse.FromException(a));
-            base.RequestStartup(container, pipelines, context);
-
-        }
-
-        #region IDisposable Members
-
-        protected virtual void Dispose(bool disposing) {
-
-            if ( disposing && !_disposed ) {
+            if (disposing && !_disposed)
+            {
 
                 _disposed = true;
 
-                if ( _host != null ) {
+                if (_host != null)
+                {
                     _host.Dispose();
                     _host = null;
                 }
@@ -82,15 +78,29 @@
             }
 
         }
+        
+        protected override void RequestStartup(Nancy.TinyIoc.TinyIoCContainer container, Nancy.Bootstrapper.IPipelines pipelines, NancyContext context)
+        {
 
-        public new void Dispose() {
+            if (container == null)
+            {
+                throw new ArgumentNullException("container");
+            }
 
-            this.Dispose(true);
-            GC.SuppressFinalize(this);
+            if (pipelines == null)
+            {
+                throw new ArgumentNullException("pipelines");
+            }
+
+            if (context == null)
+            {
+                throw new ArgumentNullException("context");
+            }
+
+            pipelines.OnError.AddItemToEndOfPipeline((z, a) => ErrorJsonResponse.FromException(a));
+            base.RequestStartup(container, pipelines, context);
 
         }
-
-        #endregion
 
     }
 

@@ -1,4 +1,5 @@
-﻿namespace Stumps.Http {
+﻿namespace Stumps.Http
+{
 
     using System;
     using System.Globalization;
@@ -6,10 +7,12 @@
     using NUnit.Framework;
 
     [TestFixture]
-    public class StumpsHttpRequestTests {
+    public class StumpsHttpRequestTests
+    {
 
         [Test]
-        public void StumpsHttpRequest_PopulatesCorrectly() {
+        public void StumpsHttpRequest_PopulatesCorrectly()
+        {
 
             var mockHandler = new MockHandler();
             mockHandler.StatusCode = 202;
@@ -19,9 +22,11 @@
 
             var startingEventCount = 0;
 
-            using ( var server = HttpHelper.CreateHttpServer(mockHandler) ) {
+            using (var server = HttpHelper.CreateHttpServer(mockHandler))
+            {
 
-                server.RequestStarting += (o, i) => {
+                server.RequestStarting += (o, i) =>
+                {
                     var request = i.Context.Request;
 
                     startingEventCount++;
@@ -48,7 +53,8 @@
                 webRequest.Referer = "http://stumps-project.com/";
                 webRequest.UserAgent = "StumpsTestAgent";
 
-                using ( var response = (HttpWebResponse) webRequest.GetResponse() ) {
+                using (var response = (HttpWebResponse)webRequest.GetResponse())
+                {
                     Assert.IsNotNull(response);
                 }
 

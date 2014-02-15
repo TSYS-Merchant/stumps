@@ -1,13 +1,15 @@
-﻿namespace Stumps.Proxy {
+﻿namespace Stumps.Proxy
+{
 
     using System.Threading;
     using Stumps.Data;
 
-    public class ProxyEnvironment {
+    public class ProxyEnvironment
+    {
 
-        private int _stumpsServed;
-        private int _requestsServed;
         private IDataAccess _dataAccess;
+        private int _requestsServed;
+        private int _stumpsServed;
 
         public ProxyEnvironment(string proxyId, IDataAccess dataAccess)
         {
@@ -32,11 +34,13 @@
 
         public ProxyStumps Stumps { get; private set; }
 
-        public int StumpsServed {
+        public int StumpsServed
+        {
             get { return _stumpsServed; }
         }
 
-        public int RequestsServed {
+        public int RequestsServed
+        {
             get { return _requestsServed; }
         }
 
@@ -44,11 +48,13 @@
 
         public bool UseSsl { get; set; }
 
-        public void IncrementRequestsServed() {
+        public void IncrementRequestsServed()
+        {
             Interlocked.Increment(ref _requestsServed);
         }
 
-        public void IncrementStumpsServed() {
+        public void IncrementStumpsServed()
+        {
             Interlocked.Increment(ref _stumpsServed);
         }
 

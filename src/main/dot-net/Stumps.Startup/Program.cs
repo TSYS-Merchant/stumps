@@ -1,4 +1,5 @@
-﻿namespace Stumps {
+﻿namespace Stumps
+{
 
     using System;
     using System.Diagnostics;
@@ -6,34 +7,42 @@
     using System.Reflection;
     using Stumps.Data;
 
-    public static class Program {
+    public static class Program
+    {
 
         /// <summary>
-        /// The main entry point for the application.
+        ///     The main entry point for the application.
         /// </summary>
-        public static void Main(string[] args) {
+        public static void Main(string[] args)
+        {
 
             var isRunningAsConsole = Environment.UserInteractive;
 
-            var writer = (isRunningAsConsole ? (IMessageWriter)new ConsoleWriter() : (IMessageWriter) new EventLogWriter());
+            var writer = isRunningAsConsole
+                              ? (IMessageWriter)new ConsoleWriter()
+                              : (IMessageWriter)new EventLogWriter();
 
-            if ( IsApplicationAlreadyRunning() ) {
+            if (IsApplicationAlreadyRunning())
+            {
                 writer.Error(Resources.ApplicationRunning);
                 return;
             }
 
-            var configurationFile = Path.Combine(DefaultConfigurationSettings.StoragePath,
-                                                 DefaultConfigurationSettings.ConfigurationFileName);
+            var configurationFile = Path.Combine(
+                DefaultConfigurationSettings.StoragePath, DefaultConfigurationSettings.ConfigurationFileName);
 
-            if ( args != null && args.Length > 0 ) {
+            if (args != null && args.Length > 0)
+            {
                 configurationFile = DetermineConfigurationFileFromArgs(args);
             }
 
-            if ( configurationFile == null ) {
+            if (configurationFile == null)
+            {
 
-                writer.Error(Resources.InvalidArguments + String.Join(" ", args));
+                writer.Error(Resources.InvalidArguments + string.Join(" ", args));
 
-                if ( isRunningAsConsole ) {
+                if (isRunningAsConsole)
+                {
                     writer.Information(Resources.HelpInformation);
                 }
 
@@ -44,12 +53,16 @@
             var configurationDal = new ConfigurationDataAccess(configurationFile);
             var configuration = new Configuration(configurationDal);
 
-            if ( !File.Exists(configurationFile) ) {
+            if (!File.Exists(configurationFile))
+            {
 
                 var configurationFileDirectory = Path.GetDirectoryName(configurationFile);
-                configurationFileDirectory = String.IsNullOrEmpty(configurationFileDirectory) ? "." : configurationFileDirectory;
+                configurationFileDirectory = string.IsNullOrEmpty(configurationFileDirectory)
+                                                 ? "."
+                                                 : configurationFileDirectory;
 
-                if ( !Directory.Exists(configurationFileDirectory) ) {
+                if (!Directory.Exists(configurationFileDirectory))
+                {
                     Directory.CreateDirectory(configurationFileDirectory);
                 }
 
@@ -59,8 +72,8 @@
 
             configuration.LoadConfiguration();
 
-            var startup = ( isRunningAsConsole ? (IStartup) new ConsoleStartup() : (IStartup) new ServiceStartup() );
-            
+            var startup = isRunningAsConsole ? (IStartup)new ConsoleStartup() : (IStartup)new ServiceStartup();
+
             startup.Configuration = configuration;
             startup.MessageWriter = writer;
 
@@ -68,13 +81,16 @@
 
         }
 
-        private static string DetermineConfigurationFileFromArgs(string[] args) {
+        private static string DetermineConfigurationFileFromArgs(string[] args)
+        {
 
-            if (!args[0].Equals("-c", StringComparison.OrdinalIgnoreCase) || args.Length != 2) {
+            if (!args[0].Equals("-c", StringComparison.OrdinalIgnoreCase) || args.Length != 2)
+            {
                 return null;
             }
 
-            if (!File.Exists(args[1])) {
+            if (!File.Exists(args[1]))
+            {
                 return null;
             }
 
@@ -82,12 +98,14 @@
 
         }
 
-        private static bool IsApplicationAlreadyRunning() {
+        private static bool IsApplicationAlreadyRunning()
+        {
 
             var applicationName = Path.GetFileNameWithoutExtension(Assembly.GetEntryAssembly().Location);
             var processes = Process.GetProcessesByName(applicationName);
 
-            foreach ( var process in processes ) {
+            foreach (var process in processes)
+            {
                 process.Dispose();
             }
 

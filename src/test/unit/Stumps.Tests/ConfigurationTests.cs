@@ -1,4 +1,5 @@
-﻿namespace Stumps {
+﻿namespace Stumps
+{
 
     using System;
     using System.IO;
@@ -7,23 +8,22 @@
     using Stumps.Data;
 
     [TestFixture]
-    public class ConfigurationTests {
+    public class ConfigurationTests
+    {
 
         [Test]
-        public void Constructor_NullDataAccess_ThrowsException() {
+        public void Constructor_NullDataAccess_ThrowsException()
+        {
 
             Assert.That(
                 () => new Configuration(null),
-                Throws.Exception
-                    .TypeOf<ArgumentNullException>()
-                    .With.Property("ParamName")
-                    .EqualTo("dataAccess")
-            );
-            
+                Throws.Exception.TypeOf<ArgumentNullException>().With.Property("ParamName").EqualTo("dataAccess"));
+
         }
 
         [Test]
-        public void Constructor_WithValidDataAccess_InitializesUsingDefaults() {
+        public void Constructor_WithValidDataAccess_InitializesUsingDefaults()
+        {
 
             var dal = Substitute.For<IConfigurationDataAccess>();
             var config = new Configuration(dal);
@@ -32,11 +32,11 @@
             Assert.AreEqual(DefaultConfigurationSettings.StoragePath, config.StoragePath);
             Assert.AreEqual(DefaultConfigurationSettings.WebApiPort, config.WebApiPort);
 
-
         }
 
         [Test]
-        public void LoadConfiguration_CallsDal() {
+        public void LoadConfiguration_CallsDal()
+        {
 
             var entity = CreateSampleConfigurationEntity();
 
@@ -51,7 +51,8 @@
         }
 
         [Test]
-        public void LoadConfiguration_UpdatesConfigurationValues() {
+        public void LoadConfiguration_UpdatesConfigurationValues()
+        {
 
             var entity = CreateSampleConfigurationEntity();
 
@@ -66,54 +67,45 @@
             Assert.AreEqual(entity.WebApiPort, configuration.WebApiPort);
 
         }
-        
-        [Test]
-        public void SaveConfiguration_CallsDalWithCorrectArgs() {
 
-            const int dataCompatibility = 15;
-            const string storagePath = @"C:\StoragePath";
-            const int port = 8000;
+        [Test]
+        public void SaveConfiguration_CallsDalWithCorrectArgs()
+        {
+
+            const int DataCompatibility = 15;
+            const string StoragePath = @"C:\StoragePath";
+            const int Port = 8000;
 
             var entity = CreateSampleConfigurationEntity();
 
             var configurationDal = Substitute.For<IConfigurationDataAccess>();
 
-            var configuration = new Configuration(configurationDal) {
-                DataCompatibilityVersion = dataCompatibility,
-                StoragePath = storagePath,
-                WebApiPort = port
+            var configuration = new Configuration(configurationDal)
+            {
+                DataCompatibilityVersion = DataCompatibility,
+                StoragePath = StoragePath,
+                WebApiPort = Port
             };
 
             configuration.SaveConfiguration();
 
-            configurationDal.Received().SaveConfiguration(Arg.Is<ConfigurationEntity>(x =>
-                x.DataCompatibilityVersion == dataCompatibility &&
-                x.StoragePath.Equals(storagePath) &&
-                x.WebApiPort == port)
-            );
+            configurationDal.Received()
+                            .SaveConfiguration(
+                                Arg.Is<ConfigurationEntity>(
+                                    x =>
+                                    x.DataCompatibilityVersion == DataCompatibility && x.StoragePath.Equals(StoragePath) &&
+                                    x.WebApiPort == Port));
 
         }
 
         [Test]
-        public void ValidConfiguration_WithValidValues_ReturnsTrue() {
-
-            var configurationDal = Substitute.For<IConfigurationDataAccess>();
-            var configuration = new Configuration(configurationDal) {
-                DataCompatibilityVersion = 1,
-                StoragePath = Path.GetTempPath(),
-                WebApiPort = 8000
-            };
-
-            Assert.IsTrue(configuration.ValidateConfiguration());
-
-        }
-        
-        [Test]
-        public void ValidConfiguration_WithInvalidDatabaseCompatibility_ReturnsFalse() {
+        public void ValidConfiguration_WithInvalidDatabaseCompatibility_ReturnsFalse()
+        {
 
             var configurationDal = Substitute.For<IConfigurationDataAccess>();
 
-            var configuration = new Configuration(configurationDal) {
+            var configuration = new Configuration(configurationDal)
+            {
                 DataCompatibilityVersion = Configuration.MinimumDataCompatibilityVersion - 1,
                 StoragePath = Path.GetTempPath(),
                 WebApiPort = 8000
@@ -128,11 +120,13 @@
         }
 
         [Test]
-        public void ValidConfiguration_WithInvalidPort_ReturnsFalse() {
+        public void ValidConfiguration_WithInvalidPort_ReturnsFalse()
+        {
 
             var configurationDal = Substitute.For<IConfigurationDataAccess>();
 
-            var configuration = new Configuration(configurationDal) {
+            var configuration = new Configuration(configurationDal)
+            {
                 DataCompatibilityVersion = 1,
                 StoragePath = Path.GetTempPath(),
                 WebApiPort = -8000
@@ -147,11 +141,13 @@
         }
 
         [Test]
-        public void ValidConfiguration_WithInvalidStoragePath_ReturnsFalse() {
+        public void ValidConfiguration_WithInvalidStoragePath_ReturnsFalse()
+        {
 
             var configurationDal = Substitute.For<IConfigurationDataAccess>();
 
-            var configuration = new Configuration(configurationDal) {
+            var configuration = new Configuration(configurationDal)
+            {
                 DataCompatibilityVersion = 1,
                 StoragePath = null,
                 WebApiPort = 8000
@@ -168,9 +164,27 @@
 
         }
 
-        private static ConfigurationEntity CreateSampleConfigurationEntity() {
+        [Test]
+        public void ValidConfiguration_WithValidValues_ReturnsTrue()
+        {
 
-            var entity = new ConfigurationEntity {
+            var configurationDal = Substitute.For<IConfigurationDataAccess>();
+            var configuration = new Configuration(configurationDal)
+            {
+                DataCompatibilityVersion = 1,
+                StoragePath = Path.GetTempPath(),
+                WebApiPort = 8000
+            };
+
+            Assert.IsTrue(configuration.ValidateConfiguration());
+
+        }
+
+        private ConfigurationEntity CreateSampleConfigurationEntity()
+        {
+
+            var entity = new ConfigurationEntity
+            {
                 DataCompatibilityVersion = 15,
                 StoragePath = @"C:\temp\",
                 WebApiPort = 8000

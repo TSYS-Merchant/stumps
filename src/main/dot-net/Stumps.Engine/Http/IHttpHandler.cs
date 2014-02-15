@@ -1,6 +1,8 @@
-﻿namespace Stumps.Http {
+﻿namespace Stumps.Http
+{
 
-    internal interface IHttpHandler {
+    internal interface IHttpHandler
+    {
 
         ProcessHandlerResult ProcessRequest(IStumpsHttpContext context);
 

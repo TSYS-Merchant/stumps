@@ -1,34 +1,37 @@
-﻿namespace Stumps.Http {
+﻿namespace Stumps.Http
+{
 
     using System;
     using System.Globalization;
     using System.Net;
-    using Stumps.Logging;
     using System.Threading;
+    using Stumps.Logging;
 
-    internal sealed class HttpServer : IDisposable {
+    internal sealed class HttpServer : IDisposable
+    {
 
-        private readonly ILogger _logger;
         private readonly IHttpHandler _handler;
+        private readonly ILogger _logger;
         private readonly int _port;
         private HttpListener _listener;
         private bool _started;
         private Thread _thread;
 
-        public event EventHandler<StumpsContextEventArgs> RequestStarting;
-        public event EventHandler<StumpsContextEventArgs> RequestFinishing;
+        public HttpServer(int port, IHttpHandler handler, ILogger logger)
+        {
 
-        public HttpServer(int port, IHttpHandler handler, ILogger logger) {
-
-            if ( logger == null ) {
+            if (logger == null)
+            {
                 throw new ArgumentNullException("logger");
             }
 
-            if ( handler == null ) {
+            if (handler == null)
+            {
                 throw new ArgumentNullException("handler");
             }
 
-            if ( port < IPEndPoint.MinPort || port > IPEndPoint.MaxPort ) {
+            if (port < IPEndPoint.MinPort || port > IPEndPoint.MaxPort)
+            {
                 throw new ArgumentOutOfRangeException("port");
             }
 
@@ -39,17 +42,41 @@
 
         }
 
-        public int Port {
+        public event EventHandler<StumpsContextEventArgs> RequestFinishing;
+
+        public event EventHandler<StumpsContextEventArgs> RequestStarting;
+
+        public int Port
+        {
             get { return _port; }
         }
 
-        public bool Started {
+        public bool Started
+        {
             get { return _started; }
         }
 
-        public void StartListening() {
+        public void Dispose()
+        {
 
-            if ( _started ) {
+            if (_listener.IsListening)
+            {
+                _listener.Stop();
+            }
+
+            var disposable = _listener as IDisposable;
+            if (disposable != null)
+            {
+                disposable.Dispose();
+            }
+
+        }
+
+        public void StartListening()
+        {
+
+            if (_started)
+            {
                 return;
             }
 
@@ -57,7 +84,7 @@
 
             _listener = new HttpListener();
 
-            var url = String.Format(System.Globalization.CultureInfo.InvariantCulture, Resources.HttpServerPattern, _port);
+            var url = string.Format(CultureInfo.InvariantCulture, Resources.HttpServerPattern, _port);
 
             _listener.Prefixes.Add(url);
             _listener.Start();
@@ -68,99 +95,101 @@
 
         }
 
-        public void StopListening() {
-            try {
+        public void StopListening()
+        {
+            try
+            {
                 _started = false;
                 _listener.Stop();
                 _thread.Join();
             }
-            catch ( ObjectDisposedException ) {
+            catch (ObjectDisposedException)
+            {
             }
         }
 
-        private void ProcessAsyncRequest(IAsyncResult asyncResult) {
+        private void ProcessAsyncRequest(IAsyncResult asyncResult)
+        {
 
-            if ( _listener == null ) {
+            if (_listener == null)
+            {
                 return;
             }
 
-            try {
+            try
+            {
                 var context = _listener.EndGetContext(asyncResult);
 
-                _logger.LogInfo("=> " + Thread.CurrentThread.ManagedThreadId.ToString(CultureInfo.InvariantCulture) + " => " + context.Request.RawUrl);
+                _logger.LogInfo(
+                    "=> " + Thread.CurrentThread.ManagedThreadId.ToString(CultureInfo.InvariantCulture) + " => " +
+                    context.Request.RawUrl);
 
                 StumpsHttpContext stumpsContext = null;
 
-                try {
+                try
+                {
                     stumpsContext = new StumpsHttpContext(context);
 
-                    if ( this.RequestStarting != null ) {
+                    if (this.RequestStarting != null)
+                    {
                         this.RequestStarting(this, new StumpsContextEventArgs(stumpsContext));
                     }
 
                     _handler.ProcessRequest(stumpsContext);
 
-                    if ( this.RequestFinishing != null ) {
+                    if (this.RequestFinishing != null)
+                    {
                         this.RequestFinishing(this, new StumpsContextEventArgs(stumpsContext));
                     }
 
                     // Set the status code
-                    ((StumpsHttpResponse) stumpsContext.Response).ListenerResponse.StatusCode =
+                    ((StumpsHttpResponse)stumpsContext.Response).ListenerResponse.StatusCode =
                         stumpsContext.Response.StatusCode;
 
-                    ((StumpsHttpResponse) stumpsContext.Response).ListenerResponse.StatusDescription =
+                    ((StumpsHttpResponse)stumpsContext.Response).ListenerResponse.StatusDescription =
                         stumpsContext.Response.StatusDescription;
 
                     // Use HTTP chunked transfer encoding if requested
-                    ((StumpsHttpResponse) stumpsContext.Response).ListenerResponse.SendChunked =
+                    ((StumpsHttpResponse)stumpsContext.Response).ListenerResponse.SendChunked =
                         stumpsContext.Response.SendChunked;
 
-                    ((StumpsHttpResponse) stumpsContext.Response).ListenerResponse.ContentLength64 =
+                    ((StumpsHttpResponse)stumpsContext.Response).ListenerResponse.ContentLength64 =
                         stumpsContext.Response.OutputStream.Length;
 
                     stumpsContext.End();
                 }
-                finally {
-                    if ( stumpsContext != null ) {
+                finally
+                {
+                    if (stumpsContext != null)
+                    {
                         stumpsContext.Dispose();
                     }
                 }
 
-                _logger.LogInfo("<= " + Thread.CurrentThread.ManagedThreadId.ToString(CultureInfo.InvariantCulture) + " <= " + context.Request.RawUrl);
+                _logger.LogInfo(
+                    "<= " + Thread.CurrentThread.ManagedThreadId.ToString(CultureInfo.InvariantCulture) + " <= " +
+                    context.Request.RawUrl);
 
             }
-            catch ( HttpListenerException ) {
+            catch (HttpListenerException)
+            {
             }
-            catch ( InvalidOperationException ) {
+            catch (InvalidOperationException)
+            {
             }
 
         }
 
-        private void WaitForConnections() {
+        private void WaitForConnections()
+        {
 
-            while ( _started && _listener.IsListening ) {
+            while (_started && _listener.IsListening)
+            {
                 var result = _listener.BeginGetContext(ProcessAsyncRequest, null);
                 result.AsyncWaitHandle.WaitOne();
             }
 
         }
-
-        #region IDisposable Members
-
-        public void Dispose() {
-
-            if ( _listener.IsListening ) {
-                _listener.Stop();
-            }
-
-            var disposable = _listener as IDisposable;
-            if ( disposable != null ) {
-                disposable.Dispose();
-            }
-
-        }
-
-        #endregion
 
     }
 

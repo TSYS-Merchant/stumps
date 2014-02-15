@@ -1,11 +1,13 @@
-﻿namespace Stumps.Http {
+﻿namespace Stumps.Http
+{
 
     using System;
     using System.Collections.Specialized;
     using System.IO;
     using System.Net;
 
-    public interface IStumpsHttpRequest : IDisposable {
+    public interface IStumpsHttpRequest : IDisposable
+    {
 
         string ContentType { get; }
 

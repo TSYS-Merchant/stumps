@@ -1,8 +1,10 @@
-﻿namespace Stumps.Http {
+﻿namespace Stumps.Http
+{
 
     using System;
 
-    public interface IStumpsHttpContext : IDisposable {
+    public interface IStumpsHttpContext : IDisposable
+    {
 
         IStumpsHttpRequest Request { get; }
 

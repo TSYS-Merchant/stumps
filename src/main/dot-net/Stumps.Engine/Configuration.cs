@@ -1,22 +1,25 @@
-﻿namespace Stumps {
+﻿namespace Stumps
+{
 
     using System;
     using System.IO;
     using System.Net;
     using Stumps.Data;
 
-    public class Configuration {
-
-        private readonly IConfigurationDataAccess _dataAccess;
-        private ConfigurationEntity _configurationEntity;
+    public class Configuration
+    {
 
         public const int MaximumDataCompatibilityVersion = 1000;
 
         public const int MinimumDataCompatibilityVersion = 1;
+        private readonly IConfigurationDataAccess _dataAccess;
+        private ConfigurationEntity _configurationEntity;
 
-        public Configuration(IConfigurationDataAccess dataAccess) {
+        public Configuration(IConfigurationDataAccess dataAccess)
+        {
 
-            if ( dataAccess == null ) {
+            if (dataAccess == null)
+            {
                 throw new ArgumentNullException("dataAccess");
             }
 
@@ -25,45 +28,38 @@
 
         }
 
-        public int DataCompatibilityVersion {
-            get {
-                return _configurationEntity.DataCompatibilityVersion;
-            }
-            set {
-                _configurationEntity.DataCompatibilityVersion = value;
-            }
+        public int DataCompatibilityVersion
+        {
+            get { return _configurationEntity.DataCompatibilityVersion; }
+            set { _configurationEntity.DataCompatibilityVersion = value; }
         }
 
-        public string StoragePath {
-            get {
-                return _configurationEntity.StoragePath;
-            }
-            set {
-                _configurationEntity.StoragePath = value;
-            }
+        public string StoragePath
+        {
+            get { return _configurationEntity.StoragePath; }
+            set { _configurationEntity.StoragePath = value; }
         }
 
-        public int WebApiPort {
-            get {
-                return _configurationEntity.WebApiPort;
-            }
-            set {
-                _configurationEntity.WebApiPort = value;
-            }
+        public int WebApiPort
+        {
+            get { return _configurationEntity.WebApiPort; }
+            set { _configurationEntity.WebApiPort = value; }
         }
 
-        public void LoadConfiguration() {
+        public void LoadConfiguration()
+        {
             _configurationEntity = _dataAccess.LoadConfiguration();
         }
 
-        public void SaveConfiguration() {
+        public void SaveConfiguration()
+        {
             _dataAccess.SaveConfiguration(_configurationEntity);
         }
 
-        public bool ValidateConfiguration() {
+        public bool ValidateConfiguration()
+        {
 
-            var isConfigurationInvalid = this.WebApiPort < IPEndPoint.MinPort ||
-                                         this.WebApiPort > IPEndPoint.MaxPort ||
+            var isConfigurationInvalid = this.WebApiPort < IPEndPoint.MinPort || this.WebApiPort > IPEndPoint.MaxPort ||
                                          this.DataCompatibilityVersion < Configuration.MinimumDataCompatibilityVersion ||
                                          this.DataCompatibilityVersion > Configuration.MaximumDataCompatibilityVersion ||
                                          !DirectoryIsValid(this.StoragePath);
@@ -72,9 +68,11 @@
 
         }
 
-        private static ConfigurationEntity CreateDefaultConfigurationEntity() {
+        private static ConfigurationEntity CreateDefaultConfigurationEntity()
+        {
 
-            var entity = new ConfigurationEntity {
+            var entity = new ConfigurationEntity
+            {
                 DataCompatibilityVersion = DefaultConfigurationSettings.DataCompatibilityVersion,
                 StoragePath = DefaultConfigurationSettings.StoragePath,
                 WebApiPort = DefaultConfigurationSettings.WebApiPort
@@ -84,14 +82,17 @@
 
         }
 
-        private static bool DirectoryIsValid(string path) {
+        private static bool DirectoryIsValid(string path)
+        {
 
             bool isValid;
 
-            try {
+            try
+            {
                 isValid = Directory.Exists(path) && Path.IsPathRooted(path);
             }
-            catch (ArgumentException) {
+            catch (ArgumentException)
+            {
                 isValid = false;
             }
 

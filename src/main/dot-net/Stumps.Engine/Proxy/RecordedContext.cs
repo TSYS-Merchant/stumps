@@ -1,10 +1,13 @@
-﻿namespace Stumps.Proxy {
+﻿namespace Stumps.Proxy
+{
 
     using System;
 
-    public class RecordedContext {
+    public class RecordedContext
+    {
 
-        public RecordedContext() {
+        public RecordedContext()
+        {
             this.RequestDate = DateTime.Now;
         }
 

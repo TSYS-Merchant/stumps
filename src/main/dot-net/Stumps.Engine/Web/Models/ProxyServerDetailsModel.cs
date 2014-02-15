@@ -1,6 +1,8 @@
-﻿namespace Stumps.Web.Models {
+﻿namespace Stumps.Web.Models
+{
 
-    public class ProxyServerDetailsModel : ProxyServerModel {
+    public class ProxyServerDetailsModel : ProxyServerModel
+    {
 
         public bool IsRunning { get; set; }
 

@@ -1,10 +1,12 @@
-﻿namespace Stumps.Http {
+﻿namespace Stumps.Http
+{
 
     using System;
     using System.IO;
     using System.Net;
 
-    public interface IStumpsHttpResponse : IDisposable {
+    public interface IStumpsHttpResponse : IDisposable
+    {
 
         string ContentType { get; set; }
 
@@ -24,7 +26,8 @@
 
         void FlushResponse();
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "0#", Justification = "Based on the underlying framework")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings",
+            MessageId = "0#", Justification = "Based on the underlying framework")]
         void Redirect(string url);
 
     }

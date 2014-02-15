@@ -1,6 +1,8 @@
-﻿namespace Stumps.Proxy {
+﻿namespace Stumps.Proxy
+{
 
-    public enum ContentEncodingMode {
+    public enum ContentEncodingMode
+    {
 
         Encode = 0,
 

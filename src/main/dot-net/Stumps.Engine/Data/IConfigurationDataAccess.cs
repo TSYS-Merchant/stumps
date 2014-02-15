@@ -1,8 +1,8 @@
-﻿namespace Stumps.Data {
+﻿namespace Stumps.Data
+{
 
-    using System;
-
-    public interface IConfigurationDataAccess {
+    public interface IConfigurationDataAccess
+    {
 
         ConfigurationEntity LoadConfiguration();
 

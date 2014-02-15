@@ -1,6 +1,8 @@
-﻿namespace Stumps.Data {
+﻿namespace Stumps.Data
+{
 
-    public sealed class ProxyServerEntity {
+    public sealed class ProxyServerEntity
+    {
 
         public bool AutoStart { get; set; }
 

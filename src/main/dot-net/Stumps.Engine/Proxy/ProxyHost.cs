@@ -1,30 +1,32 @@
-﻿namespace Stumps.Proxy {
+﻿namespace Stumps.Proxy
+{
 
     using System;
-    using System.Collections.Generic;
     using System.Collections.Concurrent;
-    using System.Globalization;
-    using System.Net.NetworkInformation;
+    using System.Collections.Generic;
     using System.Net;
-    using Stumps.Logging;
     using Stumps.Data;
+    using Stumps.Logging;
     using Stumps.Utility;
-    using System.Text.RegularExpressions;
 
-    public class ProxyHost : IProxyHost {
+    public class ProxyHost : IProxyHost
+    {
 
-        private readonly ConcurrentDictionary<string, ProxyServer> _proxies;
-        private readonly ILogger _logger;
         private readonly IDataAccess _dataAccess;
+        private readonly ILogger _logger;
+        private readonly ConcurrentDictionary<string, ProxyServer> _proxies;
         private bool _disposed;
 
-        public ProxyHost(ILogger logger, IDataAccess dataAccess) {
+        public ProxyHost(ILogger logger, IDataAccess dataAccess)
+        {
 
-            if ( logger == null ) {
+            if (logger == null)
+            {
                 throw new ArgumentNullException("logger");
             }
 
-            if ( dataAccess == null ) {
+            if (dataAccess == null)
+            {
                 throw new ArgumentNullException("dataAccess");
             }
 
@@ -34,14 +36,15 @@
             _proxies = new ConcurrentDictionary<string, ProxyServer>(StringComparer.OrdinalIgnoreCase);
         }
 
-        public ProxyEnvironment CreateProxy(string externalHostName, int port, bool useSsl, bool autoStart) {
+        public ProxyEnvironment CreateProxy(string externalHostName, int port, bool useSsl, bool autoStart)
+        {
 
-            if ( string.IsNullOrWhiteSpace(externalHostName) ) 
+            if (string.IsNullOrWhiteSpace(externalHostName))
             {
                 throw new ArgumentNullException("externalHostName");
             }
 
-            if ( port < IPEndPoint.MinPort || port > IPEndPoint.MaxPort ) 
+            if (port < IPEndPoint.MinPort || port > IPEndPoint.MaxPort)
             {
                 throw new ArgumentOutOfRangeException("port");
             }
@@ -51,7 +54,8 @@
                 throw new StumpsNetworkException("Port is in use");
             }
 
-            var proxyEntity = new ProxyServerEntity {
+            var proxyEntity = new ProxyServerEntity
+            {
                 AutoStart = autoStart,
                 ExternalHostName = externalHostName,
                 Port = port,
@@ -65,7 +69,8 @@
 
             var server = _proxies[proxyEntity.ProxyId];
 
-            if ( autoStart ) {
+            if (autoStart)
+            {
                 server.Start();
             }
 
@@ -75,11 +80,13 @@
         public void DeleteProxy(string proxyId)
         {
 
-            if ( string.IsNullOrWhiteSpace(proxyId) ) {
+            if (string.IsNullOrWhiteSpace(proxyId))
+            {
                 throw new ArgumentNullException("proxyId");
             }
 
-            if ( _proxies.ContainsKey(proxyId) ) {
+            if (_proxies.ContainsKey(proxyId))
+            {
                 var hostName = _proxies[proxyId].Environment.ExternalHostName;
 
                 _proxies[proxyId].Stop();
@@ -93,12 +100,27 @@
 
         }
 
-        public IList<ProxyEnvironment> FindAll() {
+        public void Dispose()
+        {
+
+            if (!_disposed)
+            {
+
+                this.Dispose(true);
+                GC.SuppressFinalize(this);
+
+            }
+
+        }
+
+        public IList<ProxyEnvironment> FindAll()
+        {
 
             var environmentList = new List<ProxyEnvironment>();
             var pairs = _proxies.ToArray();
 
-            foreach ( var pair in pairs ) {
+            foreach (var pair in pairs)
+            {
                 environmentList.Add(pair.Value.Environment);
             }
 
@@ -106,14 +128,16 @@
 
         }
 
-        public ProxyEnvironment FindProxy(string proxyId) {
+        public ProxyEnvironment FindProxy(string proxyId)
+        {
 
             ProxyEnvironment environment = null;
 
             ProxyServer server;
             _proxies.TryGetValue(proxyId, out server);
 
-            if ( server != null ) {
+            if (server != null)
+            {
                 environment = server.Environment;
             }
 
@@ -121,65 +145,101 @@
 
         }
 
-        public void Load() {
+        public void Load()
+        {
 
             var proxyEntities = _dataAccess.ProxyServerFindAll();
 
-            foreach ( var proxyEntity in proxyEntities ) {
+            foreach (var proxyEntity in proxyEntities)
+            {
                 UnwrapAndRegisterProxy(proxyEntity);
             }
 
         }
 
-        public void Start() {
+        public void Start()
+        {
 
-            foreach ( var server in _proxies ) {
-                if ( server.Value.Environment.AutoStart ) {
+            foreach (var server in _proxies)
+            {
+                if (server.Value.Environment.AutoStart)
+                {
                     server.Value.Start();
                 }
             }
 
         }
 
-        public void Start(string proxyId) {
+        public void Start(string proxyId)
+        {
 
-            if ( string.IsNullOrWhiteSpace(proxyId) ) {
+            if (string.IsNullOrWhiteSpace(proxyId))
+            {
                 throw new ArgumentNullException("proxyId");
             }
 
             ProxyServer server;
             _proxies.TryGetValue(proxyId, out server);
 
-            if ( server != null ) {
+            if (server != null)
+            {
                 server.Start();
             }
 
         }
 
-        public void Shutdown() {
+        public void Shutdown()
+        {
 
-            foreach ( var keyPair in _proxies ) {
+            foreach (var keyPair in _proxies)
+            {
                 keyPair.Value.Stop();
             }
 
         }
 
-        public void Shutdown(string proxyId) {
+        public void Shutdown(string proxyId)
+        {
 
-            if ( string.IsNullOrWhiteSpace(proxyId) ) {
+            if (string.IsNullOrWhiteSpace(proxyId))
+            {
                 throw new ArgumentNullException("proxyId");
             }
 
             ProxyServer server;
             _proxies.TryGetValue(proxyId, out server);
 
-            if ( server != null ) {
+            if (server != null)
+            {
                 server.Stop();
             }
 
         }
 
-        private void UnwrapAndRegisterProxy(ProxyServerEntity entity) {
+        protected virtual void Dispose(bool disposing)
+        {
+
+            if (disposing && !_disposed)
+            {
+
+                _disposed = true;
+
+                foreach (var keyPair in _proxies)
+                {
+                    if (keyPair.Value != null)
+                    {
+                        keyPair.Value.Dispose();
+                    }
+                }
+
+                _proxies.Clear();
+
+            }
+
+        }
+
+        private void UnwrapAndRegisterProxy(ProxyServerEntity entity)
+        {
 
             var environment = new ProxyEnvironment(entity.ProxyId, _dataAccess)
             {
@@ -196,39 +256,6 @@
             _proxies.AddOrUpdate(environment.ProxyId, server, (key, oldServer) => server);
 
         }
-
-        #region IDisposable Members
-
-        protected virtual void Dispose(bool disposing) {
-
-            if ( disposing && !_disposed ) {
-
-                _disposed = true;
-
-                foreach ( var keyPair in _proxies ) {
-                    if ( keyPair.Value != null ) {
-                        keyPair.Value.Dispose();
-                    }
-                }
-
-                _proxies.Clear();
-
-            }
-
-        }
-
-        public void Dispose() {
-
-            if ( !_disposed ) {
-
-                this.Dispose(true);
-                GC.SuppressFinalize(this);
-
-            }
-
-        }
-
-        #endregion
 
     }
 

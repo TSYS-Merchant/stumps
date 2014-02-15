@@ -1,12 +1,15 @@
-﻿namespace Stumps.Proxy {
+﻿namespace Stumps.Proxy
+{
 
     using Stumps.Http;
 
-    internal class HttpMethodRule : IStumpRule {
+    internal class HttpMethodRule : IStumpRule
+    {
 
         private readonly TextMatch _textMatch;
 
-        public HttpMethodRule(string value) {
+        public HttpMethodRule(string value)
+        {
 
             value = value ?? string.Empty;
 
@@ -14,9 +17,11 @@
 
         }
 
-        public bool IsMatch(IStumpsHttpRequest request) {
+        public bool IsMatch(IStumpsHttpRequest request)
+        {
 
-            if ( request == null ) {
+            if (request == null)
+            {
                 return false;
             }
 

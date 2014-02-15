@@ -1,8 +1,10 @@
-﻿namespace Stumps {
+﻿namespace Stumps
+{
 
     using System;
 
-    interface IStumpModule : IDisposable {
+    internal interface IStumpModule : IDisposable
+    {
 
         void Start();
 

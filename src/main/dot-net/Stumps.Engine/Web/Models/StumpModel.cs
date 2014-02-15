@@ -1,6 +1,8 @@
-﻿namespace Stumps.Web.Models {
+﻿namespace Stumps.Web.Models
+{
 
-    public class StumpModel {
+    public class StumpModel
+    {
 
         public string Name { get; set; }
 

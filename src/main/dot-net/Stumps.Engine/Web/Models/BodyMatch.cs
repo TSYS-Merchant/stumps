@@ -1,6 +1,8 @@
-﻿namespace Stumps.Web.Models {
+﻿namespace Stumps.Web.Models
+{
 
-    public enum BodyMatch {
+    public enum BodyMatch
+    {
 
         IsAnything = 0,
 

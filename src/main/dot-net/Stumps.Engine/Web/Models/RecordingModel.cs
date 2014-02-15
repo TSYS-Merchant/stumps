@@ -1,8 +1,10 @@
-﻿namespace Stumps.Web.Models {
+﻿namespace Stumps.Web.Models
+{
 
     using System;
 
-    public class RecordingModel {
+    public class RecordingModel
+    {
 
         public int Index { get; set; }
 

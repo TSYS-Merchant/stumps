@@ -1,11 +1,13 @@
-﻿namespace Stumps.Data {
+﻿namespace Stumps.Data
+{
 
     using System;
     using System.Collections.Generic;
     using System.IO;
     using Stumps.Utility;
 
-    public sealed class DataAccess : IDataAccess {
+    public sealed class DataAccess : IDataAccess
+    {
 
         public const string BodyMatchFileExtension = ".body.match";
         public const string BodyResponseFileExtension = ".body.response";
@@ -16,9 +18,11 @@
 
         private readonly string _dataPath;
 
-        public DataAccess(string dataPath) {
+        public DataAccess(string dataPath)
+        {
 
-            if ( dataPath == null ) {
+            if (dataPath == null)
+            {
                 throw new ArgumentNullException("dataPath");
             }
 
@@ -26,13 +30,16 @@
 
         }
 
-        public string DataPath {
+        public string DataPath
+        {
             get { return _dataPath; }
         }
 
-        public void ProxyServerCreate(ProxyServerEntity server) {
+        public void ProxyServerCreate(ProxyServerEntity server)
+        {
 
-            if ( server == null ) {
+            if (server == null)
+            {
                 throw new ArgumentNullException("server");
             }
 
@@ -55,7 +62,8 @@
 
         }
 
-        public IList<ProxyServerEntity> ProxyServerFindAll() {
+        public IList<ProxyServerEntity> ProxyServerFindAll()
+        {
 
             var proxies = JsonUtility.DeserializeFromDirectory<ProxyServerEntity>(
                 _dataPath, "*" + DataAccess.ProxyFileExtension, SearchOption.TopDirectoryOnly);
@@ -64,9 +72,11 @@
 
         }
 
-        public StumpEntity StumpCreate(string proxyId, StumpEntity entity, byte[] matchBody, byte[] responseBody) {
+        public StumpEntity StumpCreate(string proxyId, StumpEntity entity, byte[] matchBody, byte[] responseBody)
+        {
 
-            if ( entity == null ) {
+            if (entity == null)
+            {
                 throw new ArgumentNullException("entity");
             }
 
@@ -76,12 +86,14 @@
             var matchFileName = Path.Combine(stumpsPath, entity.StumpId + DataAccess.BodyMatchFileExtension);
             var responseFileName = Path.Combine(stumpsPath, entity.StumpId + DataAccess.BodyResponseFileExtension);
 
-            if ( matchBody != null && matchBody.Length > 0 ) {
+            if (matchBody != null && matchBody.Length > 0)
+            {
                 entity.MatchBodyFileName = matchFileName;
                 File.WriteAllBytes(matchFileName, matchBody);
             }
 
-            if ( responseBody != null && responseBody.Length > 0 ) {
+            if (responseBody != null && responseBody.Length > 0)
+            {
                 entity.ResponseBodyFileName = responseFileName;
                 File.WriteAllBytes(responseFileName, responseBody);
             }
@@ -100,15 +112,18 @@
             var matchFileName = Path.Combine(stumpsPath, stumpId + DataAccess.BodyMatchFileExtension);
             var responseFileName = Path.Combine(stumpsPath, stumpId + DataAccess.BodyResponseFileExtension);
 
-            if ( File.Exists(stumpFileName) ) {
+            if (File.Exists(stumpFileName))
+            {
                 File.Delete(stumpFileName);
             }
 
-            if ( File.Exists(matchFileName) ) {
+            if (File.Exists(matchFileName))
+            {
                 File.Delete(matchFileName);
             }
 
-            if ( File.Exists(responseFileName) ) {
+            if (File.Exists(responseFileName))
+            {
                 File.Delete(responseFileName);
             }
 
@@ -125,7 +140,8 @@
 
         }
 
-        private static string CleanExternalHostName(string externalHostName) {
+        private static string CleanExternalHostName(string externalHostName)
+        {
             externalHostName = externalHostName.Replace(':', '.');
             return externalHostName;
         }

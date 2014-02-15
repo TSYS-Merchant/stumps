@@ -1,22 +1,27 @@
-﻿namespace Stumps.Web.ApiModules {
+﻿namespace Stumps.Web.ApiModules
+{
 
+    using System;
     using System.Collections.Generic;
     using System.Text;
-    using System;
     using Nancy;
     using Nancy.ModelBinding;
     using Stumps.Proxy;
     using Stumps.Web.Models;
 
-    public class StumpsModule : NancyModule {
+    public class StumpsModule : NancyModule
+    {
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification="Assumed to be handled by Nancy")]
-        public StumpsModule(IProxyHost proxyHost) {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability",
+            "CA2000:Dispose objects before losing scope", Justification = "Assumed to be handled by Nancy")]
+        public StumpsModule(IProxyHost proxyHost)
+        {
 
-            Get["/api/proxy/{proxyId}/stumps/{stumpId}"] = _ => {
+            Get["/api/proxy/{proxyId}/stumps/{stumpId}"] = _ =>
+            {
 
-                var proxyId = (string) _.proxyId;
-                var stumpId = (string) _.stumpId;
+                var proxyId = (string)_.proxyId;
+                var stumpId = (string)_.stumpId;
                 var environment = proxyHost.FindProxy(proxyId);
                 var stump = environment.Stumps.FindStump(stumpId);
 
@@ -26,9 +31,10 @@
 
             };
 
-            Get["/api/proxy/{proxyId}/stumps/{stumpId}/request"] = _ => {
-                var proxyId = (string) _.proxyId;
-                var stumpId = (string) _.stumpId;
+            Get["/api/proxy/{proxyId}/stumps/{stumpId}/request"] = _ =>
+            {
+                var proxyId = (string)_.proxyId;
+                var stumpId = (string)_.stumpId;
                 var environment = proxyHost.FindProxy(proxyId);
                 var stump = environment.Stumps.FindStump(stumpId);
 
@@ -37,9 +43,10 @@
                 return Response.FromStream(ms, stump.Contract.MatchBodyContentType);
             };
 
-            Get["/api/proxy/{proxyId}/stumps/{stumpId}/response"] = _ => {
-                var proxyId = (string) _.proxyId;
-                var stumpId = (string) _.stumpId;
+            Get["/api/proxy/{proxyId}/stumps/{stumpId}/response"] = _ =>
+            {
+                var proxyId = (string)_.proxyId;
+                var stumpId = (string)_.stumpId;
                 var environment = proxyHost.FindProxy(proxyId);
                 var stump = environment.Stumps.FindStump(stumpId);
 
@@ -48,9 +55,10 @@
                 return Response.FromStream(ms, stump.Contract.Response.BodyContentType);
             };
 
-            Post["/api/proxy/{proxyId}/stumps"] = _ => {
+            Post["/api/proxy/{proxyId}/stumps"] = _ =>
+            {
 
-                var proxyId = (string) _.proxyId;
+                var proxyId = (string)_.proxyId;
                 var environment = proxyHost.FindProxy(proxyId);
 
                 var model = this.Bind<StumpModel>();
@@ -62,16 +70,18 @@
 
             };
 
-            Put["/api/proxy/{proxyId}/stumps/{stumpId}"] = _ => {
+            Put["/api/proxy/{proxyId}/stumps/{stumpId}"] = _ =>
+            {
 
-                var proxyId = (string) _.proxyId;
+                var proxyId = (string)_.proxyId;
 
                 var environment = proxyHost.FindProxy(proxyId);
 
                 var model = this.Bind<StumpModel>();
                 var contract = CreateContractFromStump(model, environment);
 
-                if(environment.Stumps.FindStump(contract.StumpId).Equals(null)){
+                if (environment.Stumps.FindStump(contract.StumpId).Equals(null))
+                {
                     throw new ArgumentException("Stump name cannot be null.");
                 }
 
@@ -95,10 +105,11 @@
 
             };
 
-            Delete["/api/proxy/{proxyId}/stumps/{stumpId}/delete"] = _ => {
+            Delete["/api/proxy/{proxyId}/stumps/{stumpId}/delete"] = _ =>
+            {
 
-                var proxyId = (string) _.proxyId;
-                var stumpId = (string) _.stumpId;
+                var proxyId = (string)_.proxyId;
+                var stumpId = (string)_.stumpId;
                 var environment = proxyHost.FindProxy(proxyId);
                 environment.Stumps.DeleteStump(stumpId);
 
@@ -126,11 +137,13 @@
 
         }
 
-        private StumpContract CreateContractFromRecord(StumpModel model, ProxyEnvironment environment) {
+        private StumpContract CreateContractFromRecord(StumpModel model, ProxyEnvironment environment)
+        {
 
             var record = environment.Recordings.FindAt(model.RecordId);
 
-            var contract = new StumpContract {
+            var contract = new StumpContract
+            {
                 HttpMethod = model.RequestHttpMethod,
                 RawUrl = model.RequestUrl,
                 Response = new RecordedResponse(),
@@ -147,7 +160,8 @@
             contract.MatchBodyMaximumLength = -1;
             contract.MatchBodyMinimumLength = -1;
 
-            switch ( model.RequestBodyMatch ) {
+            switch (model.RequestBodyMatch)
+            {
                 case BodyMatch.ContainsText:
                     contract.MatchBodyText = model.RequestBodyMatchValues;
                     contract.MatchBody = record.Request.Body;
@@ -175,7 +189,8 @@
 
             }
 
-            switch ( model.ResponseBodySource ) {
+            switch (model.ResponseBodySource)
+            {
 
                 case BodySource.Modified:
                     contract.Response.Body = System.Text.Encoding.UTF8.GetBytes(model.ResponseBodyModification);
@@ -185,7 +200,9 @@
                     break;
 
                 case BodySource.NoBody:
-                    contract.Response.Body = new byte[] { };
+                    contract.Response.Body = new byte[]
+                    {
+                    };
                     contract.Response.BodyIsImage = false;
                     contract.Response.BodyIsText = false;
                     break;
@@ -207,11 +224,13 @@
 
         }
 
-        private StumpContract CreateContractFromStump(StumpModel model, ProxyEnvironment environment) {
+        private StumpContract CreateContractFromStump(StumpModel model, ProxyEnvironment environment)
+        {
 
             var originalContract = environment.Stumps.FindStump(model.StumpId).Contract;
 
-            var contract = new StumpContract {
+            var contract = new StumpContract
+            {
                 HttpMethod = model.RequestHttpMethod,
                 MatchBodyMaximumLength = -1,
                 MatchBodyMinimumLength = -1,
@@ -226,7 +245,8 @@
 
             contract.MatchHeaders = CreateHeader(model.RequestHeaderMatch);
 
-            switch ( model.RequestBodyMatch ) {
+            switch (model.RequestBodyMatch)
+            {
                 case BodyMatch.ContainsText:
                     contract.MatchBodyText = model.RequestBodyMatchValues;
                     contract.MatchBody = originalContract.MatchBody;
@@ -254,7 +274,8 @@
 
             }
 
-            switch ( model.ResponseBodySource ) {
+            switch (model.ResponseBodySource)
+            {
 
                 case BodySource.Modified:
                     contract.Response.Body = System.Text.Encoding.UTF8.GetBytes(model.ResponseBodyModification);
@@ -264,7 +285,9 @@
                     break;
 
                 case BodySource.NoBody:
-                    contract.Response.Body = new byte[] { };
+                    contract.Response.Body = new byte[]
+                    {
+                    };
                     contract.Response.BodyIsImage = false;
                     contract.Response.BodyIsText = false;
                     break;
@@ -286,13 +309,17 @@
 
         }
 
-        private HttpHeader[] CreateHeader(IEnumerable<HeaderModel> headers) {
+        private HttpHeader[] CreateHeader(IEnumerable<HeaderModel> headers)
+        {
 
             var headerList = new List<HttpHeader>();
 
-            if ( headers != null ) {
-                foreach ( var header in headers ) {
-                    var httpHeader = new HttpHeader {
+            if (headers != null)
+            {
+                foreach (var header in headers)
+                {
+                    var httpHeader = new HttpHeader
+                    {
                         Name = header.Name,
                         Value = header.Value
                     };
@@ -305,13 +332,17 @@
 
         }
 
-        private HeaderModel[] CreateHeaderModel(IEnumerable<HttpHeader> headers) {
+        private HeaderModel[] CreateHeaderModel(IEnumerable<HttpHeader> headers)
+        {
 
             var headerList = new List<HeaderModel>();
 
-            if ( headers != null ) {
-                foreach ( var header in headers ) {
-                    var headerModel = new HeaderModel {
+            if (headers != null)
+            {
+                foreach (var header in headers)
+                {
+                    var headerModel = new HeaderModel
+                    {
                         Name = header.Name,
                         Value = header.Value
                     };
@@ -324,26 +355,31 @@
 
         }
 
-        private StumpModel CreateStumpModel(Stump stump, string proxyId, string stumpId) {
+        private StumpModel CreateStumpModel(Stump stump, string proxyId, string stumpId)
+        {
 
             var bodyMatch = BodyMatch.IsAnything;
 
-            if ( stump.Contract.MatchBodyMaximumLength == 0 && stump.Contract.MatchBodyMinimumLength == 0 ) {
+            if (stump.Contract.MatchBodyMaximumLength == 0 && stump.Contract.MatchBodyMinimumLength == 0)
+            {
                 bodyMatch = BodyMatch.IsBlank;
             }
-            else if ( stump.Contract.MatchBodyMaximumLength == int.MaxValue &&
-                     stump.Contract.MatchBodyMinimumLength == 0 ) {
+            else if (stump.Contract.MatchBodyMaximumLength == int.MaxValue && stump.Contract.MatchBodyMinimumLength == 0)
+            {
                 bodyMatch = BodyMatch.IsNotBlank;
             }
-            else if ( stump.Contract.MatchBodyText != null && stump.Contract.MatchBodyText.Length > 0 &&
-                     stump.Contract.MatchBody != null && stump.Contract.MatchBody.Length > 0 ) {
+            else if (stump.Contract.MatchBodyText != null && stump.Contract.MatchBodyText.Length > 0 &&
+                     stump.Contract.MatchBody != null && stump.Contract.MatchBody.Length > 0)
+            {
                 bodyMatch = BodyMatch.ContainsText;
             }
-            else if ( stump.Contract.MatchBody != null && stump.Contract.MatchBody.Length > 0 ) {
+            else if (stump.Contract.MatchBody != null && stump.Contract.MatchBody.Length > 0)
+            {
                 bodyMatch = BodyMatch.ExactMatch;
             }
 
-            var model = new StumpModel {
+            var model = new StumpModel
+            {
                 Name = stump.Contract.StumpName,
                 Origin = StumpOrigin.ExistingStump,
                 RecordId = -1,
@@ -351,7 +387,7 @@
                     stump.Contract.MatchBodyIsText ? Encoding.UTF8.GetString(stump.Contract.MatchBody) : string.Empty,
                 RequestBodyIsImage = stump.Contract.MatchBodyIsImage,
                 RequestBodyIsText = stump.Contract.MatchBodyIsText,
-                RequestBodyLength = (stump.Contract.MatchBody != null ? stump.Contract.MatchBody.Length : 0),
+                RequestBodyLength = stump.Contract.MatchBody != null ? stump.Contract.MatchBody.Length : 0,
                 RequestBodyMatch = bodyMatch,
                 RequestBodyMatchValues = stump.Contract.MatchBodyText,
                 RequestBodyUrl = "/api/proxy/" + proxyId + "/stumps/" + stumpId + "/request",
@@ -366,7 +402,7 @@
                         : string.Empty,
                 ResponseBodyIsImage = stump.Contract.Response.BodyIsImage,
                 ResponseBodyIsText = stump.Contract.Response.BodyIsText,
-                ResponseBodyLength = (stump.Contract.Response.Body != null ? stump.Contract.Response.Body.Length : 0),
+                ResponseBodyLength = stump.Contract.Response.Body != null ? stump.Contract.Response.Body.Length : 0,
                 ResponseBodyModification = string.Empty,
                 ResponseBodySource = BodySource.Origin,
                 ResponseBodyUrl = "/api/proxy/" + proxyId + "/stumps/" + stumpId + "/response",

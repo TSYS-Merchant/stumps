@@ -1,6 +1,8 @@
-﻿namespace Stumps.Web.Models {
+﻿namespace Stumps.Web.Models
+{
 
-    public enum BodySource {
+    public enum BodySource
+    {
 
         NoBody = 0,
 

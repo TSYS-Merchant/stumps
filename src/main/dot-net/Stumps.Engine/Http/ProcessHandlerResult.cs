@@ -1,6 +1,8 @@
-﻿namespace Stumps.Http {
+﻿namespace Stumps.Http
+{
 
-    public enum ProcessHandlerResult {
+    public enum ProcessHandlerResult
+    {
 
         Continue = 0,
 

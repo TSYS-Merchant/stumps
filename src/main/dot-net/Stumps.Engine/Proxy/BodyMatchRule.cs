@@ -1,27 +1,33 @@
-﻿namespace Stumps.Proxy {
+﻿namespace Stumps.Proxy
+{
 
     using System.Security.Cryptography;
     using Stumps.Http;
     using Stumps.Utility;
 
-    internal sealed class BodyMatchRule : IStumpRule {
+    internal sealed class BodyMatchRule : IStumpRule
+    {
 
-        private readonly int _bodyLength;
         private readonly byte[] _bodyHash;
+        private readonly int _bodyLength;
 
-        public BodyMatchRule(byte[] value) {
+        public BodyMatchRule(byte[] value)
+        {
 
             _bodyLength = value.Length;
 
-            using ( var hash = MD5.Create() ) {
+            using (var hash = MD5.Create())
+            {
                 _bodyHash = hash.ComputeHash(value);
             }
 
         }
 
-        public bool IsMatch(IStumpsHttpRequest request) {
+        public bool IsMatch(IStumpsHttpRequest request)
+        {
 
-            if ( request == null ) {
+            if (request == null)
+            {
                 return false;
             }
 
@@ -29,9 +35,11 @@
 
             var match = false;
 
-            if ( bodyBytes.Length == _bodyLength ) {
+            if (bodyBytes.Length == _bodyLength)
+            {
 
-                using ( var hash = MD5.Create() ) {
+                using (var hash = MD5.Create())
+                {
                     var bytes = hash.ComputeHash(bodyBytes);
                     match = IsHashEqual(bytes);
                 }
@@ -42,14 +50,18 @@
 
         }
 
-        private bool IsHashEqual(byte[] hashBytes) {
+        private bool IsHashEqual(byte[] hashBytes)
+        {
 
-            if ( hashBytes.Length != _bodyHash.Length ) {
+            if (hashBytes.Length != _bodyHash.Length)
+            {
                 return false;
             }
 
-            for ( var i = 0; i < _bodyHash.Length; i++ ) {
-                if ( _bodyHash[i] != hashBytes[i] ) {
+            for (var i = 0; i < _bodyHash.Length; i++)
+            {
+                if (_bodyHash[i] != hashBytes[i])
+                {
                     return false;
                 }
             }

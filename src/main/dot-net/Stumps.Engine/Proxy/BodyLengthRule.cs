@@ -1,24 +1,29 @@
-﻿namespace Stumps.Proxy {
+﻿namespace Stumps.Proxy
+{
 
     using Stumps.Http;
 
-    internal class BodyLengthRule : IStumpRule {
+    internal class BodyLengthRule : IStumpRule
+    {
 
-        private readonly int _minimumValue;
         private readonly int _maximumSize;
+        private readonly int _minimumValue;
 
-        public BodyLengthRule(int minimumValue, int maximumValue) {
+        public BodyLengthRule(int minimumValue, int maximumValue)
+        {
             _minimumValue = minimumValue;
             _maximumSize = maximumValue;
         }
 
-        public bool IsMatch(IStumpsHttpRequest request) {
+        public bool IsMatch(IStumpsHttpRequest request)
+        {
 
-            if ( request == null ) {
+            if (request == null)
+            {
                 return false;
             }
 
-            var match = (request.InputStream.Length >= _minimumValue && request.InputStream.Length <= _maximumSize);
+            var match = request.InputStream.Length >= _minimumValue && request.InputStream.Length <= _maximumSize;
 
             return match;
 

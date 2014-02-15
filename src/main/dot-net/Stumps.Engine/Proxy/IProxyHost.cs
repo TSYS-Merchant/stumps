@@ -1,9 +1,11 @@
-﻿namespace Stumps.Proxy {
+﻿namespace Stumps.Proxy
+{
 
     using System;
     using System.Collections.Generic;
 
-    public interface IProxyHost : IDisposable {
+    public interface IProxyHost : IDisposable
+    {
 
         ProxyEnvironment CreateProxy(string externalHostName, int port, bool useSsl, bool autoStart);
 

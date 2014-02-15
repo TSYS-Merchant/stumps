@@ -1,8 +1,8 @@
-﻿namespace Stumps.Data {
+﻿namespace Stumps.Data
+{
 
-    using System;
-
-    public class ConfigurationEntity {
+    public class ConfigurationEntity
+    {
 
         public int DataCompatibilityVersion { get; set; }
 

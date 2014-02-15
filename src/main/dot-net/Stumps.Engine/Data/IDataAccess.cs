@@ -1,8 +1,10 @@
-﻿namespace Stumps.Data {
+﻿namespace Stumps.Data
+{
 
     using System.Collections.Generic;
 
-    public interface IDataAccess {
+    public interface IDataAccess
+    {
 
         void ProxyServerCreate(ProxyServerEntity server);
 

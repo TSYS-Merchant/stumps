@@ -1,20 +1,25 @@
-﻿namespace Stumps.Web.ApiModules {
+﻿namespace Stumps.Web.ApiModules
+{
 
     using Nancy;
     using Nancy.ModelBinding;
     using Stumps.Proxy;
     using Stumps.Web.Models;
 
-    public class ProxyServerStatusModule : NancyModule {
+    public class ProxyServerStatusModule : NancyModule
+    {
 
-        public ProxyServerStatusModule(IProxyHost proxyHost) {
+        public ProxyServerStatusModule(IProxyHost proxyHost)
+        {
 
-            Get["/api/proxy/{proxyId}/status"] = _ => {
+            Get["/api/proxy/{proxyId}/status"] = _ =>
+            {
 
-                var proxyId = (string) _.proxyId;
+                var proxyId = (string)_.proxyId;
                 var environment = proxyHost.FindProxy(proxyId);
 
-                var model = new RunningStatusModel {
+                var model = new RunningStatusModel
+                {
                     IsRunning = environment.IsRunning
                 };
 
@@ -22,17 +27,20 @@
 
             };
 
-            Put["/api/proxy/{proxyId}/status"] = _ => {
+            Put["/api/proxy/{proxyId}/status"] = _ =>
+            {
 
-                var proxyId = (string) _.proxyId;
+                var proxyId = (string)_.proxyId;
                 var environment = proxyHost.FindProxy(proxyId);
 
                 var model = this.Bind<RunningStatusModel>();
 
-                if ( model.IsRunning && !environment.IsRunning ) {
+                if (model.IsRunning && !environment.IsRunning)
+                {
                     proxyHost.Start(proxyId);
                 }
-                else if ( !model.IsRunning && environment.IsRunning ) {
+                else if (!model.IsRunning && environment.IsRunning)
+                {
                     proxyHost.Shutdown(proxyId);
                 }
 

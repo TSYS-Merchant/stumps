@@ -1,17 +1,20 @@
-﻿namespace Stumps.Http {
+﻿namespace Stumps.Http
+{
 
     using System;
     using System.IO;
     using System.Net;
     using Stumps.Utility;
 
-    internal sealed class StumpsHttpRequest : IStumpsHttpRequest {
+    internal sealed class StumpsHttpRequest : IStumpsHttpRequest
+    {
 
         private readonly HttpListenerRequest _request;
-        private MemoryStream _requestStream;
         private bool _disposed;
+        private MemoryStream _requestStream;
 
-        public StumpsHttpRequest(HttpListenerRequest request) {
+        public StumpsHttpRequest(HttpListenerRequest request)
+        {
 
             _request = request;
 
@@ -24,47 +27,59 @@
 
         }
 
-        public string ContentType {
+        public string ContentType
+        {
             get { return _request.ContentType; }
         }
 
-        public System.Collections.Specialized.NameValueCollection Headers {
+        public System.Collections.Specialized.NameValueCollection Headers
+        {
             get { return _request.Headers; }
         }
 
-        public string HttpMethod {
+        public string HttpMethod
+        {
             get { return _request.HttpMethod; }
         }
 
-        public System.IO.Stream InputStream {
+        public System.IO.Stream InputStream
+        {
             get { return _requestStream; }
         }
 
-        public bool IsSecureConnection {
+        public bool IsSecureConnection
+        {
             get { return _request.IsSecureConnection; }
         }
 
-        public IPEndPoint LocalEndPoint {
+        public IPEndPoint LocalEndPoint
+        {
             get { return _request.LocalEndPoint; }
         }
 
-        public Version ProtocolVersion {
+        public Version ProtocolVersion
+        {
             get { return _request.ProtocolVersion; }
         }
 
-        public System.Collections.Specialized.NameValueCollection QueryString {
+        public System.Collections.Specialized.NameValueCollection QueryString
+        {
             get { return _request.QueryString; }
         }
 
-        public string RawUrl {
+        public string RawUrl
+        {
             get { return _request.RawUrl; }
         }
 
-        public string Referer {
-            get {
+        public string Referer
+        {
+            get
+            {
                 string referer = null;
 
-                if ( _request.UrlReferrer != null ) {
+                if (_request.UrlReferrer != null)
+                {
                     referer = _request.UrlReferrer.ToString();
                 }
 
@@ -72,23 +87,28 @@
             }
         }
 
-        public IPEndPoint RemoteEndPoint {
+        public IPEndPoint RemoteEndPoint
+        {
             get { return _request.RemoteEndPoint; }
         }
 
-        public Uri Url {
+        public Uri Url
+        {
             get { return _request.Url; }
         }
 
-        public string UserAgent {
+        public string UserAgent
+        {
             get { return _request.UserAgent; }
         }
 
         #region IDisposable Members
 
-        public void Dispose() {
+        public void Dispose()
+        {
 
-            if ( _requestStream != null && !_disposed ) {
+            if (_requestStream != null && !_disposed)
+            {
                 _requestStream.Dispose();
                 _requestStream = null;
             }
@@ -100,7 +120,6 @@
         }
 
         #endregion
-
     }
 
 }

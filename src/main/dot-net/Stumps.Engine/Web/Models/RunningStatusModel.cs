@@ -1,6 +1,8 @@
-﻿namespace Stumps.Web.Models {
+﻿namespace Stumps.Web.Models
+{
 
-    public class RunningStatusModel {
+    public class RunningStatusModel
+    {
 
         public bool IsRunning { get; set; }
 

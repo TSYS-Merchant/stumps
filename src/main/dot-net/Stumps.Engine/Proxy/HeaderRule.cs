@@ -1,13 +1,16 @@
-﻿namespace Stumps.Proxy {
+﻿namespace Stumps.Proxy
+{
 
     using Stumps.Http;
 
-    internal class HeaderRule : IStumpRule {
+    internal class HeaderRule : IStumpRule
+    {
 
         private readonly TextMatch _nameTextMatch;
         private readonly TextMatch _valueTextMatch;
 
-        public HeaderRule(string name, string value) {
+        public HeaderRule(string name, string value)
+        {
 
             name = name ?? string.Empty;
             value = value ?? string.Empty;
@@ -17,25 +20,30 @@
 
         }
 
-        public bool IsMatch(IStumpsHttpRequest request) {
+        public bool IsMatch(IStumpsHttpRequest request)
+        {
 
-            if ( request == null || request.Headers == null ) {
+            if (request == null || request.Headers == null)
+            {
                 return false;
             }
 
             var match = false;
 
-            foreach ( var headerName in request.Headers.AllKeys ) {
+            foreach (var headerName in request.Headers.AllKeys)
+            {
 
                 var nameMatches = _nameTextMatch.IsMatch(headerName);
 
-                if ( !nameMatches ) {
+                if (!nameMatches)
+                {
                     continue;
                 }
 
                 var valueMatches = _valueTextMatch.IsMatch(request.Headers[headerName]);
 
-                if ( !valueMatches ) {
+                if (!valueMatches)
+                {
                     continue;
                 }
 

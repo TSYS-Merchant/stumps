@@ -1,23 +1,27 @@
-﻿namespace Stumps {
+﻿namespace Stumps
+{
 
     using System;
     using System.Collections.Generic;
+    using Stumps.Data;
     using Stumps.Logging;
     using Stumps.Proxy;
-    using Stumps.Data;
     using Stumps.Web;
 
-    public sealed class StumpsServer : IDisposable {
+    public sealed class StumpsServer : IDisposable
+    {
 
         private readonly object _syncRoot;
-        private List<IStumpModule> _modules;
         private bool _disposed;
+        private List<IStumpModule> _modules;
 
         private bool _started;
 
-        public StumpsServer(Configuration configuration) {
+        public StumpsServer(Configuration configuration)
+        {
 
-            if ( configuration == null ) {
+            if (configuration == null)
+            {
                 throw new ArgumentNullException("configuration");
             }
 
@@ -26,17 +30,19 @@
 
         }
 
-        public Configuration Configuration { 
-            get; 
-            private set; 
-        }
+        public Configuration Configuration { get; private set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Objects are disposed when the modules are stopped.")]
-        public void Start() {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability",
+            "CA2000:Dispose objects before losing scope",
+            Justification = "Objects are disposed when the modules are stopped.")]
+        public void Start()
+        {
 
-            lock ( _syncRoot ) {
+            lock (_syncRoot)
+            {
 
-                if ( _started ) {
+                if (_started)
+                {
                     return;
                 }
 
@@ -65,10 +71,13 @@
 
         }
 
-        public void Stop() {
+        public void Stop()
+        {
 
-            lock ( _syncRoot ) {
-                if ( !_started ) {
+            lock (_syncRoot)
+            {
+                if (!_started)
+                {
                     return;
                 }
 
@@ -80,32 +89,16 @@
 
         }
 
-        private void StartModules() {
-            foreach ( var module in _modules ) {
-                module.Start();
-            }
-        }
+        public void Dispose()
+        {
 
-        private void StopAndDisposeModules() {
+            if (!_disposed)
+            {
 
-            foreach ( var module in _modules ) {
-                module.Shutdown();
-                module.Dispose();
-            }
-
-            _modules.Clear();
-
-        }
-
-        #region IDisposable Members
-
-        public void Dispose() {
-
-            if ( !_disposed ) {
-                
                 _disposed = true;
 
-                if ( _started ) {
+                if (_started)
+                {
                     this.Stop();
                 }
 
@@ -115,7 +108,26 @@
 
         }
 
-        #endregion
+        private void StartModules()
+        {
+            foreach (var module in _modules)
+            {
+                module.Start();
+            }
+        }
+
+        private void StopAndDisposeModules()
+        {
+
+            foreach (var module in _modules)
+            {
+                module.Shutdown();
+                module.Dispose();
+            }
+
+            _modules.Clear();
+
+        }
 
     }
 
