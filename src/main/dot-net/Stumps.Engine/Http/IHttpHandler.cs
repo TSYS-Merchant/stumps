@@ -12,7 +12,7 @@
         /// </summary>
         /// <param name="context">The <see cref="T:Stumps.Http.IStumpsHttpContext"/> representing both the incoming request and the response.</param>
         /// <returns>
-        ///     A member of the <paramref name="T:Stumps.Http.ProcessHandlerResult"/> enumeration.
+        ///     A member of the <see cref="T:Stumps.Http.ProcessHandlerResult"/> enumeration.
         /// </returns>
         ProcessHandlerResult ProcessRequest(IStumpsHttpContext context);
 

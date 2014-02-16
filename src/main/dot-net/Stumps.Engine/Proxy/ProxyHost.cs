@@ -9,6 +9,9 @@
     using Stumps.Logging;
     using Stumps.Utility;
 
+    /// <summary>
+    ///     A class that represents a multitenant host of proxy servers.
+    /// </summary>
     public class ProxyHost : IProxyHost
     {
 
@@ -17,6 +20,16 @@
         private readonly ConcurrentDictionary<string, ProxyServer> _proxies;
         private bool _disposed;
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="T:Stumps.Proxy.ProxyHost"/> class.
+        /// </summary>
+        /// <param name="logger">The logger used by the instance.</param>
+        /// <param name="dataAccess">The data access provider used by the instance.</param>
+        /// <exception cref="System.ArgumentNullException">
+        /// <paramref name="logger"/> is <c>null</c>.
+        /// or
+        /// <paramref name="dataAccess"/> is <c>null</c>.
+        /// </exception>
         public ProxyHost(ILogger logger, IDataAccess dataAccess)
         {
 
@@ -36,6 +49,27 @@
             _proxies = new ConcurrentDictionary<string, ProxyServer>(StringComparer.OrdinalIgnoreCase);
         }
 
+        /// <summary>
+        ///     Finalizes an instance of the <see cref="T:Stumps.Proxy.ProxyHost"/> class.
+        /// </summary>
+        ~ProxyHost()
+        {
+            Dispose(false);
+        }
+
+        /// <summary>
+        ///     Creates a new proxy server.
+        /// </summary>
+        /// <param name="externalHostName">The name of the external host served by the proxy.</param>
+        /// <param name="port">The TCP used to listen for incomming HTTP requests.</param>
+        /// <param name="useSsl"><c>true</c> if the external host requires SSL.</param>
+        /// <param name="autoStart"><c>true</c> to automatically start the proxy server.</param>
+        /// <returns>
+        ///     A <see cref="T:Stumps.Proxy.ProxyEnvironment" /> represeting the new proxy server.
+        /// </returns>
+        /// <exception cref="System.ArgumentNullException"><paramref name="externalHostName"/> is null</exception>
+        /// <exception cref="System.ArgumentOutOfRangeException"><paramref name="port"/> exceeds the allowed TCP port range.</exception>
+        /// <exception cref="StumpsNetworkException">The port is already in use.</exception>
         public ProxyEnvironment CreateProxy(string externalHostName, int port, bool useSsl, bool autoStart)
         {
 
@@ -51,7 +85,7 @@
 
             if (NetworkUtility.IsPortBeingUsed(port))
             {
-                throw new StumpsNetworkException("Port is in use");
+                throw new StumpsNetworkException(Resources.PortIsInUseError);
             }
 
             var proxyEntity = new ProxyServerEntity
@@ -77,6 +111,11 @@
             return server.Environment;
         }
 
+        /// <summary>
+        ///     Deletes an existing proxy server.
+        /// </summary>
+        /// <param name="proxyId">The unique identifier for the proxy.</param>
+        /// <exception cref="System.ArgumentNullException"><paramref name="proxyId"/> is <c>null</c>.</exception>
         public void DeleteProxy(string proxyId)
         {
 
@@ -98,6 +137,9 @@
 
         }
 
+        /// <summary>
+        ///     Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
         public void Dispose()
         {
 
@@ -111,6 +153,12 @@
 
         }
 
+        /// <summary>
+        ///     Finds all proxy servers represented by the instance.
+        /// </summary>
+        /// <returns>
+        ///     A generic list of <see cref="T:Stumps.Proxy.ProxyEnvironment" /> objects.
+        /// </returns>
         public IList<ProxyEnvironment> FindAll()
         {
 
@@ -126,6 +174,17 @@
 
         }
 
+        /// <summary>
+        ///     Finds the proxy server with the specified identifier.
+        /// </summary>
+        /// <param name="proxyId">The unique identifier for the proxy server.</param>
+        /// <returns>
+        ///     A <see cref="T:Stumps.Proxy.ProxyEnvironment" /> with the specified identifier.
+        /// </returns>
+        /// <remarks>
+        ///     A <c>null</c> value is returned if a proxy with the specified <paramref name="proxyId" />
+        ///     is not found.
+        /// </remarks>
         public ProxyEnvironment FindProxy(string proxyId)
         {
 
@@ -143,6 +202,9 @@
 
         }
 
+        /// <summary>
+        ///     Loads all proxy servers from the data store.
+        /// </summary>
         public void Load()
         {
 
@@ -155,6 +217,9 @@
 
         }
 
+        /// <summary>
+        ///     Starts all proxy servers that are not currently running.
+        /// </summary>
         public void Start()
         {
 
@@ -168,6 +233,11 @@
 
         }
 
+        /// <summary>
+        ///     Starts the proxy server with the specified unique identifier.
+        /// </summary>
+        /// <param name="proxyId">The unique identifier for the proxy server.</param>
+        /// <exception cref="System.ArgumentNullException"><paramref name="proxyId"/> is <c>null</c>.</exception>
         public void Start(string proxyId)
         {
 
@@ -186,6 +256,9 @@
 
         }
 
+        /// <summary>
+        ///     Shuts down this instance and all started proxy servers.
+        /// </summary>
         public void Shutdown()
         {
 
@@ -196,6 +269,11 @@
 
         }
 
+        /// <summary>
+        ///     Shut down the specified proxy server.
+        /// </summary>
+        /// <param name="proxyId">The unique identifier for the proxy server.</param>
+        /// <exception cref="System.ArgumentNullException"><paramref name="proxyId"/> is <c>null</c>.</exception>
         public void Shutdown(string proxyId)
         {
 
@@ -214,6 +292,10 @@
 
         }
 
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources.
+        /// </summary>
+        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
         protected virtual void Dispose(bool disposing)
         {
 
@@ -236,6 +318,10 @@
 
         }
 
+        /// <summary>
+        ///     Creates a new proxy server from a <see cref="T:Stumps.Data.ProxyServerEntity"/>.
+        /// </summary>
+        /// <param name="entity">The <see cref="T:Stumps.Data.ProxyServerEntity"/> used to create the proxy server.</param>
         private void UnwrapAndRegisterProxy(ProxyServerEntity entity)
         {
 

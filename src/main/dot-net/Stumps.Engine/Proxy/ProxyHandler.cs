@@ -8,6 +8,9 @@
     using Stumps.Logging;
     using Stumps.Utility;
 
+    /// <summary>
+    ///     A class implementing the <see cref="T:Stumps.Http.IHttpHandler"/> interface proxies requests to an external host.
+    /// </summary>
     internal class ProxyHandler : IHttpHandler
     {
 
@@ -15,6 +18,16 @@
         private readonly Uri _externalHostUri;
         private readonly ILogger _logger;
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="T:Stumps.Proxy.ProxyHandler"/> class.
+        /// </summary>
+        /// <param name="environment">The environment for the proxy server.</param>
+        /// <param name="logger">The logger used by the instance.</param>
+        /// <exception cref="System.ArgumentNullException">
+        /// <paramref name="environment"/> is <c>null</c>.
+        /// or
+        /// <paramref name="logger"/> is <c>null</c>.
+        /// </exception>
         public ProxyHandler(ProxyEnvironment environment, ILogger logger)
         {
 
@@ -35,6 +48,14 @@
 
         }
 
+        /// <summary>
+        ///     Processes an incoming HTTP request.
+        /// </summary>
+        /// <param name="context">The <see cref="T:Stumps.Http.IStumpsHttpContext" /> representing both the incoming request and the response.</param>
+        /// <returns>
+        ///     A member of the <see cref="T:Stumps.Http.ProcessHandlerResult" /> enumeration.
+        /// </returns>
+        /// <exception cref="System.ArgumentNullException"><paramref name="context"/> is <c>null</c>.</exception>
         public ProcessHandlerResult ProcessRequest(IStumpsHttpContext context)
         {
 
@@ -92,6 +113,13 @@
 
         }
 
+        /// <summary>
+        ///     Builds the remote URL from context.
+        /// </summary>
+        /// <param name="incommingHttpContext">The incomming HTTP context.</param>
+        /// <returns>
+        ///     A string representing the URL for the remote server.
+        /// </returns>
         private string BuildRemoteUrlFromContext(IStumpsHttpContext incommingHttpContext)
         {
 
@@ -107,6 +135,10 @@
 
         }
 
+        /// <summary>
+        ///     Creates the URI from environment environment configuration.
+        /// </summary>
+        /// <returns></returns>
         private Uri CreateUriFromEnvironment()
         {
 
@@ -118,8 +150,15 @@
 
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes",
-            Justification = "Errors are logged.")]
+        /// <summary>
+        ///     Executes the remote web request.
+        /// </summary>
+        /// <param name="remoteWebRequest">The remote web request.</param>
+        /// <param name="remoteWebResponse">The remote web response.</param>
+        /// <returns>
+        ///     <c>true</c> if the remote request executed successfully; otherwise, <c>false</c>.
+        /// </returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Errors are logged.")]
         private bool ExecuteRemoteWebRequest(HttpWebRequest remoteWebRequest, ref HttpWebResponse remoteWebResponse)
         {
 
@@ -153,6 +192,15 @@
 
         }
 
+        /// <summary>
+        ///     Gets the value of a header.
+        /// </summary>
+        /// <param name="headers">The dictionary of possible headers.</param>
+        /// <param name="headerName">Name of the header.</param>
+        /// <param name="defaultValue">The default value to use if the header is not found.</param>
+        /// <returns>
+        ///     A <see cref="T:System.String"/> representing the value of the header.
+        /// </returns>
         private string GetHeaderValue(Dictionary<string, string> headers, string headerName, string defaultValue)
         {
 
@@ -161,6 +209,15 @@
 
         }
 
+        /// <summary>
+        ///     Populates the remote body from context.
+        /// </summary>
+        /// <param name="incommingHttpContext">The incomming HTTP context.</param>
+        /// <param name="remoteWebRequest">The remote web request.</param>
+        /// <param name="remoteWebResponse">The remote web response.</param>
+        /// <returns>
+        ///     <c>true</c> if the remote body was populated successfully; otherwise, <c>false</c>.
+        /// </returns>
         private bool PopulateRemoteBodyFromContext(
             IStumpsHttpContext incommingHttpContext, 
             HttpWebRequest remoteWebRequest,
@@ -202,6 +259,11 @@
 
         }
 
+        /// <summary>
+        ///     Populates the remote headers from context.
+        /// </summary>
+        /// <param name="incommingHttpContext">The incomming HTTP context.</param>
+        /// <param name="remoteWebRequest">The remote web request.</param>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes",
             Justification = "Errors are logged.")]
         private void PopulateRemoteHeadersFromContext(
@@ -236,26 +298,32 @@
             headers.Remove("transfer-encoding");
             headers.Remove("user-agent");
 
-            if (headers.Count > 0)
+            if (headers.Count <= 0)
             {
+                return;
+            }
 
-                foreach (var key in headers.Keys)
+            foreach (var key in headers.Keys)
+            {
+                try
                 {
-                    try
-                    {
-                        remoteWebRequest.Headers.Add(key, headers[key]);
-                    }
-                    catch (Exception ex)
-                    {
-                        // The header could fail to add because it is being referenced
-                        // as a property - this is OK.
-                        _logger.LogException(Resources.LogProxyHeaderError, ex);
-                    }
+                    remoteWebRequest.Headers.Add(key, headers[key]);
+                }
+                catch (Exception ex)
+                {
+                    // The header could fail to add because it is being referenced
+                    // as a property - this is OK.
+                    this._logger.LogException(Resources.LogProxyHeaderError, ex);
                 }
             }
 
         }
 
+        /// <summary>
+        /// Writes the context body from the remote response.
+        /// </summary>
+        /// <param name="incommingHttpContext">The incomming HTTP context.</param>
+        /// <param name="remoteWebResponse">The remote web response.</param>
         private void WriteContextBodyFromRemoteResponse(
             IStumpsHttpContext incommingHttpContext, HttpWebResponse remoteWebResponse)
         {
@@ -270,6 +338,11 @@
 
         }
 
+        /// <summary>
+        /// Writes the context headers from the remote response.
+        /// </summary>
+        /// <param name="incommingHttpContext">The incomming HTTP context.</param>
+        /// <param name="remoteWebResponse">The remote web response.</param>
         private void WriteContextHeadersFromResponse(
             IStumpsHttpContext incommingHttpContext, HttpWebResponse remoteWebResponse)
         {

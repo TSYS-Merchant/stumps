@@ -6,30 +6,43 @@
     using Stumps.Http;
     using Stumps.Utility;
 
+    /// <summary>
+    ///     A class representing a Stump rule that examines the content of the body using text evaluations 
+    ///     for an HTTP request.
+    /// </summary>
     public class BodyContentRule : IStumpRule
     {
 
         private readonly List<TextContainsMatch> _textMatchList;
 
-        public BodyContentRule(string[] contentRules)
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="T:Stumps.Proxy.BodyContentRule"/> class.
+        /// </summary>
+        /// <param name="textEvaluatorStrings">The array of strings representing text evaluation rules.</param>
+        public BodyContentRule(string[] textEvaluatorStrings)
         {
 
-            if (contentRules == null)
+            if (textEvaluatorStrings == null)
             {
                 return;
             }
 
-            _textMatchList = new List<TextContainsMatch>(contentRules.Length);
+            _textMatchList = new List<TextContainsMatch>(textEvaluatorStrings.Length);
 
-            foreach (var rule in contentRules)
+            foreach (var rule in textEvaluatorStrings)
             {
                 _textMatchList.Add(new TextContainsMatch(rule, false));
             }
 
         }
 
-        #region IStumpRule Members
-
+        /// <summary>
+        ///     Determines whether the specified request matches the rule.
+        /// </summary>
+        /// <param name="request">The <see cref="T:Stumps.Http.IStumpsHttpRequest" /> to evaluate.</param>
+        /// <returns>
+        ///   <c>true</c> if the <paramref name="request" /> matches the rule, otherwise, <c>false</c>.
+        /// </returns>
         public bool IsMatch(IStumpsHttpRequest request)
         {
 
@@ -63,7 +76,6 @@
 
         }
 
-        #endregion
     }
 
 }

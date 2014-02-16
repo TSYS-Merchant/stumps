@@ -7,6 +7,9 @@
     using Stumps.Logging;
     using Stumps.Utility;
 
+    /// <summary>
+    ///     A class that represents a proxy server.
+    /// </summary>
     internal sealed class ProxyServer : IDisposable
     {
 
@@ -18,6 +21,16 @@
         private HttpServer _server;
         private bool _started;
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="T:Stumps.Proxy.ProxyServer"/> class.
+        /// </summary>
+        /// <param name="environment">The environment for the proxy server.</param>
+        /// <param name="logger">The logger used by the instance.</param>
+        /// <exception cref="System.ArgumentNullException">
+        /// <paramref name="environment"/> is <c>null</c>.
+        /// or
+        /// <paramref name="logger"/> is <c>null</c>.
+        /// </exception>
         public ProxyServer(ProxyEnvironment environment, ILogger logger)
         {
 
@@ -38,16 +51,39 @@
 
         }
 
+        /// <summary>
+        ///     Finalizes an instance of the <see cref="T:Stumps.Proxy.ProxyServer"/> class.
+        /// </summary>
+        ~ProxyServer()
+        {
+            Dispose();
+        }
+
+        /// <summary>
+        ///     Gets the environment for the proxy server.
+        /// </summary>
+        /// <value>
+        ///     The environment for the proxy server.
+        /// </value>
         public ProxyEnvironment Environment
         {
             get { return _environment; }
         }
 
+        /// <summary>
+        ///     Gets a value indicating whether the server is running.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if the server is running; otherwise, <c>false</c>.
+        /// </value>
         public bool IsRunning
         {
             get { return _started; }
         }
 
+        /// <summary>
+        ///     Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
         public void Dispose()
         {
 
@@ -67,6 +103,9 @@
 
         }
 
+        /// <summary>
+        ///     Starts this instance of the proxy server.
+        /// </summary>
         public void Start()
         {
 
@@ -94,7 +133,7 @@
 
                     if (_environment.RecordTraffic)
                     {
-                        CreateRecordedContext(e.Context);
+                        RecordIncommingRequest(e.Context);
                     }
                 };
 
@@ -102,7 +141,7 @@
                 {
                     if (_environment.RecordTraffic)
                     {
-                        CompleteRecordedContext(e.Context);
+                        UpdateRecordedRequest(e.Context);
                     }
                 };
 
@@ -112,6 +151,9 @@
 
         }
 
+        /// <summary>
+        ///     Stops this instance of the proxy server.
+        /// </summary>
         public void Stop()
         {
 
@@ -143,7 +185,31 @@
 
         }
 
-        private void CreateRecordedContext(StumpsHttpContext context)
+        /// <summary>
+        ///     Decodes the body of a based on the content encoding.
+        /// </summary>
+        /// <param name="part">The <see cref="T:Stumps.Proxy.RecordedContext"/> part containing the body to decode.</param>
+        private void DecodeBody(IRecordedContextPart part)
+        {
+
+            var buffer = part.Body;
+            var header = part.FindHeader("Content-Encoding");
+
+            if (header != null)
+            {
+                var encoder = new ContentEncoding(header.Value);
+                buffer = encoder.Decode(buffer);
+            }
+
+            part.Body = buffer;
+
+        }
+
+        /// <summary>
+        ///     Records an incomming request.
+        /// </summary>
+        /// <param name="context">The <see cref="T:Stumps.Http.StumpsHttpContext"/> to record.</param>
+        private void RecordIncommingRequest(StumpsHttpContext context)
         {
 
             var recordedContext = new RecordedContext();
@@ -171,7 +237,12 @@
 
         }
 
-        private void CompleteRecordedContext(StumpsHttpContext context)
+
+        /// <summary>
+        ///     Updates the response of an existing recorded request.
+        /// </summary>
+        /// <param name="context">The <see cref="T:Stumps.Http.StumpsHttpContext"/> to update.</param>
+        private void UpdateRecordedRequest(StumpsHttpContext context)
         {
 
             RecordedContext recordedContext;
@@ -204,22 +275,6 @@
             recordedContext.Response = recordedResponse;
 
             _environment.Recordings.Add(recordedContext);
-
-        }
-
-        private void DecodeBody(IRecordedContextPart part)
-        {
-
-            var buffer = part.Body;
-            var header = part.FindHeader("Content-Encoding");
-
-            if (header != null)
-            {
-                var encoder = new ContentEncoding(header.Value);
-                buffer = encoder.Decode(buffer);
-            }
-
-            part.Body = buffer;
 
         }
 
