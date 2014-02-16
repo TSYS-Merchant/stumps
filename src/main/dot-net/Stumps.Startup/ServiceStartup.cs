@@ -6,7 +6,7 @@
     public class ServiceStartup : IStartup
     {
 
-        public Configuration Configuration { get; set; }
+        public StumpsConfiguration Configuration { get; set; }
 
         public IMessageWriter MessageWriter { get; set; }
 

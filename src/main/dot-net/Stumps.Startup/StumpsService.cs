@@ -9,7 +9,7 @@
 
         private readonly StumpsServer _server;
 
-        public StumpsService(Configuration configuration)
+        public StumpsService(StumpsConfiguration configuration)
         {
 
             if (configuration == null)

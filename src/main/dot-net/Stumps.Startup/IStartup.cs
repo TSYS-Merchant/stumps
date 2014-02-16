@@ -4,7 +4,7 @@
     public interface IStartup
     {
 
-        Configuration Configuration { get; set; }
+        StumpsConfiguration Configuration { get; set; }
 
         IMessageWriter MessageWriter { get; set; }
 

@@ -60,7 +60,7 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Configuration.cs" />
+    <Compile Include="StumpsConfiguration.cs" />
     <Compile Include="Data\ConfigurationDataAccess.cs" />
     <Compile Include="Data\ConfigurationEntity.cs" />
     <Compile Include="Data\DataAccess.cs" />

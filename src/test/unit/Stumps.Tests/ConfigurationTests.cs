@@ -16,7 +16,7 @@
         {
 
             Assert.That(
-                () => new Configuration(null),
+                () => new StumpsConfiguration(null),
                 Throws.Exception.TypeOf<ArgumentNullException>().With.Property("ParamName").EqualTo("dataAccess"));
 
         }
@@ -26,7 +26,7 @@
         {
 
             var dal = Substitute.For<IConfigurationDataAccess>();
-            var config = new Configuration(dal);
+            var config = new StumpsConfiguration(dal);
 
             Assert.AreEqual(DefaultConfigurationSettings.DataCompatibilityVersion, config.DataCompatibilityVersion);
             Assert.AreEqual(DefaultConfigurationSettings.StoragePath, config.StoragePath);
@@ -43,7 +43,7 @@
             var configurationDal = Substitute.For<IConfigurationDataAccess>();
             configurationDal.LoadConfiguration().Returns(entity);
 
-            var configuration = new Configuration(configurationDal);
+            var configuration = new StumpsConfiguration(configurationDal);
             configuration.LoadConfiguration();
 
             configurationDal.Received(1).LoadConfiguration();
@@ -59,7 +59,7 @@
             var configurationDal = Substitute.For<IConfigurationDataAccess>();
             configurationDal.LoadConfiguration().Returns(entity);
 
-            var configuration = new Configuration(configurationDal);
+            var configuration = new StumpsConfiguration(configurationDal);
             configuration.LoadConfiguration();
 
             Assert.AreEqual(entity.DataCompatibilityVersion, configuration.DataCompatibilityVersion);
@@ -80,7 +80,7 @@
 
             var configurationDal = Substitute.For<IConfigurationDataAccess>();
 
-            var configuration = new Configuration(configurationDal)
+            var configuration = new StumpsConfiguration(configurationDal)
             {
                 DataCompatibilityVersion = DataCompatibility,
                 StoragePath = StoragePath,
@@ -104,18 +104,18 @@
 
             var configurationDal = Substitute.For<IConfigurationDataAccess>();
 
-            var configuration = new Configuration(configurationDal)
+            var configuration = new StumpsConfiguration(configurationDal)
             {
-                DataCompatibilityVersion = Configuration.MinimumDataCompatibilityVersion - 1,
+                DataCompatibilityVersion = StumpsConfiguration.MinimumDataCompatibilityVersion - 1,
                 StoragePath = Path.GetTempPath(),
                 WebApiPort = 8000
             };
 
-            Assert.IsFalse(configuration.ValidateConfiguration());
+            Assert.IsFalse(configuration.ValidateConfigurationSettings());
 
-            configuration.DataCompatibilityVersion = Configuration.MaximumDataCompatibilityVersion + 1;
+            configuration.DataCompatibilityVersion = StumpsConfiguration.MaximumDataCompatibilityVersion + 1;
 
-            Assert.IsFalse(configuration.ValidateConfiguration());
+            Assert.IsFalse(configuration.ValidateConfigurationSettings());
 
         }
 
@@ -125,18 +125,18 @@
 
             var configurationDal = Substitute.For<IConfigurationDataAccess>();
 
-            var configuration = new Configuration(configurationDal)
+            var configuration = new StumpsConfiguration(configurationDal)
             {
                 DataCompatibilityVersion = 1,
                 StoragePath = Path.GetTempPath(),
                 WebApiPort = -8000
             };
 
-            Assert.IsFalse(configuration.ValidateConfiguration());
+            Assert.IsFalse(configuration.ValidateConfigurationSettings());
 
             configuration.WebApiPort = int.MaxValue;
 
-            Assert.IsFalse(configuration.ValidateConfiguration());
+            Assert.IsFalse(configuration.ValidateConfigurationSettings());
 
         }
 
@@ -146,21 +146,21 @@
 
             var configurationDal = Substitute.For<IConfigurationDataAccess>();
 
-            var configuration = new Configuration(configurationDal)
+            var configuration = new StumpsConfiguration(configurationDal)
             {
                 DataCompatibilityVersion = 1,
                 StoragePath = null,
                 WebApiPort = 8000
             };
 
-            Assert.IsFalse(configuration.ValidateConfiguration());
+            Assert.IsFalse(configuration.ValidateConfigurationSettings());
 
             configuration.StoragePath = "junkstorage";
 
-            Assert.IsFalse(configuration.ValidateConfiguration());
+            Assert.IsFalse(configuration.ValidateConfigurationSettings());
 
             configuration.StoragePath = "test >> &&& // \\ || bad path";
-            Assert.IsFalse(configuration.ValidateConfiguration());
+            Assert.IsFalse(configuration.ValidateConfigurationSettings());
 
         }
 
@@ -169,14 +169,14 @@
         {
 
             var configurationDal = Substitute.For<IConfigurationDataAccess>();
-            var configuration = new Configuration(configurationDal)
+            var configuration = new StumpsConfiguration(configurationDal)
             {
                 DataCompatibilityVersion = 1,
                 StoragePath = Path.GetTempPath(),
                 WebApiPort = 8000
             };
 
-            Assert.IsTrue(configuration.ValidateConfiguration());
+            Assert.IsTrue(configuration.ValidateConfigurationSettings());
 
         }
 

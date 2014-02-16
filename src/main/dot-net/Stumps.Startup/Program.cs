@@ -52,7 +52,7 @@
             }
 
             var configurationDal = new ConfigurationDataAccess(configurationFile);
-            var configuration = new Configuration(configurationDal);
+            var configuration = new StumpsConfiguration(configurationDal);
 
             if (!File.Exists(configurationFile))
             {

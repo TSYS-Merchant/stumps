@@ -25,7 +25,7 @@
         {
 
             var dal = Substitute.For<IConfigurationDataAccess>();
-            var config = new Configuration(dal);
+            var config = new StumpsConfiguration(dal);
 
             using (var server = new StumpsServer(config))
             {
