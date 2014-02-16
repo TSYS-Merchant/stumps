@@ -107,8 +107,8 @@
             {
 
                 dal.ProxyServerCreate(_sampleProxyServer);
-                var proxyFile = Path.Combine(dal.DataPath, _sampleProxyServer.ProxyId + ".proxy");
-                var proxyDirectory = Path.Combine(dal.DataPath, _sampleProxyServer.ProxyId);
+                var proxyFile = Path.Combine(dal.StoragePath, _sampleProxyServer.ProxyId + ".proxy");
+                var proxyDirectory = Path.Combine(dal.StoragePath, _sampleProxyServer.ProxyId);
 
                 Assert.IsTrue(File.Exists(proxyFile));
                 Assert.IsTrue(Directory.Exists(proxyDirectory));
@@ -133,8 +133,8 @@
                 dal.ProxyServerCreate(_sampleProxyServer);
                 dal.ProxyServerDelete(_sampleProxyServer.ProxyId);
 
-                var proxyFile = Path.Combine(dal.DataPath, _sampleProxyServer.ProxyId + ".proxy");
-                var proxyDirectory = Path.Combine(dal.DataPath, _sampleProxyServer.ProxyId);
+                var proxyFile = Path.Combine(dal.StoragePath, _sampleProxyServer.ProxyId + ".proxy");
+                var proxyDirectory = Path.Combine(dal.StoragePath, _sampleProxyServer.ProxyId);
 
                 Assert.IsFalse(File.Exists(proxyFile));
                 Assert.IsFalse(Directory.Exists(proxyDirectory));
@@ -226,17 +226,17 @@
                 Assert.IsNotNull(stump.ResponseBodyFileName);
 
                 var stumpsFile = Path.Combine(
-                    dal.DataPath, 
+                    dal.StoragePath, 
                     _sampleProxyServer.ProxyId, 
                     DataAccess.StumpsPathName,
                     "ABCD" + DataAccess.StumpFileExtension);
                 var matchFile = Path.Combine(
-                    dal.DataPath, 
+                    dal.StoragePath, 
                     _sampleProxyServer.ProxyId, 
                     DataAccess.StumpsPathName,
                     "ABCD" + DataAccess.BodyMatchFileExtension);
                 var responseFile = Path.Combine(
-                    dal.DataPath, 
+                    dal.StoragePath, 
                     _sampleProxyServer.ProxyId, 
                     DataAccess.StumpsPathName,
                     "ABCD" + DataAccess.BodyResponseFileExtension);
@@ -269,17 +269,17 @@
                 Assert.IsTrue(string.IsNullOrWhiteSpace(stump.ResponseBodyFileName));
 
                 var stumpsFile = Path.Combine(
-                    dal.DataPath, 
+                    dal.StoragePath, 
                     _sampleProxyServer.ProxyId, 
                     DataAccess.StumpsPathName,
                     "ABCD" + DataAccess.StumpFileExtension);
                 var matchFile = Path.Combine(
-                    dal.DataPath, 
+                    dal.StoragePath, 
                     _sampleProxyServer.ProxyId, 
                     DataAccess.StumpsPathName,
                     "ABCD" + DataAccess.BodyMatchFileExtension);
                 var responseFile = Path.Combine(
-                    dal.DataPath, 
+                    dal.StoragePath, 
                     _sampleProxyServer.ProxyId, 
                     DataAccess.StumpsPathName,
                     "ABCD" + DataAccess.BodyResponseFileExtension);
@@ -309,11 +309,11 @@
                 dal.StumpDelete(_sampleProxyServer.ProxyId, stump.StumpId);
 
                 var stumpsFile = Path.Combine(
-                    dal.DataPath, DataAccess.StumpsPathName, "ABCD" + DataAccess.StumpFileExtension);
+                    dal.StoragePath, DataAccess.StumpsPathName, "ABCD" + DataAccess.StumpFileExtension);
                 var matchFile = Path.Combine(
-                    dal.DataPath, DataAccess.StumpsPathName, "ABCD" + DataAccess.BodyMatchFileExtension);
+                    dal.StoragePath, DataAccess.StumpsPathName, "ABCD" + DataAccess.BodyMatchFileExtension);
                 var responseFile = Path.Combine(
-                    dal.DataPath, DataAccess.StumpsPathName, "ABCD.body" + DataAccess.BodyResponseFileExtension);
+                    dal.StoragePath, DataAccess.StumpsPathName, "ABCD.body" + DataAccess.BodyResponseFileExtension);
 
                 Assert.False(File.Exists(stumpsFile));
                 Assert.False(File.Exists(matchFile));
@@ -409,7 +409,7 @@
         private static void DeleteDataAccessLayer(DataAccess dataAccess)
         {
 
-            Directory.Delete(dataAccess.DataPath, true);
+            Directory.Delete(dataAccess.StoragePath, true);
 
         }
 
