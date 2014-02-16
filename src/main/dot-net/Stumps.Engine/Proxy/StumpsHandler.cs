@@ -6,12 +6,26 @@
     using Stumps.Http;
     using Stumps.Logging;
 
+    /// <summary>
+    ///     A class implementing the <see cref="T:Stumps.Http.IHttpHandler"/> interface that processes HTTP requests
+    ///     against a list of Stumps.
+    /// </summary>
     internal class StumpsHandler : IHttpHandler
     {
 
         private readonly ProxyEnvironment _environment;
         private readonly ILogger _logger;
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="T:Stumps.Proxy.StumpsHandler"/> class.
+        /// </summary>
+        /// <param name="environment">The environment for the proxy server.</param>
+        /// <param name="logger">The logger used by the instance.</param>
+        /// <exception cref="System.ArgumentNullException">
+        /// <paramref name="environment"/> is <c>null</c>.
+        /// or
+        /// <paramref name="logger"/> is <c>null</c>.
+        /// </exception>
         public StumpsHandler(ProxyEnvironment environment, ILogger logger)
         {
 
@@ -30,6 +44,14 @@
 
         }
 
+        /// <summary>
+        ///     Processes an incoming HTTP request.
+        /// </summary>
+        /// <param name="context">The <see cref="T:Stumps.Http.IStumpsHttpContext" /> representing both the incoming request and the response.</param>
+        /// <returns>
+        ///     A member of the <see cref="T:Stumps.Http.ProcessHandlerResult" /> enumeration.
+        /// </returns>
+        /// <exception cref="System.ArgumentNullException"><paramref name="context"/> is <c>null</c>.</exception>
         public ProcessHandlerResult ProcessRequest(IStumpsHttpContext context)
         {
 
@@ -60,18 +82,28 @@
 
         }
 
+        /// <summary>
+        ///     Populates the response of the HTTP context from the Stump.
+        /// </summary>
+        /// <param name="context">The HTTP context.</param>
+        /// <param name="recordedResponse">The recorded response.</param>
         private void PopulateResponse(IStumpsHttpContext context, RecordedResponse recordedResponse)
         {
 
             context.Response.StatusCode = recordedResponse.StatusCode;
             context.Response.StatusDescription = recordedResponse.StatusDescription;
 
-            WriteHeadersFromResponse(context, recordedResponse);
-            WriteContextBodyFromResponse(context, recordedResponse);
+            WriteHeaders(context, recordedResponse);
+            WriteContextBody(context, recordedResponse);
 
         }
 
-        private void WriteContextBodyFromResponse(
+        /// <summary>
+        ///     Writes the body to the context response.
+        /// </summary>
+        /// <param name="incommingHttpContext">The incomming HTTP context.</param>
+        /// <param name="recordedResponse">The recorded response.</param>
+        private void WriteContextBody(
             IStumpsHttpContext incommingHttpContext, RecordedResponse recordedResponse)
         {
 
@@ -88,7 +120,12 @@
 
         }
 
-        private void WriteHeadersFromResponse(
+        /// <summary>
+        /// Writes the headers to the context response.
+        /// </summary>
+        /// <param name="incommingHttpContext">The incomming HTTP context.</param>
+        /// <param name="recordedResponse">The recorded response.</param>
+        private void WriteHeaders(
             IStumpsHttpContext incommingHttpContext, RecordedResponse recordedResponse)
         {
 

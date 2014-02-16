@@ -5,12 +5,21 @@
     using System.Net;
     using System.Net.NetworkInformation;
 
+    /// <summary>
+    ///     A class that represents a set of Network related functions.
+    /// </summary>
     internal static class NetworkUtility
     {
 
         public const int MinimumPort = 7000;
         public const int MaximumPort = 10000;
 
+        /// <summary>
+        ///     Finds a random open port.
+        /// </summary>
+        /// <returns>
+        ///     An <see cref="T:System.Int32"/> representing an available TCP port.
+        /// </returns>
         public static int FindRandomOpenPort()
         {
 
@@ -49,6 +58,13 @@
 
         }
 
+        /// <summary>
+        ///     Determines whether the specified port is being used.
+        /// </summary>
+        /// <param name="localPort">The local port.</param>
+        /// <returns>
+        ///     <c>true</c> if the port is being used; otherwise, <c>false</c>.
+        /// </returns>
         public static bool IsPortBeingUsed(int localPort)
         {
 

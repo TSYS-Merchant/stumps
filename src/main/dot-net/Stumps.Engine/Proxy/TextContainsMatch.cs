@@ -4,6 +4,9 @@
     using System;
     using System.Text.RegularExpressions;
 
+    /// <summary>
+    ///     A class that determins if a block of text contains a specified value.
+    /// </summary>
     internal sealed class TextContainsMatch
     {
 
@@ -13,6 +16,11 @@
         private readonly bool _matchUsesRegex;
         private readonly bool _not;
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="T:Stumps.Proxy.TextContainsMatch"/> class.
+        /// </summary>
+        /// <param name="value">The value to find.</param>
+        /// <param name="ignoreCase">if set to <c>true</c>, capitalization is ignored.</param>
         public TextContainsMatch(string value, bool ignoreCase)
         {
 
@@ -46,6 +54,11 @@
 
         }
 
+        /// <summary>
+        ///     Determines whether the specified value matches the text.
+        /// </summary>
+        /// <param name="value">The value to evaluate.</param>
+        /// <returns><c>true</c> if the text matches; otherwise, <c>false</c>.</returns>
         public bool IsMatch(string value)
         {
 

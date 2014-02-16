@@ -3,11 +3,18 @@
 
     using Stumps.Http;
 
+    /// <summary>
+    ///     A class representing a Stump rule that evaluates the URL of an HTTP request.
+    /// </summary>
     internal class UrlRule : IStumpRule
     {
 
         private readonly TextMatch _textMatch;
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="T:Stumps.Proxy.UrlRule"/> class.
+        /// </summary>
+        /// <param name="value">The value used for the URL rule.</param>
         public UrlRule(string value)
         {
 
@@ -17,6 +24,13 @@
 
         }
 
+        /// <summary>
+        ///     Determines whether the specified request matches the rule.
+        /// </summary>
+        /// <param name="request">The <see cref="T:Stumps.Http.IStumpsHttpRequest" /> to evaluate.</param>
+        /// <returns>
+        ///   <c>true</c> if the <paramref name="request" /> matches the rule, otherwise, <c>false</c>.
+        /// </returns>
         public bool IsMatch(IStumpsHttpRequest request)
         {
 

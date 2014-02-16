@@ -5,11 +5,22 @@
     using System.IO;
     using System.Text;
 
+    /// <summary>
+    ///     A class that represents a set of Stream based functions.
+    /// </summary>
     internal static class StreamUtility
     {
 
         public const int BufferSize = 4096;
 
+        /// <summary>
+        ///     Converts a stream to a byte array.
+        /// </summary>
+        /// <param name="stream">The stream to convert to a byte array.</param>
+        /// <returns>
+        ///     An array of bytes contained within the specified <paramref name="stream"/>.
+        /// </returns>
+        /// <exception cref="System.ArgumentNullException"><paramref name="stream"/> is <c>null</c>.</exception>
         public static byte[] ConvertStreamToByteArray(Stream stream)
         {
 
@@ -42,6 +53,11 @@
 
         }
 
+        /// <summary>
+        /// Copies data from an input stream to an output stream.
+        /// </summary>
+        /// <param name="inputStream">The input stream.</param>
+        /// <param name="outputStream">The output stream.</param>
         public static void CopyStream(Stream inputStream, Stream outputStream)
         {
 
@@ -49,6 +65,17 @@
 
         }
 
+        /// <summary>
+        /// Copies data from an input stream to an output stream.
+        /// </summary>
+        /// <param name="inputStream">The input stream.</param>
+        /// <param name="outputStream">The output stream.</param>
+        /// <param name="startingPosition">The starting position of the input stream.</param>
+        /// <exception cref="System.ArgumentNullException">
+        /// <paramref name="inputStream"/> is <c>null</c>.
+        /// or
+        /// <paramref name="outputStream"/> is <c>null</c>.
+        /// </exception>
         public static void CopyStream(Stream inputStream, Stream outputStream, int startingPosition)
         {
 
@@ -82,6 +109,16 @@
 
         }
 
+        /// <summary>
+        ///     Writes the UTF8 string to a stream.
+        /// </summary>
+        /// <param name="value">The value to write to the stream.</param>
+        /// <param name="stream">The stream to write to.</param>
+        /// <exception cref="System.ArgumentNullException">
+        /// <paramref name="value"/> is <c>null</c>.
+        /// or
+        /// <paramref name="stream"/> is <c>null</c>.
+        /// </exception>
         public static void WriteUtf8StringToStream(string value, Stream stream)
         {
 
@@ -99,6 +136,12 @@
 
         }
 
+        /// <summary>
+        ///     Writes the string to a stream.
+        /// </summary>
+        /// <param name="value">The value to write to the stream.</param>
+        /// <param name="stream">The stream to write to.</param>
+        /// <param name="encoding">The encoding used when writing to the stream.</param>
         private static void WriteStringToStream(string value, Stream stream, Encoding encoding)
         {
 

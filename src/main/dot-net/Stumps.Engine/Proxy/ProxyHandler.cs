@@ -9,7 +9,7 @@
     using Stumps.Utility;
 
     /// <summary>
-    ///     A class implementing the <see cref="T:Stumps.Http.IHttpHandler"/> interface proxies requests to an external host.
+    ///     A class implementing the <see cref="T:Stumps.Http.IHttpHandler"/> interface that proxies requests to an external host.
     /// </summary>
     internal class ProxyHandler : IHttpHandler
     {
