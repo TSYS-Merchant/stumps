@@ -7,6 +7,9 @@
     using System.Threading;
     using Stumps.Logging;
 
+    /// <summary>
+    ///     A class that represents a basic HTTP server.
+    /// </summary>
     internal sealed class HttpServer : IDisposable
     {
 
@@ -17,6 +20,18 @@
         private bool _started;
         private Thread _thread;
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="T:Stumps.Http.HttpServer"/> class.
+        /// </summary>
+        /// <param name="port">The port the HTTP server is using to listen for traffic.</param>
+        /// <param name="handler">The default <see cref="T:Stumps.Http.IHttpHandler"/> executed when receiving traffic.</param>
+        /// <param name="logger">The <see cref="T:Stumps.Logging.ILogger"/> used by the instance.</param>
+        /// <exception cref="System.ArgumentNullException">
+        /// <paramref name="logger"/> is <c>null</c>.
+        /// or
+        /// <paramref name="handler"/> is <c>null</c>.
+        /// </exception>
+        /// <exception cref="System.ArgumentOutOfRangeException"><paramref name="port"/> exceeds the allowed TCP port range.</exception>
         public HttpServer(int port, IHttpHandler handler, ILogger logger)
         {
 
@@ -42,20 +57,49 @@
 
         }
 
+        /// <summary>
+        /// Finalizes an instance of the <see cref="T:Stumps.Http.HttpServer"/> class.
+        /// </summary>
+        ~HttpServer()
+        {
+            Dispose();
+        }
+
+        /// <summary>
+        /// Occurs when an incomming HTTP request is finishing the processing.
+        /// </summary>
         public event EventHandler<StumpsContextEventArgs> RequestFinishing;
 
+        /// <summary>
+        /// Occurs when an incomming HTTP request begins processing.
+        /// </summary>
         public event EventHandler<StumpsContextEventArgs> RequestStarting;
 
+        /// <summary>
+        ///     Gets TCP port used by the instance to listen for HTTP requests.
+        /// </summary>
+        /// <value>
+        ///     The port used to listen for HTTP requets.
+        /// </value>
         public int Port
         {
             get { return _port; }
         }
 
+        /// <summary>
+        /// Gets a value indicating whether the instance is started.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if the instance is started; otherwise, <c>false</c>.
+        /// </value>
         public bool Started
         {
             get { return _started; }
         }
 
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
         public void Dispose()
         {
 
@@ -72,6 +116,9 @@
 
         }
 
+        /// <summary>
+        ///     Starts the instance listening for HTTP requests.
+        /// </summary>
         public void StartListening()
         {
 
@@ -95,6 +142,9 @@
 
         }
 
+        /// <summary>
+        ///     Stops the instance from listening for HTTP requests.
+        /// </summary>
         public void StopListening()
         {
             try
@@ -108,6 +158,10 @@
             }
         }
 
+        /// <summary>
+        ///     Processes the incoming HTTP request asynchronously.
+        /// </summary>
+        /// <param name="asyncResult">The asynchronous result.</param>
         private void ProcessAsyncRequest(IAsyncResult asyncResult)
         {
 
@@ -118,6 +172,7 @@
 
             try
             {
+                // Gets the HTTP context for the request
                 var context = _listener.EndGetContext(asyncResult);
 
                 _logger.LogInfo(
@@ -128,6 +183,7 @@
 
                 try
                 {
+                    // Create a new StumpsHttpContext
                     stumpsContext = new StumpsHttpContext(context);
 
                     if (this.RequestStarting != null)
@@ -135,6 +191,7 @@
                         this.RequestStarting(this, new StumpsContextEventArgs(stumpsContext));
                     }
 
+                    // Process the request through the HTTP handler
                     _handler.ProcessRequest(stumpsContext);
 
                     if (this.RequestFinishing != null)
@@ -146,6 +203,7 @@
                     ((StumpsHttpResponse)stumpsContext.Response).ListenerResponse.StatusCode =
                         stumpsContext.Response.StatusCode;
 
+                    // Adjust the status description
                     ((StumpsHttpResponse)stumpsContext.Response).ListenerResponse.StatusDescription =
                         stumpsContext.Response.StatusDescription;
 
@@ -153,10 +211,13 @@
                     ((StumpsHttpResponse)stumpsContext.Response).ListenerResponse.SendChunked =
                         stumpsContext.Response.SendChunked;
 
+                    // Adjust the content length as necessary
                     ((StumpsHttpResponse)stumpsContext.Response).ListenerResponse.ContentLength64 =
                         stumpsContext.Response.OutputStream.Length;
 
+                    // End the request
                     stumpsContext.End();
+
                 }
                 finally
                 {
@@ -180,6 +241,9 @@
 
         }
 
+        /// <summary>
+        ///     Wait for incoming HTTP connections.
+        /// </summary>
         private void WaitForConnections()
         {
 
