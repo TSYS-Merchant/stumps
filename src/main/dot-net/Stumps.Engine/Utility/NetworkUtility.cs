@@ -24,16 +24,16 @@
         {
 
             var properties = IPGlobalProperties.GetIPGlobalProperties();
-            var endpointList = properties.GetActiveTcpConnections();
+            var endpointList = properties.GetActiveTcpListeners();
 
             var usedPorts = new bool[NetworkUtility.MaximumPort - NetworkUtility.MinimumPort + 1];
 
             foreach (var endpoint in endpointList)
             {
-                if (endpoint.LocalEndPoint.Port >= NetworkUtility.MinimumPort &&
-                    endpoint.LocalEndPoint.Port <= NetworkUtility.MaximumPort)
+                if (endpoint.Port >= NetworkUtility.MinimumPort &&
+                    endpoint.Port <= NetworkUtility.MaximumPort)
                 {
-                    var port = endpoint.LocalEndPoint.Port - NetworkUtility.MinimumPort;
+                    var port = endpoint.Port - NetworkUtility.MinimumPort;
                     usedPorts[port] = true;
                 }
             }
