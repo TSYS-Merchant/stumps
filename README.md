@@ -4,12 +4,12 @@ Stumps is a HTTP/s proxy server that's useful when testing web services (eg: RES
 
 #Background
 
-Some examples of where Merchant Warehouse makes a SOA call to a third party include (but are not limited to):
+Some examples of where [Merchant Warehouse](http://www.merchantwarehouse.com/) makes a SOA call to a third party include (but are not limited to):
 
-* Sending encrypted card data to Magtek or Idtech to decrypt
-* Running a sale/void/refund through Google Wallet, ISIS, Level Up, or any of our other platform partners
-* Running a sale/void/refund through FirstData Nashville, or many of our other payment processors
-* Integrating with the STS gift card solution, or any of our other gift solutions
+* Sending encrypted card data to [Magtek](http://www.magtek.com/) or [Idtech](http://www.idtechproducts.com/) to decrypt
+* Running a sale/void/refund through [Google Wallet](http://www.google.com/wallet/), [ISIS](https://www.paywithisis.com/), [Level Up](https://www.thelevelup.com/), or any of our other platform partners
+* Running a sale/void/refund through [FirstData](https://www.firstdata.com/en_us/home.html), or many of our other payment processors
+* Integrating with the [STS gift card](http://smarttransactions.com/) solution, or any of our other gift solutions
 * Ditto for [ACH](http://en.wikipedia.org/wiki/Automated_Clearing_House) (check clearing houses)
 
 Stumps allows us to clearly demarkate what the System Under Test is, and allows us to test our products without also testing our partners' services. We'll cover that in separate integration tests. 
