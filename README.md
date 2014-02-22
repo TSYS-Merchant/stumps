@@ -39,28 +39,30 @@ At Merchant Warehouse, we use Stumps create Mocks/Sims/Fakes for our acceptance 
 * Platform Partners: LevelUp, Google Wallet, ISIS, ...
 * Many of our payment processors (Nashville, Paymentech, Vantiv, ....)
 
-Stumps also plays a role in MW's performance testing initiatives, allowing us to run meaningful performance tests without having crushing our partners' platforms.
+Stumps also plays a role in Merchant Warehouse's performance testing initiatives, allowing us to run meaningful performance tests without having crushing our partners' platforms.
 
-# Requirements
+# Features & requirements
 
 * Must be standalone (VCR, node-replay, Betamax, and others fail on one or more of the following points)
  * Cannot be tightly integrated with any testing framework 
  * Cannot be tightly integrated with the system under test
  * Language neutral
-* Be a pass-through HTTP/HTTPS proxy server
-* Be able to record & replay HTTP/HTTPS trafficBe able to return a specific, canned response if certain criteria are met
+* Must be a pass-through HTTP/HTTPS proxy server
+* Must be able to record & replay HTTP/HTTPS trafficBe able to return a specific, canned response if certain criteria are met
  * (Certain) HTTP headers must match
  * HTTP body must match
-* The matching criteria should be fairly flexible
+* The matching criteria must be fairly flexible
  * You can choose which fields must match (eg: we care about the "Accept" header, but not "Date" header)
  * You can use regular expression matches (eg: the "Accept" header must contain "text/html", but we don't care what else is in the accept header)
  * You have some simple boolean logic (eg: "The 'Accept' header must not contain 'text/html'")
-* Be able to edit or manually create responses
-* Be able to return specific HTTP headers
+* Must be able to edit or manually create responses
+* Must be able to return specific HTTP headers
 * Must support gzip/deflate compression
 * Must support SOAP
 * Must support REST
 * Must support HTML/browser-based use cases (eg: selenium)
+* Must be easy to use, and not require any special tooling
+ * A layperson should be able to use this with minimum training, using only a web browser
 
 #Usage
 
