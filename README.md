@@ -43,26 +43,25 @@ Stumps also plays a role in Merchant Warehouse's performance testing initiatives
 
 # Features & requirements
 
-* Must be standalone (VCR, node-replay, Betamax, and others fail on one or more of the following points)
+* Must be easy to use, and not require any special tooling
+ * A layperson should be able to use this with minimum training, using only a web browser
+* Must support SOAP, REST, and HTML/browser-based use cases (eg. in conjunction with [selenium](http://docs.seleniumhq.org/) or [watir](http://watir.com/))
+* Must be standalone (VCR, node-replay, Betamax, and others fail on one or more of the following points):
  * Cannot be tightly integrated with any testing framework 
  * Cannot be tightly integrated with the system under test
  * Language neutral
 * Must be a pass-through HTTP/HTTPS proxy server
-* Must be able to record & replay HTTP/HTTPS trafficBe able to return a specific, canned response if certain criteria are met
+* Must be able to record & replay HTTP/HTTPS traffic
+* Must be able to return a specific, canned response if certain criteria are met:
  * (Certain) HTTP headers must match
  * HTTP body must match
-* The matching criteria must be fairly flexible
+* The matching criteria must be fairly flexible:
  * You can choose which fields must match (eg: we care about the "Accept" header, but not "Date" header)
  * You can use regular expression matches (eg: the "Accept" header must contain "text/html", but we don't care what else is in the accept header)
  * You have some simple boolean logic (eg: "The 'Accept' header must not contain 'text/html'")
-* Must be able to edit or manually create responses
-* Must be able to return specific HTTP headers
+* Must be able to edit or manually create responses, including returning specific HTTP headers
+* Must support SSL
 * Must support gzip/deflate compression
-* Must support SOAP
-* Must support REST
-* Must support HTML/browser-based use cases (eg: selenium)
-* Must be easy to use, and not require any special tooling
- * A layperson should be able to use this with minimum training, using only a web browser
 
 #Usage
 
@@ -74,7 +73,7 @@ Stumps' source code is hosted on GitHub @ https://github.com/merchantwarehouse/s
 
 # Competitors
 
-Below are a number of tools playing in a similar space. A lot of them look interesting, but for various reasons, we felt that each weren't fit for purpose.
+Below are a number of tools playing in a similar space. Many of them are interesting, mature products, but for various reasons, we felt that they weren't fit for purpose.
 
 * [Web Page Replay](https://code.google.com/p/web-page-replay/)
 * [stubby4j](https://github.com/azagniotov/stubby4j) and its clones
