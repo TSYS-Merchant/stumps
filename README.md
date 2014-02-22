@@ -65,7 +65,7 @@ Stumps also plays a role in Merchant Warehouse's performance testing initiatives
 
 #Usage
 
-Please see the Stumps Usage Guide page for instructions on how to use Stumps, including a video demo of Stumps in action.
+Please see the [Stumps Usage Guide](https://github.com/merchantwarehouse/stumps/wiki/Usage-Guide) for instructions on how to use Stumps, including a video demo of Stumps in action.
 
 # Source code, issues, and feature enhancements
 
