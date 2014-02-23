@@ -7,9 +7,17 @@
     using Stumps.Utility;
     using Stumps.Web.Models;
 
+    /// <summary>
+    ///     A class that provides support for the discovering available ports on the server through the RESET API.
+    /// </summary>
     public class PortAvailableModule : NancyModule
     {
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="T:Stumps.Web.ApiModules.PortAvailableModule"/> class.
+        /// </summary>
+        /// <param name="proxyHost">The <see cref="T:Stumps.Proxy.IProxyHost"/> used by the instance.</param>
+        /// <exception cref="System.ArgumentNullException"><paramref name="proxyHost"/> is <c>null</c>.</exception>
         public PortAvailableModule(IProxyHost proxyHost) : base("/api")
         {
 

@@ -1,19 +1,32 @@
 ﻿namespace Stumps.Web.ApiModules
 {
 
+    using System;
     using System.Collections.Generic;
     using Nancy;
     using Nancy.ModelBinding;
     using Stumps.Proxy;
     using Stumps.Web.Models;
 
+    /// <summary>
+    ///     A class that provides support for managing the recordings of a proxy server through the RESET API.
+    /// </summary>
     public class RecordingModule : NancyModule
     {
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability",
-            "CA2000:Dispose objects before losing scope", Justification = "Assumed to be handled by Nancy")]
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="T:Stumps.Web.ApiModules.RecordingModule"/> class.
+        /// </summary>
+        /// <param name="proxyHost">The <see cref="T:Stumps.Proxy.IProxyHost"/> used by the instance.</param>
+        /// <exception cref="System.ArgumentNullException"><paramref name="proxyHost"/> is <c>null</c>.</exception>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Assumed to be handled by Nancy")]
         public RecordingModule(IProxyHost proxyHost)
         {
+
+            if (proxyHost == null)
+            {
+                throw new ArgumentNullException("proxyHost");
+            }
 
             Get["/api/proxy/{proxyId}/recording"] = _ =>
             {
@@ -151,6 +164,11 @@
 
         }
 
+        /// <summary>
+        ///     Generates the HTTP headers used by a <see cref="T:Stumps.Proxy.IRecordedContextPart"/>.
+        /// </summary>
+        /// <param name="part">The <see cref="T:Stumps.Proxy.IRecordedContextPart"/> used to generate headers.</param>
+        /// <returns>An array of <see cref="Stumps.Web.Models.HeaderModel"/> objects.</returns>
         private HeaderModel[] GenerateHeaders(IRecordedContextPart part)
         {
 

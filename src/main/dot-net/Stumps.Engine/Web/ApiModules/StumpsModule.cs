@@ -9,13 +9,25 @@
     using Stumps.Proxy;
     using Stumps.Web.Models;
 
+    /// <summary>
+    ///     A class that provides support for managing the stumps of a proxy server through the RESET API.
+    /// </summary>
     public class StumpsModule : NancyModule
     {
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability",
-            "CA2000:Dispose objects before losing scope", Justification = "Assumed to be handled by Nancy")]
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:Stumps.Web.ApiModules.StumpsModule"/> class.
+        /// </summary>
+        /// <param name="proxyHost">The <see cref="T:Stumps.Proxy.IProxyHost"/> used by the instance.</param>
+        /// <exception cref="System.ArgumentNullException"><paramref name="proxyHost"/> is <c>null</c>.</exception>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Assumed to be handled by Nancy")]
         public StumpsModule(IProxyHost proxyHost)
         {
+
+            if (proxyHost == null)
+            {
+                throw new ArgumentNullException("proxyHost");
+            }
 
             Get["/api/proxy/{proxyId}/stumps/{stumpId}"] = _ =>
             {
@@ -137,6 +149,12 @@
 
         }
 
+        /// <summary>
+        ///     Creates a Stump contract from a recorded web request.
+        /// </summary>
+        /// <param name="model">The <see cref="T:Stumps.Web.Models.StumpModel"/> used to create the contract.</param>
+        /// <param name="environment">The <see cref="T:Stumps.Proxy.ProxyEnvironment" /> that contains the recorded web request.</param>
+        /// <returns>A <see cref="T:Stumps.Proxy.StumpContract" /> created from a recorded web request.</returns>
         private StumpContract CreateContractFromRecord(StumpModel model, ProxyEnvironment environment)
         {
 
@@ -224,6 +242,12 @@
 
         }
 
+        /// <summary>
+        ///     Creates a Stump contract from an existing Stump.
+        /// </summary>
+        /// <param name="model">The <see cref="T:Stumps.Web.Models.StumpModel"/> used to create the contract.</param>
+        /// <param name="environment">The <see cref="T:Stumps.Proxy.ProxyEnvironment" /> that contains the Stump.</param>
+        /// <returns>A <see cref="T:Stumps.Proxy.StumpContract" /> created from an existing Stump.</returns>
         private StumpContract CreateContractFromStump(StumpModel model, ProxyEnvironment environment)
         {
 
@@ -309,6 +333,12 @@
 
         }
 
+        /// <summary>
+        ///     Converts an enumerable list of <see cref="T:Stumps.Web.Models.HeaderModel"/> objects into an 
+        ///     array of <see cref="T:Stumps.Proxy.HttpHeader"/> objects.
+        /// </summary>
+        /// <param name="headers">The enumerable list of <see cref="T:Stumps.Web.Models.HeaderModel"/> objects.</param>
+        /// <returns>An array of <see cref="T:Stumps.Proxy.HttpHeader"/> objects.</returns>
         private HttpHeader[] CreateHeader(IEnumerable<HeaderModel> headers)
         {
 
@@ -332,6 +362,12 @@
 
         }
 
+        /// <summary>
+        ///     Converts an enumerable list of <see cref="T:Stumps.Proxy.HttpHeader"/> objects into an 
+        ///     array of <see cref="T:Stumps.Web.Models.HeaderModel"/> objects.
+        /// </summary>
+        /// <param name="headers">The enumerable list of <see cref="T:Stumps.Proxy.HttpHeader"/> objects.</param>
+        /// <returns>An array of <see cref="T:Stumps.Web.Models.HeaderModel"/> objects.</returns>
         private HeaderModel[] CreateHeaderModel(IEnumerable<HttpHeader> headers)
         {
 
@@ -355,6 +391,15 @@
 
         }
 
+        /// <summary>
+        ///     Creates a <see cref="T:Stumps.Web.Models.StumpModel"/> from an existing Stump.
+        /// </summary>
+        /// <param name="stump">The <see cref="T:Stumps.Proxy.Stump"/> used to create the model.</param>
+        /// <param name="proxyId">The unique identifier for the proxy the Stump belongs to.</param>
+        /// <param name="stumpId">The unique identifier of the Stump.</param>
+        /// <returns>
+        ///     A new <see cref="T:Stumps.Web.Models.StumpModel"/> object.
+        /// </returns>
         private StumpModel CreateStumpModel(Stump stump, string proxyId, string stumpId)
         {
 
