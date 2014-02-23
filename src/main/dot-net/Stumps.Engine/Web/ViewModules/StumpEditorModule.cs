@@ -1,16 +1,30 @@
 ﻿namespace Stumps.Web.ViewModules
 {
 
+    using System;
     using System.Globalization;
     using Nancy;
     using Stumps.Proxy;
     using Stumps.Web.Models;
 
+    /// <summary>
+    ///     A class that provides support for creating or editing Stumps.
+    /// </summary>
     public class StumpEditorModule : NancyModule
     {
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="T:Stumps.Web.ViewModules.StumpEditorModule"/> class.
+        /// </summary>
+        /// <param name="proxyHost">The <see cref="T:Stumps.Proxy.IProxyHost"/> used by the instance.</param>
+        /// <exception cref="System.ArgumentNullException"><paramref name="proxyHost"/> is <c>null</c>.</exception>
         public StumpEditorModule(IProxyHost proxyHost)
         {
+
+            if (proxyHost == null)
+            {
+                throw new ArgumentNullException("proxyHost");
+            }
 
             Get["/proxy/{proxyId}/recording/{recordIndex}/newstump"] = _ =>
             {

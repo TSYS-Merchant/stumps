@@ -1,16 +1,30 @@
 ﻿namespace Stumps.Web.ViewModules
 {
 
+    using System;
     using System.Collections;
     using System.Globalization;
     using Nancy;
     using Stumps.Proxy;
 
+    /// <summary>
+    ///     A class that provides support the overview webpage of the Stumps website.
+    /// </summary>
     public class MainModule : NancyModule
     {
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="T:Stumps.Web.ViewModules.MainModule"/> class.
+        /// </summary>
+        /// <param name="proxyHost">The <see cref="T:Stumps.Proxy.IProxyHost"/> used by the instance.</param>
+        /// <exception cref="System.ArgumentNullException"><paramref name="proxyHost"/> is <c>null</c>.</exception>
         public MainModule(IProxyHost proxyHost)
         {
+
+            if (proxyHost == null)
+            {
+                throw new ArgumentNullException("proxyHost");
+            }
 
             Get["/"] = _ =>
             {
@@ -48,6 +62,11 @@
 
         }
 
+        /// <summary>
+        ///     Transforms a number into a <see cref="T:System.String"/> that uses a comma as the thousands separator.
+        /// </summary>
+        /// <param name="value">The value to convert to a <see cref="T:System.String"/>.</param>
+        /// <returns>A <see cref="T:System.String"/> representing the formatted form of <paramref name="value"/>.</returns>
         private static string PrettyNumber(int value)
         {
 

@@ -6,11 +6,24 @@
     using Stumps.Proxy;
     using Stumps.Utility;
 
+    /// <summary>
+    ///     A class that provides support for adding a new proxy server through the Stumps website.
+    /// </summary>
     public class AddWebsiteModule : NancyModule
     {
 
-        public AddWebsiteModule(IProxyHost host)
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="T:Stumps.Web.ViewModules.AddWebsiteModule"/> class.
+        /// </summary>
+        /// <param name="proxyHost">The <see cref="T:Stumps.Proxy.IProxyHost"/> used by the instance.</param>
+        /// <exception cref="System.ArgumentNullException"><paramref name="proxyHost"/> is <c>null</c>.</exception>
+        public AddWebsiteModule(IProxyHost proxyHost)
         {
+
+            if (proxyHost == null)
+            {
+                throw new ArgumentNullException("proxyHost");
+            }
 
             Get["/AddWebsite"] = _ =>
             {
@@ -37,7 +50,7 @@
 
                 if (!string.IsNullOrEmpty(hostNameTextBox) && port > 0)
                 {
-                    host.CreateProxy(hostNameTextBox, port, useSsl, true);
+                    proxyHost.CreateProxy(hostNameTextBox, port, useSsl, true);
                 }
 
                 return Response.AsRedirect("/");
