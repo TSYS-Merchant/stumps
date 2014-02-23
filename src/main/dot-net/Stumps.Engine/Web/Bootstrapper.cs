@@ -7,6 +7,9 @@
     using Stumps.Utility;
     using Stumps.Web.Responses;
 
+    /// <summary>
+    ///     A class that provides a new Nancy boot strapper.
+    /// </summary>
     public class Bootstrapper : DefaultNancyBootstrapper, IDisposable
     {
 
@@ -14,6 +17,11 @@
         private bool _disposed;
         private IProxyHost _host;
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="T:Stumps.Web.Bootstrapper"/> class.
+        /// </summary>
+        /// <param name="proxyHost">The <see cref="T:Stumps.Proxy.IProxyHost"/> used by the instance.</param>
+        /// <exception cref="System.ArgumentNullException"><paramref name="proxyHost"/> is <c>null</c>.</exception>
         public Bootstrapper(IProxyHost proxyHost)
         {
 
@@ -32,11 +40,20 @@
 
         }
 
+        /// <summary>
+        ///     Gets the bytes for the Favorite icon.
+        /// </summary>
+        /// <value>
+        /// The bytes for the Favorite icon.
+        /// </value>
         protected override byte[] FavIcon
         {
             get { return _favIcon; }
         }
 
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources.
+        /// </summary>
         public new void Dispose()
         {
 
@@ -45,6 +62,11 @@
 
         }
 
+        /// <summary>
+        ///     Configures the container using AutoRegister followed by registration of default INancyModuleCatalog and IRouteResolver.
+        /// </summary>
+        /// <param name="container">Container instance</param>
+        /// <exception cref="System.ArgumentNullException"><paramref name="container"/> is <c>null</c>.</exception>
         protected override void ConfigureApplicationContainer(Nancy.TinyIoc.TinyIoCContainer container)
         {
 
@@ -59,6 +81,10 @@
 
         }
 
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources.
+        /// </summary>
+        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
         protected virtual void Dispose(bool disposing)
         {
 
@@ -78,7 +104,20 @@
             }
 
         }
-        
+
+        /// <summary>
+        ///     Requests the startup.
+        /// </summary>
+        /// <param name="container">The container.</param>
+        /// <param name="pipelines">The pipelines.</param>
+        /// <param name="context">The context.</param>
+        /// <exception cref="System.ArgumentNullException">
+        /// <paramref name="container"/> is <c>null</c>.
+        /// or
+        /// <paramref name="pipelines"/> is <c>null</c>.
+        /// or
+        /// <paramref name="context"/> is <c>null</c>.
+        /// </exception>
         protected override void RequestStartup(Nancy.TinyIoc.TinyIoCContainer container, Nancy.Bootstrapper.IPipelines pipelines, NancyContext context)
         {
 

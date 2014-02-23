@@ -7,6 +7,9 @@
     using Nancy.Hosting.Self;
     using Stumps.Logging;
 
+    /// <summary>
+    ///     A class representing the web server Stumps module.
+    /// </summary>
     internal sealed class WebServerModule : IStumpModule
     {
 
@@ -15,6 +18,14 @@
         private bool _disposed;
         private bool _started;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WebServerModule"/> class.
+        /// </summary>
+        /// <param name="logger">The logger used by the instance.</param>
+        /// <param name="bootstrapper">The Nancy bootstrapper.</param>
+        /// <param name="port">The port used to listen for traffic.</param>
+        /// <exception cref="System.ArgumentNullException"><paramref name="logger"/> is <c>null</c>.</exception>
+        /// <exception cref="System.ArgumentOutOfRangeException"><paramref name="port"/> is invalid.</exception>
         public WebServerModule(ILogger logger, INancyBootstrapper bootstrapper, int port)
         {
 
@@ -33,45 +44,13 @@
             var urlString = string.Format(
                 System.Globalization.CultureInfo.InvariantCulture, "http://localhost:{0}/", port);
 
-            if (bootstrapper == null)
-            {
-                _server = new NancyHost(new Uri(urlString));
-            }
-            else
-            {
-                _server = new NancyHost(bootstrapper, new Uri(urlString));
-            }
+            this._server = bootstrapper == null ? new NancyHost(new Uri(urlString)) : new NancyHost(bootstrapper, new Uri(urlString));
 
         }
 
-        public void Start()
-        {
-            if (_started)
-            {
-                return;
-            }
-
-            _server.Start();
-            _logger.LogInfo("Web server started.");
-
-            _started = true;
-        }
-
-        public void Shutdown()
-        {
-            if (!_started)
-            {
-                return;
-            }
-
-            _server.Stop();
-            _logger.LogInfo("Web server shut down.");
-
-            _started = false;
-        }
-
-        #region IDisposable Members
-
+        /// <summary>
+        ///     Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
         public void Dispose()
         {
 
@@ -86,7 +65,38 @@
 
         }
 
-        #endregion
+        /// <summary>
+        ///     Starts the instance of the module.
+        /// </summary>
+        public void Start()
+        {
+            if (_started)
+            {
+                return;
+            }
+
+            _server.Start();
+            _logger.LogInfo("Web server started.");
+
+            _started = true;
+        }
+
+        /// <summary>
+        ///     Shuts down the instance of the module.
+        /// </summary>
+        public void Shutdown()
+        {
+            if (!_started)
+            {
+                return;
+            }
+
+            _server.Stop();
+            _logger.LogInfo("Web server shut down.");
+
+            _started = false;
+        }
+
     }
 
 }
