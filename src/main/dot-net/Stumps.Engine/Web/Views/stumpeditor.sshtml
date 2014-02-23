@@ -98,6 +98,8 @@
 			<tr>
 				<td>
 					<label for="stmp_name">Name</label><input type="text" id="stmp_name" value="@Model.StumpName" />
+                </td>              
+                <td>
 					<label for="stmp_category">Category</label><select id="stmp_category" /><option value="uncategorized">Uncategorized</option></select>
 				</td>
 				<td class="right"><label class="button" id="saveButton">@Model.CreateButtonText</label></td>
@@ -367,14 +369,14 @@ function saveButton_complete() {
 function showAdvice(obj, location, msg) {
     var img = document.createElement('IMG');
     img.setAttribute('src', '/content/exclamation-error-b.png');
-    img.setAttribute('class', 'advice');
+    img.setAttribute('class', 'stumpAdvice');
     img.setAttribute('id', 'icon' + location);
     img.setAttribute('title', msg);
     img.setAttribute('alt', msg);
 
     $('#singleAdvice' + location).stop(true, false).remove(); // remove any prev msg
     $('#icon' + location).stop(true, false).remove();
-    $('<span id="singleAdvice' + location + '" class="advice"></span>').insertAfter(obj);
+    $('<span id="singleAdvice' + location + '" class="stumpAdvice"></span>').insertAfter(obj);
     $('#singleAdvice' + location).before(img);
 }
 

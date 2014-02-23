@@ -1,18 +1,71 @@
-﻿namespace Stumps.Utility {
+﻿namespace Stumps.Utility
+{
 
-    using System;
     using System.IO;
     using NUnit.Framework;
 
     [TestFixture]
-    public class JsonUtilityTests {
+    public class JsonUtilityTests
+    {
 
         [Test]
-        public void SerializeToFile_WithValidObject_CreatesFile() {
+        public void DeserializeFromDirectory_WithValidDirectory_LoadsAndDeserializes()
+        {
 
             var tempFolder = CreateTempFolder();
-            try {
-                var obj = new SampleJsonObject {
+
+            try
+            {
+
+                CreateJsonFile(tempFolder);
+                CreateJsonFile(tempFolder);
+                CreateJsonFile(tempFolder);
+
+                var obj = JsonUtility.DeserializeFromDirectory<SampleJsonObject>(
+                    tempFolder, "*.*", SearchOption.AllDirectories);
+
+                Assert.AreEqual(3, obj.Count);
+
+            }
+            finally
+            {
+                DeleteTempFolder(tempFolder);
+            }
+
+        }
+
+        [Test]
+        public void DeserializeFromFile_WithValidFile_LoadsAndDeserializes()
+        {
+
+            var tempFolder = CreateTempFolder();
+
+            try
+            {
+                var path = CreateJsonFile(tempFolder);
+                var obj = JsonUtility.DeserializeFromFile<SampleJsonObject>(path);
+
+                Assert.AreEqual("Red", obj.Color);
+                Assert.AreEqual(SampleJsonObject.SampleValues.Value2, obj.EnumerationValue);
+                Assert.AreEqual(50, obj.Number);
+
+            }
+            finally
+            {
+                DeleteTempFolder(tempFolder);
+            }
+
+        }
+
+        [Test]
+        public void SerializeToFile_WithValidObject_CreatesFile()
+        {
+
+            var tempFolder = CreateTempFolder();
+            try
+            {
+                var obj = new SampleJsonObject
+                {
                     Color = "Red",
                     EnumerationValue = SampleJsonObject.SampleValues.Value2,
                     Number = 50
@@ -25,55 +78,24 @@
 
                 Assert.IsTrue(File.Exists(path));
             }
-            finally {
+            finally
+            {
                 DeleteTempFolder(tempFolder);
             }
 
         }
 
-        [Test]
-        public void DeserializeFromFile_WithValidFile_LoadsAndDeserializes() {
+        private string CreateJsonFile(string tempFolder)
+        {
+            var fileName = Path.GetRandomFileName();
+            var path = Path.Combine(tempFolder, fileName);
+            File.WriteAllText(path, TestData.JsonSampleData);
 
-            var tempFolder = CreateTempFolder();
-
-            try {
-                var path = CreateJsonFile(tempFolder);
-                var obj = JsonUtility.DeserializeFromFile<SampleJsonObject>(path);
-
-                Assert.AreEqual("Red", obj.Color);
-                Assert.AreEqual(SampleJsonObject.SampleValues.Value2, obj.EnumerationValue);
-                Assert.AreEqual(50, obj.Number);
-
-            }
-            finally {
-                DeleteTempFolder(tempFolder);
-            }
-
+            return path;
         }
 
-        [Test]
-        public void DeserializeFromDirectory_WithValidDirectory_LoadsAndDeserializes() {
-
-            var tempFolder = CreateTempFolder();
-
-            try {
-
-                CreateJsonFile(tempFolder);
-                CreateJsonFile(tempFolder);
-                CreateJsonFile(tempFolder);
-
-                var obj = JsonUtility.DeserializeFromDirectory<SampleJsonObject>(tempFolder, "*.*", SearchOption.AllDirectories);
-
-                Assert.AreEqual(3, obj.Count);
-
-            }
-            finally {
-                DeleteTempFolder(tempFolder);
-            }
-
-        }
-
-        private string CreateTempFolder() {
+        private string CreateTempFolder()
+        {
 
             var path = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
             Directory.CreateDirectory(path);
@@ -82,20 +104,14 @@
 
         }
 
-        private void DeleteTempFolder(string path) {
+        private void DeleteTempFolder(string path)
+        {
 
-            if ( Directory.Exists(path) ) {
+            if (Directory.Exists(path))
+            {
                 Directory.Delete(path, true);
             }
 
-        }
-
-        private string CreateJsonFile(string tempFolder) {
-            var fileName = Path.GetRandomFileName();
-            var path = Path.Combine(tempFolder, fileName);
-            File.WriteAllText(path, TestData.JsonSampleData);
-
-            return path;
         }
 
     }

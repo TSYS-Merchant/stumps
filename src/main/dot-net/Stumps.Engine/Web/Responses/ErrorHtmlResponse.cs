@@ -1,21 +1,33 @@
-﻿namespace Stumps.Web.Responses {
+﻿namespace Stumps.Web.Responses
+{
 
     using Nancy;
     using Nancy.Responses;
     using Stumps.Utility;
 
-    public class ErrorHtmlResponse : HtmlResponse {
+    /// <summary>
+    ///     A class that provides custom HTML pages for HTTP errors.
+    /// </summary>
+    public class ErrorHtmlResponse : HtmlResponse
+    {
 
-        public ErrorHtmlResponse(HttpStatusCode statusCode) {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:Stumps.Web.Responses.ErrorHtmlResponse"/> class.
+        /// </summary>
+        /// <param name="statusCode">The status code.</param>
+        public ErrorHtmlResponse(HttpStatusCode statusCode)
+        {
 
             this.StatusCode = statusCode;
             this.ContentType = Resources.ContentTypeHtmlUtf8;
 
-            this.Contents = stream => {
+            this.Contents = stream =>
+            {
 
                 var page = string.Empty;
 
-                switch ( this.StatusCode ) {
+                switch (this.StatusCode)
+                {
 
                     case HttpStatusCode.NotFound:
                         page = Resources.PageNotFound;

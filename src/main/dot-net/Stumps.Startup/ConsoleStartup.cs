@@ -1,18 +1,22 @@
-﻿namespace Stumps {
+﻿namespace Stumps
+{
 
     using System;
 
-    public class ConsoleStartup : IStartup {
+    public class ConsoleStartup : IStartup
+    {
 
-        public Configuration Configuration { get; set; }
+        public StumpsConfiguration Configuration { get; set; }
 
         public IMessageWriter MessageWriter { get; set; }
 
-        public void RunInstance() {
+        public void RunInstance()
+        {
 
             this.MessageWriter.Information(Resources.StartupStarting);
 
-            using (var server = new StumpsServer(this.Configuration)) {
+            using (var server = new StumpsServer(this.Configuration))
+            {
                 server.Start();
                 this.MessageWriter.Information(Resources.StartupComplete);
 

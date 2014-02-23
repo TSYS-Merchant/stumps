@@ -31,6 +31,8 @@
     <RunCodeAnalysis>false</RunCodeAnalysis>
     <CodeAnalysisRuleSet>..\CodeQuality.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -60,7 +62,7 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Configuration.cs" />
+    <Compile Include="StumpsConfiguration.cs" />
     <Compile Include="Data\ConfigurationDataAccess.cs" />
     <Compile Include="Data\ConfigurationEntity.cs" />
     <Compile Include="Data\DataAccess.cs" />
@@ -108,8 +110,6 @@
     <Compile Include="Proxy\RecordedContext.cs" />
     <Compile Include="Http\StumpsContextEventArgs.cs" />
     <Compile Include="Http\HttpServer.cs" />
-    <Compile Include="Http\HttpServer_Threaded.cs" />
-    <Compile Include="Http\HttpServer_Net45.cs" />
     <Compile Include="Logging\DebugLogger.cs" />
     <Compile Include="Proxy\IProxyHost.cs" />
     <Compile Include="Proxy\ProxyHost.cs" />

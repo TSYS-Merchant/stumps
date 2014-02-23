@@ -1,17 +1,28 @@
-﻿namespace Stumps.Http {
+﻿namespace Stumps.Http
+{
 
     using System;
+    using System.Collections.Specialized;
     using System.IO;
     using System.Net;
     using Stumps.Utility;
 
-    internal sealed class StumpsHttpRequest : IStumpsHttpRequest {
+    /// <summary>
+    ///     A class that represents an incomming HTTP request.
+    /// </summary>
+    internal sealed class StumpsHttpRequest : IStumpsHttpRequest
+    {
 
         private readonly HttpListenerRequest _request;
-        private MemoryStream _requestStream;
         private bool _disposed;
+        private MemoryStream _requestStream;
 
-        public StumpsHttpRequest(HttpListenerRequest request) {
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="T:Stumps.Http.StumpsHttpRequest"/> class.
+        /// </summary>
+        /// <param name="request">The <see cref="T:System.Net.HttpListenerRequest"/> used to initialize the instance.</param>
+        public StumpsHttpRequest(HttpListenerRequest request)
+        {
 
             _request = request;
 
@@ -24,47 +35,127 @@
 
         }
 
-        public string ContentType {
+        /// <summary>
+        ///     Finalizes an instance of the <see cref="T:Stumps.Http.StumpsHttpRequest"/> class.
+        /// </summary>
+        ~StumpsHttpRequest()
+        {
+            Dispose();
+        }
+
+        /// <summary>
+        ///     Gets the MIME content type of the request.
+        /// </summary>
+        /// <value>
+        ///     The MIME content type of the request.
+        /// </value>
+        public string ContentType
+        {
             get { return _request.ContentType; }
         }
 
-        public System.Collections.Specialized.NameValueCollection Headers {
+        /// <summary>
+        ///     Gets the collection of HTTP headers.
+        /// </summary>
+        /// <value>
+        ///     The collection of HTTP headers.
+        /// </value>
+        public NameValueCollection Headers
+        {
             get { return _request.Headers; }
         }
 
-        public string HttpMethod {
+        /// <summary>
+        ///     Gets the HTTP data transfer method used by the client.
+        /// </summary>
+        /// <value>
+        ///     The HTTP data transfer method used by the client.
+        /// </value>
+        public string HttpMethod
+        {
             get { return _request.HttpMethod; }
         }
 
-        public System.IO.Stream InputStream {
+        /// <summary>
+        ///     Gets the <see cref="T:System.IO.Stream" /> containing the HTTP request body.
+        /// </summary>
+        /// <value>
+        ///     The <see cref="T:System.IO.Stream" /> containing the HTTP request body.
+        /// </value>
+        public Stream InputStream
+        {
             get { return _requestStream; }
         }
 
-        public bool IsSecureConnection {
+        /// <summary>
+        ///     Gets a value indicating whether the connection is using a secure channel.
+        /// </summary>
+        /// <value>
+        ///     <c>true</c> if the connection is using a secure channel; otherwise, <c>false</c>.
+        /// </value>
+        public bool IsSecureConnection
+        {
             get { return _request.IsSecureConnection; }
         }
 
-        public IPEndPoint LocalEndPoint {
+        /// <summary>
+        ///     Gets the local end point where the HTTP request was received on.
+        /// </summary>
+        /// <value>
+        ///     The local end point where the HTTP request was received on.
+        /// </value>
+        public IPEndPoint LocalEndPoint
+        {
             get { return _request.LocalEndPoint; }
         }
 
-        public Version ProtocolVersion {
+        /// <summary>
+        ///     Gets the HTTP protocol version.
+        /// </summary>
+        /// <value>
+        ///     The HTTP protocol version.
+        /// </value>
+        public Version ProtocolVersion
+        {
             get { return _request.ProtocolVersion; }
         }
 
-        public System.Collections.Specialized.NameValueCollection QueryString {
+        /// <summary>
+        ///     Gets the collection of HTTP query string variables.
+        /// </summary>
+        /// <value>
+        ///     The collection of HTTP query string variables.
+        /// </value>
+        public NameValueCollection QueryString
+        {
             get { return _request.QueryString; }
         }
 
-        public string RawUrl {
+        /// <summary>
+        ///     Gets the raw URL of the current request.
+        /// </summary>
+        /// <value>
+        ///     The raw URL of the current request.
+        /// </value>
+        public string RawUrl
+        {
             get { return _request.RawUrl; }
         }
 
-        public string Referer {
-            get {
+        /// <summary>
+        ///     Gets the URL for the client's previous request that linked to the current URL.
+        /// </summary>
+        /// <value>
+        ///     The URL for the client's previous request that linked to the current URL.
+        /// </value>
+        public string Referer
+        {
+            get
+            {
                 string referer = null;
 
-                if ( _request.UrlReferrer != null ) {
+                if (_request.UrlReferrer != null)
+                {
                     referer = _request.UrlReferrer.ToString();
                 }
 
@@ -72,23 +163,47 @@
             }
         }
 
-        public IPEndPoint RemoteEndPoint {
+        /// <summary>
+        ///     Gets the remote end point the HTTP request came from.
+        /// </summary>
+        /// <value>
+        ///     The remote end point where the HTTP request came from.
+        /// </value>
+        public IPEndPoint RemoteEndPoint
+        {
             get { return _request.RemoteEndPoint; }
         }
 
-        public Uri Url {
+        /// <summary>
+        ///     Gets the URL for the current request.
+        /// </summary>
+        /// <value>
+        ///     The URL for the current request.
+        /// </value>
+        public Uri Url
+        {
             get { return _request.Url; }
         }
 
-        public string UserAgent {
+        /// <summary>
+        ///     Gets user agent for the client's browser.
+        /// </summary>
+        /// <value>
+        ///     The user agent for the client's browser.
+        /// </value>
+        public string UserAgent
+        {
             get { return _request.UserAgent; }
         }
 
-        #region IDisposable Members
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
 
-        public void Dispose() {
-
-            if ( _requestStream != null && !_disposed ) {
+            if (_requestStream != null && !_disposed)
+            {
                 _requestStream.Dispose();
                 _requestStream = null;
             }
@@ -98,8 +213,6 @@
             GC.SuppressFinalize(this);
 
         }
-
-        #endregion
 
     }
 

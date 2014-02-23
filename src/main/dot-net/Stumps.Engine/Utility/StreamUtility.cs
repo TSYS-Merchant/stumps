@@ -1,16 +1,31 @@
-﻿namespace Stumps.Utility {
+﻿namespace Stumps.Utility
+{
 
     using System;
     using System.IO;
     using System.Text;
 
-    internal static class StreamUtility {
+    /// <summary>
+    ///     A class that represents a set of Stream based functions.
+    /// </summary>
+    internal static class StreamUtility
+    {
 
         public const int BufferSize = 4096;
 
-        public static byte[] ConvertStreamToByteArray(Stream stream) {
+        /// <summary>
+        ///     Converts a stream to a byte array.
+        /// </summary>
+        /// <param name="stream">The stream to convert to a byte array.</param>
+        /// <returns>
+        ///     An array of bytes contained within the specified <paramref name="stream"/>.
+        /// </returns>
+        /// <exception cref="System.ArgumentNullException"><paramref name="stream"/> is <c>null</c>.</exception>
+        public static byte[] ConvertStreamToByteArray(Stream stream)
+        {
 
-            if ( stream == null ) {
+            if (stream == null)
+            {
                 throw new ArgumentNullException("stream");
             }
 
@@ -19,10 +34,12 @@
 
             stream.Position = 0;
 
-            using ( var ms = new MemoryStream() ) {
+            using (var ms = new MemoryStream())
+            {
 
                 int bytesRead;
-                while ( (bytesRead = stream.Read(buffer, 0, StreamUtility.BufferSize)) > 0 ) {
+                while ((bytesRead = stream.Read(buffer, 0, StreamUtility.BufferSize)) > 0)
+                {
                     ms.Write(buffer, 0, bytesRead);
                 }
 
@@ -36,46 +53,82 @@
 
         }
 
-        public static void CopyStream(Stream inputStream, Stream outputStream) {
+        /// <summary>
+        /// Copies data from an input stream to an output stream.
+        /// </summary>
+        /// <param name="inputStream">The input stream.</param>
+        /// <param name="outputStream">The output stream.</param>
+        public static void CopyStream(Stream inputStream, Stream outputStream)
+        {
 
             StreamUtility.CopyStream(inputStream, outputStream, -1);
 
         }
 
-        public static void CopyStream(Stream inputStream, Stream outputStream, int startingPosition) {
+        /// <summary>
+        /// Copies data from an input stream to an output stream.
+        /// </summary>
+        /// <param name="inputStream">The input stream.</param>
+        /// <param name="outputStream">The output stream.</param>
+        /// <param name="startingPosition">The starting position of the input stream.</param>
+        /// <exception cref="System.ArgumentNullException">
+        /// <paramref name="inputStream"/> is <c>null</c>.
+        /// or
+        /// <paramref name="outputStream"/> is <c>null</c>.
+        /// </exception>
+        public static void CopyStream(Stream inputStream, Stream outputStream, int startingPosition)
+        {
 
-            if ( inputStream == null ) {
+            if (inputStream == null)
+            {
                 throw new ArgumentNullException("inputStream");
             }
 
-            if ( outputStream == null ) {
+            if (outputStream == null)
+            {
                 throw new ArgumentNullException("outputStream");
             }
 
             var buffer = new byte[StreamUtility.BufferSize];
             int bytesRead;
 
-            if ( startingPosition > -1 ) {
+            if (startingPosition > -1)
+            {
                 inputStream.Position = startingPosition;
             }
 
-            while ( (bytesRead = inputStream.Read(buffer, 0, StreamUtility.BufferSize)) > 0 ) {
+            while ((bytesRead = inputStream.Read(buffer, 0, StreamUtility.BufferSize)) > 0)
+            {
                 outputStream.Write(buffer, 0, bytesRead);
             }
 
-            if ( startingPosition > -1 ) {
+            if (startingPosition > -1)
+            {
                 inputStream.Position = startingPosition;
             }
 
         }
 
-        public static void WriteUtf8StringToStream(string value, Stream stream) {
+        /// <summary>
+        ///     Writes the UTF8 string to a stream.
+        /// </summary>
+        /// <param name="value">The value to write to the stream.</param>
+        /// <param name="stream">The stream to write to.</param>
+        /// <exception cref="System.ArgumentNullException">
+        /// <paramref name="value"/> is <c>null</c>.
+        /// or
+        /// <paramref name="stream"/> is <c>null</c>.
+        /// </exception>
+        public static void WriteUtf8StringToStream(string value, Stream stream)
+        {
 
-            if ( value == null ) {
+            if (value == null)
+            {
                 throw new ArgumentNullException("value");
             }
 
-            if ( stream == null ) {
+            if (stream == null)
+            {
                 throw new ArgumentNullException("stream");
             }
 
@@ -83,9 +136,17 @@
 
         }
 
-        private static void WriteStringToStream(string value, Stream stream, Encoding encoding) {
+        /// <summary>
+        ///     Writes the string to a stream.
+        /// </summary>
+        /// <param name="value">The value to write to the stream.</param>
+        /// <param name="stream">The stream to write to.</param>
+        /// <param name="encoding">The encoding used when writing to the stream.</param>
+        private static void WriteStringToStream(string value, Stream stream, Encoding encoding)
+        {
 
-            using ( var writer = new StreamWriter(stream, encoding) ) {
+            using (var writer = new StreamWriter(stream, encoding))
+            {
                 writer.Write(value);
             }
 

@@ -1,23 +1,35 @@
-﻿namespace Stumps {
+﻿namespace Stumps
+{
 
     using System;
     using System.Collections.Generic;
+    using Stumps.Data;
     using Stumps.Logging;
     using Stumps.Proxy;
-    using Stumps.Data;
     using Stumps.Web;
 
-    public sealed class StumpsServer : IDisposable {
+    /// <summary>
+    ///     A class that represents the core Stumps server.
+    /// </summary>
+    public sealed class StumpsServer : IDisposable
+    {
 
         private readonly object _syncRoot;
-        private List<IStumpModule> _modules;
         private bool _disposed;
+        private List<IStumpModule> _modules;
 
         private bool _started;
 
-        public StumpsServer(Configuration configuration) {
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="T:Stumps.StumpsServer"/> class.
+        /// </summary>
+        /// <param name="configuration">The <see cref="T:Stumps.StumpsConfiguration"/> used to initialize the instance.</param>
+        /// <exception cref="System.ArgumentNullException"><paramref name="configuration"/> is <c>null</c>.</exception>
+        public StumpsServer(StumpsConfiguration configuration)
+        {
 
-            if ( configuration == null ) {
+            if (configuration == null)
+            {
                 throw new ArgumentNullException("configuration");
             }
 
@@ -26,38 +38,63 @@
 
         }
 
-        public Configuration Configuration { 
-            get; 
-            private set; 
+        /// <summary>
+        ///     Finalizes an instance of the <see cref="T:Stumps.StumpsServer"/> class.
+        /// </summary>
+        ~StumpsServer()
+        {
+            Dispose();
         }
 
+        /// <summary>
+        /// Gets the <see cref="T:Stumps.StumpsConfiguration"/> used to initialize the instance.
+        /// </summary>
+        /// <value>
+        /// The <see cref="T:Stumps.StumpsConfiguration"/> used to initialize the instance.
+        /// </value>
+        public StumpsConfiguration Configuration { get; private set; }
+
+        /// <summary>
+        ///     Starts all proxy servers that are set to automatically start and the REST API.
+        /// </summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Objects are disposed when the modules are stopped.")]
-        public void Start() {
+        public void Start()
+        {
 
-            lock ( _syncRoot ) {
+            // Prevent multiple simultaneous requests to start or stop the instance. 
+            lock (_syncRoot)
+            {
 
-                if ( _started ) {
+                if (_started)
+                {
                     return;
                 }
 
                 _started = true;
 
-                _modules = new List<IStumpModule>();
-
                 var logger = new DebugLogger();
 
+                // Initialize a new instance of the data access layer.
                 var dataAccess = new DataAccess(this.Configuration.StoragePath);
+
+                // Initialize and load a new instance of the proxy host.
                 var host = new ProxyHost(logger, dataAccess);
                 host.Load();
 
+                // Initialize a new proxy server module.
                 var proxyServer = new ProxyServerModule(logger, host);
 
+                // Initialize the Nancy boot strapper.
                 var bootStrapper = new Bootstrapper(host);
 
+                // Initialize the Nancy web server module.
                 var webServer = new WebServerModule(logger, bootStrapper, this.Configuration.WebApiPort);
 
-                _modules.Add(proxyServer);
-                _modules.Add(webServer);
+                _modules = new List<IStumpModule>
+                {
+                    proxyServer,
+                    webServer
+                };
 
                 StartModules();
 
@@ -65,10 +102,16 @@
 
         }
 
-        public void Stop() {
+        /// <summary>
+        ///     Stops all running proxy servers and the REST API.
+        /// </summary>
+        public void Stop()
+        {
 
-            lock ( _syncRoot ) {
-                if ( !_started ) {
+            lock (_syncRoot)
+            {
+                if (!_started)
+                {
                     return;
                 }
 
@@ -80,32 +123,19 @@
 
         }
 
-        private void StartModules() {
-            foreach ( var module in _modules ) {
-                module.Start();
-            }
-        }
+        /// <summary>
+        ///     Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
 
-        private void StopAndDisposeModules() {
+            if (!_disposed)
+            {
 
-            foreach ( var module in _modules ) {
-                module.Shutdown();
-                module.Dispose();
-            }
-
-            _modules.Clear();
-
-        }
-
-        #region IDisposable Members
-
-        public void Dispose() {
-
-            if ( !_disposed ) {
-                
                 _disposed = true;
 
-                if ( _started ) {
+                if (_started)
+                {
                     this.Stop();
                 }
 
@@ -115,7 +145,32 @@
 
         }
 
-        #endregion
+        /// <summary>
+        ///     Starts all supported modules.
+        /// </summary>
+        private void StartModules()
+        {
+            foreach (var module in _modules)
+            {
+                module.Start();
+            }
+        }
+
+        /// <summary>
+        ///     Stops and disposes all modules.
+        /// </summary>
+        private void StopAndDisposeModules()
+        {
+
+            foreach (var module in _modules)
+            {
+                module.Shutdown();
+                module.Dispose();
+            }
+
+            _modules.Clear();
+
+        }
 
     }
 

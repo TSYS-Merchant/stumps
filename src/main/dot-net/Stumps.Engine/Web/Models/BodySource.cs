@@ -1,11 +1,25 @@
-﻿namespace Stumps.Web.Models {
+﻿namespace Stumps.Web.Models
+{
 
-    public enum BodySource {
+    /// <summary>
+    ///     An enumeration that represents the origin of the HTTP body.
+    /// </summary>
+    public enum BodySource
+    {
 
+        /// <summary>
+        ///     There is no HTTP body.
+        /// </summary>
         NoBody = 0,
 
+        /// <summary>
+        ///     The HTTP body is the same as the originating source.
+        /// </summary>
         Origin = 1,
 
+        /// <summary>
+        ///     The HTTP body is a custom modified value.
+        /// </summary>
         Modified = 2
 
     }

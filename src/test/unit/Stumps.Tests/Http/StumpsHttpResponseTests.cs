@@ -1,16 +1,18 @@
-﻿namespace Stumps.Http {
+﻿namespace Stumps.Http
+{
 
     using System;
-    using System.Linq;
     using System.Globalization;
     using System.Net;
     using NUnit.Framework;
 
     [TestFixture]
-    public class StumpsHttpResponseTests {
+    public class StumpsHttpResponseTests
+    {
 
         [Test]
-        public void StumpsHttpResponse_PopulatesCorrectly() {
+        public void StumpsHttpResponse_PopulatesCorrectly()
+        {
 
             var mockHandler = new MockHandler();
             mockHandler.StatusCode = 202;
@@ -18,12 +20,13 @@
             mockHandler.UpdateBody(TestData.SampleTextResponse);
             mockHandler.AddHeader("X-Stumps", "V1");
 
-            var startingEventCount = 0;
             var finishingEventCount = 0;
 
-            using ( var server = HttpHelper.CreateHttpServer(mockHandler) ) {
+            using (var server = HttpHelper.CreateHttpServer(mockHandler))
+            {
 
-                server.RequestFinishing += (o, i) => {
+                server.RequestFinishing += (o, i) =>
+                {
                     var response = i.Context.Response;
 
                     finishingEventCount++;
@@ -40,7 +43,8 @@
 
                 var request = WebRequest.CreateHttp(uri);
 
-                using ( var response = (HttpWebResponse) request.GetResponse() ) {
+                using (var response = (HttpWebResponse)request.GetResponse())
+                {
                     Assert.IsNotNull(response);
                 }
 

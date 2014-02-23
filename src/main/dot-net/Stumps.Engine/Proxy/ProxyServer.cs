@@ -1,30 +1,46 @@
-﻿using Stumps.Utility;
-
-namespace Stumps.Proxy {
+﻿namespace Stumps.Proxy
+{
 
     using System;
     using System.Collections.Generic;
     using Stumps.Http;
     using Stumps.Logging;
+    using Stumps.Utility;
 
-    internal sealed class ProxyServer : IDisposable {
+    /// <summary>
+    ///     A class that represents a proxy server.
+    /// </summary>
+    internal sealed class ProxyServer : IDisposable
+    {
 
-        private HttpServer _server;
-        private readonly ILogger _logger;
-        private readonly ProxyEnvironment _environment;
-        private readonly object _syncRoot = new object();
         private readonly Dictionary<Guid, RecordedContext> _contextCache;
-
-        private bool _started;
+        private readonly ProxyEnvironment _environment;
+        private readonly ILogger _logger;
+        private readonly object _syncRoot = new object();
         private bool _disposed;
+        private HttpServer _server;
+        private bool _started;
 
-        public ProxyServer(ProxyEnvironment environment, ILogger logger) {
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="T:Stumps.Proxy.ProxyServer"/> class.
+        /// </summary>
+        /// <param name="environment">The environment for the proxy server.</param>
+        /// <param name="logger">The logger used by the instance.</param>
+        /// <exception cref="System.ArgumentNullException">
+        /// <paramref name="environment"/> is <c>null</c>.
+        /// or
+        /// <paramref name="logger"/> is <c>null</c>.
+        /// </exception>
+        public ProxyServer(ProxyEnvironment environment, ILogger logger)
+        {
 
-            if ( environment == null ) {
+            if (environment == null)
+            {
                 throw new ArgumentNullException("environment");
             }
 
-            if ( logger == null ) {
+            if (logger == null)
+            {
                 throw new ArgumentNullException("logger");
             }
 
@@ -35,19 +51,69 @@ namespace Stumps.Proxy {
 
         }
 
-        public ProxyEnvironment Environment {
+        /// <summary>
+        ///     Finalizes an instance of the <see cref="T:Stumps.Proxy.ProxyServer"/> class.
+        /// </summary>
+        ~ProxyServer()
+        {
+            Dispose();
+        }
+
+        /// <summary>
+        ///     Gets the environment for the proxy server.
+        /// </summary>
+        /// <value>
+        ///     The environment for the proxy server.
+        /// </value>
+        public ProxyEnvironment Environment
+        {
             get { return _environment; }
         }
 
-        public bool IsRunning {
+        /// <summary>
+        ///     Gets a value indicating whether the server is running.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if the server is running; otherwise, <c>false</c>.
+        /// </value>
+        public bool IsRunning
+        {
             get { return _started; }
         }
 
-        public void Start() {
+        /// <summary>
+        ///     Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
 
-            lock ( _syncRoot ) {
+            if (!_disposed)
+            {
 
-                if ( _started ) {
+                _disposed = true;
+
+                if (_started)
+                {
+                    this.Stop();
+                }
+
+            }
+
+            GC.SuppressFinalize(this);
+
+        }
+
+        /// <summary>
+        ///     Starts this instance of the proxy server.
+        /// </summary>
+        public void Start()
+        {
+
+            lock (_syncRoot)
+            {
+
+                if (_started)
+                {
                     return;
                 }
 
@@ -61,17 +127,21 @@ namespace Stumps.Proxy {
 
                 _server = new HttpServer(_environment.Port, pipeline, _logger);
 
-                _server.RequestStarting += (o, e) => {
+                _server.RequestStarting += (o, e) =>
+                {
                     _environment.IncrementRequestsServed();
 
-                    if ( _environment.RecordTraffic ) {
-                        CreateRecordedContext(e.Context);
+                    if (_environment.RecordTraffic)
+                    {
+                        RecordIncommingRequest(e.Context);
                     }
                 };
 
-                _server.RequestFinishing += (o, e) => {
-                    if ( _environment.RecordTraffic ) {
-                        CompleteRecordedContext(e.Context);
+                _server.RequestFinishing += (o, e) =>
+                {
+                    if (_environment.RecordTraffic)
+                    {
+                        UpdateRecordedRequest(e.Context);
                     }
                 };
 
@@ -81,18 +151,25 @@ namespace Stumps.Proxy {
 
         }
 
-        public void Stop() {
+        /// <summary>
+        ///     Stops this instance of the proxy server.
+        /// </summary>
+        public void Stop()
+        {
 
-            lock ( _syncRoot ) {
+            lock (_syncRoot)
+            {
 
-                if ( !_started ) {
+                if (!_started)
+                {
                     return;
                 }
 
                 _started = false;
                 _environment.IsRunning = false;
 
-                if ( _environment.RecordTraffic ) {
+                if (_environment.RecordTraffic)
+                {
                     _environment.RecordTraffic = false;
                 }
 
@@ -108,7 +185,32 @@ namespace Stumps.Proxy {
 
         }
 
-        private void CreateRecordedContext(StumpsHttpContext context) {
+        /// <summary>
+        ///     Decodes the body of a based on the content encoding.
+        /// </summary>
+        /// <param name="part">The <see cref="T:Stumps.Proxy.RecordedContext"/> part containing the body to decode.</param>
+        private void DecodeBody(IRecordedContextPart part)
+        {
+
+            var buffer = part.Body;
+            var header = part.FindHeader("Content-Encoding");
+
+            if (header != null)
+            {
+                var encoder = new ContentEncoding(header.Value);
+                buffer = encoder.Decode(buffer);
+            }
+
+            part.Body = buffer;
+
+        }
+
+        /// <summary>
+        ///     Records an incomming request.
+        /// </summary>
+        /// <param name="context">The <see cref="T:Stumps.Http.StumpsHttpContext"/> to record.</param>
+        private void RecordIncommingRequest(StumpsHttpContext context)
+        {
 
             var recordedContext = new RecordedContext();
             var recordedRequest = new RecordedRequest();
@@ -117,11 +219,14 @@ namespace Stumps.Proxy {
             recordedRequest.HttpMethod = context.Request.HttpMethod;
             recordedRequest.RawUrl = context.Request.RawUrl;
 
-            foreach ( var key in context.Request.Headers.AllKeys ) {
-                recordedRequest.Headers.Add(new HttpHeader {
-                    Name = key,
-                    Value = context.Request.Headers[key]
-                });
+            foreach (var key in context.Request.Headers.AllKeys)
+            {
+                recordedRequest.Headers.Add(
+                    new HttpHeader
+                    {
+                        Name = key,
+                        Value = context.Request.Headers[key]
+                    });
             }
 
             DecodeBody(recordedRequest);
@@ -132,11 +237,18 @@ namespace Stumps.Proxy {
 
         }
 
-        private void CompleteRecordedContext(StumpsHttpContext context) {
+
+        /// <summary>
+        ///     Updates the response of an existing recorded request.
+        /// </summary>
+        /// <param name="context">The <see cref="T:Stumps.Http.StumpsHttpContext"/> to update.</param>
+        private void UpdateRecordedRequest(StumpsHttpContext context)
+        {
 
             RecordedContext recordedContext;
 
-            if ( !_contextCache.TryGetValue(context.ContextId, out recordedContext) ) {
+            if (!_contextCache.TryGetValue(context.ContextId, out recordedContext))
+            {
                 return;
             }
 
@@ -148,11 +260,14 @@ namespace Stumps.Proxy {
             recordedResponse.StatusCode = context.Response.StatusCode;
             recordedResponse.StatusDescription = context.Response.StatusDescription;
 
-            foreach ( var key in context.Response.Headers.AllKeys ) {
-                recordedResponse.Headers.Add(new HttpHeader {
-                    Name = key,
-                    Value = context.Response.Headers[key]
-                });
+            foreach (var key in context.Response.Headers.AllKeys)
+            {
+                recordedResponse.Headers.Add(
+                    new HttpHeader
+                    {
+                        Name = key,
+                        Value = context.Response.Headers[key]
+                    });
             }
 
             DecodeBody(recordedResponse);
@@ -162,40 +277,6 @@ namespace Stumps.Proxy {
             _environment.Recordings.Add(recordedContext);
 
         }
-
-        private static void DecodeBody(IRecordedContextPart part) {
-
-            var buffer = part.Body;
-            var header = part.FindHeader("Content-Encoding");
-
-            if ( header != null ) {
-                var encoder = new ContentEncoding(header.Value);
-                buffer = encoder.Decode(buffer);
-            }
-
-            part.Body = buffer;
-
-        }
-
-        #region IDisposable Members
-
-        public void Dispose() {
-
-            if ( !_disposed ) {
-
-                _disposed = true;
-
-                if ( _started ) {
-                    this.Stop();
-                }
-
-            }
-
-            GC.SuppressFinalize(this);
-
-        }
-
-        #endregion
 
     }
 

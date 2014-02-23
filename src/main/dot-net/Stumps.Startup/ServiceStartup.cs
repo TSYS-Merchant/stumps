@@ -1,16 +1,20 @@
-﻿namespace Stumps {
+﻿namespace Stumps
+{
 
     using System.ServiceProcess;
 
-    public class ServiceStartup : IStartup {
+    public class ServiceStartup : IStartup
+    {
 
-        public Configuration Configuration { get; set; }
+        public StumpsConfiguration Configuration { get; set; }
 
         public IMessageWriter MessageWriter { get; set; }
 
-        public void RunInstance() {
+        public void RunInstance()
+        {
 
-            var servicesToRun = new ServiceBase[] {
+            var servicesToRun = new ServiceBase[]
+            {
                 new StumpsService(this.Configuration)
             };
 

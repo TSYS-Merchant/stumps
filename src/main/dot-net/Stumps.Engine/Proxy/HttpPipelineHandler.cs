@@ -1,43 +1,76 @@
-﻿namespace Stumps.Proxy {
+﻿namespace Stumps.Proxy
+{
 
     using System;
-    using System.Collections;
     using System.Collections.Generic;
     using Stumps.Http;
 
-    internal class HttpPipelineHandler : IHttpHandler {
+    /// <summary>
+    ///     A class implementing the <see cref="T:Stumps.Http.IHttpHandler"/> interface that executes multiple child
+    ///     <see cref="T:Stumps.Http.IHttpHandler"/> instances.
+    /// </summary>
+    internal class HttpPipelineHandler : IHttpHandler
+    {
 
         private readonly List<IHttpHandler> _handlers;
 
-        public HttpPipelineHandler() {
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="T:Stumps.Proxy.HttpPipelineHandler"/> class.
+        /// </summary>
+        public HttpPipelineHandler()
+        {
             _handlers = new List<IHttpHandler>();
         }
 
-        public int Count {
+        /// <summary>
+        /// Gets the number of child <see cref="T:Stumps.Http.IHttpHandler"/> instances.
+        /// </summary>
+        /// <value>
+        /// The number of child <see cref="T:Stumps.Http.IHttpHandler"/> instances.
+        /// </value>
+        public int Count
+        {
             get { return _handlers.Count; }
         }
 
-        public IHttpHandler this[int index] {
+        /// <summary>
+        ///     Gets the <see cref="T:Stumps.Http.IHttpHandler"/> at the specified index.
+        /// </summary>
+        /// <value>
+        ///     The <see cref="T:Stumps.Http.IHttpHandler"/> at the specified index.
+        /// </value>
+        /// <param name="index">The index.</param>
+        /// <returns>An <see cref="T:Stumps.Http.IHttpHandler"/>.</returns>
+        public IHttpHandler this[int index]
+        {
             get { return _handlers[index]; }
         }
 
-        public void Add(IHttpHandler handler) {
-            _handlers.Add(handler);
-        }
+        /// <summary>
+        ///     Processes an incoming HTTP request.
+        /// </summary>
+        /// <param name="context">The <see cref="T:Stumps.Http.IStumpsHttpContext" /> representing both the incoming request and the response.</param>
+        /// <returns>
+        ///     A member of the <see cref="T:Stumps.Http.ProcessHandlerResult" /> enumeration.
+        /// </returns>
+        /// <exception cref="System.ArgumentNullException"><paramref name="context"/> is <c>null</c>.</exception>
+        public ProcessHandlerResult ProcessRequest(IStumpsHttpContext context)
+        {
 
-        public ProcessHandlerResult ProcessRequest(IStumpsHttpContext context) {
-
-            if ( context == null ) {
+            if (context == null)
+            {
                 throw new ArgumentNullException("context");
             }
 
             var result = ProcessHandlerResult.Continue;
 
-            foreach ( var handler in _handlers ) {
+            foreach (var handler in _handlers)
+            {
 
                 result = handler.ProcessRequest(context);
 
-                if ( result == ProcessHandlerResult.Terminate ) {
+                if (result == ProcessHandlerResult.Terminate)
+                {
                     break;
                 }
 
@@ -45,6 +78,15 @@
 
             return result;
 
+        }
+
+        /// <summary>
+        /// Adds the specified child <see cref="T:Stumps.Http.IHttpHandler"/> to the end of the pipeline.
+        /// </summary>
+        /// <param name="handler">The child <see cref="T:Stumps.Http.IHttpHandler"/> to add.</param>
+        public void Add(IHttpHandler handler)
+        {
+            _handlers.Add(handler);
         }
 
     }
