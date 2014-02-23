@@ -224,7 +224,7 @@ namespace Stumps {
         ///        body { margin: 0 0 0 0; padding: 0 0 0 0; background-color: #e0e0e0; font-family: &quot;Segoe UI&quot;, Helvetica, Arial, Sans-Serif; height: 100%; } 
         ///        p { font-size: 14px; margin-top: 0; padding-top: 0; }
         ///        a { color: #50cfe2; text-decoration: none; }
-        ///        .navbar { background-color: #50cfe2; padding: 0; margin: 0; height: 50px; }
+        ///        .navbar { background-color: #3c405e; padding: 0; margin: 0; height: 50px; }
         ///   [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string PageInternalServerError {
@@ -244,11 +244,20 @@ namespace Stumps {
         ///        body { margin: 0 0 0 0; padding: 0 0 0 0; background-color: #e0e0e0; font-family: &quot;Segoe UI&quot;, Helvetica, Arial, Sans-Serif; height: 100%; } 
         ///        p { font-size: 14px; margin-top: 0; padding-top: 0; }
         ///        a { color: #50cfe2; text-decoration: none; }
-        ///        .navbar { background-color: #50cfe2; padding: 0; margin: 0; height: 50 [rest of string was truncated]&quot;;.
+        ///        .navbar { background-color: #3c405e; padding: 0; margin: 0; height: 50 [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string PageNotFound {
             get {
                 return ResourceManager.GetString("PageNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The port is already in use..
+        /// </summary>
+        internal static string PortIsInUseError {
+            get {
+                return ResourceManager.GetString("PortIsInUseError", resourceCulture);
             }
         }
         
@@ -258,6 +267,15 @@ namespace Stumps {
         internal static string RegExPattern {
             get {
                 return ResourceManager.GetString("RegExPattern", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A stump with the same name already exists..
+        /// </summary>
+        internal static string StumpNameUsedError {
+            get {
+                return ResourceManager.GetString("StumpNameUsedError", resourceCulture);
             }
         }
     }

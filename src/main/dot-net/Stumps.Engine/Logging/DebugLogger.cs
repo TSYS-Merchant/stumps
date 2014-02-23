@@ -1,21 +1,39 @@
-﻿namespace Stumps.Logging {
+﻿namespace Stumps.Logging
+{
 
     using System;
     using System.Diagnostics;
 
-    public class DebugLogger : ILogger {
+    /// <summary>
+    ///     A class that logs information to the debug console.
+    /// </summary>
+    public class DebugLogger : ILogger
+    {
 
-        public void LogInfo(string data) {
+        /// <summary>
+        ///     Log generic debug information.
+        /// </summary>
+        /// <param name="data">The data to log.</param>
+        public void LogInfo(string data)
+        {
 
-            if ( data != null ) {
+            if (data != null)
+            {
                 Debug.WriteLine(Resources.LogInformationPrefix + data);
             }
 
         }
 
-        public void LogException(string location, Exception exception) {
+        /// <summary>
+        ///     Logs the occurance of an exception.
+        /// </summary>
+        /// <param name="location">The location the exception was logged at.</param>
+        /// <param name="exception">The exception being logged.</param>
+        public void LogException(string location, Exception exception)
+        {
 
-            if ( location != null && exception != null ) {
+            if (location != null && exception != null)
+            {
                 Debug.WriteLine(Resources.LogExceptionPrefix + "(" + location + ") " + exception.ToString());
             }
 

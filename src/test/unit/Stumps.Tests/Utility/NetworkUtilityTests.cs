@@ -1,40 +1,42 @@
-﻿namespace Stumps.Utility {
+﻿namespace Stumps.Utility
+{
 
     using System.Net.NetworkInformation;
     using NUnit.Framework;
 
     [TestFixture]
-    public class NetworkUtilityTests {
+    public class NetworkUtilityTests
+    {
 
         [Test]
-        public void FindRandomOpenPort_FindsValidPort() {
+        public void FindRandomOpenPort_ReturnsPort()
+        {
+            var port = NetworkUtility.FindRandomOpenPort();
+            Assert.IsNotNull(port);
+
+        }
+
+        [Test]
+        public void FindRandomOpenPort_FindsValidPort()
+        {
 
             var port = NetworkUtility.FindRandomOpenPort();
-            Assert.IsFalse(isPortInUse(port));
+            Assert.IsFalse(IsPortInUse(port));
 
         }
 
-        [Test]
-        public void FindRandomOpenPort_DiscoveredPortsTendToBeRandom() {
+        private static bool IsPortInUse(int port)
+        {
 
-            var port1 = NetworkUtility.FindRandomOpenPort();
-            var port2 = NetworkUtility.FindRandomOpenPort();
-            var port3 = NetworkUtility.FindRandomOpenPort();
-
-            var arePortsEqual = (port1 != port2 || port2 != port3 || port1 != port3);
-            Assert.IsFalse(arePortsEqual);
-
-        }
-
-        private bool isPortInUse(int port) {
-
-            var ipGlobal = IPGlobalProperties.GetIPGlobalProperties();
-            var connections = ipGlobal.GetActiveTcpConnections();
+            var globalIpProperties = IPGlobalProperties.GetIPGlobalProperties();
+            var connections = globalIpProperties.GetActiveTcpConnections();
 
             var inUse = false;
 
-            foreach ( var connection in connections ) {
-                if ( connection.LocalEndPoint.Port == port ) {
+            foreach (var connection in connections)
+            {
+                if (connection.LocalEndPoint.Port == port)
+                {
                     inUse = true;
                     break;
                 }

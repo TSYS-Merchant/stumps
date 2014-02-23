@@ -1,32 +1,47 @@
-﻿namespace Stumps.Proxy {
+﻿namespace Stumps.Proxy
+{
 
     using System.IO;
     using System.Text;
     using NUnit.Framework;
 
     [TestFixture]
-    public class BodyContentRuleTests {
+    public class BodyContentRuleTests
+    {
 
         [Test]
-        public void Constructor_ValueIsNull_Accepted() {
+        public void Constructor_ListOfStrings_Accepted()
+        {
+
+            Assert.DoesNotThrow(
+                () => new BodyContentRule(
+                          new string[]
+                          {
+                              "test1", "test2"
+                          }));
+
+        }
+
+        [Test]
+        public void Constructor_ValueIsNull_Accepted()
+        {
 
             Assert.DoesNotThrow(() => new BodyContentRule(null));
 
         }
 
         [Test]
-        public void Constructor_ListOfStrings_Accepted() {
+        public void IsMatch_BinaryContentWithTextString_ReturnsFalse()
+        {
 
-            Assert.DoesNotThrow(() => new BodyContentRule(new string[] { "test1", "test2" }));
+            using (var request = CreateBinaryRequest())
+            {
 
-        }
-
-        [Test]
-        public void IsMatch_BinaryContentWithTextString_ReturnsFalse() {
-
-            using ( var request = createBinaryRequest() ) {
-
-                var rule = new BodyContentRule(new string[] { "passed" });
+                var rule = new BodyContentRule(
+                    new string[]
+                    {
+                        "passed"
+                    });
                 Assert.IsFalse(rule.IsMatch(request));
 
             }
@@ -34,33 +49,78 @@
         }
 
         [Test]
-        public void IsMatch_ContainsTextWithMatchingString_ReturnsTrue() {
+        public void IsMatch_ContainsTextInversedWithMatchingText_ReturnsTrue()
+        {
 
-            var rule = new BodyContentRule(new string[] {
-                "passed",
-                "AAA"
-            });
+            var rule = new BodyContentRule(
+                new string[]
+                {
+                    "not:failed"
+                });
 
-            using ( var request = createTextRequest("passed") ) {
+            using (var request = CreateTextRequest("passed"))
+            {
+
+                Assert.IsTrue(rule.IsMatch(request));
+
+            }
+
+        }
+
+        [Test]
+        public void IsMatch_ContainsTextInversedWithNonMatchingText_ReturnsFalse()
+        {
+
+            var rule = new BodyContentRule(
+                new string[]
+                {
+                    "not:passed"
+                });
+
+            using (var request = CreateTextRequest("passed"))
+            {
+
+                Assert.IsFalse(rule.IsMatch(request));
+
+            }
+
+        }
+
+        [Test]
+        public void IsMatch_ContainsTextWithMatchingString_ReturnsTrue()
+        {
+
+            var rule = new BodyContentRule(
+                new string[]
+                {
+                    "passed", "AAA"
+                });
+
+            using (var request = CreateTextRequest("passed"))
+            {
                 Assert.IsTrue(rule.IsMatch(request));
             }
 
         }
 
         [Test]
-        public void IsMatch_ContainsTextWithNonMatchingString_ReturnsFalse() {
+        public void IsMatch_ContainsTextWithNonMatchingString_ReturnsFalse()
+        {
 
-            var ruleCaseMatches = new BodyContentRule(new string[] {
-                "failed",
-                "AAA"
-            });
+            var ruleCaseMatches = new BodyContentRule(
+                new string[]
+                {
+                    "failed", "AAA"
+                });
 
-            var ruleCaseDoesNotMatch = new BodyContentRule(new string[] {
-                "PASSED",
-                "AAA"
-            });
+            var ruleCaseDoesNotMatch = new BodyContentRule(
+                new string[]
+                {
+                    "PASSED", "AAA"
+                });
 
-            using ( var request = createTextRequest("passed") ) {
+            using (var request = CreateTextRequest("passed"))
+            {
 
                 Assert.IsFalse(ruleCaseMatches.IsMatch(request));
 
@@ -72,28 +132,17 @@
         }
 
         [Test]
-        public void IsMatch_ContainsTextInversedWithMatchingText_ReturnsTrue() {
+        public void IsMatch_RegexTextInversedWithMatchingString_ReturnsFalse()
+        {
 
-            var rule = new BodyContentRule(new string[] {
-                "not:failed",
-            });
+            var rule = new BodyContentRule(
+                new string[]
+                {
+                    "not:regex:AA.*ssed.*D"
+                });
 
-            using ( var request = createTextRequest("passed") ) {
-
-                Assert.IsTrue(rule.IsMatch(request));
-
-            }
-
-        }
-
-        [Test]
-        public void IsMatch_ContainsTextInversedWithNonMatchingText_ReturnsFalse() {
-
-            var rule = new BodyContentRule(new string[] {
-                "not:passed",
-            });
-
-            using ( var request = createTextRequest("passed") ) {
+            using (var request = CreateTextRequest("passed"))
+            {
 
                 Assert.IsFalse(rule.IsMatch(request));
 
@@ -102,43 +151,17 @@
         }
 
         [Test]
-        public void IsMatch_RegexTextInversedWithMatchingString_ReturnsFalse() {
+        public void IsMatch_RegexTextInversedWithNonMatchingString_ReturnsTrue()
+        {
 
-            var rule = new BodyContentRule(new string[] {
-                "not:regex:AA.*ssed.*D"
-            });
+            var rule = new BodyContentRule(
+                new string[]
+                {
+                    "not:regex:AA.*ssed.*D"
+                });
 
-            using ( var request = createTextRequest("passed") ) {
-
-                Assert.IsFalse(rule.IsMatch(request));
-
-            }
-
-        }
-
-        [Test]
-        public void IsMatch_RegexTextInversedWithNonMatchingString_ReturnsTrue() {
-
-            var rule = new BodyContentRule(new string[] {
-                "not:regex:AA.*ssed.*D"
-            });
-
-            using ( var request = createTextRequest("failed") ) {
-
-                Assert.IsTrue(rule.IsMatch(request));
-
-            }
-
-        }
-        
-        [Test]
-        public void IsMatch_RegexTextWithMatchingString_ReturnsTrue() {
-
-            var rule = new BodyContentRule(new string[] {
-                "regex:AA.*ssed.*D"
-            });
-
-            using ( var request = createTextRequest("passed") ) {
+            using (var request = CreateTextRequest("failed"))
+            {
 
                 Assert.IsTrue(rule.IsMatch(request));
 
@@ -147,13 +170,36 @@
         }
 
         [Test]
-        public void IsMatch_RegexTextWithNonMatchingString_ReturnsFalse() {
+        public void IsMatch_RegexTextWithMatchingString_ReturnsTrue()
+        {
 
-            var rule = new BodyContentRule(new string[] {
-                "regex:AA.*ssed.*D"
-            });
+            var rule = new BodyContentRule(
+                new string[]
+                {
+                    "regex:AA.*ssed.*D"
+                });
 
-            using ( var request = createTextRequest("failed") ) {
+            using (var request = CreateTextRequest("passed"))
+            {
+
+                Assert.IsTrue(rule.IsMatch(request));
+
+            }
+
+        }
+
+        [Test]
+        public void IsMatch_RegexTextWithNonMatchingString_ReturnsFalse()
+        {
+
+            var rule = new BodyContentRule(
+                new string[]
+                {
+                    "regex:AA.*ssed.*D"
+                });
+
+            using (var request = CreateTextRequest("failed"))
+            {
 
                 Assert.IsFalse(rule.IsMatch(request));
 
@@ -161,11 +207,16 @@
 
         }
 
-        private MockHttpRequest createBinaryRequest() {
+        private MockHttpRequest CreateBinaryRequest()
+        {
 
-            var buffer = new byte[] { 200, 172, 203, 199, 166, 180, 7 };
+            var buffer = new byte[]
+            {
+                200, 172, 203, 199, 166, 180, 7
+            };
             var stream = new MemoryStream(buffer);
-            var request = new MockHttpRequest() {
+            var request = new MockHttpRequest
+            {
                 InputStream = stream
             };
 
@@ -173,12 +224,14 @@
 
         }
 
-        private MockHttpRequest createTextRequest(string text) {
+        private MockHttpRequest CreateTextRequest(string text)
+        {
 
             var myString = "AAAAAABBBBBB" + text + "CCCCCCDDDDDD";
             var buffer = Encoding.UTF8.GetBytes(myString);
             var stream = new MemoryStream(buffer);
-            var request = new MockHttpRequest() {
+            var request = new MockHttpRequest
+            {
                 InputStream = stream
             };
 

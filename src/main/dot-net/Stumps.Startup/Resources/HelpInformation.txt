@@ -1,6 +1,3 @@
-Stumps
+Usage: stumps [-c ConfigurationFile]
 
-Usage: stumps [/i] [/u]
-
-/i   Installs Stumps as a service
-/u   Removes the Stumps service.
+-c   Specifies the configuration file to use for the instance.

@@ -1,30 +1,52 @@
-﻿namespace Stumps.Http {
+﻿namespace Stumps.Http
+{
 
     using System;
     using System.Globalization;
     using System.Net;
-    using Stumps.Logging;
     using System.Threading;
+    using Stumps.Logging;
 
-    internal sealed class HttpServer : IDisposable {
+    /// <summary>
+    ///     A class that represents a basic HTTP server.
+    /// </summary>
+    internal sealed class HttpServer : IDisposable
+    {
 
-        private readonly ILogger _logger;
         private readonly IHttpHandler _handler;
+        private readonly ILogger _logger;
         private readonly int _port;
         private HttpListener _listener;
         private bool _started;
         private Thread _thread;
 
-        public event EventHandler<StumpsContextEventArgs> RequestStarting;
-        public event EventHandler<StumpsContextEventArgs> RequestFinishing;
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="T:Stumps.Http.HttpServer"/> class.
+        /// </summary>
+        /// <param name="port">The port the HTTP server is using to listen for traffic.</param>
+        /// <param name="handler">The default <see cref="T:Stumps.Http.IHttpHandler"/> executed when receiving traffic.</param>
+        /// <param name="logger">The <see cref="T:Stumps.Logging.ILogger"/> used by the instance.</param>
+        /// <exception cref="System.ArgumentNullException">
+        /// <paramref name="logger"/> is <c>null</c>.
+        /// or
+        /// <paramref name="handler"/> is <c>null</c>.
+        /// </exception>
+        /// <exception cref="System.ArgumentOutOfRangeException"><paramref name="port"/> exceeds the allowed TCP port range.</exception>
+        public HttpServer(int port, IHttpHandler handler, ILogger logger)
+        {
 
-        public HttpServer(int port, IHttpHandler handler, ILogger logger) {
-
-            if ( logger == null ) {
+            if (logger == null)
+            {
                 throw new ArgumentNullException("logger");
             }
 
-            if ( port < IPEndPoint.MinPort || port > IPEndPoint.MaxPort ) {
+            if (handler == null)
+            {
+                throw new ArgumentNullException("handler");
+            }
+
+            if (port < IPEndPoint.MinPort || port > IPEndPoint.MaxPort)
+            {
                 throw new ArgumentOutOfRangeException("port");
             }
 
@@ -35,13 +57,73 @@
 
         }
 
-        public bool Started {
+        /// <summary>
+        /// Finalizes an instance of the <see cref="T:Stumps.Http.HttpServer"/> class.
+        /// </summary>
+        ~HttpServer()
+        {
+            Dispose();
+        }
+
+        /// <summary>
+        /// Occurs when an incomming HTTP request is finishing the processing.
+        /// </summary>
+        public event EventHandler<StumpsContextEventArgs> RequestFinishing;
+
+        /// <summary>
+        /// Occurs when an incomming HTTP request begins processing.
+        /// </summary>
+        public event EventHandler<StumpsContextEventArgs> RequestStarting;
+
+        /// <summary>
+        ///     Gets TCP port used by the instance to listen for HTTP requests.
+        /// </summary>
+        /// <value>
+        ///     The port used to listen for HTTP requets.
+        /// </value>
+        public int Port
+        {
+            get { return _port; }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the instance is started.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if the instance is started; otherwise, <c>false</c>.
+        /// </value>
+        public bool Started
+        {
             get { return _started; }
         }
 
-        public void StartListening() {
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
 
-            if ( _started ) {
+            if (_listener.IsListening)
+            {
+                _listener.Stop();
+            }
+
+            var disposable = _listener as IDisposable;
+            if (disposable != null)
+            {
+                disposable.Dispose();
+            }
+
+        }
+
+        /// <summary>
+        ///     Starts the instance listening for HTTP requests.
+        /// </summary>
+        public void StartListening()
+        {
+
+            if (_started)
+            {
                 return;
             }
 
@@ -49,112 +131,129 @@
 
             _listener = new HttpListener();
 
-            var url = String.Format(System.Globalization.CultureInfo.InvariantCulture, Resources.HttpServerPattern, _port);
+            var url = string.Format(CultureInfo.InvariantCulture, Resources.HttpServerPattern, _port);
 
             _listener.Prefixes.Add(url);
             _listener.Start();
             _listener.AuthenticationSchemes = AuthenticationSchemes.Anonymous;
 
-            _thread = new Thread(waitForConnections);
+            _thread = new Thread(WaitForConnections);
             _thread.Start();
 
         }
 
-        public void StopListening() {
-            try {
+        /// <summary>
+        ///     Stops the instance from listening for HTTP requests.
+        /// </summary>
+        public void StopListening()
+        {
+            try
+            {
                 _started = false;
                 _listener.Stop();
                 _thread.Join();
             }
-            catch ( ObjectDisposedException ) {
+            catch (ObjectDisposedException)
+            {
             }
         }
 
-        private void processAsyncRequest(IAsyncResult asyncResult) {
+        /// <summary>
+        ///     Processes the incoming HTTP request asynchronously.
+        /// </summary>
+        /// <param name="asyncResult">The asynchronous result.</param>
+        private void ProcessAsyncRequest(IAsyncResult asyncResult)
+        {
 
-            if ( _listener == null ) {
+            if (_listener == null)
+            {
                 return;
             }
 
-            try {
+            try
+            {
+                // Gets the HTTP context for the request
                 var context = _listener.EndGetContext(asyncResult);
 
-                _logger.LogInfo("=> " + Thread.CurrentThread.ManagedThreadId.ToString(CultureInfo.InvariantCulture) + " => " + context.Request.RawUrl);
+                _logger.LogInfo(
+                    "=> " + Thread.CurrentThread.ManagedThreadId.ToString(CultureInfo.InvariantCulture) + " => " +
+                    context.Request.RawUrl);
 
                 StumpsHttpContext stumpsContext = null;
 
-                try {
+                try
+                {
+                    // Create a new StumpsHttpContext
                     stumpsContext = new StumpsHttpContext(context);
 
-                    if ( this.RequestStarting != null ) {
+                    if (this.RequestStarting != null)
+                    {
                         this.RequestStarting(this, new StumpsContextEventArgs(stumpsContext));
                     }
 
+                    // Process the request through the HTTP handler
                     _handler.ProcessRequest(stumpsContext);
 
-                    if ( this.RequestFinishing != null ) {
+                    if (this.RequestFinishing != null)
+                    {
                         this.RequestFinishing(this, new StumpsContextEventArgs(stumpsContext));
                     }
 
                     // Set the status code
-                    ((StumpsHttpResponse) stumpsContext.Response).ListenerResponse.StatusCode =
+                    ((StumpsHttpResponse)stumpsContext.Response).ListenerResponse.StatusCode =
                         stumpsContext.Response.StatusCode;
-                    ((StumpsHttpResponse) stumpsContext.Response).ListenerResponse.StatusDescription =
+
+                    // Adjust the status description
+                    ((StumpsHttpResponse)stumpsContext.Response).ListenerResponse.StatusDescription =
                         stumpsContext.Response.StatusDescription;
 
                     // Use HTTP chunked transfer encoding if requested
-                    ((StumpsHttpResponse) stumpsContext.Response).ListenerResponse.SendChunked =
+                    ((StumpsHttpResponse)stumpsContext.Response).ListenerResponse.SendChunked =
                         stumpsContext.Response.SendChunked;
-                    ((StumpsHttpResponse) stumpsContext.Response).ListenerResponse.ContentLength64 =
+
+                    // Adjust the content length as necessary
+                    ((StumpsHttpResponse)stumpsContext.Response).ListenerResponse.ContentLength64 =
                         stumpsContext.Response.OutputStream.Length;
 
-                    if ( this.RequestFinishing != null ) {
-                        this.RequestFinishing(this, new StumpsContextEventArgs(stumpsContext));
-                    }
-
+                    // End the request
                     stumpsContext.End();
+
                 }
-                finally {
-                    if ( stumpsContext != null ) {
+                finally
+                {
+                    if (stumpsContext != null)
+                    {
                         stumpsContext.Dispose();
                     }
                 }
 
-                _logger.LogInfo("<= " + Thread.CurrentThread.ManagedThreadId.ToString(CultureInfo.InvariantCulture) + " <= " + context.Request.RawUrl);
+                _logger.LogInfo(
+                    "<= " + Thread.CurrentThread.ManagedThreadId.ToString(CultureInfo.InvariantCulture) + " <= " +
+                    context.Request.RawUrl);
 
             }
-            catch ( HttpListenerException ) {
+            catch (HttpListenerException)
+            {
             }
-            catch ( InvalidOperationException ) {
+            catch (InvalidOperationException)
+            {
             }
 
         }
 
-        private void waitForConnections() {
+        /// <summary>
+        ///     Wait for incoming HTTP connections.
+        /// </summary>
+        private void WaitForConnections()
+        {
 
-            while ( _started && _listener.IsListening ) {
-                var result = _listener.BeginGetContext(processAsyncRequest, null);
+            while (_started && _listener.IsListening)
+            {
+                var result = _listener.BeginGetContext(ProcessAsyncRequest, null);
                 result.AsyncWaitHandle.WaitOne();
             }
 
         }
-
-        #region IDisposable Members
-
-        public void Dispose() {
-
-            if ( _listener.IsListening ) {
-                _listener.Stop();
-            }
-
-            var disposable = _listener as IDisposable;
-            if ( disposable != null ) {
-                disposable.Dispose();
-            }
-
-        }
-
-        #endregion
 
     }
 

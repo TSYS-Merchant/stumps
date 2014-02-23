@@ -7,8 +7,8 @@
 	.toolbar a
 	{
 		display: inline-block;
-		padding: 0px 0px 0px 0px;
-		margin: 0px 0px 0px 0px;
+		padding: 0 0 0 0;
+		margin: 0 0 0 0;
 		font-size: 12px;
         color: #808080;
 		text-decoration: none;
@@ -39,7 +39,7 @@
 
 	.toolbar img
 	{
-		border: 0px none;
+		border: 0 none;
 		margin-right: 5px;
 	}
 
@@ -50,8 +50,8 @@
 	.toolbar label
 	{
 		display: inline-block;
-		padding: 0px 0px 0px 0px;
-		margin: 0px 0px 0px 0px;
+		padding: 0 0 0 0;
+		margin: 0 0 0 0;
 		font-size: 12px;
 		color: #808080;
 		text-decoration: none;

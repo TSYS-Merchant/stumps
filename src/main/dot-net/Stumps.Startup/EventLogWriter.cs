@@ -1,13 +1,19 @@
-﻿namespace Stumps {
+﻿namespace Stumps
+{
 
-    using System;
+    public class EventLogWriter : IMessageWriter
+    {
 
-    public class EventLogWriter : IMessageWriter {
-
-        public void WriteError(string value) {
+        public void WriteDebug(string message)
+        {
         }
 
-        public void WriteMessage(string value) {
+        public void WriteError(string message)
+        {
+        }
+
+        public void Information(string message)
+        {
         }
 
     }

@@ -98,6 +98,8 @@
 			<tr>
 				<td>
 					<label for="stmp_name">Name</label><input type="text" id="stmp_name" value="@Model.StumpName" />
+                </td>              
+                <td>
 					<label for="stmp_category">Category</label><select id="stmp_category" /><option value="uncategorized">Uncategorized</option></select>
 				</td>
 				<td class="right"><label class="button" id="saveButton">@Model.CreateButtonText</label></td>
@@ -259,8 +261,12 @@ function ensureSingleTextCriteria() {
 }
 
 @If.LoadStump
-function saveStump() {
-	
+function saveStump() {	
+
+	if ( $('.advice').is(':visible') ) {
+        return;
+    }
+
 	if ( lockSaveStump ) {
 		return;
 	}
@@ -304,6 +310,10 @@ function saveStump() {
 @If.LoadRecord
 function saveStump() {
 	
+	if ( $('.advice').is(':visible') ) {
+        return;
+    }
+
 	if ( lockSaveStump ) {
 		return;
 	}
@@ -326,7 +336,7 @@ function saveStump() {
 		  "ResponseStatusDescription" : $('#resstatusdesc_text').val(),
 		  "StumpId" : "@Model.StumpId"
 		};
-
+		 
     $.ajax({
         type: 'POST',
         contentType: 'application/json; charset-utf-8',
@@ -348,13 +358,66 @@ function saveButton_success() {
 	location.href = "/proxy/@Model.ProxyId/stumps";
 }
 
-function saveButton_error(a, b, c) {
+function saveButton_error(event, request, settings) {
 	location.href = "/proxy/@Model.ProxyId/stumps";
 }
 
 function saveButton_complete() {
 	lockSaveStump = false;
 }
+
+function showAdvice(obj, location, msg) {
+    var img = document.createElement('IMG');
+    img.setAttribute('src', '/content/exclamation-error-b.png');
+    img.setAttribute('class', 'stumpAdvice');
+    img.setAttribute('id', 'icon' + location);
+    img.setAttribute('title', msg);
+    img.setAttribute('alt', msg);
+
+    $('#singleAdvice' + location).stop(true, false).remove(); // remove any prev msg
+    $('#icon' + location).stop(true, false).remove();
+    $('<span id="singleAdvice' + location + '" class="stumpAdvice"></span>').insertAfter(obj);
+    $('#singleAdvice' + location).before(img);
+}
+
+$('#stmp_name').blur(function() {
+    var location = 'stmp_name';
+	$('#singleAdvice' + location).hide();   
+    $('#icon' + location).hide();
+
+	var currentStumpName = '@Model.StumpName';
+	if (currentStumpName.toUpperCase() === $(this).val().toUpperCase()) {
+		return;
+	}
+
+    // verifies a user does not attempt to create a stump with a blank name
+    if(!$(this).val() || 0 === $(this).val().length) {
+        showAdvice('#stmp_name', location, "Name required");
+		return;
+    }
+
+	if ($(this).val().length > 50) {
+        showAdvice('#stmp_name', location, "Max name length is 50 characters.");
+		return;
+    }
+    
+	$.ajax({
+        type: 'GET',
+        contentType: 'application/json; charset-utf-8',
+        url: '/api/proxy/@Model.ProxyId/stumps/isStumpNameAvailable/' + $(this).val(),
+        cache: false,
+        async: false,
+        success: function(msg) {
+            if ( !msg.StumpNameIsAvailable ) {
+                showAdvice('#stmp_name', location, "Stump name already in use.");
+            }
+        },
+        error: function() {
+            showAdvice('#stmp_name', location, "Danger, DANGER, Will Robinson!");
+        }
+    });
+    
+});
 
 function saveMatchText() {
 

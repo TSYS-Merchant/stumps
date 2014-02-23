@@ -1,69 +1,82 @@
-﻿namespace Stumps.Proxy {
+﻿namespace Stumps.Proxy
+{
 
     using System;
     using System.IO;
     using NUnit.Framework;
 
     [TestFixture]
-    public class BodyMatchRuleTests {
+    public class BodyMatchRuleTests
+    {
 
         [Test]
-        public void IsMatch_WithDifferentBodySizes_ReturnsFalse() {
+        public void IsMatch_GivenBodyDifferentFromRuleButSameSize_ReturnsFalse()
+        {
 
-            var ruleBody = generateByteArray(50, Environment.TickCount);
-            var requestBody = generateByteArray(10, Environment.TickCount + 1);
+            var ruleBody = GenerateByteArray(50, Environment.TickCount);
+            var requestBody = GenerateByteArray(50, Environment.TickCount + 1);
 
             var rule = new BodyMatchRule(ruleBody);
 
-            using ( var request = createRequest(requestBody) ) {
+            using (var request = CreateRequest(requestBody))
+            {
                 Assert.IsFalse(rule.IsMatch(request));
             }
 
         }
 
         [Test]
-        public void IsMatch_GivenBodyDifferentFromRuleButSameSize_ReturnsFalse() {
+        public void IsMatch_GivenBodyIsSameAsRule_ReturnsTrue()
+        {
 
-            var ruleBody = generateByteArray(50, Environment.TickCount);
-            var requestBody = generateByteArray(50, Environment.TickCount + 1);
-
-            var rule = new BodyMatchRule(ruleBody);
-
-            using ( var request = createRequest(requestBody) ) {
-                Assert.IsFalse(rule.IsMatch(request));
-            }
-
-        }
-
-        [Test]
-        public void IsMatch_GivenBodyIsSameAsRule_ReturnsTrue() {
-
-            var body = generateByteArray(50, Environment.TickCount);
+            var body = GenerateByteArray(50, Environment.TickCount);
 
             var rule = new BodyMatchRule(body);
 
-            using ( var request = createRequest(body) ) {
+            using (var request = CreateRequest(body))
+            {
                 Assert.IsTrue(rule.IsMatch(request));
             }
 
         }
 
-        private byte[] generateByteArray(int length, int seed) {
+        [Test]
+        public void IsMatch_WithDifferentBodySizes_ReturnsFalse()
+        {
+
+            var ruleBody = GenerateByteArray(50, Environment.TickCount);
+            var requestBody = GenerateByteArray(10, Environment.TickCount + 1);
+
+            var rule = new BodyMatchRule(ruleBody);
+
+            using (var request = CreateRequest(requestBody))
+            {
+                Assert.IsFalse(rule.IsMatch(request));
+            }
+
+        }
+
+        private MockHttpRequest CreateRequest(byte[] requestBody)
+        {
+
+            var request = new MockHttpRequest
+            {
+                InputStream = new MemoryStream(requestBody)
+            };
+
+            return request;
+
+        }
+
+        private byte[] GenerateByteArray(int length, int seed)
+        {
 
             var buffer = new byte[length];
-            
+
             var rnd = new Random(seed);
             rnd.NextBytes(buffer);
 
             return buffer;
-
-        }
-
-        private MockHttpRequest createRequest(byte[] requestBody) {
-
-            var request = new MockHttpRequest();
-            request.InputStream = new MemoryStream(requestBody);
-            return request;
 
         }
 

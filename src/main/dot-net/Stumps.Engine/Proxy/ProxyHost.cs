@@ -1,30 +1,45 @@
-﻿namespace Stumps.Proxy {
+﻿namespace Stumps.Proxy
+{
 
     using System;
-    using System.Collections.Generic;
     using System.Collections.Concurrent;
-    using System.Globalization;
+    using System.Collections.Generic;
     using System.Net;
-    using Stumps.Logging;
     using Stumps.Data;
+    using Stumps.Logging;
     using Stumps.Utility;
-    using System.Text.RegularExpressions;
 
-    public class ProxyHost : IProxyHost {
+    /// <summary>
+    ///     A class that represents a multitenant host of proxy servers.
+    /// </summary>
+    public class ProxyHost : IProxyHost
+    {
 
-        private readonly ConcurrentDictionary<string, ProxyServer> _proxies;
-        private readonly ILogger _logger;
         private readonly IDataAccess _dataAccess;
+        private readonly ILogger _logger;
+        private readonly ConcurrentDictionary<string, ProxyServer> _proxies;
         private bool _disposed;
-        private static CultureInfo cultureInfo;
 
-        public ProxyHost(ILogger logger, IDataAccess dataAccess) {
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="T:Stumps.Proxy.ProxyHost"/> class.
+        /// </summary>
+        /// <param name="logger">The logger used by the instance.</param>
+        /// <param name="dataAccess">The data access provider used by the instance.</param>
+        /// <exception cref="System.ArgumentNullException">
+        /// <paramref name="logger"/> is <c>null</c>.
+        /// or
+        /// <paramref name="dataAccess"/> is <c>null</c>.
+        /// </exception>
+        public ProxyHost(ILogger logger, IDataAccess dataAccess)
+        {
 
-            if ( logger == null ) {
+            if (logger == null)
+            {
                 throw new ArgumentNullException("logger");
             }
 
-            if ( dataAccess == null ) {
+            if (dataAccess == null)
+            {
                 throw new ArgumentNullException("dataAccess");
             }
 
@@ -33,62 +48,48 @@
 
             _proxies = new ConcurrentDictionary<string, ProxyServer>(StringComparer.OrdinalIgnoreCase);
         }
-        
+
         /// <summary>
-        /// This method tries to create a new URI using an input string.  If the URI is created, it checks to see if it has http or https as the protocol.  
-        /// The method returns false if the URI does not have a http or https protocol, or if a URI cannot be created from the input string.
+        ///     Finalizes an instance of the <see cref="T:Stumps.Proxy.ProxyHost"/> class.
         /// </summary>
-        /// <param name="hostName"></param>
-        /// <returns>bool</returns>
-        public static bool containsProtocol(string hostName) {
-            try {
-                Uri uri = new Uri(hostName);
-                return (uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps);
-            }
-            catch {
-                return false;
-            }
+        ~ProxyHost()
+        {
+            Dispose(false);
         }
 
         /// <summary>
-        /// This method tries to create a new URI using an input string.  If the URI is created, it checks to see if it has http or https as the protocol.  
-        /// The method returns false if the URI does not have a https protocol, or if a URI cannot be created from the input string. 
+        ///     Creates a new proxy server.
         /// </summary>
-        /// <param name="hostName"></param>
-        /// <returns>bool</returns>
-        public static bool isHttps(string hostName) {
-            try {
-                Uri uri = new Uri(hostName);
-                return (uri.Scheme == Uri.UriSchemeHttps);
-            } catch {
-                return false;
-            }
-        }
-                
-        public ProxyEnvironment CreateProxy(string externalHostName, int port, bool useSsl, bool autoStart) {
-            
-            if ( string.IsNullOrWhiteSpace(externalHostName) ) {
+        /// <param name="externalHostName">The name of the external host served by the proxy.</param>
+        /// <param name="port">The TCP used to listen for incomming HTTP requests.</param>
+        /// <param name="useSsl"><c>true</c> if the external host requires SSL.</param>
+        /// <param name="autoStart"><c>true</c> to automatically start the proxy server.</param>
+        /// <returns>
+        ///     A <see cref="T:Stumps.Proxy.ProxyEnvironment" /> represeting the new proxy server.
+        /// </returns>
+        /// <exception cref="System.ArgumentNullException"><paramref name="externalHostName"/> is null</exception>
+        /// <exception cref="System.ArgumentOutOfRangeException"><paramref name="port"/> exceeds the allowed TCP port range.</exception>
+        /// <exception cref="StumpsNetworkException">The port is already in use.</exception>
+        public ProxyEnvironment CreateProxy(string externalHostName, int port, bool useSsl, bool autoStart)
+        {
+
+            if (string.IsNullOrWhiteSpace(externalHostName))
+            {
                 throw new ArgumentNullException("externalHostName");
             }
 
-            if ( port < IPEndPoint.MinPort || port > IPEndPoint.MaxPort ) {
+            if (port < IPEndPoint.MinPort || port > IPEndPoint.MaxPort)
+            {
                 throw new ArgumentOutOfRangeException("port");
             }
-            
-            // If the user mistakenly puts in http:// or https://, grab just the domain.  If it's https://, then the UseSsl value will be automatically set to true.
-            if(containsProtocol(externalHostName)) {
-                Uri externalHost = new Uri(externalHostName);
-                string domain = externalHost.Host;
 
-                if (isHttps(externalHostName)) {
-                    externalHostName = domain;
-                    useSsl = true;
-                } else {
-                    externalHostName = domain;
-                }
-             }
+            if (NetworkUtility.IsPortBeingUsed(port))
+            {
+                throw new StumpsNetworkException(Resources.PortIsInUseError);
+            }
 
-            var proxyEntity = new ProxyServerEntity() {
+            var proxyEntity = new ProxyServerEntity
+            {
                 AutoStart = autoStart,
                 ExternalHostName = externalHostName,
                 Port = port,
@@ -98,43 +99,74 @@
 
             _dataAccess.ProxyServerCreate(proxyEntity);
 
-            unwrapAndRegisterProxy(proxyEntity);
+            UnwrapAndRegisterProxy(proxyEntity);
 
             var server = _proxies[proxyEntity.ProxyId];
 
-            if ( autoStart ) {
+            if (autoStart)
+            {
                 server.Start();
             }
 
             return server.Environment;
         }
 
-        public void DeleteProxy(string proxyId) {
+        /// <summary>
+        ///     Deletes an existing proxy server.
+        /// </summary>
+        /// <param name="proxyId">The unique identifier for the proxy.</param>
+        /// <exception cref="System.ArgumentNullException"><paramref name="proxyId"/> is <c>null</c>.</exception>
+        public void DeleteProxy(string proxyId)
+        {
 
-            if ( string.IsNullOrWhiteSpace(proxyId) ) {
+            if (string.IsNullOrWhiteSpace(proxyId))
+            {
                 throw new ArgumentNullException("proxyId");
             }
 
-            if ( _proxies.ContainsKey(proxyId) ) {
-                var hostName = _proxies[proxyId].Environment.ExternalHostName;
-
+            if (_proxies.ContainsKey(proxyId))
+            {
                 _proxies[proxyId].Stop();
                 _proxies[proxyId].Dispose();
 
-                ProxyServer server = null;
-                _proxies.TryRemove(proxyId, out server);
+                ProxyServer proxyServer;
+                _proxies.TryRemove(proxyId, out proxyServer);
 
-                _dataAccess.ProxyServerDelete(hostName);
+                _dataAccess.ProxyServerDelete(proxyId);
             }
 
         }
 
-        public IList<ProxyEnvironment> FindAll() {
+        /// <summary>
+        ///     Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
+
+            if (!_disposed)
+            {
+
+                this.Dispose(true);
+                GC.SuppressFinalize(this);
+
+            }
+
+        }
+
+        /// <summary>
+        ///     Finds all proxy servers represented by the instance.
+        /// </summary>
+        /// <returns>
+        ///     A generic list of <see cref="T:Stumps.Proxy.ProxyEnvironment" /> objects.
+        /// </returns>
+        public IList<ProxyEnvironment> FindAll()
+        {
 
             var environmentList = new List<ProxyEnvironment>();
             var pairs = _proxies.ToArray();
 
-            foreach ( var pair in pairs ) {
+            foreach (var pair in pairs)
+            {
                 environmentList.Add(pair.Value.Environment);
             }
 
@@ -142,14 +174,27 @@
 
         }
 
-        public ProxyEnvironment FindProxy(string proxyId) {
+        /// <summary>
+        ///     Finds the proxy server with the specified identifier.
+        /// </summary>
+        /// <param name="proxyId">The unique identifier for the proxy server.</param>
+        /// <returns>
+        ///     A <see cref="T:Stumps.Proxy.ProxyEnvironment" /> with the specified identifier.
+        /// </returns>
+        /// <remarks>
+        ///     A <c>null</c> value is returned if a proxy with the specified <paramref name="proxyId" />
+        ///     is not found.
+        /// </remarks>
+        public ProxyEnvironment FindProxy(string proxyId)
+        {
 
-            ProxyServer server = null;
             ProxyEnvironment environment = null;
 
+            ProxyServer server;
             _proxies.TryGetValue(proxyId, out server);
 
-            if ( server != null ) {
+            if (server != null)
+            {
                 environment = server.Environment;
             }
 
@@ -157,91 +202,112 @@
 
         }
 
-        public void Load() {
+        /// <summary>
+        ///     Loads all proxy servers from the data store.
+        /// </summary>
+        public void Load()
+        {
 
             var proxyEntities = _dataAccess.ProxyServerFindAll();
 
-            foreach ( var proxyEntity in proxyEntities ) {
-                unwrapAndRegisterProxy(proxyEntity);
+            foreach (var proxyEntity in proxyEntities)
+            {
+                UnwrapAndRegisterProxy(proxyEntity);
             }
 
         }
 
-        public void Start() {
+        /// <summary>
+        ///     Starts all proxy servers that are not currently running.
+        /// </summary>
+        public void Start()
+        {
 
-            foreach ( var server in _proxies ) {
-                if ( server.Value.Environment.AutoStart ) {
+            foreach (var server in _proxies)
+            {
+                if (server.Value.Environment.AutoStart)
+                {
                     server.Value.Start();
                 }
             }
 
         }
 
-        public void Start(string proxyId) {
+        /// <summary>
+        ///     Starts the proxy server with the specified unique identifier.
+        /// </summary>
+        /// <param name="proxyId">The unique identifier for the proxy server.</param>
+        /// <exception cref="System.ArgumentNullException"><paramref name="proxyId"/> is <c>null</c>.</exception>
+        public void Start(string proxyId)
+        {
 
-            if ( string.IsNullOrWhiteSpace(proxyId) ) {
+            if (string.IsNullOrWhiteSpace(proxyId))
+            {
                 throw new ArgumentNullException("proxyId");
             }
 
-            ProxyServer server = null;
+            ProxyServer server;
             _proxies.TryGetValue(proxyId, out server);
 
-            if ( server != null ) {
+            if (server != null)
+            {
                 server.Start();
             }
 
         }
 
-        public void Shutdown() {
+        /// <summary>
+        ///     Shuts down this instance and all started proxy servers.
+        /// </summary>
+        public void Shutdown()
+        {
 
-            foreach ( var keyPair in _proxies ) {
+            foreach (var keyPair in _proxies)
+            {
                 keyPair.Value.Stop();
             }
 
         }
 
-        public void Shutdown(string proxyId) {
+        /// <summary>
+        ///     Shut down the specified proxy server.
+        /// </summary>
+        /// <param name="proxyId">The unique identifier for the proxy server.</param>
+        /// <exception cref="System.ArgumentNullException"><paramref name="proxyId"/> is <c>null</c>.</exception>
+        public void Shutdown(string proxyId)
+        {
 
-            if ( string.IsNullOrWhiteSpace(proxyId) ) {
+            if (string.IsNullOrWhiteSpace(proxyId))
+            {
                 throw new ArgumentNullException("proxyId");
             }
 
-            ProxyServer server = null;
+            ProxyServer server;
             _proxies.TryGetValue(proxyId, out server);
 
-            if ( server != null ) {
+            if (server != null)
+            {
                 server.Stop();
             }
 
         }
 
-        private void unwrapAndRegisterProxy(ProxyServerEntity entity) {
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources.
+        /// </summary>
+        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        protected virtual void Dispose(bool disposing)
+        {
 
-            var environment = new ProxyEnvironment(entity.ExternalHostName, _dataAccess) {
-                Port = entity.Port,
-                UseSsl = entity.UseSsl,
-                AutoStart = entity.AutoStart,
-                ProxyId = entity.ProxyId
-            };
-
-            var server = new ProxyServer(environment, _logger);
-
-            environment.Stumps.Load();
-
-            _proxies.AddOrUpdate(environment.ProxyId, server, (key, oldServer) => server);
-
-        }
-
-        #region IDisposable Members
-
-        protected virtual void Dispose(bool disposing) {
-
-            if ( disposing && !_disposed ) {
+            if (disposing && !_disposed)
+            {
 
                 _disposed = true;
 
-                foreach ( var keyPair in _proxies ) {
-                    if ( keyPair.Value != null ) {
+                foreach (var keyPair in _proxies)
+                {
+                    if (keyPair.Value != null)
+                    {
                         keyPair.Value.Dispose();
                     }
                 }
@@ -252,18 +318,28 @@
 
         }
 
-        public void Dispose() {
+        /// <summary>
+        ///     Creates a new proxy server from a <see cref="T:Stumps.Data.ProxyServerEntity"/>.
+        /// </summary>
+        /// <param name="entity">The <see cref="T:Stumps.Data.ProxyServerEntity"/> used to create the proxy server.</param>
+        private void UnwrapAndRegisterProxy(ProxyServerEntity entity)
+        {
 
-            if ( !_disposed ) {
+            var environment = new ProxyEnvironment(entity.ProxyId, _dataAccess)
+            {
+                Port = entity.Port,
+                UseSsl = entity.UseSsl,
+                AutoStart = entity.AutoStart,
+                ExternalHostName = entity.ExternalHostName
+            };
 
-                this.Dispose(true);
-                GC.SuppressFinalize(this);
+            var server = new ProxyServer(environment, _logger);
 
-            }
+            environment.Stumps.Load();
+
+            _proxies.AddOrUpdate(environment.ProxyId, server, (key, oldServer) => server);
 
         }
-
-        #endregion
 
     }
 

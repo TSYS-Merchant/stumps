@@ -72,5 +72,27 @@ namespace Stumps {
                 return ResourceManager.GetString("JsonSampleData", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {
+        ///  &quot;DataCompatibilityVersion&quot;: 100,
+        ///  &quot;StoragePath&quot;: &quot;C:\\SomeValue\\&quot;,
+        ///  &quot;WebApiPort&quot;: 8000
+        ///}.
+        /// </summary>
+        internal static string SampleConfiguration {
+            get {
+                return ResourceManager.GetString("SampleConfiguration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hello, World..
+        /// </summary>
+        internal static string SampleTextResponse {
+            get {
+                return ResourceManager.GetString("SampleTextResponse", resourceCulture);
+            }
+        }
     }
 }

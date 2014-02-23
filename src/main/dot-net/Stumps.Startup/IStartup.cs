@@ -1,10 +1,14 @@
-﻿namespace Stumps {
+﻿namespace Stumps
+{
 
-    using System;
+    public interface IStartup
+    {
 
-    public interface IStartup {
+        StumpsConfiguration Configuration { get; set; }
 
-        void RunInstance(string[] args);
+        IMessageWriter MessageWriter { get; set; }
+
+        void RunInstance();
 
     }
 
