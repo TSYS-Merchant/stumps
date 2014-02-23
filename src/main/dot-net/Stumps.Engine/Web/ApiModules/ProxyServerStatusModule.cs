@@ -8,7 +8,7 @@
     using Stumps.Web.Models;
 
     /// <summary>
-    ///     A class that provides support for the discovering status of a proxy server through the RESET API.
+    ///     A class that provides support for the discovering status of a proxy server through the REST API.
     /// </summary>
     public class ProxyServerStatusModule : NancyModule
     {
