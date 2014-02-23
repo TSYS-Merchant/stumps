@@ -5,9 +5,16 @@
     using Nancy.Responses;
     using Stumps.Utility;
 
+    /// <summary>
+    ///     A class that provides custom HTML pages for HTTP errors.
+    /// </summary>
     public class ErrorHtmlResponse : HtmlResponse
     {
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:Stumps.Web.Responses.ErrorHtmlResponse"/> class.
+        /// </summary>
+        /// <param name="statusCode">The status code.</param>
         public ErrorHtmlResponse(HttpStatusCode statusCode)
         {
 
