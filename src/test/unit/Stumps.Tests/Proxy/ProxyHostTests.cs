@@ -5,6 +5,7 @@
     using System.Net;
     using NSubstitute;
     using NUnit.Framework;
+    using Stumps;
     using Stumps.Data;
     using Stumps.Logging;
 
@@ -37,7 +38,7 @@
             ProxyHost proxy = new ProxyHost(Substitute.For<ILogger>(), Substitute.For<IDataAccess>());
             Assert.That(
                 () => proxy.CreateProxy("www.foo.com", 135, true, false),
-                Throws.Exception.TypeOf<StumpsNetworkException>().With.Property("Message").EqualTo("Port is in use"));
+                Throws.Exception.TypeOf<StumpsNetworkException>().With.Property("Message").EqualTo("The port is already in use."));
         }
 
         [Test]

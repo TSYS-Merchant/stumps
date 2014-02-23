@@ -72,7 +72,7 @@
 
             Assert.That(
                 () => new DataAccess(null),
-                Throws.Exception.TypeOf<ArgumentNullException>().With.Property("ParamName").EqualTo("dataPath"));
+                Throws.Exception.TypeOf<ArgumentNullException>().With.Property("ParamName").EqualTo("storagePath"));
 
         }
 
