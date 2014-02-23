@@ -50,6 +50,12 @@
         /// </value>
         public bool BodyIsText { get; set; }
 
+        /// <summary>
+        ///     Gets or sets the headers in the context part.
+        /// </summary>
+        /// <value>
+        ///     The headers in the context part.
+        /// </value>
         public IList<HttpHeader> Headers { get; set; }
 
         /// <summary>

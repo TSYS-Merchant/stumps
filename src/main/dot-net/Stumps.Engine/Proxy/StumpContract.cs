@@ -1,6 +1,9 @@
 ﻿namespace Stumps.Proxy
 {
 
+    /// <summary>
+    ///     A class that represents a contract used to create a new Stump.
+    /// </summary>
     public class StumpContract
     {
 

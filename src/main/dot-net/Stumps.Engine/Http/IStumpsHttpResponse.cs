@@ -5,6 +5,9 @@
     using System.IO;
     using System.Net;
 
+    /// <summary>
+    ///     An interface that represents an HTTP response.
+    /// </summary>
     public interface IStumpsHttpResponse : IDisposable
     {
 
