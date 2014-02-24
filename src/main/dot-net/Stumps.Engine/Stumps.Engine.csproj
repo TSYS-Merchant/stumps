@@ -3,6 +3,10 @@
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <MSBuildCommunityTasksPath>$(MSBuildProjectDirectory)\..\.build</MSBuildCommunityTasksPath>
+    <VersionString>0.1.0.0</VersionString>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(versionString)' != '' ">
+    <VersionString>$(versionString)</VersionString>
   </PropertyGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -158,6 +162,7 @@
     <Compile Include="StumpsServer.cs" />
     <Compile Include="Utility\JsonUtility.cs" />
     <Compile Include="Utility\StreamUtility.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources.resx">
@@ -226,10 +231,14 @@
        Other similar extension points exist, see Microsoft.Common.targets.
   -->
   <Target Name="BeforeBuild">
-    <MSBuild.Community.Tasks.AssemblyInfo AssemblyCompany="Merchant Warehouse" AssemblyCopyright="Copyright © 2013 Merchant Warehouse" AssemblyDescription="Stumps Runtime Engine" AssemblyProduct="Stumps" AssemblyTitle="Stumps.Engine" AssemblyVersion="$(assemblyVersion)" AssemblyFileVersion="$(assemblyVersion)" CLSCompliant="false" CodeLanguage="CS" ComVisible="false" Guid="3a65988b-7beb-4d38-b944-4390b9ea8c7f" InternalsVisibleTo="Stumps.Tests;DynamicProxyGenAssembly2" NeutralResourcesLanguage="en" OutputFile="_AssemblyInfo.cs" />
     <ItemGroup>
-      <Compile Include="_AssemblyInfo.cs" />
+        <AssemblyInfoFiles Include='Properties\AssemblyInfo.cs' />
     </ItemGroup>
+    <MSBuild.Community.Tasks.FileUpdate
+        Files="@(AssemblyInfoFiles)"
+        Regex='\[assembly: Assembly(File)?Version\("\d+\.\d+\.\d+\.\d+"\)\]'
+        ReplacementText="[assembly: Assembly$1Version(&quot;$(VersionString)&quot;)]"
+    />
   </Target>
   <Target Name="AfterBuild">
   </Target>
