@@ -26,6 +26,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{591868
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stumps.Tests", "..\..\test\unit\Stumps.Tests\Stumps.Tests.csproj", "{F2A862A5-84FC-41E9-BC0D-C900B02C621D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stumps.Web", "Stumps.Web\Stumps.Web.csproj", "{A21EE917-498E-4E06-9AE5-2E23380E8306}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +77,16 @@ Global
 		{F2A862A5-84FC-41E9-BC0D-C900B02C621D}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{F2A862A5-84FC-41E9-BC0D-C900B02C621D}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{F2A862A5-84FC-41E9-BC0D-C900B02C621D}.Release|x86.ActiveCfg = Release|Any CPU
+		{A21EE917-498E-4E06-9AE5-2E23380E8306}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A21EE917-498E-4E06-9AE5-2E23380E8306}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A21EE917-498E-4E06-9AE5-2E23380E8306}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{A21EE917-498E-4E06-9AE5-2E23380E8306}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{A21EE917-498E-4E06-9AE5-2E23380E8306}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A21EE917-498E-4E06-9AE5-2E23380E8306}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A21EE917-498E-4E06-9AE5-2E23380E8306}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A21EE917-498E-4E06-9AE5-2E23380E8306}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{A21EE917-498E-4E06-9AE5-2E23380E8306}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{A21EE917-498E-4E06-9AE5-2E23380E8306}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
