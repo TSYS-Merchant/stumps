@@ -163,6 +163,12 @@
     <Compile Include="Utility\JsonUtility.cs" />
     <Compile Include="Utility\StreamUtility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="..\CommonAssembly\ProductAssemblyInfo.cs">
+      <Link>Properties\ProductAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\CommonAssembly\VersionAssemblyInfo.cs">
+      <Link>Properties\VersionAssemblyInfo.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources.resx">
@@ -232,7 +238,7 @@
   -->
   <Target Name="BeforeBuild">
     <ItemGroup>
-        <AssemblyInfoFiles Include='Properties\AssemblyInfo.cs' />
+        <AssemblyInfoFiles Include='..\CommonAssembly\VersionAssemblyInfo.cs' />
     </ItemGroup>
     <MSBuild.Community.Tasks.FileUpdate
         Files="@(AssemblyInfoFiles)"

@@ -86,6 +86,12 @@
       <DependentUpon>StumpsService.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="..\CommonAssembly\ProductAssemblyInfo.cs">
+      <Link>Properties\ProductAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\CommonAssembly\VersionAssemblyInfo.cs">
+      <Link>Properties\VersionAssemblyInfo.cs</Link>
+    </Compile>	
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -121,7 +127,7 @@ XCOPY "$(ProjectDir)..\Stumps.Engine\Web\Views" "$(TargetDir)" /E /I /F /Y
   -->
   <Target Name="BeforeBuild">
     <ItemGroup>
-        <AssemblyInfoFiles Include='Properties\AssemblyInfo.cs' />
+        <AssemblyInfoFiles Include='..\CommonAssembly\VersionAssemblyInfo.cs' />
     </ItemGroup>
     <MSBuild.Community.Tasks.FileUpdate
         Files="@(AssemblyInfoFiles)"
