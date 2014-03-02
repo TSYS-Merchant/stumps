@@ -15,4 +15,5 @@ using System.Runtime.InteropServices;
 
 [assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
 
+[assembly: InternalsVisibleTo("Stumps")]
 [assembly: InternalsVisibleTo("Stumps.Tests")]

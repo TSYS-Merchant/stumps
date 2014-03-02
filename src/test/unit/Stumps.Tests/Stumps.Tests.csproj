@@ -106,6 +106,14 @@
       <Project>{0e8d3356-1f8c-49bb-8576-df2a494f0dc9}</Project>
       <Name>Stumps.Engine</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\main\dot-net\Stumps.Startup\Stumps.Startup.csproj">
+      <Project>{d18beaca-6092-4b3d-9cea-f8cfe927ce58}</Project>
+      <Name>Stumps.Startup</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\main\dot-net\Stumps.Web\Stumps.Web.csproj">
+      <Project>{a21ee917-498e-4e06-9ae5-2e23380e8306}</Project>
+      <Name>Stumps.Web</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

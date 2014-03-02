@@ -95,22 +95,7 @@
     <Compile Include="Utility\RandomGenerator.cs" />
     <Compile Include="Proxy\BodyMatchRule.cs" />
     <Compile Include="Utility\StringUtility.cs" />
-    <Compile Include="Web\ApiModules\PortAvailableModule.cs" />
-    <Compile Include="Web\Models\PortAvailableModel.cs" />
-    <Compile Include="Web\NancyModuleHelper.cs" />
     <Compile Include="Utility\NetworkUtility.cs" />
-    <Compile Include="Web\ApiModules\ProxyServerStatusModule.cs" />
-    <Compile Include="Web\ApiModules\StumpsModule.cs" />
-    <Compile Include="Web\Models\RecordingDetailsModel.cs" />
-    <Compile Include="Web\Models\HeaderModel.cs" />
-    <Compile Include="Web\Models\BodyMatch.cs" />
-    <Compile Include="Web\Models\BodySource.cs" />
-    <Compile Include="Web\Models\RunningStatusModel.cs" />
-    <Compile Include="Web\Models\ErrorModel.cs" />
-    <Compile Include="Web\Models\StumpModel.cs" />
-    <Compile Include="Web\Models\StumpOrigin.cs" />
-    <Compile Include="Web\Responses\ErrorHtmlResponse.cs" />
-    <Compile Include="Web\Responses\ErrorJsonResponse.cs" />
     <Compile Include="Proxy\RecordedContext.cs" />
     <Compile Include="Http\StumpsContextEventArgs.cs" />
     <Compile Include="Http\HttpServer.cs" />
@@ -121,23 +106,6 @@
     <Compile Include="Proxy\RecordedRequest.cs" />
     <Compile Include="Proxy\RecordedResponse.cs" />
     <Compile Include="Proxy\ProxyRecordings.cs" />
-    <Compile Include="Web\ApiModules\ProxyServerModule.cs" />
-    <Compile Include="Web\ApiModules\RecordingModule.cs" />
-    <Compile Include="Web\Bootstrapper.cs" />
-    <Compile Include="Web\ErrorStatusCodeHandler.cs" />
-    <Compile Include="Web\Models\ProxyServerDetailsModel.cs" />
-    <Compile Include="Web\Models\ProxyServerModel.cs" />
-    <Compile Include="Web\Models\RecordingModel.cs" />
-    <Compile Include="Web\Models\RecordStatusModel.cs" />
-    <Compile Include="Web\ViewModules\AddWebsiteModule.cs" />
-    <Compile Include="Web\ViewModules\DeleteStumpModule.cs" />
-    <Compile Include="Web\ViewModules\DeleteWebsiteModule.cs" />
-    <Compile Include="Web\ViewModules\MainModule.cs" />
-    <Compile Include="Web\ViewModules\ModuleHelper.cs" />
-    <Compile Include="Web\ViewModules\RecordingsModule.cs" />
-    <Compile Include="Web\ViewModules\StumpEditorModule.cs" />
-    <Compile Include="Web\ViewModules\StumpsOverviewModule.cs" />
-    <Compile Include="Web\WebServerModule.cs" />
     <Compile Include="Proxy\HttpPipelineHandler.cs" />
     <Compile Include="Http\IHttpHandler.cs" />
     <Compile Include="Http\ProcessHandlerResult.cs" />
@@ -159,7 +127,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="StumpsServer.cs" />
     <Compile Include="Utility\JsonUtility.cs" />
     <Compile Include="Utility\StreamUtility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -179,58 +146,18 @@
   <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="Web\Views\addwebsite.sshtml" />
-    <None Include="Web\Views\deletestump.sshtml" />
-    <None Include="Web\Views\stumpsoverview.sshtml" />
-    <None Include="Web\Views\stumpeditor.sshtml" />
-    <None Include="Web\Views\deletewebsite.sshtml" />
-    <None Include="Web\Views\master.sshtml" />
-    <None Include="Web\Views\main.sshtml" />
-    <None Include="Web\Views\recordings.sshtml" />
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="CustomDictionary.xml" />
-    <Content Include="Web\Content\exclamation-error-b.png" />
-    <Content Include="Web\Content\exclamation-error.png" />
-    <Content Include="Web\Content\ico_pwr_off.png" />
-    <Content Include="Web\Content\ico_pwr_on.png" />
-    <Content Include="Web\Content\ico_rec_off.png" />
-    <Content Include="Web\Content\ico_rec_on.png" />
-    <Content Include="Web\Content\ph.png" />
-    <Content Include="Web\Content\stumps.css" />
-    <Content Include="Web\Content\multipanel.css" />
-    <Content Include="Web\Content\recordings.css" />
-    <Content Include="Web\Content\tb_back.png" />
-    <Content Include="Web\Content\tb_cstump.png" />
-    <Content Include="Web\Content\tb_delete.png" />
-    <Content Include="Web\Content\tb_estump.png" />
-    <Content Include="Web\Content\tb_recstart.png" />
-    <Content Include="Web\Content\tb_recstop.png" />
-    <Content Include="Web\Content\tb_save.png" />
-    <Content Include="Web\Content\toolbar.css" />
-    <Content Include="Web\Content\stumpeditor.css" />
-    <Content Include="Web\Content\url.min.js" />
     <None Include="Resources\PageInternalServerError.html" />
     <None Include="Resources\PageNotFound.html" />
     <EmbeddedResource Include="Resources\favicon.ico" />
-    <Content Include="Web\Content\forms.css" />
-    <Content Include="Web\Content\frm_checkoff.png" />
-    <Content Include="Web\Content\frm_checkon.png" />
-    <Content Include="Web\Content\ico_cfg.png" />
-    <Content Include="Web\Content\ico_del.png" />
-    <Content Include="Web\Content\jquery-1.10.2.min.js" />
-    <Content Include="Web\Content\logo.png" />
-    <Content Include="Web\Content\servercard.css" />
-    <Content Include="Web\Content\main.css" />
-    <Content Include="Web\Content\svr_new.png" />
-    <Content Include="Web\Content\svr_rec.png" />
-    <Content Include="Web\Content\svr_run.png" />
-    <Content Include="Web\Content\svr_stp.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.targets" />
   <PropertyGroup>
-    <PostBuildEvent>XCOPY "$(ProjectDir)Web\Content" "$(TargetDir)\Content" /E /I /F /Y</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
@@ -238,13 +165,9 @@
   -->
   <Target Name="BeforeBuild">
     <ItemGroup>
-        <AssemblyInfoFiles Include='..\CommonAssembly\VersionAssemblyInfo.cs' />
+      <AssemblyInfoFiles Include="..\CommonAssembly\VersionAssemblyInfo.cs" />
     </ItemGroup>
-    <MSBuild.Community.Tasks.FileUpdate
-        Files="@(AssemblyInfoFiles)"
-        Regex='\[assembly: Assembly(File)?Version\("\d+\.\d+\.\d+\.\d+"\)\]'
-        ReplacementText="[assembly: Assembly$1Version(&quot;$(VersionString)&quot;)]"
-    />
+    <MSBuild.Community.Tasks.FileUpdate Files="@(AssemblyInfoFiles)" Regex="\[assembly: Assembly(File)?Version\(&quot;\d+\.\d+\.\d+\.\d+&quot;\)\]" ReplacementText="[assembly: Assembly$1Version(&quot;$(VersionString)&quot;)]" />
   </Target>
   <Target Name="AfterBuild">
   </Target>
