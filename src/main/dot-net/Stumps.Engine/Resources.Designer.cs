@@ -61,60 +61,6 @@ namespace Stumps {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to application/json.
-        /// </summary>
-        internal static string ContentTypeApplicationJson {
-            get {
-                return ResourceManager.GetString("ContentTypeApplicationJson", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to text/html.
-        /// </summary>
-        internal static string ContentTypeHtml {
-            get {
-                return ResourceManager.GetString("ContentTypeHtml", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to text/html; charset=utf-8.
-        /// </summary>
-        internal static string ContentTypeHtmlUtf8 {
-            get {
-                return ResourceManager.GetString("ContentTypeHtmlUtf8", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to text/json.
-        /// </summary>
-        internal static string ContentTypeTextJson {
-            get {
-                return ResourceManager.GetString("ContentTypeTextJson", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The resource you requested was not found..
-        /// </summary>
-        internal static string ErrorResourceNotFound {
-            get {
-                return ResourceManager.GetString("ErrorResourceNotFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Stumps ran into a problem: .
-        /// </summary>
-        internal static string ErrorUnexpected {
-            get {
-                return ResourceManager.GetString("ErrorUnexpected", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to http://*:{0}/.
         /// </summary>
         internal static string HttpServerPattern {
@@ -210,45 +156,6 @@ namespace Stumps {
         internal static string NotPattern {
             get {
                 return ResourceManager.GetString("NotPattern", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
-        ///
-        ///&lt;html lang=&quot;en&quot; xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
-        ///&lt;head&gt;
-        ///    &lt;meta charset=&quot;utf-8&quot; /&gt;
-        ///    &lt;title&gt;Stumps Error&lt;/title&gt;
-        ///    &lt;style&gt;
-        ///        body { margin: 0 0 0 0; padding: 0 0 0 0; background-color: #e0e0e0; font-family: &quot;Segoe UI&quot;, Helvetica, Arial, Sans-Serif; height: 100%; } 
-        ///        p { font-size: 14px; margin-top: 0; padding-top: 0; }
-        ///        a { color: #50cfe2; text-decoration: none; }
-        ///        .navbar { background-color: #3c405e; padding: 0; margin: 0; height: 50px; }
-        ///   [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string PageInternalServerError {
-            get {
-                return ResourceManager.GetString("PageInternalServerError", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
-        ///
-        ///&lt;html lang=&quot;en&quot; xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
-        ///&lt;head&gt;
-        ///    &lt;meta charset=&quot;utf-8&quot; /&gt;
-        ///    &lt;title&gt;Stumps Page Not Found&lt;/title&gt;
-        ///    &lt;style&gt;
-        ///        body { margin: 0 0 0 0; padding: 0 0 0 0; background-color: #e0e0e0; font-family: &quot;Segoe UI&quot;, Helvetica, Arial, Sans-Serif; height: 100%; } 
-        ///        p { font-size: 14px; margin-top: 0; padding-top: 0; }
-        ///        a { color: #50cfe2; text-decoration: none; }
-        ///        .navbar { background-color: #3c405e; padding: 0; margin: 0; height: 50 [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string PageNotFound {
-            get {
-                return ResourceManager.GetString("PageNotFound", resourceCulture);
             }
         }
         

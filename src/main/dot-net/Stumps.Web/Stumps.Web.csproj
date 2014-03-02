@@ -139,6 +139,7 @@
     <Content Include="Content\tb_save.png" />
     <Content Include="Content\toolbar.css" />
     <Content Include="Content\url.min.js" />
+    <EmbeddedResource Include="Resources\favicon.ico" />
     <None Include="Resources\PageNotFound.html" />
     <None Include="Resources\PageInternalServerError.html" />
   </ItemGroup>
@@ -146,6 +147,7 @@
     <EmbeddedResource Include="WebResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>WebResources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

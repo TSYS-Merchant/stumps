@@ -61,6 +61,60 @@ namespace Stumps.Web {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to application/json.
+        /// </summary>
+        internal static string ContentTypeApplicationJson {
+            get {
+                return ResourceManager.GetString("ContentTypeApplicationJson", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to text/html.
+        /// </summary>
+        internal static string ContentTypeHtml {
+            get {
+                return ResourceManager.GetString("ContentTypeHtml", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to text/html; charset=utf-8.
+        /// </summary>
+        internal static string ContentTypeHtmlUtf8 {
+            get {
+                return ResourceManager.GetString("ContentTypeHtmlUtf8", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to text/json.
+        /// </summary>
+        internal static string ContentTypeTextJson {
+            get {
+                return ResourceManager.GetString("ContentTypeTextJson", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The resource you requested was not found..
+        /// </summary>
+        internal static string ErrorResourceNotFound {
+            get {
+                return ResourceManager.GetString("ErrorResourceNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stumps ran into a problem: .
+        /// </summary>
+        internal static string ErrorUnexpected {
+            get {
+                return ResourceManager.GetString("ErrorUnexpected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
         ///
         ///&lt;html lang=&quot;en&quot; xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;

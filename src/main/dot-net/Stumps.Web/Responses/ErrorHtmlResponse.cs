@@ -19,7 +19,7 @@
         {
 
             this.StatusCode = statusCode;
-            this.ContentType = Resources.ContentTypeHtmlUtf8;
+            this.ContentType = WebResources.ContentTypeHtmlUtf8;
 
             this.Contents = stream =>
             {
@@ -30,11 +30,11 @@
                 {
 
                     case HttpStatusCode.NotFound:
-                        page = Resources.PageNotFound;
+                        page = WebResources.PageNotFound;
                         break;
 
                     case HttpStatusCode.InternalServerError:
-                        page = Resources.PageInternalServerError;
+                        page = WebResources.PageInternalServerError;
                         break;
 
                 }

@@ -32,7 +32,7 @@
 
             if (!clientWantsHtml && context.Response is NotFoundResponse)
             {
-                context.Response = ErrorJsonResponse.FromMessage(Resources.ErrorResourceNotFound);
+                context.Response = ErrorJsonResponse.FromMessage(WebResources.ErrorResourceNotFound);
             }
             else
             {
@@ -69,12 +69,12 @@
             foreach (var item in ranges)
             {
 
-                if (item.Matches(Resources.ContentTypeApplicationJson) || item.Matches(Resources.ContentTypeTextJson))
+                if (item.Matches(WebResources.ContentTypeApplicationJson) || item.Matches(WebResources.ContentTypeTextJson))
                 {
                     return false;
                 }
 
-                if (item.Matches(Resources.ContentTypeHtml))
+                if (item.Matches(WebResources.ContentTypeHtml))
                 {
                     return true;
                 }

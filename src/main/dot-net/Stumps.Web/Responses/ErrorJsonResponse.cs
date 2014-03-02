@@ -76,7 +76,7 @@
 
             var error = new ErrorModel
             {
-                ErrorMessage = Resources.ErrorUnexpected + rootException.Message,
+                ErrorMessage = WebResources.ErrorUnexpected + rootException.Message,
                 FullException = rootException.ToString()
             };
 
