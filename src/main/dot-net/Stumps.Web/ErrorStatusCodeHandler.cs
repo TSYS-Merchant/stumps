@@ -17,7 +17,7 @@
         /// <summary>
         /// Handle the error code.
         /// </summary>
-        /// <param name="statusCode">The HTTP status code</param>
+        /// <param name="statusCode">The HTTP status code.</param>
         /// <param name="context">Current context of the request.</param>
         /// <exception cref="System.ArgumentNullException"><paramref name="context"/> is <c>null</c>.</exception>
         public void Handle(HttpStatusCode statusCode, NancyContext context)
@@ -44,10 +44,10 @@
         /// <summary>
         /// Check if the error handler can handle errors of the provided status code.
         /// </summary>
-        /// <param name="statusCode">Status code</param>
+        /// <param name="statusCode">The HTTP status code.</param>
         /// <param name="context">The <see cref="T:Nancy.NancyContext" /> instance of the current request.</param>
         /// <returns>
-        /// True if handled, false otherwise
+        /// <c>true</c> if if the instance handles the specified HTTP status code.
         /// </returns>
         public bool HandlesStatusCode(HttpStatusCode statusCode, Nancy.NancyContext context)
         {

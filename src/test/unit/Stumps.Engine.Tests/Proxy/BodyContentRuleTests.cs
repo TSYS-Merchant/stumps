@@ -227,8 +227,8 @@
         private MockHttpRequest CreateTextRequest(string text)
         {
 
-            var myString = "AAAAAABBBBBB" + text + "CCCCCCDDDDDD";
-            var buffer = Encoding.UTF8.GetBytes(myString);
+            var exampleString = "AAAAAABBBBBB" + text + "CCCCCCDDDDDD";
+            var buffer = Encoding.UTF8.GetBytes(exampleString);
             var stream = new MemoryStream(buffer);
             var request = new MockHttpRequest
             {

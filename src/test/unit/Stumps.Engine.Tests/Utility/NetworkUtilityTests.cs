@@ -31,18 +31,18 @@
             var globalIpProperties = IPGlobalProperties.GetIPGlobalProperties();
             var connections = globalIpProperties.GetActiveTcpConnections();
 
-            var inUse = false;
+            var isPortInUse = false;
 
             foreach (var connection in connections)
             {
                 if (connection.LocalEndPoint.Port == port)
                 {
-                    inUse = true;
+                    isPortInUse = true;
                     break;
                 }
             }
 
-            return inUse;
+            return isPortInUse;
 
         }
 

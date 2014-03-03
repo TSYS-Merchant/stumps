@@ -10,12 +10,12 @@
     {
 
         /// <summary>
-        ///     HTTP 200 - OK
+        ///     The HTTP 200 OK status code.
         /// </summary>
         public const int HttpOk = 200;
 
         /// <summary>
-        ///     HTTP Error 503 - Service Unavailable
+        ///     The HTTP Error 503 Service Unavailable status code.
         /// </summary>
         public const int HttpServiceUnavailable = 503;
 

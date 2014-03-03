@@ -20,7 +20,7 @@
         ///     Initializes a new instance of the <see cref="T:Stumps.Proxy.TextContainsMatch"/> class.
         /// </summary>
         /// <param name="value">The value to find.</param>
-        /// <param name="ignoreCase">if set to <c>true</c>, capitalization is ignored.</param>
+        /// <param name="ignoreCase">If set to <c>true</c>, capitalization is ignored.</param>
         public TextContainsMatch(string value, bool ignoreCase)
         {
 

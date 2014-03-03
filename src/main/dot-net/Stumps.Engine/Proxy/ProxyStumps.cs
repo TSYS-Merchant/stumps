@@ -219,7 +219,6 @@
 
         }
 
-
         /// <summary>
         /// Determines if a stump with the specified name exists.
         /// </summary>

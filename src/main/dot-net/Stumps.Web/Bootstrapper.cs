@@ -64,7 +64,7 @@
         /// <summary>
         ///     Configures the container using AutoRegister followed by registration of default INancyModuleCatalog and IRouteResolver.
         /// </summary>
-        /// <param name="container">Container instance</param>
+        /// <param name="container">Instance of the IoC container used for the instance.</param>
         /// <exception cref="System.ArgumentNullException"><paramref name="container"/> is <c>null</c>.</exception>
         protected override void ConfigureApplicationContainer(Nancy.TinyIoc.TinyIoCContainer container)
         {

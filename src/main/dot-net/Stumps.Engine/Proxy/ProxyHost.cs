@@ -67,7 +67,7 @@
         /// <returns>
         ///     A <see cref="T:Stumps.Proxy.ProxyEnvironment" /> represeting the new proxy server.
         /// </returns>
-        /// <exception cref="System.ArgumentNullException"><paramref name="externalHostName"/> is null</exception>
+        /// <exception cref="System.ArgumentNullException"><paramref name="externalHostName"/> is null.</exception>
         /// <exception cref="System.ArgumentOutOfRangeException"><paramref name="port"/> exceeds the allowed TCP port range.</exception>
         /// <exception cref="StumpsNetworkException">The port is already in use.</exception>
         public ProxyEnvironment CreateProxy(string externalHostName, int port, bool useSsl, bool autoStart)

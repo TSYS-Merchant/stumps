@@ -20,7 +20,7 @@
         ///     Initializes a new instance of the <see cref="T:Stumps.Proxy.TextMatch"/> class.
         /// </summary>
         /// <param name="value">The value used to match.</param>
-        /// <param name="ignoreCase">if set to <c>true</c>, capitalization is ignored.</param>
+        /// <param name="ignoreCase">If set to <c>true</c>, capitalization is ignored.</param>
         public TextMatch(string value, bool ignoreCase)
         {
 

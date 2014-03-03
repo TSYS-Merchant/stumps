@@ -12,7 +12,7 @@
 
         public const int KeySize = 7;
 
-        private static readonly char[] _randomCharacters = new char[]
+        private static readonly char[] RandomCharacters = new char[]
         {
             'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
             'w', 'x', 'y', 'z', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0'
@@ -38,7 +38,7 @@
                 var sb = new StringBuilder();
                 for (int i = 0; i < RandomGenerator.KeySize; i++)
                 {
-                    sb.Append(RandomGenerator._randomCharacters[data[i] % 36]);
+                    sb.Append(RandomGenerator.RandomCharacters[data[i] % 36]);
                 }
 
                 identifier = sb.ToString();
