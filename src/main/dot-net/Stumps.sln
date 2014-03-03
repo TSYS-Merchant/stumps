@@ -24,7 +24,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{591868
 		.build\MSBuild.Community.Tasks.targets = .build\MSBuild.Community.Tasks.targets
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stumps.Tests", "..\..\test\unit\Stumps.Tests\Stumps.Tests.csproj", "{F2A862A5-84FC-41E9-BC0D-C900B02C621D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stumps.Tests", "..\..\test\unit\Stumps.Engine.Tests\Stumps.Engine.Tests.csproj", "{F2A862A5-84FC-41E9-BC0D-C900B02C621D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stumps.Web", "Stumps.Web\Stumps.Web.csproj", "{A21EE917-498E-4E06-9AE5-2E23380E8306}"
 EndProject
