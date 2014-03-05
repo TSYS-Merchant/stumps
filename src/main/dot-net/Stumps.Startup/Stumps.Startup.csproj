@@ -113,9 +113,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Stumps.Engine\Stumps.Engine.csproj">
+    <ProjectReference Include="..\Stumps.Server\Stumps.Server.csproj">
       <Project>{0e8d3356-1f8c-49bb-8576-df2a494f0dc9}</Project>
-      <Name>Stumps.Engine</Name>
+      <Name>Stumps.Server</Name>
     </ProjectReference>
     <ProjectReference Include="..\Stumps.Web\Stumps.Web.csproj">
       <Project>{a21ee917-498e-4e06-9ae5-2e23380e8306}</Project>

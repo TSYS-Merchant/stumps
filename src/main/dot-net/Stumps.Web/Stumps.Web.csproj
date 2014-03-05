@@ -89,12 +89,6 @@
     <Compile Include="WebServerModule.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Stumps.Engine\Stumps.Engine.csproj">
-      <Project>{0e8d3356-1f8c-49bb-8576-df2a494f0dc9}</Project>
-      <Name>Stumps.Engine</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="packages.config" />
     <None Include="Views\addwebsite.sshtml" />
     <None Include="Views\deletestump.sshtml" />
@@ -149,6 +143,12 @@
       <LastGenOutput>WebResources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Stumps.Server\Stumps.Server.csproj">
+      <Project>{0e8d3356-1f8c-49bb-8576-df2a494f0dc9}</Project>
+      <Name>Stumps.Server</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

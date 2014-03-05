@@ -7,7 +7,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Stumps</RootNamespace>
-    <AssemblyName>Stumps.Engine.Tests</AssemblyName>
+    <AssemblyName>Stumps.Server.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -102,9 +102,9 @@
     <Compile Include="Utility\StringUtilityTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\main\dot-net\Stumps.Engine\Stumps.Engine.csproj">
+    <ProjectReference Include="..\..\..\main\dot-net\Stumps.Server\Stumps.Server.csproj">
       <Project>{0e8d3356-1f8c-49bb-8576-df2a494f0dc9}</Project>
-      <Name>Stumps.Engine</Name>
+      <Name>Stumps.Server</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\main\dot-net\Stumps.Startup\Stumps.Startup.csproj">
       <Project>{d18beaca-6092-4b3d-9cea-f8cfe927ce58}</Project>

@@ -10,8 +10,8 @@
         <ServiceControl Id="StumpsInstall_Control" Name="Stumps" Start="install" Remove="uninstall" Stop="both" Wait="yes" />
       </Component>
 
-      <Component Id="StumpsEngine" Guid="{6B78169B-555B-4B73-8723-B2F83C319881}">
-        <File Id="Stumps_Engine_dll" Source="..\Stumps.Startup\bin\Release\Stumps.Engine.dll" />
+      <Component Id="StumpsServer" Guid="{6B78169B-555B-4B73-8723-B2F83C319881}">
+        <File Id="Stumps_Server_dll" Source="..\Stumps.Startup\bin\Release\Stumps.Server.dll" />
         <File Id="Stumps_Web_dll" Source="..\Stumps.Startup\bin\Release\Stumps.Web.dll" />
         <File Id="Nancy_dll" Source="..\Stumps.Startup\bin\Release\Nancy.dll" />
         <File Id="Nancy_Hosting_Self_dll" Source="..\Stumps.Startup\bin\Release\Nancy.Hosting.Self.dll" />
@@ -76,7 +76,7 @@
   <Fragment>
     <ComponentGroup Id="StumpsComponents">
       <ComponentRef Id="StumpsService" />
-      <ComponentRef Id="StumpsEngine" />
+      <ComponentRef Id="StumpsServer" />
       <ComponentRef Id="StumpsWebsite" />
       <ComponentRef Id="StumpsContent" />
     </ComponentGroup>
