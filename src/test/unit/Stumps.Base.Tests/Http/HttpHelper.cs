@@ -2,7 +2,6 @@
 {
 
     using NSubstitute;
-    using Stumps.Logging;
     using Stumps.Utility;
 
     internal static class HttpHelper
@@ -21,9 +20,7 @@
 
             var openPort = NetworkUtility.FindRandomOpenPort();
 
-            var logger = Substitute.For<ILogger>();
-
-            var server = new HttpServer(openPort, handler, logger);
+            var server = new HttpServer(openPort, handler);
 
             return server;
 

@@ -95,10 +95,7 @@
     <Compile Include="Utility\RandomGenerator.cs" />
     <Compile Include="Proxy\BodyMatchRule.cs" />
     <Compile Include="Utility\StringUtility.cs" />
-    <Compile Include="Utility\NetworkUtility.cs" />
     <Compile Include="Proxy\RecordedContext.cs" />
-    <Compile Include="Http\StumpsContextEventArgs.cs" />
-    <Compile Include="Http\HttpServer.cs" />
     <Compile Include="Logging\DebugLogger.cs" />
     <Compile Include="Proxy\IProxyHost.cs" />
     <Compile Include="Proxy\ProxyHost.cs" />
@@ -107,16 +104,7 @@
     <Compile Include="Proxy\RecordedResponse.cs" />
     <Compile Include="Proxy\ProxyRecordings.cs" />
     <Compile Include="Proxy\HttpPipelineHandler.cs" />
-    <Compile Include="Http\IHttpHandler.cs" />
-    <Compile Include="Http\ProcessHandlerResult.cs" />
     <Compile Include="Proxy\ProxyHandler.cs" />
-    <Compile Include="Http\StumpsHttpContext.cs" />
-    <Compile Include="Http\HttpStatusCodes.cs" />
-    <Compile Include="Http\IStumpsHttpContext.cs" />
-    <Compile Include="Http\IStumpsHttpRequest.cs" />
-    <Compile Include="Http\IStumpsHttpResponse.cs" />
-    <Compile Include="Http\StumpsHttpRequest.cs" />
-    <Compile Include="Http\StumpsHttpResponse.cs" />
     <Compile Include="IStumpModule.cs" />
     <Compile Include="Logging\ILogger.cs" />
     <Compile Include="Proxy\ProxyServer.cs" />
@@ -128,7 +116,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Utility\JsonUtility.cs" />
-    <Compile Include="Utility\StreamUtility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="..\CommonAssembly\ProductAssemblyInfo.cs">
       <Link>Properties\ProductAssemblyInfo.cs</Link>
@@ -143,7 +130,12 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Stumps.Base\Stumps.Base.csproj">
+      <Project>{eb4d58da-2b6c-4a51-b648-7d4fb6d8dc80}</Project>
+      <Name>Stumps.Base</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>

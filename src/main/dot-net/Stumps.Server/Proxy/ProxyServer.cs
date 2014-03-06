@@ -125,7 +125,7 @@
                 pipeline.Add(new StumpsHandler(_environment, _logger));
                 pipeline.Add(new ProxyHandler(_environment, _logger));
 
-                _server = new HttpServer(_environment.Port, pipeline, _logger);
+                _server = new HttpServer(_environment.Port, pipeline);
 
                 _server.RequestStarting += (o, e) =>
                 {

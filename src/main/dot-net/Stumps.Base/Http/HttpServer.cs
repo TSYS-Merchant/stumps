@@ -5,7 +5,6 @@
     using System.Globalization;
     using System.Net;
     using System.Threading;
-    using Stumps.Logging;
 
     /// <summary>
     ///     A class that represents a basic HTTP server.
@@ -14,7 +13,6 @@
     {
 
         private readonly IHttpHandler _handler;
-        private readonly ILogger _logger;
         private readonly int _port;
         private HttpListener _listener;
         private bool _started;
@@ -25,20 +23,12 @@
         /// </summary>
         /// <param name="port">The port the HTTP server is using to listen for traffic.</param>
         /// <param name="handler">The default <see cref="T:Stumps.Http.IHttpHandler"/> executed when receiving traffic.</param>
-        /// <param name="logger">The <see cref="T:Stumps.Logging.ILogger"/> used by the instance.</param>
         /// <exception cref="System.ArgumentNullException">
-        /// <paramref name="logger"/> is <c>null</c>.
-        /// or
         /// <paramref name="handler"/> is <c>null</c>.
         /// </exception>
         /// <exception cref="System.ArgumentOutOfRangeException"><paramref name="port"/> exceeds the allowed TCP port range.</exception>
-        public HttpServer(int port, IHttpHandler handler, ILogger logger)
+        public HttpServer(int port, IHttpHandler handler)
         {
-
-            if (logger == null)
-            {
-                throw new ArgumentNullException("logger");
-            }
 
             if (handler == null)
             {
@@ -51,7 +41,6 @@
             }
 
             _listener = new HttpListener();
-            _logger = logger;
             _port = port;
             _handler = handler;
 
@@ -131,7 +120,7 @@
 
             _listener = new HttpListener();
 
-            var url = string.Format(CultureInfo.InvariantCulture, Resources.HttpServerPattern, _port);
+            var url = string.Format(CultureInfo.InvariantCulture, BaseResources.HttpServerPattern, _port);
 
             _listener.Prefixes.Add(url);
             _listener.Start();
@@ -175,9 +164,10 @@
                 // Gets the HTTP context for the request
                 var context = _listener.EndGetContext(asyncResult);
 
-                _logger.LogInfo(
-                    "=> " + Thread.CurrentThread.ManagedThreadId.ToString(CultureInfo.InvariantCulture) + " => " +
-                    context.Request.RawUrl);
+                //// TODO: The Throw message 
+                //// _logger.LogInfo(
+                ////    "=> " + Thread.CurrentThread.ManagedThreadId.ToString(CultureInfo.InvariantCulture) + " => " +
+                ////    context.Request.RawUrl);
 
                 StumpsHttpContext stumpsContext = null;
 
@@ -227,9 +217,10 @@
                     }
                 }
 
-                _logger.LogInfo(
-                    "<= " + Thread.CurrentThread.ManagedThreadId.ToString(CultureInfo.InvariantCulture) + " <= " +
-                    context.Request.RawUrl);
+                //// TODO: Throw Event
+                //// _logger.LogInfo(
+                ////    "<= " + Thread.CurrentThread.ManagedThreadId.ToString(CultureInfo.InvariantCulture) + " <= " +
+                ////    context.Request.RawUrl);
 
             }
             catch (HttpListenerException)

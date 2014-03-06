@@ -61,15 +61,6 @@ namespace Stumps {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to http://*:{0}/.
-        /// </summary>
-        internal static string HttpServerPattern {
-            get {
-                return ResourceManager.GetString("HttpServerPattern", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Accept.
         /// </summary>
         internal static string LogAcceptError {

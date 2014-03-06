@@ -7,7 +7,6 @@
     using System.Net;
     using NSubstitute;
     using NUnit.Framework;
-    using Stumps.Logging;
 
     [TestFixture]
     public class HttpServerTests
@@ -17,11 +16,10 @@
         public void Constructor_WithInvalidHandler_ThrowsException()
         {
 
-            ILogger logger = Substitute.For<ILogger>();
             IHttpHandler handler = null;
 
             Assert.That(
-                () => new HttpServer(8080, handler, logger),
+                () => new HttpServer(8080, handler),
                 Throws.Exception.TypeOf<ArgumentNullException>().With.Property("ParamName").EqualTo("handler"));
 
         }
@@ -30,11 +28,10 @@
         public void Constructor_WithInvalidLogger_ThrowsException()
         {
 
-            ILogger logger = null;
             IHttpHandler handler = Substitute.For<IHttpHandler>();
 
             Assert.That(
-                () => new HttpServer(8080, handler, logger),
+                () => new HttpServer(8080, handler),
                 Throws.Exception.TypeOf<ArgumentNullException>().With.Property("ParamName").EqualTo("logger"));
 
         }
@@ -46,15 +43,14 @@
             int exceedsMaximumPort = IPEndPoint.MaxPort + 1;
             int exceedsMinimumPort = IPEndPoint.MinPort - 1;
 
-            ILogger logger = Substitute.For<ILogger>();
             IHttpHandler handler = Substitute.For<IHttpHandler>();
 
             Assert.That(
-                () => new HttpServer(exceedsMaximumPort, handler, logger),
+                () => new HttpServer(exceedsMaximumPort, handler),
                 Throws.Exception.TypeOf<ArgumentOutOfRangeException>().With.Property("ParamName").EqualTo("port"));
 
             Assert.That(
-                () => new HttpServer(exceedsMinimumPort, handler, logger),
+                () => new HttpServer(exceedsMinimumPort, handler),
                 Throws.Exception.TypeOf<ArgumentOutOfRangeException>().With.Property("ParamName").EqualTo("port"));
 
         }

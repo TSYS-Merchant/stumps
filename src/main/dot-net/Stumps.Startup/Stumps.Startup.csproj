@@ -113,6 +113,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Stumps.Base\Stumps.Base.csproj">
+      <Project>{eb4d58da-2b6c-4a51-b648-7d4fb6d8dc80}</Project>
+      <Name>Stumps.Base</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Stumps.Server\Stumps.Server.csproj">
       <Project>{0e8d3356-1f8c-49bb-8576-df2a494f0dc9}</Project>
       <Name>Stumps.Server</Name>

@@ -3,11 +3,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F2A862A5-84FC-41E9-BC0D-C900B02C621D}</ProjectGuid>
+    <ProjectGuid>{9432A771-96AD-4FE4-9B1A-74643C387332}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Stumps</RootNamespace>
-    <AssemblyName>Stumps.Server.Tests</AssemblyName>
+    <AssemblyName>Stumps.Base.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -16,8 +16,7 @@
     <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
     <IsCodedUITest>False</IsCodedUITest>
     <TestProjectType>UnitTest</TestProjectType>
-    <TargetFrameworkProfile />
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\main\dot-net\</SolutionDir>
     <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -28,7 +27,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -37,7 +35,6 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="NSubstitute">
@@ -58,12 +55,12 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="ConfigurationTests.cs" />
-    <Compile Include="Data\ConfigurationDataAccessTests.cs" />
-    <Compile Include="Data\DataAccessTests.cs" />
-    <Compile Include="MockHttpContext.cs" />
-    <Compile Include="MockHttpRequest.cs" />
-    <Compile Include="MockHttpResponse.cs" />
+    <Compile Include="Http\HttpHelper.cs" />
+    <Compile Include="Http\HttpServerTests.cs" />
+    <Compile Include="Http\StumpsHttpContextTests.cs" />
+    <Compile Include="Http\StumpsHttpRequestTests.cs" />
+    <Compile Include="Http\StumpsHttpResponseTests.cs" />
+    <Compile Include="MockHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="..\..\..\main\dot-net\CommonAssembly\ProductAssemblyInfo.cs">
       <Link>Properties\ProductAssemblyInfo.cs</Link>
@@ -71,42 +68,17 @@
     <Compile Include="..\..\..\main\dot-net\CommonAssembly\VersionAssemblyInfo.cs">
       <Link>Properties\VersionAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Proxy\BodyContentRuleTests.cs" />
-    <Compile Include="Proxy\BodyLengthRuleTests.cs" />
-    <Compile Include="Proxy\BodyMatchRuleTests.cs" />
-    <Compile Include="Proxy\ContentEncodingTests.cs" />
-    <Compile Include="Proxy\HeaderRuleTests.cs" />
-    <Compile Include="Proxy\HttpMethodRuleTests.cs" />
-    <Compile Include="Proxy\HttpPipelineHandlerTests.cs" />
-    <Compile Include="Proxy\ProxyEnvironmentTests.cs" />
-    <Compile Include="Proxy\ProxyHandlerTests.cs" />
-    <Compile Include="Proxy\ProxyHostTests.cs" />
-    <Compile Include="Proxy\ProxyStumpsTests.cs" />
-    <Compile Include="Proxy\UrlRuleTests.cs" />
-    <Compile Include="SampleJsonObject.cs" />
-    <Compile Include="StumpServerTests.cs" />
     <Compile Include="TestData.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>TestData.resx</DependentUpon>
     </Compile>
-    <Compile Include="Utility\JsonUtilityTests.cs" />
-    <Compile Include="Utility\RandomGeneratorTests.cs" />
-    <Compile Include="Utility\StreamUtilityTests.cs" />
-    <Compile Include="Utility\StringUtilityTests.cs" />
+    <Compile Include="Utility\NetworkUtilityTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\main\dot-net\Stumps.Server\Stumps.Server.csproj">
-      <Project>{0e8d3356-1f8c-49bb-8576-df2a494f0dc9}</Project>
-      <Name>Stumps.Server</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\main\dot-net\Stumps.Startup\Stumps.Startup.csproj">
-      <Project>{d18beaca-6092-4b3d-9cea-f8cfe927ce58}</Project>
-      <Name>Stumps.Startup</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\main\dot-net\Stumps.Web\Stumps.Web.csproj">
-      <Project>{a21ee917-498e-4e06-9ae5-2e23380e8306}</Project>
-      <Name>Stumps.Web</Name>
+    <ProjectReference Include="..\..\..\main\dot-net\Stumps.Base\Stumps.Base.csproj">
+      <Project>{eb4d58da-2b6c-4a51-b648-7d4fb6d8dc80}</Project>
+      <Name>Stumps.Base</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -117,12 +89,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>TestData.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\JsonSampleData.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\SampleConfiguration.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\SampleTextResponse.txt" />
@@ -148,7 +114,13 @@
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>

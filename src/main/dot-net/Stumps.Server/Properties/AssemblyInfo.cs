@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("3a65988b-7beb-4d38-b944-4390b9ea8c7f")]
+[assembly: Guid("2F909A02-053D-4F08-93B2-A57E3BD45C29")]
 
 [assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
 
