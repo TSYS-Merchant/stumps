@@ -68,5 +68,23 @@ namespace Stumps {
                 return ResourceManager.GetString("HttpServerPattern", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to not:.
+        /// </summary>
+        internal static string NotPattern {
+            get {
+                return ResourceManager.GetString("NotPattern", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to regex:.
+        /// </summary>
+        internal static string RegExPattern {
+            get {
+                return ResourceManager.GetString("RegExPattern", resourceCulture);
+            }
+        }
     }
 }

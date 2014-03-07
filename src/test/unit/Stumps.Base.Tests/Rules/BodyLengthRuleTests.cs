@@ -1,4 +1,4 @@
-﻿namespace Stumps.Proxy
+﻿namespace Stumps.Rules
 {
 
     using System.IO;

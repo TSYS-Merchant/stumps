@@ -1,4 +1,4 @@
-﻿namespace Stumps.Proxy
+﻿namespace Stumps.Rules
 {
 
     using NUnit.Framework;
@@ -21,12 +21,7 @@
 
             var rule = new HeaderRule("headername", "headervalue");
 
-            using (var request = CreateWithHeaders(
-                new HttpHeader
-                {
-                    Name = headerName,
-                    Value = headerValue
-                }))
+            using (var request = CreateWithHeaders(headerName, headerValue))
             {
                 Assert.AreEqual(expectedResult, rule.IsMatch(request));
             }
@@ -42,12 +37,7 @@
 
             var rule = new HeaderRule("regex:he.*me", "headervalue");
 
-            using (var request = CreateWithHeaders(
-                new HttpHeader
-                {
-                    Name = headerName,
-                    Value = headerValue
-                }))
+            using (var request = CreateWithHeaders(headerName, headerValue))
             {
                 Assert.AreEqual(expectedResult, rule.IsMatch(request));
             }
@@ -63,12 +53,7 @@
 
             var rule = new HeaderRule("headername", "regex:he.*ue");
 
-            using (var request = CreateWithHeaders(
-                new HttpHeader
-                {
-                    Name = headerName,
-                    Value = headerValue
-                }))
+            using (var request = CreateWithHeaders(headerName, headerValue))
             {
                 Assert.AreEqual(expectedResult, rule.IsMatch(request));
             }
@@ -84,12 +69,7 @@
 
             var rule = new HeaderRule("not:regex:he.*me", "headervalue");
 
-            using (var request = CreateWithHeaders(
-                new HttpHeader
-                {
-                    Name = headerName,
-                    Value = headerValue
-                }))
+            using (var request = CreateWithHeaders(headerName, headerValue))
             {
                 Assert.AreEqual(expectedResult, rule.IsMatch(request));
             }
@@ -105,12 +85,7 @@
 
             var rule = new HeaderRule("headername", "not:regex:he.*ue");
 
-            using (var request = CreateWithHeaders(
-                new HttpHeader
-                {
-                    Name = headerName,
-                    Value = headerValue
-                }))
+            using (var request = CreateWithHeaders(headerName, headerValue))
             {
                 Assert.AreEqual(expectedResult, rule.IsMatch(request));
             }
@@ -127,12 +102,7 @@
 
             var rule = new HeaderRule("regex:.*", "headervalue");
 
-            using (var request = CreateWithHeaders(
-                new HttpHeader
-                {
-                    Name = headerName,
-                    Value = headerValue
-                }))
+            using (var request = CreateWithHeaders(headerName, headerValue))
             {
                 Assert.AreEqual(expectedResult, rule.IsMatch(request));
             }
@@ -149,12 +119,7 @@
 
             var rule = new HeaderRule("headername", "regex:.*");
 
-            using (var request = CreateWithHeaders(
-                new HttpHeader
-                {
-                    Name = headerName,
-                    Value = headerValue
-                }))
+            using (var request = CreateWithHeaders(headerName, headerValue))
             {
                 Assert.AreEqual(expectedResult, rule.IsMatch(request));
             }
@@ -169,12 +134,7 @@
 
             var rule = new HeaderRule("not:headername", "headervalue");
 
-            using (var request = CreateWithHeaders(
-                new HttpHeader
-                {
-                    Name = headerName,
-                    Value = headerValue
-                }))
+            using (var request = CreateWithHeaders(headerName, headerValue))
             {
                 Assert.AreEqual(expectedResult, rule.IsMatch(request));
             }
@@ -189,19 +149,14 @@
 
             var rule = new HeaderRule("headername", "not:headervalue");
 
-            using (var request = CreateWithHeaders(
-                new HttpHeader
-                {
-                    Name = headerName,
-                    Value = headerValue
-                }))
+            using (var request = CreateWithHeaders(headerName, headerValue))
             {
                 Assert.AreEqual(expectedResult, rule.IsMatch(request));
             }
 
         }
 
-        public MockHttpRequest CreateWithHeaders(params HttpHeader[] headers)
+        public MockHttpRequest CreateWithHeaders(string headerName, string headerValue)
         {
 
             var request = new MockHttpRequest
@@ -209,10 +164,7 @@
                 Headers = new System.Collections.Specialized.NameValueCollection()
             };
 
-            foreach (var header in headers)
-            {
-                request.Headers.Add(header.Name, header.Value);
-            }
+            request.Headers.Add(headerName, headerValue);
 
             return request;
 

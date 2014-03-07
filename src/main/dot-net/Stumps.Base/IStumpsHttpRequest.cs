@@ -1,4 +1,4 @@
-﻿namespace Stumps.Http
+﻿namespace Stumps
 {
 
     using System;

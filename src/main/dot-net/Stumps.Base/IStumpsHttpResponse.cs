@@ -1,4 +1,4 @@
-﻿namespace Stumps.Http
+﻿namespace Stumps
 {
 
     using System;
@@ -67,7 +67,7 @@
         void AddHeader(string name, string value);
 
         /// <summary>
-        ///     Clears all data in the <see cref="P:Stumps.Http.IStumpsHttpResponse.OutputStream"/>.
+        ///     Clears all data in the <see cref="P:Stumps.IStumpsHttpResponse.OutputStream"/>.
         /// </summary>
         void ClearOutputStream();
 

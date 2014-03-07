@@ -1,4 +1,4 @@
-﻿namespace Stumps.Proxy
+﻿namespace Stumps.Rules
 {
 
     using Stumps.Http;
@@ -13,7 +13,7 @@
         private readonly int _minimumValue;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Stumps.Proxy.BodyLengthRule"/> class.
+        ///     Initializes a new instance of the <see cref="T:Stumps.Rules.BodyLengthRule"/> class.
         /// </summary>
         /// <param name="minimumBodyValue">The length of the body.</param>
         /// <param name="maximumBodyLength">The maximum length of the body.</param>

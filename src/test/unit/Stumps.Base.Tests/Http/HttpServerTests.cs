@@ -25,18 +25,6 @@
         }
 
         [Test]
-        public void Constructor_WithInvalidLogger_ThrowsException()
-        {
-
-            IHttpHandler handler = Substitute.For<IHttpHandler>();
-
-            Assert.That(
-                () => new HttpServer(8080, handler),
-                Throws.Exception.TypeOf<ArgumentNullException>().With.Property("ParamName").EqualTo("logger"));
-
-        }
-
-        [Test]
         public void Constructor_WithInvalidPort_ThrowsException()
         {
 

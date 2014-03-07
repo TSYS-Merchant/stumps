@@ -1,4 +1,4 @@
-﻿namespace Stumps.Proxy
+﻿namespace Stumps
 {
 
     using Stumps.Http;

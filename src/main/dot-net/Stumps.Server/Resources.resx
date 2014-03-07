@@ -144,14 +144,8 @@
   <data name="LogUnexpectedException" xml:space="preserve">
     <value>Unexpected exception.</value>
   </data>
-  <data name="NotPattern" xml:space="preserve">
-    <value>not:</value>
-  </data>
   <data name="PortIsInUseError" xml:space="preserve">
     <value>The port is already in use.</value>
-  </data>
-  <data name="RegExPattern" xml:space="preserve">
-    <value>regex:</value>
   </data>
   <data name="StumpNameUsedError" xml:space="preserve">
     <value>A stump with the same name already exists.</value>

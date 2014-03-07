@@ -120,4 +120,10 @@
   <data name="HttpServerPattern" xml:space="preserve">
     <value>http://*:{0}/</value>
   </data>
+  <data name="NotPattern" xml:space="preserve">
+    <value>not:</value>
+  </data>
+  <data name="RegExPattern" xml:space="preserve">
+    <value>regex:</value>
+  </data>
 </root>

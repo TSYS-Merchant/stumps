@@ -61,9 +61,6 @@
     <Compile Include="ConfigurationTests.cs" />
     <Compile Include="Data\ConfigurationDataAccessTests.cs" />
     <Compile Include="Data\DataAccessTests.cs" />
-    <Compile Include="MockHttpContext.cs" />
-    <Compile Include="MockHttpRequest.cs" />
-    <Compile Include="MockHttpResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="..\..\..\main\dot-net\CommonAssembly\ProductAssemblyInfo.cs">
       <Link>Properties\ProductAssemblyInfo.cs</Link>
@@ -71,18 +68,12 @@
     <Compile Include="..\..\..\main\dot-net\CommonAssembly\VersionAssemblyInfo.cs">
       <Link>Properties\VersionAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Proxy\BodyContentRuleTests.cs" />
-    <Compile Include="Proxy\BodyLengthRuleTests.cs" />
-    <Compile Include="Proxy\BodyMatchRuleTests.cs" />
     <Compile Include="Proxy\ContentEncodingTests.cs" />
-    <Compile Include="Proxy\HeaderRuleTests.cs" />
-    <Compile Include="Proxy\HttpMethodRuleTests.cs" />
     <Compile Include="Proxy\HttpPipelineHandlerTests.cs" />
     <Compile Include="Proxy\ProxyEnvironmentTests.cs" />
     <Compile Include="Proxy\ProxyHandlerTests.cs" />
     <Compile Include="Proxy\ProxyHostTests.cs" />
     <Compile Include="Proxy\ProxyStumpsTests.cs" />
-    <Compile Include="Proxy\UrlRuleTests.cs" />
     <Compile Include="SampleJsonObject.cs" />
     <Compile Include="StumpServerTests.cs" />
     <Compile Include="TestData.Designer.cs">
@@ -93,9 +84,12 @@
     <Compile Include="Utility\JsonUtilityTests.cs" />
     <Compile Include="Utility\RandomGeneratorTests.cs" />
     <Compile Include="Utility\StreamUtilityTests.cs" />
-    <Compile Include="Utility\StringUtilityTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\main\dot-net\Stumps.Base\Stumps.Base.csproj">
+      <Project>{eb4d58da-2b6c-4a51-b648-7d4fb6d8dc80}</Project>
+      <Name>Stumps.Base</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\main\dot-net\Stumps.Server\Stumps.Server.csproj">
       <Project>{0e8d3356-1f8c-49bb-8576-df2a494f0dc9}</Project>
       <Name>Stumps.Server</Name>

@@ -7,6 +7,7 @@
     using System.Threading;
     using Stumps.Data;
     using Stumps.Http;
+    using Stumps.Rules;
     using Stumps.Utility;
 
     /// <summary>

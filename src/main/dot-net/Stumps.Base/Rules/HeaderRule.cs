@@ -1,4 +1,4 @@
-﻿namespace Stumps.Proxy
+﻿namespace Stumps.Rules
 {
 
     using Stumps.Http;
@@ -13,7 +13,7 @@
         private readonly TextMatch _valueTextMatch;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Stumps.Proxy.HeaderRule"/> class.
+        ///     Initializes a new instance of the <see cref="T:Stumps.Rules.HeaderRule"/> class.
         /// </summary>
         /// <param name="name">The name of the HTTP header.</param>
         /// <param name="value">The value of the HTTP header.</param>
@@ -31,7 +31,7 @@
         /// <summary>
         ///     Determines whether the specified request matches the rule.
         /// </summary>
-        /// <param name="request">The <see cref="T:Stumps.Http.IStumpsHttpRequest" /> to evaluate.</param>
+        /// <param name="request">The <see cref="T:Stumps.IStumpsHttpRequest" /> to evaluate.</param>
         /// <returns>
         ///   <c>true</c> if the <paramref name="request" /> matches the rule, otherwise, <c>false</c>.
         /// </returns>

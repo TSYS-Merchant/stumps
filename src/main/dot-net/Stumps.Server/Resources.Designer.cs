@@ -142,29 +142,11 @@ namespace Stumps {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to not:.
-        /// </summary>
-        internal static string NotPattern {
-            get {
-                return ResourceManager.GetString("NotPattern", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to The port is already in use..
         /// </summary>
         internal static string PortIsInUseError {
             get {
                 return ResourceManager.GetString("PortIsInUseError", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to regex:.
-        /// </summary>
-        internal static string RegExPattern {
-            get {
-                return ResourceManager.GetString("RegExPattern", resourceCulture);
             }
         }
         

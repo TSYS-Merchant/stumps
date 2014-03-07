@@ -1,13 +1,13 @@
-﻿namespace Stumps.Proxy
+﻿namespace Stumps
 {
 
     using System;
     using System.Text.RegularExpressions;
 
     /// <summary>
-    ///     A class that provides text matching for various rules.
+    ///     A class that determins if a block of text contains a specified value.
     /// </summary>
-    internal sealed class TextMatch
+    internal sealed class TextContainsMatch
     {
 
         private readonly bool _ignoreCase;
@@ -17,23 +17,23 @@
         private readonly bool _not;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Stumps.Proxy.TextMatch"/> class.
+        ///     Initializes a new instance of the <see cref="T:Stumps.TextContainsMatch"/> class.
         /// </summary>
-        /// <param name="value">The value used to match.</param>
+        /// <param name="value">The value to find.</param>
         /// <param name="ignoreCase">If set to <c>true</c>, capitalization is ignored.</param>
-        public TextMatch(string value, bool ignoreCase)
+        public TextContainsMatch(string value, bool ignoreCase)
         {
 
-            if (value.StartsWith(Resources.NotPattern, StringComparison.OrdinalIgnoreCase))
+            if (value.StartsWith(BaseResources.NotPattern, StringComparison.OrdinalIgnoreCase))
             {
                 _not = true;
-                value = value.Remove(0, Resources.NotPattern.Length);
+                value = value.Remove(0, BaseResources.NotPattern.Length);
             }
 
-            if (value.StartsWith(Resources.RegExPattern, StringComparison.OrdinalIgnoreCase))
+            if (value.StartsWith(BaseResources.RegExPattern, StringComparison.OrdinalIgnoreCase))
             {
                 _matchUsesRegex = true;
-                value = value.Remove(0, Resources.RegExPattern.Length);
+                value = value.Remove(0, BaseResources.RegExPattern.Length);
 
                 if (ignoreCase)
                 {
@@ -64,7 +64,9 @@
 
             var comparison = _ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
 
-            var match = _matchUsesRegex ? _matchRegexValue.IsMatch(value) : _matchStringValue.Equals(value, comparison);
+            var match = _matchUsesRegex
+                            ? _matchRegexValue.IsMatch(value)
+                            : (value.IndexOf(_matchStringValue, 0, comparison) > -1);
             match = match ^ _not;
 
             return match;

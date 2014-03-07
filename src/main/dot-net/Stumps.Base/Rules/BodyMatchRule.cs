@@ -1,4 +1,4 @@
-﻿namespace Stumps.Proxy
+﻿namespace Stumps.Rules
 {
 
     using System.Security.Cryptography;
@@ -15,7 +15,7 @@
         private readonly int _bodyLength;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Stumps.Proxy.BodyMatchRule"/> class.
+        ///     Initializes a new instance of the <see cref="T:Stumps.Rules.BodyMatchRule"/> class.
         /// </summary>
         /// <param name="value">The array of bytes matched against the HTTP requests's body.</param>
         public BodyMatchRule(byte[] value)

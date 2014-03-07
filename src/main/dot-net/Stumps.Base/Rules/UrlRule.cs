@@ -1,26 +1,26 @@
-﻿namespace Stumps.Proxy
+﻿namespace Stumps.Rules
 {
 
     using Stumps.Http;
 
     /// <summary>
-    ///     A class representing a Stump rule that evaluates the HTTP method of an HTTP request.
+    ///     A class representing a Stump rule that evaluates the URL of an HTTP request.
     /// </summary>
-    internal class HttpMethodRule : IStumpRule
+    internal class UrlRule : IStumpRule
     {
 
         private readonly TextMatch _textMatch;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Stumps.Proxy.HttpMethodRule"/> class.
+        ///     Initializes a new instance of the <see cref="T:Stumps.Rules.UrlRule"/> class.
         /// </summary>
-        /// <param name="httpMethod">The HTTP method for the rule.</param>
-        public HttpMethodRule(string httpMethod)
+        /// <param name="value">The value used for the URL rule.</param>
+        public UrlRule(string value)
         {
 
-            httpMethod = httpMethod ?? string.Empty;
+            value = value ?? string.Empty;
 
-            _textMatch = new TextMatch(httpMethod, true);
+            _textMatch = new TextMatch(value, true);
 
         }
 
@@ -39,7 +39,7 @@
                 return false;
             }
 
-            var match = _textMatch.IsMatch(request.HttpMethod);
+            var match = _textMatch.IsMatch(request.RawUrl);
             return match;
 
         }

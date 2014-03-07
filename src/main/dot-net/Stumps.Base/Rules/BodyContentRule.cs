@@ -1,4 +1,4 @@
-﻿namespace Stumps.Proxy
+﻿namespace Stumps.Rules
 {
 
     using System.Collections.Generic;
@@ -16,7 +16,7 @@
         private readonly List<TextContainsMatch> _textMatchList;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Stumps.Proxy.BodyContentRule"/> class.
+        ///     Initializes a new instance of the <see cref="T:Stumps.Rules.BodyContentRule"/> class.
         /// </summary>
         /// <param name="textEvaluatorStrings">The array of strings representing text evaluation rules.</param>
         public BodyContentRule(string[] textEvaluatorStrings)
