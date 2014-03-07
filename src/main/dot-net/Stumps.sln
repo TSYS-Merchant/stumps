@@ -34,6 +34,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stumps.Base.Tests", "..\..\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{DEF9F0BD-4754-4F88-BC3B-CF8149AF6AA9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stumps.Startup.Tests", "..\..\test\unit\Stumps.Startup.Tests\Stumps.Startup.Tests.csproj", "{F28D39EB-5AAA-4AFC-A9BF-264CD9A33445}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -113,6 +115,16 @@ Global
 		{9432A771-96AD-4FE4-9B1A-74643C387332}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{9432A771-96AD-4FE4-9B1A-74643C387332}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{9432A771-96AD-4FE4-9B1A-74643C387332}.Release|x86.ActiveCfg = Release|Any CPU
+		{F28D39EB-5AAA-4AFC-A9BF-264CD9A33445}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F28D39EB-5AAA-4AFC-A9BF-264CD9A33445}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F28D39EB-5AAA-4AFC-A9BF-264CD9A33445}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{F28D39EB-5AAA-4AFC-A9BF-264CD9A33445}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{F28D39EB-5AAA-4AFC-A9BF-264CD9A33445}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F28D39EB-5AAA-4AFC-A9BF-264CD9A33445}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F28D39EB-5AAA-4AFC-A9BF-264CD9A33445}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F28D39EB-5AAA-4AFC-A9BF-264CD9A33445}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{F28D39EB-5AAA-4AFC-A9BF-264CD9A33445}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{F28D39EB-5AAA-4AFC-A9BF-264CD9A33445}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -120,6 +132,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{9432A771-96AD-4FE4-9B1A-74643C387332} = {DEF9F0BD-4754-4F88-BC3B-CF8149AF6AA9}
 		{F2A862A5-84FC-41E9-BC0D-C900B02C621D} = {DEF9F0BD-4754-4F88-BC3B-CF8149AF6AA9}
+		{F28D39EB-5AAA-4AFC-A9BF-264CD9A33445} = {DEF9F0BD-4754-4F88-BC3B-CF8149AF6AA9}
 	EndGlobalSection
 	GlobalSection(CodealikeProperties) = postSolution
 		SolutionGuid = a611af39-9758-4bf0-aace-d54598aa756b

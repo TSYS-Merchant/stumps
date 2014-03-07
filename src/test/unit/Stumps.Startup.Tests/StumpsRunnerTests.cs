@@ -7,7 +7,7 @@
     using Stumps.Data;
 
     [TestFixture]
-    public class StumpServerTests
+    public class StumpsRunnerTests
     {
 
         [Test]
