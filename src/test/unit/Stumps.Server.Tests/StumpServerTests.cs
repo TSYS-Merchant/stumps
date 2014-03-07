@@ -15,7 +15,7 @@
         {
 
             Assert.That(
-                () => new StumpsServer(null),
+                () => new StumpsRunner(null),
                 Throws.Exception.TypeOf<ArgumentNullException>().With.Property("ParamName").EqualTo("configuration"));
 
         }
@@ -27,7 +27,7 @@
             var dal = Substitute.For<IConfigurationDataAccess>();
             var config = new StumpsConfiguration(dal);
 
-            using (var server = new StumpsServer(config))
+            using (var server = new StumpsRunner(config))
             {
 
                 Assert.AreSame(config, server.Configuration);

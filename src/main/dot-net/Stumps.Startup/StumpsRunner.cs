@@ -11,7 +11,7 @@
     /// <summary>
     ///     A class that represents the core Stumps server.
     /// </summary>
-    public sealed class StumpsServer : IDisposable
+    public sealed class StumpsRunner : IDisposable
     {
 
         private readonly object _syncRoot;
@@ -25,7 +25,7 @@
         /// </summary>
         /// <param name="configuration">The <see cref="T:Stumps.StumpsConfiguration"/> used to initialize the instance.</param>
         /// <exception cref="System.ArgumentNullException"><paramref name="configuration"/> is <c>null</c>.</exception>
-        public StumpsServer(StumpsConfiguration configuration)
+        public StumpsRunner(StumpsConfiguration configuration)
         {
 
             if (configuration == null)
@@ -41,7 +41,7 @@
         /// <summary>
         ///     Finalizes an instance of the <see cref="T:Stumps.StumpsServer"/> class.
         /// </summary>
-        ~StumpsServer()
+        ~StumpsRunner()
         {
             Dispose();
         }

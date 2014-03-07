@@ -85,7 +85,7 @@
       <DependentUpon>StartupResources.resx</DependentUpon>
     </Compile>
     <Compile Include="ServiceStartup.cs" />
-    <Compile Include="StumpsServer.cs" />
+    <Compile Include="StumpsRunner.cs" />
     <Compile Include="StumpsService.cs">
       <SubType>Component</SubType>
     </Compile>

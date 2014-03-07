@@ -7,7 +7,7 @@
     public partial class StumpsService : ServiceBase
     {
 
-        private readonly StumpsServer _server;
+        private readonly StumpsRunner _server;
 
         public StumpsService(StumpsConfiguration configuration)
         {
@@ -18,7 +18,7 @@
             }
 
             InitializeComponent();
-            _server = new StumpsServer(configuration);
+            _server = new StumpsRunner(configuration);
         }
 
         protected override void OnStart(string[] args)

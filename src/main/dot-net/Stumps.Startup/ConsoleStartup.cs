@@ -15,7 +15,7 @@
 
             this.MessageWriter.Information(StartupResources.StartupStarting);
 
-            using (var server = new StumpsServer(this.Configuration))
+            using (var server = new StumpsRunner(this.Configuration))
             {
                 server.Start();
                 this.MessageWriter.Information(StartupResources.StartupComplete);
