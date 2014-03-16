@@ -5,7 +5,7 @@
     ///     Provides the result of a class implementing the <see cref="T:Stumps.Http.IHttpHandler"/> 
     ///     interface when processing an incomming request.
     /// </summary>
-    public enum ProcessHandlerResult
+    internal enum ProcessHandlerResult
     {
 
         /// <summary>

@@ -126,4 +126,7 @@
   <data name="RegExPattern" xml:space="preserve">
     <value>regex:</value>
   </data>
+  <data name="StumpAlreadyExistsError" xml:space="preserve">
+    <value>A stump with the specified identifier already exists.</value>
+  </data>
 </root>

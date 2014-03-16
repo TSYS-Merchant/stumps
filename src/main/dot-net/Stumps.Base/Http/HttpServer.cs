@@ -9,7 +9,7 @@
     /// <summary>
     ///     A class that represents a basic HTTP server.
     /// </summary>
-    internal sealed class HttpServer : IDisposable
+    internal sealed class HttpServer : IHttpServer
     {
 
         private readonly IHttpHandler _handler;

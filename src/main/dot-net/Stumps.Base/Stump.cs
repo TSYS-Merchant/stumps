@@ -1,8 +1,8 @@
-﻿namespace Stumps.Proxy
+﻿namespace Stumps
 {
 
+    using System;
     using System.Collections.Generic;
-    using Stumps.Http;
 
     /// <summary>
     ///     A class that represents a Stump.
@@ -13,20 +13,48 @@
         private readonly List<IStumpRule> _ruleList;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Stumps.Proxy.Stump"/> class.
+        ///     Initializes a new instance of the <see cref="T:Stumps.Stump" /> class.
         /// </summary>
-        public Stump()
+        /// <param name="stumpId">The unique identifier for the stump.</param>
+        /// <exception cref="System.ArgumentNullException"><paramref name="stumpId"/> is <c>null</c>, an empty string, or only contains white space.</exception>
+        public Stump(string stumpId)
         {
+
+            if (string.IsNullOrWhiteSpace(stumpId))
+            {
+                throw new ArgumentNullException("stumpId");
+            }
+
+            this.StumpId = stumpId;
             _ruleList = new List<IStumpRule>();
+
+            this.Response = null;
+
         }
 
         /// <summary>
-        ///     Gets or sets the contract of the Stump.
+        /// Gets the response to the Stump.
         /// </summary>
         /// <value>
-        ///     The contract of the Stump.
+        /// The response to the Stump.
         /// </value>
-        public StumpContract Contract { get; set; }
+        public IStumpsHttpResponse Response
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// Gets unique identifier for the instance.
+        /// </summary>
+        /// <value>
+        ///     The unique identifier for the instance.
+        /// </value>
+        public string StumpId
+        {
+            get;
+            private set;
+        }
 
         /// <summary>
         ///     Determines whether the context of the HTTP request is match for the current instance.

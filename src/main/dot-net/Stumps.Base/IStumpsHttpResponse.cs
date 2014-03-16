@@ -25,7 +25,7 @@
         /// <value>
         ///     The collection of HTTP headers returned with the response.
         /// </value>
-        WebHeaderCollection Headers { get; }
+        IHeaderDictionary Headers { get; }
 
         /// <summary>
         ///     Gets the <see cref="T:System.IO.Stream"/> containing the body of the response.

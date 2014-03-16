@@ -6,8 +6,13 @@
     /// <summary>
     ///     A class that contains standard HTTP status codes.
     /// </summary>
-    public static class HttpStatusCodes
+    internal static class HttpStatusCodes
     {
+
+        /// <summary>
+        ///     The HTTP 404 Not Found status code.
+        /// </summary>
+        public const int HttpNotFound = 404;
 
         /// <summary>
         ///     The HTTP 200 OK status code.
@@ -23,6 +28,9 @@
         {
             {
                 HttpStatusCodes.HttpOk, "OK"
+            },
+            {
+                HttpStatusCodes.HttpNotFound, "Not Found"  
             },
             {
                 HttpStatusCodes.HttpServiceUnavailable, "Service Unavailable"

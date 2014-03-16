@@ -26,7 +26,7 @@
         /// <value>
         ///     The collection of HTTP headers.
         /// </value>
-        NameValueCollection Headers { get; }
+        IHeaderDictionary Headers { get; }
 
         /// <summary>
         ///     Gets the HTTP data transfer method used by the client.

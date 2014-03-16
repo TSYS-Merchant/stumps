@@ -1,4 +1,4 @@
-﻿namespace Stumps.Proxy
+﻿namespace Stumps
 {
 
     using System;
@@ -15,7 +15,7 @@
         private readonly List<IHttpHandler> _handlers;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Stumps.Proxy.HttpPipelineHandler"/> class.
+        ///     Initializes a new instance of the <see cref="T:Stumps.HttpPipelineHandler"/> class.
         /// </summary>
         public HttpPipelineHandler()
         {
@@ -47,9 +47,14 @@
         }
 
         /// <summary>
+        ///     Occurs when an incomming HTTP requst is processed and responded to by the HTTP handler.
+        /// </summary>
+        public event EventHandler<StumpsContextEventArgs> ContextProcessed;
+
+        /// <summary>
         ///     Processes an incoming HTTP request.
         /// </summary>
-        /// <param name="context">The <see cref="T:Stumps.Http.IStumpsHttpContext" /> representing both the incoming request and the response.</param>
+        /// <param name="context">The <see cref="T:Stumps.IStumpsHttpContext" /> representing both the incoming request and the response.</param>
         /// <returns>
         ///     A member of the <see cref="T:Stumps.Http.ProcessHandlerResult" /> enumeration.
         /// </returns>
@@ -74,6 +79,11 @@
                     break;
                 }
 
+            }
+
+            if (this.ContextProcessed != null)
+            {
+                this.ContextProcessed(this, new StumpsContextEventArgs(context));
             }
 
             return result;

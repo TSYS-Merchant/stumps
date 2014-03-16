@@ -1,10 +1,10 @@
-﻿namespace Stumps.Proxy
+﻿namespace Stumps
 {
 
     /// <summary>
-    ///     Provides a list of possible content encoding modes.
+    ///     Provides a list of possible content encoder modes.
     /// </summary>
-    public enum ContentEncodingMode
+    public enum ContentEncoderMode
     {
 
         /// <summary>

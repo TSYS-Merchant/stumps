@@ -86,5 +86,14 @@ namespace Stumps {
                 return ResourceManager.GetString("RegExPattern", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A stump with the specified identifier already exists..
+        /// </summary>
+        internal static string StumpAlreadyExistsError {
+            get {
+                return ResourceManager.GetString("StumpAlreadyExistsError", resourceCulture);
+            }
+        }
     }
 }

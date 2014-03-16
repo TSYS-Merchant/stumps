@@ -1,11 +1,10 @@
-﻿namespace Stumps.Proxy
+﻿namespace Stumps
 {
 
     using System;
     using System.Collections.Generic;
     using System.Net;
     using Stumps.Http;
-    using Stumps.Logging;
     using Stumps.Utility;
 
     /// <summary>
@@ -14,44 +13,38 @@
     internal class ProxyHandler : IHttpHandler
     {
 
-        private readonly ProxyEnvironment _environment;
         private readonly Uri _externalHostUri;
-        private readonly ILogger _logger;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Stumps.Proxy.ProxyHandler"/> class.
+        ///     Initializes a new instance of the <see cref="T:Stumps.ProxyHandler" /> class.
         /// </summary>
-        /// <param name="environment">The environment for the proxy server.</param>
-        /// <param name="logger">The logger used by the instance.</param>
+        /// <param name="externalHostUri">The external host URI.</param>
         /// <exception cref="System.ArgumentNullException">
-        /// <paramref name="environment"/> is <c>null</c>.
+        /// environment
         /// or
-        /// <paramref name="logger"/> is <c>null</c>.
+        /// logger
         /// </exception>
-        public ProxyHandler(ProxyEnvironment environment, ILogger logger)
+        public ProxyHandler(Uri externalHostUri)
         {
 
-            if (environment == null)
+            if (externalHostUri == null)
             {
-                throw new ArgumentNullException("environment");
+                throw new ArgumentNullException("externalHostUri");
             }
 
-            if (logger == null)
-            {
-                throw new ArgumentNullException("logger");
-            }
-
-            _environment = environment;
-            _logger = logger;
-
-            _externalHostUri = CreateUriFromEnvironment();
+            _externalHostUri = externalHostUri;
 
         }
 
         /// <summary>
+        ///     Occurs when an incomming HTTP requst is processed and responded to by the HTTP handler.
+        /// </summary>
+        public event EventHandler<StumpsContextEventArgs> ContextProcessed;
+
+        /// <summary>
         ///     Processes an incoming HTTP request.
         /// </summary>
-        /// <param name="context">The <see cref="T:Stumps.Http.IStumpsHttpContext" /> representing both the incoming request and the response.</param>
+        /// <param name="context">The <see cref="T:Stumps.IStumpsHttpContext" /> representing both the incoming request and the response.</param>
         /// <returns>
         ///     A member of the <see cref="T:Stumps.Http.ProcessHandlerResult" /> enumeration.
         /// </returns>
@@ -109,6 +102,11 @@
 
             }
 
+            if (this.ContextProcessed != null)
+            {
+                this.ContextProcessed(this, new StumpsContextEventArgs(context));
+            }
+
             return ProcessHandlerResult.Continue;
 
         }
@@ -132,21 +130,6 @@
             var url = urlHost + urlPath;
 
             return url;
-
-        }
-
-        /// <summary>
-        ///     Creates the URI from environment environment configuration.
-        /// </summary>
-        /// <returns></returns>
-        private Uri CreateUriFromEnvironment()
-        {
-
-            var schema = _environment.UseSsl ? "https://" : "http://";
-
-            var externalHostUri = new Uri(schema + _environment.ExternalHostName + "/");
-
-            return externalHostUri;
 
         }
 
@@ -177,14 +160,14 @@
                 }
                 else
                 {
-                    _logger.LogException(Resources.LogProxyRemoteError, wex);
+                    // TODO: Log error
                     success = false;
                 }
 
             }
             catch (Exception ex)
             {
-                _logger.LogException(Resources.LogProxyRemoteError, ex);
+                // TODO: Log error
                 success = false;
             }
 
@@ -264,10 +247,8 @@
         /// </summary>
         /// <param name="incommingHttpContext">The incomming HTTP context.</param>
         /// <param name="remoteWebRequest">The remote web request.</param>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes",
-            Justification = "Errors are logged.")]
-        private void PopulateRemoteHeadersFromContext(
-            IStumpsHttpContext incommingHttpContext, HttpWebRequest remoteWebRequest)
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Errors are logged.")]
+        private void PopulateRemoteHeadersFromContext(IStumpsHttpContext incommingHttpContext, HttpWebRequest remoteWebRequest)
         {
 
             var headers = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
@@ -313,14 +294,14 @@
                 {
                     // The header could fail to add because it is being referenced
                     // as a property - this is OK.
-                    this._logger.LogException(Resources.LogProxyHeaderError, ex);
+                    // TODO: Log error
                 }
             }
 
         }
 
         /// <summary>
-        /// Writes the context body from the remote response.
+        ///     Writes the context body from the remote response.
         /// </summary>
         /// <param name="incommingHttpContext">The incomming HTTP context.</param>
         /// <param name="remoteWebResponse">The remote web response.</param>
@@ -339,7 +320,7 @@
         }
 
         /// <summary>
-        /// Writes the context headers from the remote response.
+        ///     Writes the context headers from the remote response.
         /// </summary>
         /// <param name="incommingHttpContext">The incomming HTTP context.</param>
         /// <param name="remoteWebResponse">The remote web response.</param>

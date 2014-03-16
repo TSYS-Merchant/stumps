@@ -1,4 +1,4 @@
-﻿namespace Stumps.Proxy
+﻿namespace Stumps
 {
 
     using System;
@@ -9,11 +9,11 @@
     /// <summary>
     ///     A class that encodes and decodes the body of an HTTP request or an HTTP response for a specified HTTP content encoding method.
     /// </summary>
-    public class ContentEncoding
+    public class ContentEncoder
     {
 
-        private static readonly Dictionary<string, Func<Stream, ContentEncodingMode, Stream>> StreamEncoders =
-            new Dictionary<string, Func<Stream, ContentEncodingMode, Stream>>(StringComparer.OrdinalIgnoreCase)
+        private static readonly Dictionary<string, Func<Stream, ContentEncoderMode, Stream>> StreamEncoders =
+            new Dictionary<string, Func<Stream, ContentEncoderMode, Stream>>(StringComparer.OrdinalIgnoreCase)
             {
                 {
                     "gzip", CreateGzipStream
@@ -24,10 +24,10 @@
             };
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Stumps.Proxy.ContentEncoding"/> class.
+        ///     Initializes a new instance of the <see cref="T:Stumps.ContentEncoder"/> class.
         /// </summary>
         /// <param name="encodingMethod">The HTTP encoding method.</param>
-        public ContentEncoding(string encodingMethod)
+        public ContentEncoder(string encodingMethod)
         {
 
             encodingMethod = encodingMethod ?? string.Empty;
@@ -68,7 +68,7 @@
                 using (var outputStream = new MemoryStream())
                 {
 
-                    using (var encoderStream = StreamEncoders[this.Method](inputStream, ContentEncodingMode.Decode))
+                    using (var encoderStream = StreamEncoders[this.Method](inputStream, ContentEncoderMode.Decode))
                     {
 
                         encoderStream.CopyTo(outputStream);
@@ -107,7 +107,7 @@
                 using (var outputStream = new MemoryStream())
                 {
 
-                    using (var encoderStream = StreamEncoders[this.Method](outputStream, ContentEncodingMode.Encode))
+                    using (var encoderStream = StreamEncoders[this.Method](outputStream, ContentEncoderMode.Encode))
                     {
 
                         inputStream.CopyTo(encoderStream);
@@ -133,10 +133,10 @@
         /// <returns>
         ///     A <see cref="T:System.IO.Stream"/> representing the created stream.
         /// </returns>
-        private static Stream CreateDeflateStream(Stream stream, ContentEncodingMode mode)
+        private static Stream CreateDeflateStream(Stream stream, ContentEncoderMode mode)
         {
 
-            var compressionMode = mode == ContentEncodingMode.Encode
+            var compressionMode = mode == ContentEncoderMode.Encode
                                        ? CompressionMode.Compress
                                        : CompressionMode.Decompress;
             var compressionStream = new DeflateStream(stream, compressionMode, true);
@@ -153,10 +153,10 @@
         /// <returns>
         ///     A <see cref="T:System.IO.Stream"/> representing the created stream.
         /// </returns>
-        private static Stream CreateGzipStream(Stream stream, ContentEncodingMode mode)
+        private static Stream CreateGzipStream(Stream stream, ContentEncoderMode mode)
         {
 
-            var compressionMode = mode == ContentEncodingMode.Encode 
+            var compressionMode = mode == ContentEncoderMode.Encode 
                                        ? CompressionMode.Compress
                                        : CompressionMode.Decompress;
             var compressionStream = new GZipStream(stream, compressionMode, true);

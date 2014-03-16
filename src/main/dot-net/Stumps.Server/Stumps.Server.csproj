@@ -76,13 +76,9 @@
     <Compile Include="Data\ProxyServerEntity.cs" />
     <Compile Include="Data\StumpEntity.cs" />
     <Compile Include="DefaultConfigurationSettings.cs" />
-    <Compile Include="Proxy\ContentEncodingMode.cs" />
     <Compile Include="Proxy\IRecordedContextPart.cs" />
     <Compile Include="Proxy\ProxyStumps.cs" />
-    <Compile Include="Proxy\ContentEncoding.cs" />
-    <Compile Include="Proxy\Stump.cs" />
     <Compile Include="Proxy\StumpContract.cs" />
-    <Compile Include="Proxy\StumpsHandler.cs" />
     <Compile Include="StumpsNetworkException.cs" />
     <Compile Include="Utility\RandomGenerator.cs" />
     <Compile Include="Proxy\RecordedContext.cs" />
@@ -93,11 +89,8 @@
     <Compile Include="Proxy\RecordedRequest.cs" />
     <Compile Include="Proxy\RecordedResponse.cs" />
     <Compile Include="Proxy\ProxyRecordings.cs" />
-    <Compile Include="Proxy\HttpPipelineHandler.cs" />
-    <Compile Include="Proxy\ProxyHandler.cs" />
     <Compile Include="IStumpModule.cs" />
     <Compile Include="Logging\ILogger.cs" />
-    <Compile Include="Proxy\ProxyServer.cs" />
     <Compile Include="Proxy\ProxyEnvironment.cs" />
     <Compile Include="Proxy\ProxyServerModule.cs" />
     <Compile Include="Resources.Designer.cs">
