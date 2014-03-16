@@ -2,9 +2,9 @@
 {
 
     using System;
+    using System.Globalization;
     using System.Net;
     using Stumps.Utility;
-    using System.Globalization;
 
     /// <summary>
     ///     A class that represents an incomming HTTP request.
@@ -127,7 +127,7 @@
             // Setup the standard values
             this.HttpMethod = request.HttpMethod;
             this.LocalEndPoint = request.LocalEndPoint;
-            this.ProtocolVersion = String.Format(
+            this.ProtocolVersion = string.Format(
                 CultureInfo.InvariantCulture, "{0}.{1}", request.ProtocolVersion.Major, request.ProtocolVersion.Minor);
             this.RawUrl = request.RawUrl;
             this.RemoteEndPoint = request.RemoteEndPoint;

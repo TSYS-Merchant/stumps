@@ -68,7 +68,7 @@
         /// <summary>
         /// Gets the body for the HTTP request.
         /// </summary>
-        /// <returns>The body for the HTTP request</returns>
+        /// <returns>The body for the HTTP request.</returns>
         byte[] GetBody();
 
     }

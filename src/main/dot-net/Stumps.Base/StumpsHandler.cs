@@ -99,7 +99,7 @@
             // Write the body
             incommingHttpContext.Response.ClearBody();
             
-            if ( stump.Response.BodyLength > 0 )
+            if (stump.Response.BodyLength > 0)
             {
                 incommingHttpContext.Response.AppendToBody(stump.Response.GetBody());
             }

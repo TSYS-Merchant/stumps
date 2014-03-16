@@ -21,23 +21,6 @@ namespace Stumps.Http
         }
 
         /// <summary>
-        /// Gets the <see cref="System.String"/> with the specified header name.
-        /// </summary>
-        /// <value>
-        /// The <see cref="System.String"/>.
-        /// </value>
-        /// <param name="headerName">Name of the header.</param>
-        /// <returns></returns>
-        public string this[string headerName]
-        {
-            get
-            {
-                var keyValue = _headers.ContainsKey(headerName) ? _headers[headerName] : null;
-                return keyValue;
-            }
-        }
-
-        /// <summary>
         /// Gets the count of headers in the dictionary.
         /// </summary>
         /// <value>
@@ -60,14 +43,31 @@ namespace Stumps.Http
         }
 
         /// <summary>
+        /// Gets the <see cref="System.String"/> with the specified header name.
+        /// </summary>
+        /// <value>
+        /// The <see cref="System.String"/>.
+        /// </value>
+        /// <param name="headerName">Name of the header.</param>
+        /// <returns></returns>
+        public string this[string headerName]
+        {
+            get
+            {
+                var keyValue = _headers.ContainsKey(headerName) ? _headers[headerName] : null;
+                return keyValue;
+            }
+        }
+
+        /// <summary>
         /// Adds or updates the header with the specified name.
         /// </summary>
         /// <param name="name">The name of the header.</param>
         /// <param name="value">The value of the header.</param>
         /// <exception cref="System.ArgumentNullException">
-        /// name
+        /// <paramref name="name"/> is <c>null</c> or white space.
         /// or
-        /// value
+        /// <paramref name="value"/> is <c>null</c>.
         /// </exception>
         public void AddOrUpdate(string name, string value)
         {

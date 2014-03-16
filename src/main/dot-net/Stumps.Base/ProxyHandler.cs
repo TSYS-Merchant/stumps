@@ -19,11 +19,6 @@
         ///     Initializes a new instance of the <see cref="T:Stumps.ProxyHandler" /> class.
         /// </summary>
         /// <param name="externalHostUri">The external host URI.</param>
-        /// <exception cref="System.ArgumentNullException">
-        /// environment
-        /// or
-        /// logger
-        /// </exception>
         public ProxyHandler(Uri externalHostUri)
         {
 

@@ -23,6 +23,11 @@
         }
 
         /// <summary>
+        ///     Occurs when an incomming HTTP requst is processed and responded to by the HTTP handler.
+        /// </summary>
+        public event EventHandler<StumpsContextEventArgs> ContextProcessed;
+
+        /// <summary>
         /// Gets the number of child <see cref="T:Stumps.Http.IHttpHandler"/> instances.
         /// </summary>
         /// <value>
@@ -45,11 +50,6 @@
         {
             get { return _handlers[index]; }
         }
-
-        /// <summary>
-        ///     Occurs when an incomming HTTP requst is processed and responded to by the HTTP handler.
-        /// </summary>
-        public event EventHandler<StumpsContextEventArgs> ContextProcessed;
 
         /// <summary>
         ///     Processes an incoming HTTP request.

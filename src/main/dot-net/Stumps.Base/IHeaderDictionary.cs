@@ -7,15 +7,6 @@ namespace Stumps
     {
 
         /// <summary>
-        /// Gets the <see cref="System.String"/> value for the specified header name.
-        /// </summary>
-        /// <value>
-        /// The <see cref="System.String"/> value for the specified header name.
-        /// </value>
-        /// <param name="headerName">The name of the header.</param>
-        string this[string headerName] { get; }
-
-        /// <summary>
         ///     Gets the count of headers in the dictionary.
         /// </summary>
         /// <value>
@@ -30,6 +21,15 @@ namespace Stumps
         /// The collection of names of all the headers.
         /// </value>
         ICollection<string> HeaderNames { get; }
+
+        /// <summary>
+        /// Gets the <see cref="System.String"/> value for the specified header name.
+        /// </summary>
+        /// <value>
+        /// The <see cref="System.String"/> value for the specified header name.
+        /// </value>
+        /// <param name="headerName">The name of the header.</param>
+        string this[string headerName] { get; }
 
         /// <summary>
         ///     Adds or updates the header with the specified name.

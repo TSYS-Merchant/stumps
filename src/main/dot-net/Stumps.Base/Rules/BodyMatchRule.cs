@@ -45,7 +45,6 @@
                 return false;
             }
 
-
             var match = false;
 
             if (request.BodyLength == _bodyLength)

@@ -18,7 +18,7 @@ namespace Stumps
         ///     Initializes a new instance of the <see cref="T:Stumps.DefaultResponseHandler"/> class.
         /// </summary>
         /// <param name="defaultResponse">The default response.</param>
-        /// <exception cref="System.ArgumentOutOfRangeException">defaultResponse</exception>
+        /// <exception cref="System.ArgumentOutOfRangeException"><paramref name="defaultResponse"/> is <c>null</c>.</exception>
         public DefaultResponseHandler(ServerDefaultResponse defaultResponse)
         {
 

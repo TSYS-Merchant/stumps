@@ -10,7 +10,7 @@ namespace Stumps.Http
     internal static class IgnoredHeaders
     {
 
-        private readonly static HashSet<string> KnownHeaders = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+        private static readonly HashSet<string> KnownHeaders = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
         {
             "content-length",
             "content-type",
