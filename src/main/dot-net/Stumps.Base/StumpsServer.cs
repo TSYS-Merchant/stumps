@@ -127,6 +127,10 @@
                     this.Stop();
                 }
 
+                if (_stumpsManager != null)
+                {
+                    _stumpsManager.Dispose();
+                }
             }
 
             GC.SuppressFinalize(this);
