@@ -133,6 +133,9 @@
             _context.Response.SendChunked = (_response.Headers["transfer-encoding"] ?? string.Empty).Equals(
                 "chunked", StringComparison.OrdinalIgnoreCase);
 
+            // content length
+            _context.Response.ContentLength64 = _response.BodyLength;
+
             // Add all headers
             foreach (var headerName in _response.Headers.HeaderNames)
             {

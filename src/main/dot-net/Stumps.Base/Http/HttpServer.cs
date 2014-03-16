@@ -171,51 +171,24 @@
 
                 StumpsHttpContext stumpsContext = null;
 
-                try
+                // Create a new StumpsHttpContext
+                stumpsContext = new StumpsHttpContext(context);
+
+                if (this.RequestStarting != null)
                 {
-                    // Create a new StumpsHttpContext
-                    stumpsContext = new StumpsHttpContext(context);
-
-                    if (this.RequestStarting != null)
-                    {
-                        this.RequestStarting(this, new StumpsContextEventArgs(stumpsContext));
-                    }
-
-                    // Process the request through the HTTP handler
-                    _handler.ProcessRequest(stumpsContext);
-
-                    if (this.RequestFinishing != null)
-                    {
-                        this.RequestFinishing(this, new StumpsContextEventArgs(stumpsContext));
-                    }
-
-                    // Set the status code
-                    ((StumpsHttpResponse)stumpsContext.Response).ListenerResponse.StatusCode =
-                        stumpsContext.Response.StatusCode;
-
-                    // Adjust the status description
-                    ((StumpsHttpResponse)stumpsContext.Response).ListenerResponse.StatusDescription =
-                        stumpsContext.Response.StatusDescription;
-
-                    // Use HTTP chunked transfer encoding if requested
-                    ((StumpsHttpResponse)stumpsContext.Response).ListenerResponse.SendChunked =
-                        stumpsContext.Response.SendChunked;
-
-                    // Adjust the content length as necessary
-                    ((StumpsHttpResponse)stumpsContext.Response).ListenerResponse.ContentLength64 =
-                        stumpsContext.Response.OutputStream.Length;
-
-                    // End the request
-                    stumpsContext.EndResponse();
-
+                    this.RequestStarting(this, new StumpsContextEventArgs(stumpsContext));
                 }
-                finally
+
+                // Process the request through the HTTP handler
+                _handler.ProcessRequest(stumpsContext);
+
+                if (this.RequestFinishing != null)
                 {
-                    if (stumpsContext != null)
-                    {
-                        stumpsContext.Dispose();
-                    }
+                    this.RequestFinishing(this, new StumpsContextEventArgs(stumpsContext));
                 }
+
+                // End the request
+                stumpsContext.EndResponse();
 
                 //// TODO: Throw Event
                 //// _logger.LogInfo(
