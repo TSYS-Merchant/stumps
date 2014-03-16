@@ -2,10 +2,9 @@
 {
 
     using System;
-    using System.Collections.Specialized;
-    using System.IO;
     using System.Net;
     using Stumps.Utility;
+    using System.Globalization;
 
     /// <summary>
     ///     A class that represents an incomming HTTP request.
@@ -13,45 +12,26 @@
     internal sealed class StumpsHttpRequest : IStumpsHttpRequest
     {
 
-        private readonly HttpListenerRequest _request;
-        private bool _disposed;
-        private MemoryStream _requestStream;
+        private byte[] _bodyBuffer;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:Stumps.Http.StumpsHttpRequest"/> class.
         /// </summary>
-        /// <param name="request">The <see cref="T:System.Net.HttpListenerRequest"/> used to initialize the instance.</param>
-        public StumpsHttpRequest(HttpListenerRequest request)
+        public StumpsHttpRequest()
         {
-
-            _request = request;
-
-            _requestStream = new MemoryStream();
-
-            StreamUtility.CopyStream(_request.InputStream, _requestStream);
-
-            // Reset the position
-            _requestStream.Position = 0;
-
+            _bodyBuffer = new byte[0];
+            this.Headers = new HeaderDictionary();
         }
 
         /// <summary>
-        ///     Finalizes an instance of the <see cref="T:Stumps.Http.StumpsHttpRequest"/> class.
-        /// </summary>
-        ~StumpsHttpRequest()
-        {
-            Dispose();
-        }
-
-        /// <summary>
-        ///     Gets the MIME content type of the request.
+        ///     Gets the length of the HTTP request body.
         /// </summary>
         /// <value>
-        ///     The MIME content type of the request.
+        ///     The length of the HTTP request body.
         /// </value>
-        public string ContentType
+        public int BodyLength
         {
-            get { return _request.ContentType; }
+            get { return _bodyBuffer.Length; }
         }
 
         /// <summary>
@@ -60,9 +40,10 @@
         /// <value>
         ///     The collection of HTTP headers.
         /// </value>
-        public NameValueCollection Headers
+        public IHeaderDictionary Headers
         {
-            get { return _request.Headers; }
+            get;
+            private set;
         }
 
         /// <summary>
@@ -73,29 +54,8 @@
         /// </value>
         public string HttpMethod
         {
-            get { return _request.HttpMethod; }
-        }
-
-        /// <summary>
-        ///     Gets the <see cref="T:System.IO.Stream" /> containing the HTTP request body.
-        /// </summary>
-        /// <value>
-        ///     The <see cref="T:System.IO.Stream" /> containing the HTTP request body.
-        /// </value>
-        public Stream InputStream
-        {
-            get { return _requestStream; }
-        }
-
-        /// <summary>
-        ///     Gets a value indicating whether the connection is using a secure channel.
-        /// </summary>
-        /// <value>
-        ///     <c>true</c> if the connection is using a secure channel; otherwise, <c>false</c>.
-        /// </value>
-        public bool IsSecureConnection
-        {
-            get { return _request.IsSecureConnection; }
+            get;
+            private set;
         }
 
         /// <summary>
@@ -106,7 +66,8 @@
         /// </value>
         public IPEndPoint LocalEndPoint
         {
-            get { return _request.LocalEndPoint; }
+            get;
+            private set;
         }
 
         /// <summary>
@@ -115,20 +76,10 @@
         /// <value>
         ///     The HTTP protocol version.
         /// </value>
-        public Version ProtocolVersion
+        public string ProtocolVersion
         {
-            get { return _request.ProtocolVersion; }
-        }
-
-        /// <summary>
-        ///     Gets the collection of HTTP query string variables.
-        /// </summary>
-        /// <value>
-        ///     The collection of HTTP query string variables.
-        /// </value>
-        public NameValueCollection QueryString
-        {
-            get { return _request.QueryString; }
+            get;
+            private set;
         }
 
         /// <summary>
@@ -139,28 +90,8 @@
         /// </value>
         public string RawUrl
         {
-            get { return _request.RawUrl; }
-        }
-
-        /// <summary>
-        ///     Gets the URL for the client's previous request that linked to the current URL.
-        /// </summary>
-        /// <value>
-        ///     The URL for the client's previous request that linked to the current URL.
-        /// </value>
-        public string Referer
-        {
-            get
-            {
-                string referer = null;
-
-                if (_request.UrlReferrer != null)
-                {
-                    referer = _request.UrlReferrer.ToString();
-                }
-
-                return referer;
-            }
+            get;
+            private set;
         }
 
         /// <summary>
@@ -171,46 +102,44 @@
         /// </value>
         public IPEndPoint RemoteEndPoint
         {
-            get { return _request.RemoteEndPoint; }
+            get;
+            private set;
         }
 
         /// <summary>
-        ///     Gets the URL for the current request.
+        ///     Gets the body for the HTTP request.
         /// </summary>
-        /// <value>
-        ///     The URL for the current request.
-        /// </value>
-        public Uri Url
+        /// <returns>
+        ///     The body for the HTTP request
+        /// </returns>
+        public byte[] GetBody()
         {
-            get { return _request.Url; }
+            return _bodyBuffer;
         }
 
         /// <summary>
-        ///     Gets user agent for the client's browser.
+        ///     Initializes the instance using the specified <see cref="T:System.Net.HttpListenerRequest"/>.
         /// </summary>
-        /// <value>
-        ///     The user agent for the client's browser.
-        /// </value>
-        public string UserAgent
-        {
-            get { return _request.UserAgent; }
-        }
-
-        /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
-        public void Dispose()
+        /// <param name="request">The <see cref="T:System.Net.HttpListenerRequest"/> used to initilize the instance.</param>
+        public void InitializeInstance(HttpListenerRequest request)
         {
 
-            if (_requestStream != null && !_disposed)
+            // Setup the standard values
+            this.HttpMethod = request.HttpMethod;
+            this.LocalEndPoint = request.LocalEndPoint;
+            this.ProtocolVersion = String.Format(
+                CultureInfo.InvariantCulture, "{0}.{1}", request.ProtocolVersion.Major, request.ProtocolVersion.Minor);
+            this.RawUrl = request.RawUrl;
+            this.RemoteEndPoint = request.RemoteEndPoint;
+
+            // Setup the body
+            _bodyBuffer = StreamUtility.ConvertStreamToByteArray(request.InputStream);
+
+            // Setup the headers
+            foreach (var key in request.Headers.AllKeys)
             {
-                _requestStream.Dispose();
-                _requestStream = null;
+                this.Headers.AddOrUpdate(key, request.Headers[key]);
             }
-
-            _disposed = true;
-
-            GC.SuppressFinalize(this);
 
         }
 

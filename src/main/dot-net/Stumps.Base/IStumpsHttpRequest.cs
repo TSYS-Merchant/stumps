@@ -1,24 +1,21 @@
 ﻿namespace Stumps
 {
 
-    using System;
-    using System.Collections.Specialized;
-    using System.IO;
     using System.Net;
 
     /// <summary>
     ///     An interface that represents an incomming HTTP request.
     /// </summary>
-    public interface IStumpsHttpRequest : IDisposable
+    public interface IStumpsHttpRequest
     {
 
         /// <summary>
-        ///     Gets the MIME content type of the request.
+        ///     Gets the length of the HTTP request body.
         /// </summary>
         /// <value>
-        ///     The MIME content type of the request.
+        ///     The length of the HTTP request body.
         /// </value>
-        string ContentType { get; }
+        int BodyLength { get; }
 
         /// <summary>
         ///     Gets the collection of HTTP headers.
@@ -37,22 +34,6 @@
         string HttpMethod { get; }
 
         /// <summary>
-        ///     Gets the <see cref="T:System.IO.Stream"/> containing the HTTP request body.
-        /// </summary>
-        /// <value>
-        ///     The <see cref="T:System.IO.Stream"/> containing the HTTP request body.
-        /// </value>
-        Stream InputStream { get; }
-
-        /// <summary>
-        ///     Gets a value indicating whether the connection is using a secure channel.
-        /// </summary>
-        /// <value>
-        ///   <c>true</c> if the connection is using a secure channel; otherwise, <c>false</c>.
-        /// </value>
-        bool IsSecureConnection { get; }
-
-        /// <summary>
         ///     Gets the local end point where the HTTP request was received on.
         /// </summary>
         /// <value>
@@ -66,15 +47,7 @@
         /// <value>
         ///     The HTTP protocol version.
         /// </value>
-        Version ProtocolVersion { get; }
-
-        /// <summary>
-        ///     Gets the collection of HTTP query string variables.
-        /// </summary>
-        /// <value>
-        ///     The collection of HTTP query string variables.
-        /// </value>
-        NameValueCollection QueryString { get; }
+        string ProtocolVersion { get; }
 
         /// <summary>
         ///     Gets the raw URL of the current request.
@@ -85,14 +58,6 @@
         string RawUrl { get; }
 
         /// <summary>
-        ///     Gets the URL for the client's previous request that linked to the current URL.
-        /// </summary>
-        /// <value>
-        ///     The URL for the client's previous request that linked to the current URL.
-        /// </value>
-        string Referer { get; }
-
-        /// <summary>
         ///     Gets the remote end point the HTTP request came from.
         /// </summary>
         /// <value>
@@ -101,20 +66,10 @@
         IPEndPoint RemoteEndPoint { get; }
 
         /// <summary>
-        ///     Gets the URL for the current request.
+        /// Gets the body for the HTTP request.
         /// </summary>
-        /// <value>
-        ///     The URL for the current request.
-        /// </value>
-        Uri Url { get; }
-
-        /// <summary>
-        ///     Gets user agent for the client's browser.
-        /// </summary>
-        /// <value>
-        ///     The user agent for the client's browser.
-        /// </value>
-        string UserAgent { get; }
+        /// <returns>The body for the HTTP request</returns>
+        byte[] GetBody();
 
     }
 

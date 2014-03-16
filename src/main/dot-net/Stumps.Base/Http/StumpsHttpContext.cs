@@ -10,9 +10,9 @@
     internal sealed class StumpsHttpContext : IStumpsHttpContext
     {
 
-        private bool _disposed;
-        private StumpsHttpRequest _request;
-        private StumpsHttpResponse _response;
+        private readonly HttpListenerContext _context;
+        private readonly StumpsHttpRequest _request;
+        private readonly StumpsHttpResponse _response;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:Stumps.Http.StumpsHttpContext"/> class.
@@ -27,27 +27,31 @@
                 throw new ArgumentNullException("context");
             }
 
-            this.ContextId = Guid.NewGuid();
+            this.UniqueIdentifier = Guid.NewGuid();
+            this.ReceivedDate = DateTime.Now;
 
-            InitializeWithHttpListerContext(context);
+            _context = context;
+
+            // Initialize the HTTP request for the context
+            _request = new StumpsHttpRequest();
+            _request.InitializeInstance(context.Request);
+
+            // Initialize the HTTP response for the context
+            _response = new StumpsHttpResponse();
 
         }
 
         /// <summary>
-        /// Finalizes an instance of the <see cref="T:Stumps.Http.StumpsHttpContext"/> class.
-        /// </summary>
-        ~StumpsHttpContext()
-        {
-            Dispose();
-        }
-
-        /// <summary>
-        ///     Gets the context unique identifier for the request.
+        /// Gets the received date and time the request was received.
         /// </summary>
         /// <value>
-        ///     The context unique identifier for the request.
+        /// The date and time the request was received.
         /// </value>
-        public Guid ContextId { get; private set; }
+        public DateTime ReceivedDate
+        {
+            get; 
+            private set;
+        }
 
         /// <summary>
         ///     Gets the <see cref="T:Stumps.IStumpsHttpRequest" /> object for the current HTTP request.
@@ -72,51 +76,73 @@
         }
 
         /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        ///     Gets the unique identifier for the HTTP context.
         /// </summary>
-        public void Dispose()
+        /// <value>
+        ///     The unique identifier for the HTTP context.
+        /// </value>
+        public Guid UniqueIdentifier
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        ///     Closes the HTTP context and responds to the calling client.
+        /// </summary>
+        public void EndResponse()
         {
 
-            if (!_disposed)
-            {
-                if (_request != null)
-                {
-                    _request.Dispose();
-                    _request = null;
-                }
+            // Write headers
+            WriteHeaders();
 
-                if (_response != null)
-                {
-                    _response.Dispose();
-                    _response = null;
-                }
+            // Write the body
+            WriteBody();
+
+            // Set the status codes
+            _context.Response.StatusCode = _response.StatusCode;
+            _context.Response.StatusDescription = _response.StatusDescription;
+
+            _context.Response.Close();
+
+        }
+
+        /// <summary>
+        ///     Writes the body to the HTTP listener response.
+        /// </summary>
+        private void WriteBody()
+        {
+
+            if (_response.BodyLength > 0)
+            {
+                _context.Response.OutputStream.Write(_response.GetBody(), 0, _response.BodyLength);
             }
 
-            _disposed = true;
-
-            GC.SuppressFinalize(this);
-
         }
 
         /// <summary>
-        ///     Ends the HTTP context and responds to the calling client.
+        ///     Writes the headers to the HTTP listener response.
         /// </summary>
-        public void End()
+        private void WriteHeaders()
         {
 
-            _response.FlushResponse();
+            // content type
+            _context.Response.ContentType = _response.Headers["content-type"] ?? string.Empty;
 
-        }
+            // chunked
+            _context.Response.SendChunked = (_response.Headers["transfer-encoding"] ?? string.Empty).Equals(
+                "chunked", StringComparison.OrdinalIgnoreCase);
 
-        /// <summary>
-        ///     Initializes the instance using an <see cref="T:System.Net.HttpListenerContext"/> object.
-        /// </summary>
-        /// <param name="context">The <see cref="T:System.Net.HttpListenerContext"/> used to initialize the instance.</param>
-        private void InitializeWithHttpListerContext(HttpListenerContext context)
-        {
+            // Add all headers
+            foreach (var headerName in _response.Headers.HeaderNames)
+            {
+                if (IgnoredHeaders.IsIgnored(headerName))
+                {
+                    continue;
+                }
 
-            _request = new StumpsHttpRequest(context.Request);
-            _response = new StumpsHttpResponse(context.Response);
+                _context.Response.Headers.Add(headerName, _response.Headers[headerName]);
+            }
 
         }
 

@@ -2,9 +2,6 @@
 {
 
     using System;
-    using System.IO;
-    using System.Net;
-    using Stumps.Utility;
 
     /// <summary>
     ///     A class that represents the response to an HTTP request.
@@ -12,52 +9,30 @@
     internal sealed class StumpsHttpResponse : IStumpsHttpResponse
     {
 
-        private readonly HttpListenerResponse _response;
-        private bool _disposed;
-        private MemoryStream _responseStream;
+        private byte[] _bodyBuffer;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Stumps.Http.StumpsHttpResponse"/> class.
         /// </summary>
-        /// <param name="response">The response.</param>
-        public StumpsHttpResponse(HttpListenerResponse response)
+        public StumpsHttpResponse()
         {
-            _response = response;
-            _responseStream = new MemoryStream();
 
+            this.Headers = new HeaderDictionary();
             this.StatusCode = HttpStatusCodes.HttpOk;
             this.StatusDescription = HttpStatusCodes.GetStatusDescription(this.StatusCode);
+            _bodyBuffer = new byte[0];
+
         }
 
         /// <summary>
-        /// Finalizes an instance of the <see cref="T:Stumps.Http.StumpsHttpResponse"/> class.
-        /// </summary>
-        ~StumpsHttpResponse()
-        {
-            Dispose();
-        }
-
-        /// <summary>
-        ///     Gets the underlying <see cref="T:System.Net.HttpListenerResponse"/>.
+        ///     Gets the length of the HTTP request body.
         /// </summary>
         /// <value>
-        ///     The underlying <see cref="T:System.Net.HttpListenerResponse"/>.
+        ///     The length of the HTTP request body.
         /// </value>
-        public HttpListenerResponse ListenerResponse
+        public int BodyLength
         {
-            get { return _response; }
-        }
-
-        /// <summary>
-        ///     Gets or sets the MIME content type of the response.
-        /// </summary>
-        /// <value>
-        ///     The MIME content type of the response.
-        /// </value>
-        public string ContentType
-        {
-            get { return _response.ContentType; }
-            set { _response.ContentType = value; }
+            get { return _bodyBuffer.Length; }
         }
 
         /// <summary>
@@ -66,29 +41,23 @@
         /// <value>
         ///     The collection of HTTP headers returned with the response.
         /// </value>
-        public WebHeaderCollection Headers
+        public IHeaderDictionary Headers
         {
-            get { return _response.Headers; }
+            get;
+            private set;
         }
 
         /// <summary>
-        ///     Gets the <see cref="T:System.IO.Stream" /> containing the body of the response.
+        ///     Gets or sets the redirect address.
         /// </summary>
         /// <value>
-        ///     The <see cref="T:System.IO.Stream" /> containing the body of the response.
+        ///     The redirect address.
         /// </value>
-        public Stream OutputStream
+        public string RedirectAddress
         {
-            get { return _responseStream; }
+            get;
+            set;
         }
-
-        /// <summary>
-        ///     Gets or sets a value indicating whether to send the response using HTTP chunked mode.
-        /// </summary>
-        /// <value>
-        ///     <c>true</c> to send the response using HTTP chunked mode; otherwise, <c>false</c>.
-        /// </value>
-        public bool SendChunked { get; set; }
 
         /// <summary>
         ///     Gets or sets the HTTP status code for the response.
@@ -96,7 +65,11 @@
         /// <value>
         ///     The HTTP status code for the response.
         /// </value>
-        public int StatusCode { get; set; }
+        public int StatusCode
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         ///     Gets or sets the description of the HTTP status code.
@@ -104,67 +77,49 @@
         /// <value>
         ///     The description of the HTTP status code.
         /// </value>
-        public string StatusDescription { get; set; }
-
-        /// <summary>
-        ///     Adds the HTTP header to the collection.
-        /// </summary>
-        /// <param name="name">The name of the HTTP header.</param>
-        /// <param name="value">The value of the HTTP header.</param>
-        public void AddHeader(string name, string value)
+        public string StatusDescription
         {
-            _response.AddHeader(name, value);
+            get;
+            set;
         }
 
         /// <summary>
-        ///     Clears all data in the <see cref="P:Stumps.Http.IStumpsHttpResponse.OutputStream" />.
+        ///     Appends a byte array to the body of the HTTP response.
         /// </summary>
-        public void ClearOutputStream()
+        /// <param name="bytes">The bytes to append to the body of the response.</param>
+        public void AppendToBody(byte[] bytes)
         {
-            _responseStream.Close();
-            _responseStream = new MemoryStream();
-        }
-
-        /// <summary>
-        ///     Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
-        public void Dispose()
-        {
-
-            if (_responseStream != null && !_disposed)
+            if (bytes == null)
             {
-                _responseStream.Dispose();
-                _responseStream = null;
+                return;
             }
 
-            _disposed = true;
+            var newBodyLength = _bodyBuffer.Length + bytes.Length;
+            var newBuffer = new byte[newBodyLength];
 
-            GC.SuppressFinalize(this);
+            Buffer.BlockCopy(_bodyBuffer, 0, newBuffer, 0, _bodyBuffer.Length);
+            Buffer.BlockCopy(bytes, 0, newBuffer, _bodyBuffer.Length, bytes.Length);
+
+            _bodyBuffer = newBuffer;
         }
 
         /// <summary>
-        ///     Flushes the entire response to the network buffer.
+        ///     Clears the existing body of the HTTP response.
         /// </summary>
-        public void FlushResponse()
+        public void ClearBody()
         {
-
-            // Dump out the response output stream
-            StreamUtility.CopyStream(_responseStream, _response.OutputStream, 0);
-
-            // Complete and close the request
-            _responseStream.Close();
-            _response.OutputStream.Close();
-            _response.Close();
-
+            _bodyBuffer = new byte[0];
         }
 
         /// <summary>
-        ///     Redirects the client to a new URL.
+        ///     Gets the body of the HTTP response.
         /// </summary>
-        /// <param name="url">The URL to redirect the client to.</param>
-        public void Redirect(string url)
+        /// <returns>
+        ///     An array of <see cref="T:System.Byte" /> that represent the HTTP response.
+        /// </returns>
+        public byte[] GetBody()
         {
-            _response.Redirect(url);
+            return _bodyBuffer;
         }
 
     }

@@ -206,7 +206,7 @@
                         stumpsContext.Response.OutputStream.Length;
 
                     // End the request
-                    stumpsContext.End();
+                    stumpsContext.EndResponse();
 
                 }
                 finally
