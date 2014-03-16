@@ -68,10 +68,7 @@
     <Compile Include="..\..\..\main\dot-net\CommonAssembly\VersionAssemblyInfo.cs">
       <Link>Properties\VersionAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Proxy\ContentEncodingTests.cs" />
-    <Compile Include="Proxy\HttpPipelineHandlerTests.cs" />
     <Compile Include="Proxy\ProxyEnvironmentTests.cs" />
-    <Compile Include="Proxy\ProxyHandlerTests.cs" />
     <Compile Include="Proxy\ProxyHostTests.cs" />
     <Compile Include="Proxy\ProxyStumpsTests.cs" />
     <Compile Include="SampleJsonObject.cs" />

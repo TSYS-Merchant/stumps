@@ -1,9 +1,9 @@
 ﻿namespace Stumps.Rules
 {
 
-    using System.IO;
     using System.Text;
     using NUnit.Framework;
+    using NSubstitute;
 
     [TestFixture]
     public class BodyContentRuleTests
@@ -34,17 +34,15 @@
         public void IsMatch_BinaryContentWithTextString_ReturnsFalse()
         {
 
-            using (var request = CreateBinaryRequest())
-            {
+            var request = CreateBinaryRequest();
 
-                var rule = new BodyContentRule(
-                    new string[]
-                    {
-                        "passed"
-                    });
-                Assert.IsFalse(rule.IsMatch(request));
+            var rule = new BodyContentRule(
+                new string[]
+                {
+                    "passed"
+                });
 
-            }
+            Assert.IsFalse(rule.IsMatch(request));
 
         }
 
@@ -58,12 +56,8 @@
                     "not:failed"
                 });
 
-            using (var request = CreateTextRequest("passed"))
-            {
-
-                Assert.IsTrue(rule.IsMatch(request));
-
-            }
+            var request = CreateTextRequest("passed");
+            Assert.IsTrue(rule.IsMatch(request));
 
         }
 
@@ -77,12 +71,8 @@
                     "not:passed"
                 });
 
-            using (var request = CreateTextRequest("passed"))
-            {
-
-                Assert.IsFalse(rule.IsMatch(request));
-
-            }
+            var request = CreateTextRequest("passed");
+            Assert.IsFalse(rule.IsMatch(request));
 
         }
 
@@ -96,10 +86,8 @@
                     "passed", "AAA"
                 });
 
-            using (var request = CreateTextRequest("passed"))
-            {
-                Assert.IsTrue(rule.IsMatch(request));
-            }
+            var request = CreateTextRequest("passed");
+            Assert.IsTrue(rule.IsMatch(request));
 
         }
 
@@ -119,15 +107,12 @@
                     "PASSED", "AAA"
                 });
 
-            using (var request = CreateTextRequest("passed"))
-            {
+            var request = CreateTextRequest("passed");
 
-                Assert.IsFalse(ruleCaseMatches.IsMatch(request));
+            Assert.IsFalse(ruleCaseMatches.IsMatch(request));
 
-                // correct text, wrong case
-                Assert.IsFalse(ruleCaseDoesNotMatch.IsMatch(request));
-
-            }
+            // correct text, wrong case
+            Assert.IsFalse(ruleCaseDoesNotMatch.IsMatch(request));
 
         }
 
@@ -141,12 +126,8 @@
                     "not:regex:AA.*ssed.*D"
                 });
 
-            using (var request = CreateTextRequest("passed"))
-            {
-
-                Assert.IsFalse(rule.IsMatch(request));
-
-            }
+            var request = CreateTextRequest("passed");
+            Assert.IsFalse(rule.IsMatch(request));
 
         }
 
@@ -160,12 +141,8 @@
                     "not:regex:AA.*ssed.*D"
                 });
 
-            using (var request = CreateTextRequest("failed"))
-            {
-
-                Assert.IsTrue(rule.IsMatch(request));
-
-            }
+            var request = CreateTextRequest("failed");
+            Assert.IsTrue(rule.IsMatch(request));
 
         }
 
@@ -179,12 +156,8 @@
                     "regex:AA.*ssed.*D"
                 });
 
-            using (var request = CreateTextRequest("passed"))
-            {
-
-                Assert.IsTrue(rule.IsMatch(request));
-
-            }
+            var request = CreateTextRequest("passed");
+            Assert.IsTrue(rule.IsMatch(request));
 
         }
 
@@ -198,42 +171,36 @@
                     "regex:AA.*ssed.*D"
                 });
 
-            using (var request = CreateTextRequest("failed"))
-            {
-
-                Assert.IsFalse(rule.IsMatch(request));
-
-            }
+            var request = CreateTextRequest("failed");
+            Assert.IsFalse(rule.IsMatch(request));
 
         }
 
-        private MockHttpRequest CreateBinaryRequest()
+        private IStumpsHttpRequest CreateBinaryRequest()
         {
 
             var buffer = new byte[]
             {
                 200, 172, 203, 199, 166, 180, 7
             };
-            var stream = new MemoryStream(buffer);
-            var request = new MockHttpRequest
-            {
-                InputStream = stream
-            };
+
+            var request = Substitute.For<IStumpsHttpRequest>();
+            request.GetBody().Returns(buffer);
+            request.BodyLength.Returns(buffer.Length);
 
             return request;
 
         }
 
-        private MockHttpRequest CreateTextRequest(string text)
+        private IStumpsHttpRequest CreateTextRequest(string text)
         {
 
             var exampleString = "AAAAAABBBBBB" + text + "CCCCCCDDDDDD";
             var buffer = Encoding.UTF8.GetBytes(exampleString);
-            var stream = new MemoryStream(buffer);
-            var request = new MockHttpRequest
-            {
-                InputStream = stream
-            };
+
+            var request = Substitute.For<IStumpsHttpRequest>();
+            request.GetBody().Returns(buffer);
+            request.BodyLength.Returns(buffer.Length);
 
             return request;
 

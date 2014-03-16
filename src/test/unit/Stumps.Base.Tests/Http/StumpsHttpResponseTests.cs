@@ -30,7 +30,6 @@
                     var response = i.Context.Response;
 
                     finishingEventCount++;
-                    Assert.AreEqual(mockHandler.ContentType, response.ContentType);
                     Assert.IsNotNull(response.Headers);
                     Assert.Greater(response.Headers.Count, 0);
                     Assert.AreEqual(response.Headers["X-Stumps"], "V1");

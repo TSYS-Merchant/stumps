@@ -55,6 +55,8 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="ContentEncoderTests.cs" />
+    <Compile Include="HttpPipelineHandlerTests.cs" />
     <Compile Include="Http\HttpHelper.cs" />
     <Compile Include="Http\HttpServerTests.cs" />
     <Compile Include="Http\StumpsHttpContextTests.cs" />
@@ -71,6 +73,7 @@
     <Compile Include="..\..\..\main\dot-net\CommonAssembly\VersionAssemblyInfo.cs">
       <Link>Properties\VersionAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="ProxyHandlerTests.cs" />
     <Compile Include="Rules\BodyContentRuleTests.cs" />
     <Compile Include="Rules\BodyLengthRuleTests.cs" />
     <Compile Include="Rules\BodyMatchRuleTests.cs" />

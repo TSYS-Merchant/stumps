@@ -1,7 +1,9 @@
 ﻿namespace Stumps.Rules
 {
 
+    using Stumps.Http;
     using NUnit.Framework;
+    using NSubstitute;
 
     [TestFixture]
     public class HeaderRuleTests
@@ -21,10 +23,8 @@
 
             var rule = new HeaderRule("headername", "headervalue");
 
-            using (var request = CreateWithHeaders(headerName, headerValue))
-            {
-                Assert.AreEqual(expectedResult, rule.IsMatch(request));
-            }
+            var request = CreateWithHeaders(headerName, headerValue);
+            Assert.AreEqual(expectedResult, rule.IsMatch(request));
 
         }
 
@@ -37,10 +37,8 @@
 
             var rule = new HeaderRule("regex:he.*me", "headervalue");
 
-            using (var request = CreateWithHeaders(headerName, headerValue))
-            {
-                Assert.AreEqual(expectedResult, rule.IsMatch(request));
-            }
+            var request = CreateWithHeaders(headerName, headerValue);
+            Assert.AreEqual(expectedResult, rule.IsMatch(request));
 
         }
 
@@ -53,10 +51,8 @@
 
             var rule = new HeaderRule("headername", "regex:he.*ue");
 
-            using (var request = CreateWithHeaders(headerName, headerValue))
-            {
-                Assert.AreEqual(expectedResult, rule.IsMatch(request));
-            }
+            var request = CreateWithHeaders(headerName, headerValue);
+            Assert.AreEqual(expectedResult, rule.IsMatch(request));
 
         }
 
@@ -69,10 +65,8 @@
 
             var rule = new HeaderRule("not:regex:he.*me", "headervalue");
 
-            using (var request = CreateWithHeaders(headerName, headerValue))
-            {
-                Assert.AreEqual(expectedResult, rule.IsMatch(request));
-            }
+            var request = CreateWithHeaders(headerName, headerValue);
+            Assert.AreEqual(expectedResult, rule.IsMatch(request));
 
         }
 
@@ -85,27 +79,22 @@
 
             var rule = new HeaderRule("headername", "not:regex:he.*ue");
 
-            using (var request = CreateWithHeaders(headerName, headerValue))
-            {
-                Assert.AreEqual(expectedResult, rule.IsMatch(request));
-            }
+            var request = CreateWithHeaders(headerName, headerValue);
+            Assert.AreEqual(expectedResult, rule.IsMatch(request));
 
         }
 
         [TestCase("headername", "headervalue", true)]
         [TestCase("x-headername", "headervalue", true)]
         [TestCase("someheader", "headervalue", true)]
-        [TestCase("", "headervalue", true)]
         public void IsMatch_WithRegexAnyNameAndExactValue_ReturnsExpected(
             string headerName, string headerValue, bool expectedResult)
         {
 
             var rule = new HeaderRule("regex:.*", "headervalue");
 
-            using (var request = CreateWithHeaders(headerName, headerValue))
-            {
-                Assert.AreEqual(expectedResult, rule.IsMatch(request));
-            }
+            var request = CreateWithHeaders(headerName, headerValue);
+            Assert.AreEqual(expectedResult, rule.IsMatch(request));
 
         }
 
@@ -119,10 +108,8 @@
 
             var rule = new HeaderRule("headername", "regex:.*");
 
-            using (var request = CreateWithHeaders(headerName, headerValue))
-            {
-                Assert.AreEqual(expectedResult, rule.IsMatch(request));
-            }
+            var request = CreateWithHeaders(headerName, headerValue);
+            Assert.AreEqual(expectedResult, rule.IsMatch(request));
 
         }
 
@@ -134,10 +121,8 @@
 
             var rule = new HeaderRule("not:headername", "headervalue");
 
-            using (var request = CreateWithHeaders(headerName, headerValue))
-            {
-                Assert.AreEqual(expectedResult, rule.IsMatch(request));
-            }
+            var request = CreateWithHeaders(headerName, headerValue);
+            Assert.AreEqual(expectedResult, rule.IsMatch(request));
 
         }
 
@@ -149,22 +134,17 @@
 
             var rule = new HeaderRule("headername", "not:headervalue");
 
-            using (var request = CreateWithHeaders(headerName, headerValue))
-            {
-                Assert.AreEqual(expectedResult, rule.IsMatch(request));
-            }
+            var request = CreateWithHeaders(headerName, headerValue);
+            Assert.AreEqual(expectedResult, rule.IsMatch(request));
 
         }
 
-        public MockHttpRequest CreateWithHeaders(string headerName, string headerValue)
+        public IStumpsHttpRequest CreateWithHeaders(string headerName, string headerValue)
         {
 
-            var request = new MockHttpRequest
-            {
-                Headers = new System.Collections.Specialized.NameValueCollection()
-            };
-
-            request.Headers.Add(headerName, headerValue);
+            var request = Substitute.For<IStumpsHttpRequest>();
+            request.Headers.Returns(new HeaderDictionary());
+            request.Headers.AddOrUpdate(headerName, headerValue);
 
             return request;
 
@@ -192,13 +172,12 @@
 
             var rule = new HeaderRule(string.Empty, string.Empty);
 
-            using (var request = new MockHttpRequest
-            {
-                Headers = null
-            })
-            {
-                Assert.IsFalse(rule.IsMatch(request));
-            }
+            var request = Substitute.For<IStumpsHttpRequest>();
+            IHeaderDictionary dict = null;
+
+            request.Headers.Returns(dict);
+
+            Assert.IsFalse(rule.IsMatch(request));
 
         }
 

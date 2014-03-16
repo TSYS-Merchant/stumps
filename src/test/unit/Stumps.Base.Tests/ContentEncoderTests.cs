@@ -1,10 +1,10 @@
-﻿namespace Stumps.Proxy
+﻿namespace Stumps
 {
 
     using NUnit.Framework;
 
     [TestFixture]
-    public class ContentEncodingTests
+    public class ContentEncoderTests
     {
 
         private readonly byte[] _helloWorldUtf8 = new byte[]

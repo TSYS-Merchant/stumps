@@ -2,8 +2,8 @@
 {
 
     using System;
-    using System.IO;
     using NUnit.Framework;
+    using NSubstitute;
 
     [TestFixture]
     public class BodyMatchRuleTests
@@ -18,10 +18,8 @@
 
             var rule = new BodyMatchRule(ruleBody);
 
-            using (var request = CreateRequest(requestBody))
-            {
-                Assert.IsFalse(rule.IsMatch(request));
-            }
+            var request = CreateRequest(requestBody);
+            Assert.IsFalse(rule.IsMatch(request));
 
         }
 
@@ -29,14 +27,12 @@
         public void IsMatch_GivenBodyIsSameAsRule_ReturnsTrue()
         {
 
-            var body = GenerateByteArray(50, Environment.TickCount);
+            var requestBody = GenerateByteArray(50, Environment.TickCount);
 
-            var rule = new BodyMatchRule(body);
+            var rule = new BodyMatchRule(requestBody);
 
-            using (var request = CreateRequest(body))
-            {
-                Assert.IsTrue(rule.IsMatch(request));
-            }
+            var request = CreateRequest(requestBody);
+            Assert.IsTrue(rule.IsMatch(request));
 
         }
 
@@ -49,20 +45,17 @@
 
             var rule = new BodyMatchRule(ruleBody);
 
-            using (var request = CreateRequest(requestBody))
-            {
-                Assert.IsFalse(rule.IsMatch(request));
-            }
+            var request = CreateRequest(requestBody);
+            Assert.IsFalse(rule.IsMatch(request));
 
         }
 
-        private MockHttpRequest CreateRequest(byte[] requestBody)
+        private IStumpsHttpRequest CreateRequest(byte[] requestBody)
         {
 
-            var request = new MockHttpRequest
-            {
-                InputStream = new MemoryStream(requestBody)
-            };
+            var request = Substitute.For<IStumpsHttpRequest>();
+            request.GetBody().Returns(requestBody);
+            request.BodyLength.Returns(requestBody.Length);
 
             return request;
 

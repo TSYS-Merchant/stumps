@@ -30,18 +30,12 @@
                     var request = i.Context.Request;
 
                     startingEventCount++;
-                    Assert.AreEqual("Bobs.Content", request.ContentType);
                     Assert.Greater(request.Headers.Count, 0);
                     Assert.AreEqual("GET", request.HttpMethod);
-                    Assert.IsFalse(request.IsSecureConnection);
                     Assert.AreEqual(server.Port, request.LocalEndPoint.Port);
-                    Assert.AreEqual(request.ProtocolVersion.Major, 1);
-                    Assert.AreEqual(request.ProtocolVersion.Minor, 1);
-                    Assert.IsNotNull(request.QueryString);
+                    Assert.AreEqual("1.1", request.ProtocolVersion);
                     Assert.AreEqual("/", request.RawUrl);
-                    Assert.AreEqual("http://stumps-project.com/", request.Referer);
-                    Assert.IsNotNull(request.Url);
-                    Assert.AreEqual("StumpsTestAgent", request.UserAgent);
+
                 };
 
                 server.StartListening();

@@ -1,8 +1,8 @@
 ﻿namespace Stumps.Rules
 {
 
-    using System.IO;
     using NUnit.Framework;
+    using NSubstitute;
 
     [TestFixture]
     public class BodyLengthRuleTests
@@ -10,15 +10,13 @@
 
         [TestCase(0, true)]
         [TestCase(15, false)]
-        public void IsMatch_EnforcesZeroLengthBodySize(int bodyLenth, bool expectedResult)
+        public void IsMatch_EnforcesZeroLengthBodySize(int bodyLength, bool expectedResult)
         {
 
             var rule = new BodyLengthRule(0, 0);
 
-            using (var request = CreateRequest(bodyLenth))
-            {
-                Assert.AreEqual(expectedResult, rule.IsMatch(request));
-            }
+            var request = CreateRequest(bodyLength);
+            Assert.AreEqual(expectedResult, rule.IsMatch(request));
 
         }
 
@@ -31,10 +29,8 @@
 
             var rule = new BodyLengthRule(15, 15);
 
-            using (var request = CreateRequest(bodyLength))
-            {
-                Assert.AreEqual(expectedResult, rule.IsMatch(request));
-            }
+            var request = CreateRequest(bodyLength);
+            Assert.AreEqual(expectedResult, rule.IsMatch(request));
 
         }
 
@@ -48,14 +44,12 @@
 
             var rule = new BodyLengthRule(5, 50);
 
-            using (var request = CreateRequest(bodyLength))
-            {
-                Assert.AreEqual(expectedResult, rule.IsMatch(request));
-            }
+            var request = CreateRequest(bodyLength);
+            Assert.AreEqual(expectedResult, rule.IsMatch(request));
 
         }
 
-        private MockHttpRequest CreateRequest(int bodySize)
+        private IStumpsHttpRequest CreateRequest(int bodySize)
         {
 
             var buffer = new byte[bodySize];
@@ -65,12 +59,9 @@
                 buffer[i] = 0x20;
             }
 
-            var stream = new MemoryStream(buffer);
-
-            var request = new MockHttpRequest
-            {
-                InputStream = stream
-            };
+            var request = Substitute.For<IStumpsHttpRequest>();
+            request.GetBody().Returns(buffer);
+            request.BodyLength.Returns(bodySize);
 
             return request;
 

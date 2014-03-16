@@ -93,15 +93,15 @@
         public void EndResponse()
         {
 
+            // Set the status codes
+            _context.Response.StatusCode = _response.StatusCode;
+            _context.Response.StatusDescription = _response.StatusDescription;
+
             // Write headers
             WriteHeaders();
 
             // Write the body
             WriteBody();
-
-            // Set the status codes
-            _context.Response.StatusCode = _response.StatusCode;
-            _context.Response.StatusDescription = _response.StatusDescription;
 
             _context.Response.Close();
 

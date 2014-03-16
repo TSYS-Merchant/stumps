@@ -64,21 +64,13 @@ namespace Stumps.Http
         /// </summary>
         /// <param name="name">The name of the header.</param>
         /// <param name="value">The value of the header.</param>
-        /// <exception cref="System.ArgumentNullException">
-        /// <paramref name="name"/> is <c>null</c> or white space.
-        /// or
-        /// <paramref name="value"/> is <c>null</c>.
-        /// </exception>
         public void AddOrUpdate(string name, string value)
         {
-            if (string.IsNullOrWhiteSpace(name))
+            if (string.IsNullOrWhiteSpace(name) || value == null)
             {
-                throw new ArgumentNullException("name");
-            }
-
-            if (value == null)
-            {
-                throw new ArgumentNullException("value");
+                // This should never happen in a real-world scenario, but fall out gracefully if it does
+                // rather than throwing an exception.
+                return;
             }
 
             if (_headers.ContainsKey(name))

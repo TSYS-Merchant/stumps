@@ -1,64 +1,65 @@
 ﻿namespace Stumps
 {
 
-    using Stumps.Http;
+    using System;
 
     public class MockHttpResponse : IStumpsHttpResponse
     {
 
-        public MockHttpResponse()
+        private byte[] _bodyBuffer = new byte[0];
+
+        public int BodyLength
         {
-            this.Headers = new System.Net.WebHeaderCollection();
+            get { return _bodyBuffer.Length; }
         }
 
-        #region IStumpsHttpResponse Members
-
-        public string ContentType { get; set; }
-
-        public System.Net.WebHeaderCollection Headers { get; set; }
-
-        public System.IO.Stream OutputStream { get; set; }
-
-        public bool SendChunked { get; set; }
-
-        public int StatusCode { get; set; }
-
-        public string StatusDescription { get; set; }
-
-        public void AddHeader(string name, string value)
+        public IHeaderDictionary Headers
         {
-            this.Headers.Add(name, value);
+            get;
+            private set;
         }
 
-        public void ClearOutputStream()
+        public string RedirectAddress
         {
-            this.OutputStream = new System.IO.MemoryStream();
+            get; set;
         }
 
-        public void FlushResponse()
+        public int StatusCode
         {
+            get; set;
         }
 
-        public void Redirect(string url)
+        public string StatusDescription
         {
+            get; set;
         }
 
-        #endregion
-
-        #region IDisposable Members
-
-        public void Dispose()
+        public void AppendToBody(byte[] bytes)
         {
-
-            if (this.OutputStream != null)
+            if (bytes == null)
             {
-                this.OutputStream.Dispose();
-                this.OutputStream = null;
+                return;
             }
 
+            var newBodyLength = _bodyBuffer.Length + bytes.Length;
+            var newBuffer = new byte[newBodyLength];
+
+            Buffer.BlockCopy(_bodyBuffer, 0, newBuffer, 0, _bodyBuffer.Length);
+            Buffer.BlockCopy(bytes, 0, newBuffer, _bodyBuffer.Length, bytes.Length);
+
+            _bodyBuffer = newBuffer;
         }
 
-        #endregion
+        public void ClearBody()
+        {
+            _bodyBuffer = new byte[0];
+        }
+
+        public byte[] GetBody()
+        {
+            return _bodyBuffer;
+        }
+
     }
 
 }

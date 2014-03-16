@@ -6,7 +6,7 @@
     using System.Text;
     using Stumps.Http;
 
-    public class MockHandler : IHttpHandler
+    internal class MockHandler : IHttpHandler
     {
 
         private readonly List<Tuple<string, string>> _headers;
@@ -24,6 +24,8 @@
 
         }
 
+        public event EventHandler<StumpsContextEventArgs> ContextProcessed;
+
         public string ContentType { get; set; }
 
         public int StatusCode { get; set; }
@@ -35,16 +37,16 @@
 
             foreach (var value in _headers)
             {
-                context.Response.AddHeader(value.Item1, value.Item2);
+                context.Response.Headers.AddOrUpdate(value.Item1, value.Item2);
             }
 
-            context.Response.ContentType = this.ContentType;
             context.Response.StatusCode = this.StatusCode;
             context.Response.StatusDescription = this.StatusDescription;
 
             if (_body != null && _body.Length > 0)
             {
-                context.Response.OutputStream.Write(_body, 0, _body.Length);
+                context.Response.ClearBody();
+                context.Response.AppendToBody(_body);
             }
 
             return ProcessHandlerResult.Terminate;
@@ -64,6 +66,7 @@
             _body = Encoding.UTF8.GetBytes(value);
 
         }
+
 
     }
 
