@@ -14,7 +14,7 @@
 
         private readonly object _syncRoot;
         private readonly IStumpsManager _stumpsManager;
-        private readonly Uri _externalHost;
+        private readonly Uri _proxyHost;
         private readonly ServerDefaultResponse _defaultResponse;
 
         private readonly int _port;
@@ -30,10 +30,10 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Stumps.StumpsServer" /> class.
         /// </summary>
-        /// <param name="port">The port the HTTP server is using to listen for traffic.</param>
+        /// <param name="listeningPort">The port the HTTP server is using to listen for traffic.</param>
         /// <param name="defaultResponse">The default response returned to a client when a matching <see cref="T:Stumps.Stump"/> is not found.</param>
-        /// <exception cref="System.ArgumentOutOfRangeException"><paramref name="port" /> exceeds the allowed TCP port range.</exception>
-        public StumpsServer(int port, ServerDefaultResponse defaultResponse) : this(port, null)
+        /// <exception cref="System.ArgumentOutOfRangeException"><paramref name="listeningPort" /> exceeds the allowed TCP port range.</exception>
+        public StumpsServer(int listeningPort, ServerDefaultResponse defaultResponse) : this(listeningPort, null)
         {
             _defaultResponse = defaultResponse;
         }
@@ -41,22 +41,22 @@
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:Stumps.StumpsServer" /> class.
         /// </summary>
-        /// <param name="port">The port the HTTP server is using to listen for traffic.</param>
-        /// <param name="externalHostUri">The external host that is contacted when a <see cref="T:Stumps.Stump"/> is unavailable to handle the incomming request.</param>
-        /// <exception cref="System.ArgumentOutOfRangeException"><paramref name="port" /> exceeds the allowed TCP port range.</exception>
-        public StumpsServer(int port, Uri externalHostUri)
+        /// <param name="listeningPort">The port the HTTP server is using to listen for traffic.</param>
+        /// <param name="proxyHostUri">The external host that is contacted when a <see cref="T:Stumps.Stump"/> is unavailable to handle the incomming request.</param>
+        /// <exception cref="System.ArgumentOutOfRangeException"><paramref name="listeningPort" /> exceeds the allowed TCP port range.</exception>
+        public StumpsServer(int listeningPort, Uri proxyHostUri)
         {
-            if (port < IPEndPoint.MinPort || port > IPEndPoint.MaxPort)
+            if (listeningPort < IPEndPoint.MinPort || listeningPort > IPEndPoint.MaxPort)
             {
-                throw new ArgumentOutOfRangeException("port");
+                throw new ArgumentOutOfRangeException("listeningPort");
             }
 
             _syncRoot = new object();
             _stumpsManager = new StumpsManager();
 
-            _port = port;
+            _port = listeningPort;
 
-            _externalHost = externalHostUri;
+            _proxyHost = proxyHostUri;
         }
 
         /// <summary>
@@ -87,6 +87,17 @@
         public int ListeningPort
         {
             get { return _port; }
+        }
+
+        /// <summary>
+        ///     Gets the external host that is contacted when a <see cref="T:Stumps.Stump"/> is unavailable to handle the incomming request.
+        /// </summary>
+        /// <value>
+        ///     The external host that is contacted when a <see cref="T:Stumps.Stump"/> is unavailable to handle the incomming request.
+        /// </value>
+        public Uri ProxyHostUri
+        {
+            get { return _proxyHost; }
         }
 
         /// <summary>
@@ -219,9 +230,9 @@
                 pipeline.Add(stumpsHandler);
 
                 // Setup the Proxy HTTP handler
-                if (_externalHost != null)
+                if (_proxyHost != null)
                 {
-                    var proxyHandler = new ProxyHandler(_externalHost);
+                    var proxyHandler = new ProxyHandler(_proxyHost);
                     proxyHandler.ContextProcessed += (o, e) => Interlocked.Increment(ref _proxyCounter);
                     pipeline.Add(proxyHandler);
                 }
