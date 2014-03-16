@@ -6,6 +6,10 @@
     using Stumps.Data;
     using Stumps.Logging;
     using Stumps.Proxy;
+    using Stumps.Server;
+    using Stumps.Server.Data;
+    using Stumps.Server.Logging;
+    using Stumps.Server.Proxy;
     using Stumps.Web;
 
     /// <summary>

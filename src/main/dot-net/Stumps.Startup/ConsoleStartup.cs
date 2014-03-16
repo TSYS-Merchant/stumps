@@ -2,6 +2,7 @@
 {
 
     using System;
+    using Stumps.Server;
 
     public class ConsoleStartup : IStartup
     {

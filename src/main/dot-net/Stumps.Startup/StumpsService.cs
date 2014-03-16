@@ -3,6 +3,7 @@
 
     using System;
     using System.ServiceProcess;
+    using Stumps.Server;
 
     public partial class StumpsService : ServiceBase
     {
