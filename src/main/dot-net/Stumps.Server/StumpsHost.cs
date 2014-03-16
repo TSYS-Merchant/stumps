@@ -321,7 +321,7 @@
 
             var server = new StumpsServerInstance(entity.ProxyId, _dataAccess)
             {
-                Port = entity.Port,
+                ListeningPort = entity.Port,
                 UseSsl = entity.UseSsl,
                 AutoStart = entity.AutoStart,
                 ExternalHostName = entity.ExternalHostName
@@ -329,7 +329,7 @@
 
             server.Stumps.Load();
 
-            _serverInstances.AddOrUpdate(server.ProxyId, server, (key, oldServer) => server);
+            _serverInstances.AddOrUpdate(server.ServerId, server, (key, oldServer) => server);
 
         }
 

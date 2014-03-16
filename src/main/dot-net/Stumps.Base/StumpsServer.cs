@@ -7,7 +7,7 @@
     using Stumps.Http;
 
     /// <summary>
-    ///     A class that represents a proxy server.
+    ///     A class that represents a Stumps server.
     /// </summary>
     public sealed class StumpsServer : IDisposable
     {
@@ -206,7 +206,7 @@
         }
 
         /// <summary>
-        /// Starts this instance of the proxy server.
+        ///     Starts this instance of the Stumps server.
         /// </summary>
         public void Start()
         {
@@ -252,7 +252,7 @@
         }
 
         /// <summary>
-        ///     Stops this instance of the proxy server.
+        ///     Stops this instance of the Stumps server.
         /// </summary>
         public void Stop()
         {

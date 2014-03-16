@@ -22,6 +22,13 @@
         void ProxyServerDelete(string proxyId);
 
         /// <summary>
+        ///     Finds the persisted <see cref="T:Stumps.Server.Data.ProxyServerEntity" /> for a specified <paramref name="proxyId"/>.
+        /// </summary>
+        /// <param name="proxyId">The proxy unique identifier.</param>
+        /// <returns></returns>
+        ProxyServerEntity ProxyServerFind(string proxyId);
+
+        /// <summary>
         ///     Finds a list of all persisted <see cref="T:Stumps.Server.Data.ProxyServerEntity" />.
         /// </summary>
         /// <returns>A generic list of <see cref="T:Stumps.Server.Data.ProxyServerEntity" />.</returns>

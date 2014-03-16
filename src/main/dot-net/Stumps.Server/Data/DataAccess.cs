@@ -4,6 +4,7 @@
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using Stumps.Server.Utility;
     using Stumps.Utility;
 
     /// <summary>
@@ -113,6 +114,20 @@
 
             var proxyDirectory = Path.Combine(_storagePath, proxyId);
             Directory.Delete(proxyDirectory, true);
+
+        }
+
+        /// <summary>
+        ///     Finds the persisted <see cref="T:Stumps.Server.Data.ProxyServerEntity" /> for a specified <paramref name="proxyId"/>.
+        /// </summary>
+        /// <param name="proxyId">The proxy unique identifier.</param>
+        /// <returns></returns>
+        public ProxyServerEntity ProxyServerFind(string proxyId)
+        {
+
+            var path = _storagePath + proxyId + DataAccess.ProxyFileExtension;
+            var proxy = JsonUtility.DeserializeFromFile<ProxyServerEntity>(path);
+            return proxy;
 
         }
 

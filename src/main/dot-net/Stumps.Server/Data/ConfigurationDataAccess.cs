@@ -2,6 +2,7 @@
 {
 
     using System;
+    using Stumps.Server.Utility;
     using Stumps.Utility;
 
     /// <summary>
