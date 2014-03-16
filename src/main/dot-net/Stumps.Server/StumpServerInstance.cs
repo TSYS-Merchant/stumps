@@ -1,13 +1,15 @@
-﻿namespace Stumps.Server.Proxy
+﻿namespace Stumps.Server
 {
 
+    using System;
     using System.Threading;
     using Stumps.Server.Data;
+    using Stumps.Server.Proxy;
 
     /// <summary>
     /// A class that represents an the environment and configuration of a proxy server.
     /// </summary>
-    public class ProxyEnvironment
+    public class StumpsServerInstance : IDisposable
     {
 
         private IDataAccess _dataAccess;
@@ -15,11 +17,11 @@
         private int _stumpsServed;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Stumps.Server.Proxy.ProxyEnvironment"/> class.
+        ///     Initializes a new instance of the <see cref="T:Stumps.Server.StumpsServerInstance"/> class.
         /// </summary>
         /// <param name="proxyId">The unique identifier of the proxy.</param>
         /// <param name="dataAccess">The data access provider used by the instance.</param>
-        public ProxyEnvironment(string proxyId, IDataAccess dataAccess)
+        public StumpsServerInstance(string proxyId, IDataAccess dataAccess)
         {
             this.Recordings = new ProxyRecordings();
             this.Stumps = new ProxyStumps(proxyId, dataAccess);
@@ -122,21 +124,20 @@
         /// </value>
         public bool UseSsl { get; set; }
 
-        /// <summary>
-        ///     Increments the number of requests served.
-        /// </summary>
-        public void IncrementRequestsServed()
+        public void Start()
         {
-            Interlocked.Increment(ref _requestsServed);
+            
         }
 
-        /// <summary>
-        ///     Increments the number of stumps served.
-        /// </summary>
-        public void IncrementStumpsServed()
+        public void Stop()
         {
-            Interlocked.Increment(ref _stumpsServed);
+            
         }
+
+        public void Dispose()
+        {
+        }
+
 
     }
 

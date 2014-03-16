@@ -11,7 +11,7 @@
     {
 
         private bool _disposed;
-        private IProxyHost _host;
+        private IStumpsHost _host;
         private ILogger _logger;
         private bool _started;
 
@@ -25,7 +25,7 @@
         /// or
         /// <paramref name="proxyHost"/> is <c>null</c>.
         /// </exception>
-        public ProxyServerModule(ILogger logger, IProxyHost proxyHost)
+        public ProxyServerModule(ILogger logger, IStumpsHost proxyHost)
         {
 
             if (logger == null)

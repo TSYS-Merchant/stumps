@@ -66,6 +66,7 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IStumpsHost.cs" />
     <Compile Include="StumpsConfiguration.cs" />
     <Compile Include="Data\ConfigurationDataAccess.cs" />
     <Compile Include="Data\ConfigurationEntity.cs" />
@@ -79,19 +80,18 @@
     <Compile Include="Proxy\IRecordedContextPart.cs" />
     <Compile Include="Proxy\ProxyStumps.cs" />
     <Compile Include="Proxy\StumpContract.cs" />
+    <Compile Include="StumpServerInstance.cs" />
+    <Compile Include="StumpsHost.cs" />
     <Compile Include="StumpsNetworkException.cs" />
     <Compile Include="Utility\RandomGenerator.cs" />
     <Compile Include="Proxy\RecordedContext.cs" />
     <Compile Include="Logging\DebugLogger.cs" />
-    <Compile Include="Proxy\IProxyHost.cs" />
-    <Compile Include="Proxy\ProxyHost.cs" />
     <Compile Include="Proxy\HttpHeader.cs" />
     <Compile Include="Proxy\RecordedRequest.cs" />
     <Compile Include="Proxy\RecordedResponse.cs" />
     <Compile Include="Proxy\ProxyRecordings.cs" />
     <Compile Include="IStumpModule.cs" />
     <Compile Include="Logging\ILogger.cs" />
-    <Compile Include="Proxy\ProxyEnvironment.cs" />
     <Compile Include="Proxy\ProxyServerModule.cs" />
     <Compile Include="Resources.Designer.cs">
       <AutoGen>True</AutoGen>

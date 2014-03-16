@@ -82,7 +82,7 @@
                 var dataAccess = new DataAccess(this.Configuration.StoragePath);
 
                 // Initialize and load a new instance of the proxy host.
-                var host = new ProxyHost(logger, dataAccess);
+                var host = new StumpsHost(logger, dataAccess);
                 host.Load();
 
                 // Initialize a new proxy server module.
