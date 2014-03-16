@@ -79,78 +79,29 @@
         /// <summary>
         ///     Populates the response of the HTTP context from the Stump.
         /// </summary>
-        /// <param name="context">The HTTP context.</param>
+        /// <param name="incommingHttpContext">The incomming HTTP context.</param>
         /// <param name="stump">The <see cref="T:Stumps.Stump"/> used to populate the response.</param>
-        private void PopulateResponse(IStumpsHttpContext context, Stump stump)
+        private void PopulateResponse(IStumpsHttpContext incommingHttpContext, Stump stump)
         {
 
-            context.Response.StatusCode = stump.Response.StatusCode;
-            context.Response.StatusDescription = stump.Response.StatusDescription;
+            // Write the status code information
+            incommingHttpContext.Response.StatusCode = stump.Response.StatusCode;
+            incommingHttpContext.Response.StatusDescription = stump.Response.StatusDescription;
 
-            WriteHeaders(context, stump.Response);
-            WriteContextBody(context, stump.Response);
-
-        }
-
-        /// <summary>
-        ///     Writes the body to the context response.
-        /// </summary>
-        /// <param name="incommingHttpContext">The incomming HTTP context.</param>
-        /// <param name="stumpResponse">The recorded to send back.</param>
-        private void WriteContextBody(
-            IStumpsHttpContext incommingHttpContext, IStumpsHttpResponse stumpResponse)
-        {
-
-            var buffer = StreamUtility.ConvertStreamToByteArray(stumpResponse.OutputStream);
-            var encodingMethod = stumpResponse.Headers["Content-Encoding"];
-
-            if (encodingMethod != null)
-            {
-                var encoder = new ContentEncoder(encodingMethod);
-                buffer = encoder.Encode(buffer);
-            }
-
-            incommingHttpContext.Response.OutputStream.Write(buffer, 0, buffer.Length);
-
-        }
-
-        /// <summary>
-        /// Writes the headers to the context response.
-        /// </summary>
-        /// <param name="incommingHttpContext">The incomming HTTP context.</param>
-        /// <param name="stumpResponse">The recorded response.</param>
-        private void WriteHeaders(
-            IStumpsHttpContext incommingHttpContext, IStumpsHttpResponse stumpResponse)
-        {
-
-            var headers = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-
-            foreach (var headerName in stumpResponse.Headers.HeaderNames)
-            {
-                headers.Add(headerName, stumpResponse.Headers[headerName]);
-            }
-
+            // Write the headers
             incommingHttpContext.Response.Headers.Clear();
 
-            if (headers.ContainsKey("content-type"))
+            foreach (var headerName in stump.Response.Headers.HeaderNames)
             {
-                incommingHttpContext.Response.ContentType = headers["content-type"];
+                incommingHttpContext.Response.Headers.AddOrUpdate(headerName, stump.Response.Headers[headerName]);
             }
 
-            if (headers.ContainsKey("transfer-encoding") &&
-                headers["transfer-encoding"].Equals("chunked", StringComparison.OrdinalIgnoreCase))
+            // Write the body
+            incommingHttpContext.Response.ClearBody();
+            
+            if ( stump.Response.BodyLength > 0 )
             {
-                incommingHttpContext.Response.SendChunked = true;
-            }
-
-            headers.Remove("content-length");
-            headers.Remove("content-type");
-            headers.Remove("transfer-encoding");
-            headers.Remove("keep-alive");
-
-            foreach (var key in headers.Keys)
-            {
-                incommingHttpContext.Response.Headers.Add(key, headers[key]);
+                incommingHttpContext.Response.AppendToBody(stump.Response.GetBody());
             }
 
         }
