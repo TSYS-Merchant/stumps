@@ -39,19 +39,19 @@
         /// <summary>
         ///     Determines whether the specified request matches the rule.
         /// </summary>
-        /// <param name="request">The <see cref="T:Stumps.Http.IStumpsHttpRequest" /> to evaluate.</param>
+        /// <param name="request">The <see cref="T:Stumps.IStumpsHttpRequest" /> to evaluate.</param>
         /// <returns>
         ///   <c>true</c> if the <paramref name="request" /> matches the rule, otherwise, <c>false</c>.
         /// </returns>
         public bool IsMatch(IStumpsHttpRequest request)
         {
 
-            if (request == null || request.InputStream.Length == 0)
+            if (request == null || request.BodyLength == 0)
             {
                 return false;
             }
 
-            var buffer = StreamUtility.ConvertStreamToByteArray(request.InputStream);
+            var buffer = request.GetBody();
 
             if (!StringUtility.IsText(buffer))
             {

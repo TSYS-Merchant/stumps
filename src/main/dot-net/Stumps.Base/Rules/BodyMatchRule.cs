@@ -33,7 +33,7 @@
         /// <summary>
         ///     Determines whether the specified request matches the rule.
         /// </summary>
-        /// <param name="request">The <see cref="T:Stumps.Http.IStumpsHttpRequest" /> to evaluate.</param>
+        /// <param name="request">The <see cref="T:Stumps.IStumpsHttpRequest" /> to evaluate.</param>
         /// <returns>
         ///   <c>true</c> if the <paramref name="request" /> matches the rule, otherwise, <c>false</c>.
         /// </returns>
@@ -45,16 +45,15 @@
                 return false;
             }
 
-            var bodyBytes = StreamUtility.ConvertStreamToByteArray(request.InputStream);
 
             var match = false;
 
-            if (bodyBytes.Length == _bodyLength)
+            if (request.BodyLength == _bodyLength)
             {
 
                 using (var hash = MD5.Create())
                 {
-                    var bytes = hash.ComputeHash(bodyBytes);
+                    var bytes = hash.ComputeHash(request.GetBody());
                     match = IsHashEqual(bytes);
                 }
 

@@ -45,7 +45,7 @@
 
             var match = false;
 
-            foreach (var headerName in request.Headers.AllKeys)
+            foreach (var headerName in request.Headers.HeaderNames)
             {
 
                 var nameMatches = _nameTextMatch.IsMatch(headerName);

@@ -1,8 +1,6 @@
 ﻿namespace Stumps.Rules
 {
 
-    using Stumps.Http;
-
     /// <summary>
     ///     A class representing a Stump rule that evaluates the length of the body of an HTTP request.
     /// </summary>
@@ -26,7 +24,7 @@
         /// <summary>
         ///     Determines whether the specified request matches the rule.
         /// </summary>
-        /// <param name="request">The <see cref="T:Stumps.Http.IStumpsHttpRequest" /> to evaluate.</param>
+        /// <param name="request">The <see cref="T:Stumps.IStumpsHttpRequest" /> to evaluate.</param>
         /// <returns>
         ///   <c>true</c> if the <paramref name="request" /> matches the rule, otherwise, <c>false</c>.
         /// </returns>
@@ -38,7 +36,7 @@
                 return false;
             }
 
-            var match = request.InputStream.Length >= _minimumValue && request.InputStream.Length <= _maximumSize;
+            var match = request.BodyLength >= _minimumValue && request.BodyLength <= _maximumSize;
 
             return match;
 
