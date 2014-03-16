@@ -79,14 +79,14 @@
         }
 
         /// <summary>
-        ///     Gets the total number of requests served.
+        ///     Gets the port the HTTP server is using to listen for traffic.
         /// </summary>
         /// <value>
-        ///     The total number of requests served.
+        ///     The port the HTTP server is using to listen for traffic.
         /// </value>
-        public int TotalRequestsServed
+        public int ListeningPort
         {
-            get { return _requestCounter; }
+            get { return _port; }
         }
 
         /// <summary>
@@ -109,6 +109,63 @@
         public int RequestsServedWithStump
         {
             get { return _stumpsCounter; }
+        }
+
+        /// <summary>
+        /// Gets the count of Stumps in the collection.
+        /// </summary>
+        /// <value>
+        /// The count of Stumps in the collection.
+        /// </value>
+        public int StumpCount
+        {
+            get { return _stumpsManager.Count; }
+        }
+
+        /// <summary>
+        ///     Gets the total number of requests served.
+        /// </summary>
+        /// <value>
+        ///     The total number of requests served.
+        /// </value>
+        public int TotalRequestsServed
+        {
+            get { return _requestCounter; }
+        }
+
+        /// <summary>
+        ///     Adds a new <see cref="T:Stumps.Stump" /> to the collection.
+        /// </summary>
+        /// <param name="stump">The <see cref="T:Stumps.Stump" /> to add to the collection.</param>
+        /// <exception cref="System.ArgumentNullException"><paramref name="stump"/> is <c>null</c>.</exception>
+        /// <exception cref="System.ArgumentException">A <see cref="T:Stumps.Stump" /> with the same identifier already exists.</exception>
+        public void AddStump(Stump stump)
+        {
+            _stumpsManager.AddStump(stump);
+        }
+
+        /// <summary>
+        ///     Deletes the specified stump from the collection.
+        /// </summary>
+        /// <param name="stumpId">The  unique identifier for the stump to remove.</param>
+        public void DeleteStump(string stumpId)
+        {
+            _stumpsManager.DeleteStump(stumpId);
+        }
+
+        /// <summary>
+        ///     Finds an existing stump.
+        /// </summary>
+        /// <param name="stumpId">The unique identifier for the Stump.</param>
+        /// <returns>
+        ///     A <see cref="T:Stumps.Stump"/> with the specified <paramref name="stumpId"/>.
+        /// </returns>
+        /// <remarks>
+        ///     A <c>null</c> value is returned if a Stump is not found.
+        /// </remarks>
+        public Stump FindStump(string stumpId)
+        {
+            return _stumpsManager.FindStump(stumpId);
         }
 
         /// <summary>
@@ -206,98 +263,6 @@
             }
 
         }
-
-        ///// <summary>
-        /////     Decodes the body of a based on the content encoding.
-        ///// </summary>
-        ///// <param name="part">The <see cref="T:Stumps.Proxy.RecordedContext"/> part containing the body to decode.</param>
-        //private void DecodeBody(IRecordedContextPart part)
-        //{
-
-        //    var buffer = part.Body;
-        //    var header = part.FindHeader("Content-Encoding");
-
-        //    if (header != null)
-        //    {
-        //        var encoder = new ContentEncoder(header.Value);
-        //        buffer = encoder.Decode(buffer);
-        //    }
-
-        //    part.Body = buffer;
-
-        //}
-
-        ///// <summary>
-        /////     Records an incomming request.
-        ///// </summary>
-        ///// <param name="context">The <see cref="T:Stumps.Http.StumpsHttpContext"/> to record.</param>
-        //private void RecordIncommingRequest(StumpsHttpContext context)
-        //{
-
-        //    var recordedContext = new RecordedContext();
-        //    var recordedRequest = new RecordedRequest();
-
-        //    recordedRequest.Body = StreamUtility.ConvertStreamToByteArray(context.Request.InputStream);
-        //    recordedRequest.HttpMethod = context.Request.HttpMethod;
-        //    recordedRequest.RawUrl = context.Request.RawUrl;
-
-        //    foreach (var key in context.Request.Headers.AllKeys)
-        //    {
-        //        recordedRequest.Headers.Add(
-        //            new HttpHeader
-        //            {
-        //                Name = key,
-        //                Value = context.Request.Headers[key]
-        //            });
-        //    }
-
-        //    DecodeBody(recordedRequest);
-
-        //    recordedContext.Request = recordedRequest;
-
-        //    _contextCache.Add(context.ContextId, recordedContext);
-
-        //}
-
-        ///// <summary>
-        /////     Updates the response of an existing recorded request.
-        ///// </summary>
-        ///// <param name="context">The <see cref="T:Stumps.Http.StumpsHttpContext"/> to update.</param>
-        //private void UpdateRecordedRequest(StumpsHttpContext context)
-        //{
-
-        //    RecordedContext recordedContext;
-
-        //    if (!_contextCache.TryGetValue(context.ContextId, out recordedContext))
-        //    {
-        //        return;
-        //    }
-
-        //    _contextCache.Remove(context.ContextId);
-
-        //    var recordedResponse = new RecordedResponse();
-
-        //    recordedResponse.Body = StreamUtility.ConvertStreamToByteArray(context.Response.OutputStream);
-        //    recordedResponse.StatusCode = context.Response.StatusCode;
-        //    recordedResponse.StatusDescription = context.Response.StatusDescription;
-
-        //    foreach (var key in context.Response.Headers.AllKeys)
-        //    {
-        //        recordedResponse.Headers.Add(
-        //            new HttpHeader
-        //            {
-        //                Name = key,
-        //                Value = context.Response.Headers[key]
-        //            });
-        //    }
-
-        //    DecodeBody(recordedResponse);
-
-        //    recordedContext.Response = recordedResponse;
-
-        //    _environment.Recordings.Add(recordedContext);
-
-        //}
 
     }
 
