@@ -1,4 +1,4 @@
-﻿namespace Stumps.Proxy
+﻿namespace Stumps.Server.Proxy
 {
 
     using System;
@@ -18,7 +18,7 @@
         /// <param name="useSsl"><c>true</c> if the external host requires SSL.</param>
         /// <param name="autoStart"><c>true</c> to automatically start the proxy server.</param>
         /// <returns>
-        ///     A <see cref="T:Stumps.Proxy.ProxyEnvironment"/> represeting the new proxy server.
+        ///     A <see cref="T:Stumps.Server.Proxy.ProxyEnvironment"/> represeting the new proxy server.
         /// </returns>
         ProxyEnvironment CreateProxy(string externalHostName, int port, bool useSsl, bool autoStart);
 
@@ -32,7 +32,7 @@
         /// Finds all proxy servers represented by the instance.
         /// </summary>
         /// <returns>
-        ///     A generic list of <see cref="T:Stumps.Proxy.ProxyEnvironment"/> objects.
+        ///     A generic list of <see cref="T:Stumps.Server.Proxy.ProxyEnvironment"/> objects.
         /// </returns>
         IList<ProxyEnvironment> FindAll();
 
@@ -41,7 +41,7 @@
         /// </summary>
         /// <param name="proxyId">The unique identifier for the proxy server.</param>
         /// <returns>
-        ///     A <see cref="T:Stumps.Proxy.ProxyEnvironment" /> with the specified identifier.
+        ///     A <see cref="T:Stumps.Server.Proxy.ProxyEnvironment" /> with the specified identifier.
         /// </returns>
         /// <remarks>
         ///     A <c>null</c> value is returned if a proxy with the specified <paramref name="proxyId"/>

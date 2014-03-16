@@ -1,8 +1,8 @@
-﻿namespace Stumps.Proxy
+﻿namespace Stumps.Server.Proxy
 {
 
     using System;
-    using Stumps.Logging;
+    using Stumps.Server.Logging;
 
     /// <summary>
     ///     A class that represents a Stump server module that manages multiple proxy servers.
@@ -16,7 +16,7 @@
         private bool _started;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Stumps.Proxy.ProxyServerModule"/> class.
+        ///     Initializes a new instance of the <see cref="T:Stumps.Server.Proxy.ProxyServerModule"/> class.
         /// </summary>
         /// <param name="logger">The logger used by the instance.</param>
         /// <param name="proxyHost">The proxy host.</param>
@@ -44,7 +44,7 @@
         }
 
         /// <summary>
-        /// Finalizes an instance of the <see cref="Stumps.Proxy.ProxyServerModule"/> class.
+        /// Finalizes an instance of the <see cref="Stumps.Server.Proxy.ProxyServerModule"/> class.
         /// </summary>
         ~ProxyServerModule()
         {

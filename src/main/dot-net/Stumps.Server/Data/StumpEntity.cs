@@ -1,4 +1,4 @@
-﻿namespace Stumps.Data
+﻿namespace Stumps.Server.Data
 {
 
     /// <summary>
@@ -32,18 +32,18 @@
         public string MatchBodyFileName { get; set; }
 
         /// <summary>
-        ///     Gets or sets a value indicating whether data stored in the <see cref="P:Stumps.Data.StumpEntity.MatchBodyFileName"/> is an image.
+        ///     Gets or sets a value indicating whether data stored in the <see cref="P:Stumps.Server.Data.StumpEntity.MatchBodyFileName"/> is an image.
         /// </summary>
         /// <value>
-        ///     <c>true</c> if data stored in the <see cref="P:Stumps.Data.StumpEntity.MatchBodyFileName"/> is an image; otherwise, <c>false</c>.
+        ///     <c>true</c> if data stored in the <see cref="P:Stumps.Server.Data.StumpEntity.MatchBodyFileName"/> is an image; otherwise, <c>false</c>.
         /// </value>
         public bool MatchBodyIsImage { get; set; }
 
         /// <summary>
-        ///     Gets or sets a value indicating whether data stored in the <see cref="P:Stumps.Data.StumpEntity.MatchBodyFileName"/> is text.
+        ///     Gets or sets a value indicating whether data stored in the <see cref="P:Stumps.Server.Data.StumpEntity.MatchBodyFileName"/> is text.
         /// </summary>
         /// <value>
-        ///     <c>true</c> if data stored in the <see cref="P:Stumps.Data.StumpEntity.MatchBodyFileName"/> is text; otherwise, <c>false</c>.
+        ///     <c>true</c> if data stored in the <see cref="P:Stumps.Server.Data.StumpEntity.MatchBodyFileName"/> is text; otherwise, <c>false</c>.
         /// </value>
         public bool MatchBodyIsText { get; set; }
 
@@ -72,10 +72,10 @@
         public string[] MatchBodyText { get; set; }
 
         /// <summary>
-        ///     Gets or sets an array of formatted <see cref="T:Stumps.Data.HeaderEntity"/> values evaluated against the headers of an HTTP request for the stump to match.
+        ///     Gets or sets an array of formatted <see cref="T:Stumps.Server.Data.HeaderEntity"/> values evaluated against the headers of an HTTP request for the stump to match.
         /// </summary>
         /// <value>
-        ///     The array of formatted <see cref="T:Stumps.Data.HeaderEntity"/> values evaluated against the headers of an HTTP request for the stump to match.
+        ///     The array of formatted <see cref="T:Stumps.Server.Data.HeaderEntity"/> values evaluated against the headers of an HTTP request for the stump to match.
         /// </value>
         public HeaderEntity[] MatchHeaders { get; set; }
 
@@ -120,26 +120,26 @@
         public string ResponseBodyFileName { get; set; }
 
         /// <summary>
-        ///     Gets or sets a value indicating whether data stored in the <see cref="P:Stumps.Data.StumpEntity.ResponseBodyFileName"/> is an image.
+        ///     Gets or sets a value indicating whether data stored in the <see cref="P:Stumps.Server.Data.StumpEntity.ResponseBodyFileName"/> is an image.
         /// </summary>
         /// <value>
-        ///     <c>true</c> if data stored in the <see cref="P:Stumps.Data.StumpEntity.ResponseBodyFileName"/> is an image; otherwise, <c>false</c>.
+        ///     <c>true</c> if data stored in the <see cref="P:Stumps.Server.Data.StumpEntity.ResponseBodyFileName"/> is an image; otherwise, <c>false</c>.
         /// </value>
         public bool ResponseBodyIsImage { get; set; }
 
         /// <summary>
-        ///     Gets or sets a value indicating whether data stored in the <see cref="P:Stumps.Data.StumpEntity.ResponseBodyFileName"/> is text.
+        ///     Gets or sets a value indicating whether data stored in the <see cref="P:Stumps.Server.Data.StumpEntity.ResponseBodyFileName"/> is text.
         /// </summary>
         /// <value>
-        ///     <c>true</c> if data stored in the <see cref="P:Stumps.Data.StumpEntity.ResponseBodyFileName"/> is text; otherwise, <c>false</c>.
+        ///     <c>true</c> if data stored in the <see cref="P:Stumps.Server.Data.StumpEntity.ResponseBodyFileName"/> is text; otherwise, <c>false</c>.
         /// </value>
         public bool ResponseBodyIsText { get; set; }
 
         /// <summary>
-        ///     Gets or sets the array of <see cref="T:Stumps.Data.HeaderEntity"/> values returned in the response to the stump.
+        ///     Gets or sets the array of <see cref="T:Stumps.Server.Data.HeaderEntity"/> values returned in the response to the stump.
         /// </summary>
         /// <value>
-        ///     The array of <see cref="T:Stumps.Data.HeaderEntity"/> values returned in the response to the stump.
+        ///     The array of <see cref="T:Stumps.Server.Data.HeaderEntity"/> values returned in the response to the stump.
         /// </value>
         public HeaderEntity[] ResponseHeaders { get; set; }
 

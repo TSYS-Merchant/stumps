@@ -1,10 +1,10 @@
-﻿namespace Stumps
+﻿namespace Stumps.Server
 {
 
     using System;
     using System.IO;
     using System.Net;
-    using Stumps.Data;
+    using Stumps.Server.Data;
 
     /// <summary>
     ///     A class that represents the configuration used for the Stumps server.
@@ -26,7 +26,7 @@
         private ConfigurationEntity _configurationEntity;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Stumps.StumpsConfiguration"/> class.
+        ///     Initializes a new instance of the <see cref="T:Stumps.Server.StumpsConfiguration"/> class.
         /// </summary>
         /// <param name="dataAccess">The data access.</param>
         /// <exception cref="System.ArgumentNullException"><paramref name="dataAccess"/> is <c>null</c>.</exception>
@@ -117,7 +117,7 @@
         ///     Creates a default configuration entity.
         /// </summary>
         /// <returns>
-        ///     A <see cref="T:Stumps.Data.ConfigurationEntity"/> initalized with the default values.
+        ///     A <see cref="T:Stumps.Server.Data.ConfigurationEntity"/> initalized with the default values.
         /// </returns>
         private static ConfigurationEntity CreateDefaultConfigurationEntity()
         {

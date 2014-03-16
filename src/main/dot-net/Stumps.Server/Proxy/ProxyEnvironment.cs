@@ -1,8 +1,8 @@
-﻿namespace Stumps.Proxy
+﻿namespace Stumps.Server.Proxy
 {
 
     using System.Threading;
-    using Stumps.Data;
+    using Stumps.Server.Data;
 
     /// <summary>
     /// A class that represents an the environment and configuration of a proxy server.
@@ -15,7 +15,7 @@
         private int _stumpsServed;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Stumps.Proxy.ProxyEnvironment"/> class.
+        ///     Initializes a new instance of the <see cref="T:Stumps.Server.Proxy.ProxyEnvironment"/> class.
         /// </summary>
         /// <param name="proxyId">The unique identifier of the proxy.</param>
         /// <param name="dataAccess">The data access provider used by the instance.</param>

@@ -1,4 +1,4 @@
-﻿namespace Stumps.Data
+﻿namespace Stumps.Server.Data
 {
 
     using System;
@@ -7,7 +7,7 @@
     using Stumps.Utility;
 
     /// <summary>
-    ///     A class that provides an implementation of <see cref="T:Stumps.Data.IDataAccess"/>
+    ///     A class that provides an implementation of <see cref="T:Stumps.Server.Data.IDataAccess"/>
     ///     that uses JSON files and directory structures to persist information about proxies and stumps.
     /// </summary>
     public sealed class DataAccess : IDataAccess
@@ -46,7 +46,7 @@
         private readonly string _storagePath;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Stumps.Data.DataAccess"/> class.
+        ///     Initializes a new instance of the <see cref="T:Stumps.Server.Data.DataAccess"/> class.
         /// </summary>
         /// <param name="storagePath">The data path.</param>
         /// <exception cref="System.ArgumentNullException"><paramref name="storagePath"/> is <c>null</c>.</exception>
@@ -76,7 +76,7 @@
         /// <summary>
         ///     Creates an entry for a new proxy server.
         /// </summary>
-        /// <param name="server">The <see cref="T:Stumps.Data.ProxyServerEntity" /> to create.</param>
+        /// <param name="server">The <see cref="T:Stumps.Server.Data.ProxyServerEntity" /> to create.</param>
         /// <exception cref="System.ArgumentNullException"><paramref name="server"/> is <c>null</c>.</exception>
         public void ProxyServerCreate(ProxyServerEntity server)
         {
@@ -96,9 +96,9 @@
         }
 
         /// <summary>
-        ///     Deletes an existing <see cref="T:Stumps.Data.ProxyServerEntity" />.
+        ///     Deletes an existing <see cref="T:Stumps.Server.Data.ProxyServerEntity" />.
         /// </summary>
-        /// <param name="proxyId">The unique identifier for the <see cref="T:Stumps.Data.ProxyServerEntity" /> to delete.</param>
+        /// <param name="proxyId">The unique identifier for the <see cref="T:Stumps.Server.Data.ProxyServerEntity" /> to delete.</param>
         /// <exception cref="System.ArgumentNullException"><paramref name="proxyId"/> is <c>null</c>.</exception>
         public void ProxyServerDelete(string proxyId)
         {
@@ -117,10 +117,10 @@
         }
 
         /// <summary>
-        ///     Finds a list of all persisted <see cref="T:Stumps.Data.ProxyServerEntity" />.
+        ///     Finds a list of all persisted <see cref="T:Stumps.Server.Data.ProxyServerEntity" />.
         /// </summary>
         /// <returns>
-        ///     A generic list of <see cref="T:Stumps.Data.ProxyServerEntity" />.
+        ///     A generic list of <see cref="T:Stumps.Server.Data.ProxyServerEntity" />.
         /// </returns>
         public IList<ProxyServerEntity> ProxyServerFindAll()
         {
@@ -133,14 +133,14 @@
         }
 
         /// <summary>
-        ///     Creates a new <see cref="T:Stumps.Data.StumpEntity" /> for an existing proxy server.
+        ///     Creates a new <see cref="T:Stumps.Server.Data.StumpEntity" /> for an existing proxy server.
         /// </summary>
         /// <param name="proxyId">The unique identifier for the proxy server.</param>
-        /// <param name="entity">The <see cref="T:Stumps.Data.StumpEntity" /> to persist.</param>
+        /// <param name="entity">The <see cref="T:Stumps.Server.Data.StumpEntity" /> to persist.</param>
         /// <param name="matchBody">The array of bytes representing the HTTP body matched against in the stump.</param>
         /// <param name="responseBody">The array of bytes returned as the HTTP body in response to the stump.</param>
         /// <returns>
-        /// The created <see cref="T:Stumps.Data.StumpEntity" />.
+        /// The created <see cref="T:Stumps.Server.Data.StumpEntity" />.
         /// </returns>
         /// <exception cref="System.ArgumentNullException">
         /// <paramref name="proxyId"/> is <c>null</c>.
@@ -215,11 +215,11 @@
         }
 
         /// <summary>
-        ///     Finds all a list of all <see cref="T:Stumps.Data.StumpEntity" /> for the specified <paramref name="proxyId" />.
+        ///     Finds all a list of all <see cref="T:Stumps.Server.Data.StumpEntity" /> for the specified <paramref name="proxyId" />.
         /// </summary>
         /// <param name="proxyId">The unique identifier for the proxy server.</param>
         /// <returns>
-        ///     A generic list of <see cref="T:Stumps.Data.StumpEntity" />.
+        ///     A generic list of <see cref="T:Stumps.Server.Data.StumpEntity" />.
         /// </returns>
         public IList<StumpEntity> StumpFindAll(string proxyId)
         {

@@ -1,4 +1,4 @@
-﻿namespace Stumps.Proxy
+﻿namespace Stumps.Server.Proxy
 {
 
     using System;
@@ -10,7 +10,7 @@
     {
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Stumps.Proxy.RecordedContext"/> class.
+        ///     Initializes a new instance of the <see cref="T:Stumps.Server.Proxy.RecordedContext"/> class.
         /// </summary>
         public RecordedContext()
         {

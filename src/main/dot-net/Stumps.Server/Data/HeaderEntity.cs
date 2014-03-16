@@ -1,4 +1,4 @@
-﻿namespace Stumps.Data
+﻿namespace Stumps.Server.Data
 {
 
     /// <summary>

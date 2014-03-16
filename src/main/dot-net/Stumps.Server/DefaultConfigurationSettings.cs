@@ -1,4 +1,4 @@
-﻿namespace Stumps
+﻿namespace Stumps.Server
 {
 
     using System;

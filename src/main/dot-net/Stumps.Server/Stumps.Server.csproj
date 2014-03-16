@@ -14,7 +14,7 @@
     <ProjectGuid>{0E8D3356-1F8C-49BB-8576-DF2A494F0DC9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Stumps</RootNamespace>
+    <RootNamespace>Stumps.Server</RootNamespace>
     <AssemblyName>Stumps.Server</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

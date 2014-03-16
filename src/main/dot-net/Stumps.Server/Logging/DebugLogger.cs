@@ -1,4 +1,4 @@
-﻿namespace Stumps.Logging
+﻿namespace Stumps.Server.Logging
 {
 
     using System;

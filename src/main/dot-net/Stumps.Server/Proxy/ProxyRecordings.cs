@@ -1,4 +1,4 @@
-﻿namespace Stumps.Proxy
+﻿namespace Stumps.Server.Proxy
 {
 
     using System;
@@ -15,7 +15,7 @@
         private readonly object _syncRoot = new object();
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Stumps.Proxy.ProxyRecordings"/> class.
+        ///     Initializes a new instance of the <see cref="T:Stumps.Server.Proxy.ProxyRecordings"/> class.
         /// </summary>
         public ProxyRecordings()
         {
@@ -34,9 +34,9 @@
         }
 
         /// <summary>
-        ///     Adds the specified <see cref="T:Stumps.Proxy.RecordedContext"/> to the collection.
+        ///     Adds the specified <see cref="T:Stumps.Server.Proxy.RecordedContext"/> to the collection.
         /// </summary>
-        /// <param name="context">The <see cref="T:Stumps.Proxy.RecordedContext"/> to add to the collection.</param>
+        /// <param name="context">The <see cref="T:Stumps.Server.Proxy.RecordedContext"/> to add to the collection.</param>
         /// <exception cref="System.ArgumentNullException"><paramref name="context"/> is <c>null</c>.</exception>
         public void Add(RecordedContext context)
         {
@@ -84,7 +84,7 @@
         /// </summary>
         /// <param name="afterIndex">The index used to find all recorded contexts after.</param>
         /// <returns>
-        ///     A generic list of <see cref="T:Stumps.Proxy.RecordedContext"/> objects.
+        ///     A generic list of <see cref="T:Stumps.Server.Proxy.RecordedContext"/> objects.
         /// </returns>
         public IList<RecordedContext> Find(int afterIndex)
         {
@@ -114,7 +114,7 @@
         /// </summary>
         /// <param name="index">The index of the recorded context.</param>
         /// <returns>
-        ///     A <see cref="T:Stumps.Proxy.RecordedContext"/> found at the specified <paramref name="index"/>.
+        ///     A <see cref="T:Stumps.Server.Proxy.RecordedContext"/> found at the specified <paramref name="index"/>.
         /// </returns>
         /// <remarks>
         ///     If a recorded context cannot be found at the specified <paramref name="index"/>, a <c>null</c>

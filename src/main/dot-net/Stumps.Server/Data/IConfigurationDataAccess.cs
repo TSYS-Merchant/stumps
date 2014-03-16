@@ -1,4 +1,4 @@
-﻿namespace Stumps.Data
+﻿namespace Stumps.Server.Data
 {
 
     /// <summary>
@@ -8,17 +8,17 @@
     {
 
         /// <summary>
-        ///     Loads the <see cref="T:Stumps.Data.ConfigurationEntity"/> from the data store.
+        ///     Loads the <see cref="T:Stumps.Server.Data.ConfigurationEntity"/> from the data store.
         /// </summary>
         /// <returns>
-        ///     A <see cref="T:Stumps.Data.ConfigurationEntity"/> containing the configuration information for the application.
+        ///     A <see cref="T:Stumps.Server.Data.ConfigurationEntity"/> containing the configuration information for the application.
         /// </returns>
         ConfigurationEntity LoadConfiguration();
 
         /// <summary>
-        ///     Persists the specified <see cref="T:Stumps.Data.ConfigurationEntity"/> to the data store.
+        ///     Persists the specified <see cref="T:Stumps.Server.Data.ConfigurationEntity"/> to the data store.
         /// </summary>
-        /// <param name="value">The <see cref="T:Stumps.Data.ConfigurationEntity"/> to persist in the store.</param>
+        /// <param name="value">The <see cref="T:Stumps.Server.Data.ConfigurationEntity"/> to persist in the store.</param>
         void SaveConfiguration(ConfigurationEntity value);
 
     }

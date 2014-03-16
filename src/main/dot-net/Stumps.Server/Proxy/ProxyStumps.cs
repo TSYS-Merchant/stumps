@@ -1,14 +1,13 @@
-﻿namespace Stumps.Proxy
+﻿namespace Stumps.Server.Proxy
 {
 
     using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Threading;
-    using Stumps.Data;
-    using Stumps.Http;
+    using Stumps.Server.Data;
+    using Stumps.Server.Utility;
     using Stumps.Rules;
-    using Stumps.Utility;
 
     /// <summary>
     ///     A class that represents a collection of Stumps.
@@ -24,7 +23,7 @@
         private ReaderWriterLockSlim _lock;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Stumps.Proxy.ProxyStumps"/> class.
+        ///     Initializes a new instance of the <see cref="T:Stumps.Server.Proxy.ProxyStumps"/> class.
         /// </summary>
         /// <param name="proxyId">The unique identifier for the proxy.</param>
         /// <param name="dataAccess">The data access provider used by the instance.</param>
@@ -42,7 +41,7 @@
         }
 
         /// <summary>
-        /// Finalizes an instance of the <see cref="T:Stumps.Proxy.ProxyStumps"/> class.
+        /// Finalizes an instance of the <see cref="T:Stumps.Server.Proxy.ProxyStumps"/> class.
         /// </summary>
         ~ProxyStumps()
         {
@@ -65,7 +64,7 @@
         /// </summary>
         /// <param name="contract">The contract used to create the Stump.</param>
         /// <returns>
-        ///     An updated <see cref="T:Stumps.Proxy.StumpContract"/>.
+        ///     An updated <see cref="T:Stumps.Server.Proxy.StumpContract"/>.
         /// </returns>
         /// <exception cref="System.ArgumentNullException"><paramref name="contract"/> is <c>null</c>.</exception>
         /// <exception cref="System.ArgumentException">A stump with the same name already exists.</exception>
@@ -147,7 +146,7 @@
         ///     Finds a list of all Stump contracts.
         /// </summary>
         /// <returns>
-        ///     A generic list of all <see cref="T:Stumps.Proxy.StumpContract"/> objects.
+        ///     A generic list of all <see cref="T:Stumps.Server.Proxy.StumpContract"/> objects.
         /// </returns>
         public IList<StumpContract> FindAllContracts()
         {
@@ -172,7 +171,7 @@
         /// </summary>
         /// <param name="stumpId">The unique identifier for the Stump.</param>
         /// <returns>
-        ///     A <see cref="T:Stumps.Proxy.Stump"/> with the specified <paramref name="stumpId"/>.
+        ///     A <see cref="T:Stumps.Server.Proxy.Stump"/> with the specified <paramref name="stumpId"/>.
         /// </returns>
         /// <remarks>
         ///     A <c>null</c> value is returned if a Stump is not found.
@@ -193,7 +192,7 @@
         /// </summary>
         /// <param name="context">The incoming HTTP request context.</param>
         /// <returns>
-        ///     A <see cref="T:Stumps.Proxy.Stump"/> that matches the incomming HTTP request.
+        ///     A <see cref="T:Stumps.Server.Proxy.Stump"/> that matches the incomming HTTP request.
         /// </returns>
         /// <remarks>
         ///     A <c>null</c> value is returned if a matching Stump is not found.
@@ -262,9 +261,9 @@
         /// <summary>
         ///     Creates a Stump contract from a Stump data entity.
         /// </summary>
-        /// <param name="entity">The <see cref="T:Stumps.Data.StumpEntity"/> used to create the contract.</param>
+        /// <param name="entity">The <see cref="T:Stumps.Server.Data.StumpEntity"/> used to create the contract.</param>
         /// <returns>
-        ///     A <see cref="T:Stumps.Proxy.StumpContract"/> created from the specified <paramref name="entity"/>.
+        ///     A <see cref="T:Stumps.Server.Proxy.StumpContract"/> created from the specified <paramref name="entity"/>.
         /// </returns>
         private StumpContract CreateContractFromEntity(StumpEntity entity)
         {
@@ -305,9 +304,9 @@
         /// <summary>
         ///     Creates a Stump data entity from a Stump contract.
         /// </summary>
-        /// <param name="contract">The <see cref="T:Stumps.Proxy.StumpContract"/> used to create the entity.</param>
+        /// <param name="contract">The <see cref="T:Stumps.Server.Proxy.StumpContract"/> used to create the entity.</param>
         /// <returns>
-        ///     A <see cref="T:Stumps.Data.StumpEntity"/> created from the specified <paramref name="contract"/>.
+        ///     A <see cref="T:Stumps.Server.Data.StumpEntity"/> created from the specified <paramref name="contract"/>.
         /// </returns>
         private StumpEntity CreateEntityFromContract(StumpContract contract)
         {
@@ -343,11 +342,11 @@
         }
 
         /// <summary>
-        ///     Creates an array of header entities from an enumerable list of <see cref="T:Stumps.Proxy.HttpHeader"/> objects.
+        ///     Creates an array of header entities from an enumerable list of <see cref="T:Stumps.Server.Proxy.HttpHeader"/> objects.
         /// </summary>
-        /// <param name="headers">The headers used to create the <see cref="T:Stumps.Data.HeaderEntity"/> objects.</param>
+        /// <param name="headers">The headers used to create the <see cref="T:Stumps.Server.Data.HeaderEntity"/> objects.</param>
         /// <returns>
-        ///     An array of <see cref="T:Stumps.Data.HeaderEntity"/> objects.
+        ///     An array of <see cref="T:Stumps.Server.Data.HeaderEntity"/> objects.
         /// </returns>
         private HeaderEntity[] CreateHeaderEntity(IEnumerable<HttpHeader> headers)
         {
@@ -370,11 +369,11 @@
         }
 
         /// <summary>
-        ///     Creates an array of HTTP headers from an enumerable list of <see cref="T:Stumps.Data.HeaderEntity"/> objects.
+        ///     Creates an array of HTTP headers from an enumerable list of <see cref="T:Stumps.Server.Data.HeaderEntity"/> objects.
         /// </summary>
-        /// <param name="headers">The headers used to create the <see cref="T:Stumps.Proxy.HttpHeader"/> objects.</param>
+        /// <param name="headers">The headers used to create the <see cref="T:Stumps.Server.Proxy.HttpHeader"/> objects.</param>
         /// <returns>
-        ///     An array of <see cref="T:Stumps.Proxy.HttpHeader"/> objects.
+        ///     An array of <see cref="T:Stumps.Server.Proxy.HttpHeader"/> objects.
         /// </returns>
         private HttpHeader[] CreateHttpHeader(IEnumerable<HeaderEntity> headers)
         {
@@ -399,9 +398,9 @@
         /// <summary>
         ///     Creates a Stump from a contract.
         /// </summary>
-        /// <param name="contract">The <see cref="T:Stumps.Proxy.StumpContract"/> used to create the Stump.</param>
+        /// <param name="contract">The <see cref="T:Stumps.Server.Proxy.StumpContract"/> used to create the Stump.</param>
         /// <returns>
-        ///     A <see cref="T:Stumps.Proxy.Stump"/> created from the specified <paramref name="contract"/>.
+        ///     A <see cref="T:Stumps.Server.Proxy.Stump"/> created from the specified <paramref name="contract"/>.
         /// </returns>
         private Stump CreateStumpFromContract(StumpContract contract)
         {
@@ -472,9 +471,9 @@
         }
 
         /// <summary>
-        ///     Loads a stump from a specified <see cref="T:Stumps.Proxy.StumpContract"/>.
+        ///     Loads a stump from a specified <see cref="T:Stumps.Server.Proxy.StumpContract"/>.
         /// </summary>
-        /// <param name="contract">The <see cref="T:Stumps.Proxy.StumpContract"/> used to create the Stump.</param>
+        /// <param name="contract">The <see cref="T:Stumps.Server.Proxy.StumpContract"/> used to create the Stump.</param>
         private void UnwrapAndAddStump(StumpContract contract)
         {
 

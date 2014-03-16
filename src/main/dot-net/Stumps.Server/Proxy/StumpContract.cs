@@ -1,4 +1,4 @@
-﻿namespace Stumps.Proxy
+﻿namespace Stumps.Server.Proxy
 {
 
     /// <summary>
@@ -32,18 +32,18 @@
         public string MatchBodyContentType { get; set; }
 
         /// <summary>
-        ///     Gets or sets a value indicating whether data stored in the <see cref="P:Stumps.Data.StumpEntity.MatchBodyFileName"/> is an image.
+        ///     Gets or sets a value indicating whether data stored in the <see cref="P:Stumps.Server.Data.StumpEntity.MatchBodyFileName"/> is an image.
         /// </summary>
         /// <value>
-        ///     <c>true</c> if data stored in the <see cref="P:Stumps.Data.StumpEntity.MatchBodyFileName"/> is an image; otherwise, <c>false</c>.
+        ///     <c>true</c> if data stored in the <see cref="P:Stumps.Server.Data.StumpEntity.MatchBodyFileName"/> is an image; otherwise, <c>false</c>.
         /// </value>
         public bool MatchBodyIsImage { get; set; }
 
         /// <summary>
-        ///     Gets or sets a value indicating whether data stored in the <see cref="P:Stumps.Data.StumpEntity.MatchBodyFileName"/> is text.
+        ///     Gets or sets a value indicating whether data stored in the <see cref="P:Stumps.Server.Data.StumpEntity.MatchBodyFileName"/> is text.
         /// </summary>
         /// <value>
-        ///     <c>true</c> if data stored in the <see cref="P:Stumps.Data.StumpEntity.MatchBodyFileName"/> is text; otherwise, <c>false</c>.
+        ///     <c>true</c> if data stored in the <see cref="P:Stumps.Server.Data.StumpEntity.MatchBodyFileName"/> is text; otherwise, <c>false</c>.
         /// </value>
         public bool MatchBodyIsText { get; set; }
 
@@ -72,10 +72,10 @@
         public string[] MatchBodyText { get; set; }
 
         /// <summary>
-        ///     Gets or sets an array of formatted <see cref="T:Stumps.Proxy.HttpHeader"/> values evaluated against the headers of an HTTP request for the stump to match.
+        ///     Gets or sets an array of formatted <see cref="T:Stumps.Server.Proxy.HttpHeader"/> values evaluated against the headers of an HTTP request for the stump to match.
         /// </summary>
         /// <value>
-        ///     The array of formatted <see cref="T:Stumps.Proxy.HttpHeader"/> values evaluated against the headers of an HTTP request for the stump to match.
+        ///     The array of formatted <see cref="T:Stumps.Server.Proxy.HttpHeader"/> values evaluated against the headers of an HTTP request for the stump to match.
         /// </value>
         public HttpHeader[] MatchHeaders { get; set; }
 

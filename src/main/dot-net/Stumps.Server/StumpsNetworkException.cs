@@ -1,4 +1,4 @@
-﻿namespace Stumps
+﻿namespace Stumps.Server
 {
 
     using System;
@@ -12,14 +12,14 @@
     {
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Stumps.StumpsNetworkException"/> class.
+        ///     Initializes a new instance of the <see cref="T:Stumps.Server.StumpsNetworkException"/> class.
         /// </summary>
         public StumpsNetworkException()
         {
         }
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Stumps.StumpsNetworkException"/> class.
+        ///     Initializes a new instance of the <see cref="T:Stumps.Server.StumpsNetworkException"/> class.
         /// </summary>
         /// <param name="message">The message that describes the error.</param>
         public StumpsNetworkException(string message) : base(message)
@@ -27,7 +27,7 @@
         }
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Stumps.StumpsNetworkException"/> class.
+        ///     Initializes a new instance of the <see cref="T:Stumps.Server.StumpsNetworkException"/> class.
         /// </summary>
         /// <param name="message">The message.</param>
         /// <param name="inner">The inner.</param>
@@ -36,7 +36,7 @@
         }
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Stumps.StumpsNetworkException"/> class.
+        ///     Initializes a new instance of the <see cref="T:Stumps.Server.StumpsNetworkException"/> class.
         /// </summary>
         /// <param name="info">The <see cref="T:System.Runtime.Serialization.SerializationInfo" /> that holds the serialized object data about the exception being thrown.</param>
         /// <param name="context">The <see cref="T:System.Runtime.Serialization.StreamingContext" /> that contains contextual information about the source or destination.</param>
