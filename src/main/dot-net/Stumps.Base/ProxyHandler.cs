@@ -165,7 +165,7 @@
                 }
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // TODO: Log error
                 success = false;
@@ -212,17 +212,11 @@
             try
             {
 
-                incommingHttpContext.Request.InputStream.Position = 0;
-
-                var body = StreamUtility.ConvertStreamToByteArray(incommingHttpContext.Request.InputStream);
-
-                incommingHttpContext.Request.InputStream.Position = 0;
-
-                if (body != null && body.Length > 0)
+                if (incommingHttpContext.Request.BodyLength > 0)
                 {
-                    remoteWebRequest.ContentLength = body.Length;
+                    remoteWebRequest.ContentLength = incommingHttpContext.Request.BodyLength;
                     var requestStream = remoteWebRequest.GetRequestStream();
-                    requestStream.Write(body, 0, body.Length);
+                    requestStream.Write(incommingHttpContext.Request.GetBody(), 0, incommingHttpContext.Request.BodyLength);
                 }
 
             }
@@ -253,7 +247,7 @@
 
             var headers = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
-            foreach (var key in incommingHttpContext.Request.Headers.AllKeys)
+            foreach (var key in incommingHttpContext.Request.Headers.HeaderNames)
             {
                 headers.Add(key, incommingHttpContext.Request.Headers[key]);
             }
@@ -261,10 +255,10 @@
             remoteWebRequest.Method = incommingHttpContext.Request.HttpMethod;
             remoteWebRequest.Accept = GetHeaderValue(headers, "accept", null);
             remoteWebRequest.ContentType = GetHeaderValue(
-                headers, "content-type", incommingHttpContext.Request.ContentType);
-            remoteWebRequest.Referer = GetHeaderValue(headers, "referer", incommingHttpContext.Request.Referer);
+                headers, "content-type", string.Empty);
+            remoteWebRequest.Referer = GetHeaderValue(headers, "referer", null);
             remoteWebRequest.TransferEncoding = GetHeaderValue(headers, "transfer-encoding", null);
-            remoteWebRequest.UserAgent = GetHeaderValue(headers, "user-agent", incommingHttpContext.Request.UserAgent);
+            remoteWebRequest.UserAgent = GetHeaderValue(headers, "user-agent", null);
 
             headers.Remove("accept");
             headers.Remove("connection");
@@ -290,7 +284,7 @@
                 {
                     remoteWebRequest.Headers.Add(key, headers[key]);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     // The header could fail to add because it is being referenced
                     // as a property - this is OK.
@@ -305,16 +299,14 @@
         /// </summary>
         /// <param name="incommingHttpContext">The incomming HTTP context.</param>
         /// <param name="remoteWebResponse">The remote web response.</param>
-        private void WriteContextBodyFromRemoteResponse(
-            IStumpsHttpContext incommingHttpContext, HttpWebResponse remoteWebResponse)
+        private void WriteContextBodyFromRemoteResponse(IStumpsHttpContext incommingHttpContext, HttpWebResponse remoteWebResponse)
         {
 
             if (remoteWebResponse.ContentLength != 0)
             {
                 var responseStream = remoteWebResponse.GetResponseStream();
-
-                StreamUtility.CopyStream(responseStream, incommingHttpContext.Response.OutputStream);
-
+                incommingHttpContext.Response.ClearBody();
+                incommingHttpContext.Response.AppendToBody(StreamUtility.ConvertStreamToByteArray(responseStream));
             }
 
         }
@@ -328,42 +320,11 @@
             IStumpsHttpContext incommingHttpContext, HttpWebResponse remoteWebResponse)
         {
 
-            var headers = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-
-            foreach (var key in remoteWebResponse.Headers.AllKeys)
-            {
-                headers.Add(key, remoteWebResponse.Headers[key]);
-            }
-
             incommingHttpContext.Response.Headers.Clear();
-            incommingHttpContext.Response.ContentType = remoteWebResponse.ContentType;
 
-            if (headers.ContainsKey("transfer-encoding") &&
-                headers["transfer-encoding"].Equals("chunked", StringComparison.OrdinalIgnoreCase))
+            foreach (var headerName in remoteWebResponse.Headers.AllKeys)
             {
-                incommingHttpContext.Response.SendChunked = true;
-            }
-
-            headers.Remove("content-length");
-            headers.Remove("content-type");
-
-            // The following headers should not be necessary - re-enable them if we see a need in the future.
-
-            ////headers.Remove("accept");
-            ////headers.Remove("connection");
-            ////headers.Remove("expect");
-            ////headers.Remove("date");
-            ////headers.Remove("host");
-            ////headers.Remove("if-modified-since");
-            ////headers.Remove("range");
-            ////headers.Remove("referer");
-            headers.Remove("transfer-encoding");
-            headers.Remove("keep-alive");
-            ////headers.Remove("user-agent");
-
-            foreach (var key in headers.Keys)
-            {
-                incommingHttpContext.Response.Headers.Add(key, headers[key]);
+                incommingHttpContext.Response.Headers.AddOrUpdate(headerName, remoteWebResponse.Headers[headerName]);
             }
 
         }
