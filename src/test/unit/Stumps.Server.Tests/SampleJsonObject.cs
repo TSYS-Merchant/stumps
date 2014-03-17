@@ -1,4 +1,4 @@
-﻿namespace Stumps
+﻿namespace Stumps.Server
 {
 
     public class SampleJsonObject

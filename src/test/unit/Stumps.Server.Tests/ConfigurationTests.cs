@@ -1,11 +1,11 @@
-﻿namespace Stumps
+﻿namespace Stumps.Server
 {
 
     using System;
     using System.IO;
     using NSubstitute;
     using NUnit.Framework;
-    using Stumps.Data;
+    using Stumps.Server.Data;
 
     [TestFixture]
     public class ConfigurationTests

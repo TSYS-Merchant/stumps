@@ -1,21 +1,20 @@
-﻿namespace Stumps.Proxy
+﻿namespace Stumps.Server
 {
 
     using System;
     using System.Net;
     using NSubstitute;
     using NUnit.Framework;
-    using Stumps;
-    using Stumps.Data;
-    using Stumps.Logging;
+    using Stumps.Server.Data;
+    using Stumps.Server.Logging;
 
     [TestFixture]
-    public class ProxyHostTests
+    public class StumpsHostTests
     {
 
         private readonly int _defaultPort;
 
-        public ProxyHostTests()
+        public StumpsHostTests()
         {
 
             var randomGenerator = new Random();
@@ -26,31 +25,31 @@
         [Test]
         public void Constructor_NullHostName_ThrowsException()
         {
-            ProxyHost proxy = new ProxyHost(Substitute.For<ILogger>(), Substitute.For<IDataAccess>());
+            StumpsHost proxy = new StumpsHost(Substitute.For<IServerFactory>(), Substitute.For<ILogger>(), Substitute.For<IDataAccess>());
             Assert.That(
-                () => proxy.CreateProxy(null, _defaultPort, true, false),
+                () => proxy.CreateServerInstance(null, _defaultPort, true, false),
                 Throws.Exception.TypeOf<ArgumentNullException>().With.Property("ParamName").EqualTo("externalHostName"));
         }
 
         [Test]
         public void Constructor_PortInUse_ThrowsException()
         {
-            ProxyHost proxy = new ProxyHost(Substitute.For<ILogger>(), Substitute.For<IDataAccess>());
+            StumpsHost proxy = new StumpsHost(Substitute.For<IServerFactory>(), Substitute.For<ILogger>(), Substitute.For<IDataAccess>());
             Assert.That(
-                () => proxy.CreateProxy("www.foo.com", 135, true, false),
+                () => proxy.CreateServerInstance("www.foo.com", 135, true, false),
                 Throws.Exception.TypeOf<StumpsNetworkException>().With.Property("Message").EqualTo("The port is already in use."));
         }
 
         [Test]
         public void Constructor_PortNumberRange_ThrowsException()
         {
-            ProxyHost proxy = new ProxyHost(Substitute.For<ILogger>(), Substitute.For<IDataAccess>());
+            StumpsHost proxy = new StumpsHost(Substitute.For<IServerFactory>(), Substitute.For<ILogger>(), Substitute.For<IDataAccess>());
             Assert.That(
-                () => proxy.CreateProxy("www.foo.com", IPEndPoint.MaxPort + 1, true, false),
+                () => proxy.CreateServerInstance("www.foo.com", IPEndPoint.MaxPort + 1, true, false),
                 Throws.Exception.TypeOf<ArgumentOutOfRangeException>().With.Property("ParamName").EqualTo("port"));
 
             Assert.That(
-                () => proxy.CreateProxy("www.foo.com", IPEndPoint.MinPort - 1, true, false),
+                () => proxy.CreateServerInstance("www.foo.com", IPEndPoint.MinPort - 1, true, false),
                 Throws.Exception.TypeOf<ArgumentOutOfRangeException>().With.Property("ParamName").EqualTo("port"));
         }
 

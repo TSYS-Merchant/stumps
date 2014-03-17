@@ -2,6 +2,7 @@
 {
 
     using NUnit.Framework;
+    using Stumps.Server.Utility;
 
     [TestFixture]
     public class RandomGeneratorTests

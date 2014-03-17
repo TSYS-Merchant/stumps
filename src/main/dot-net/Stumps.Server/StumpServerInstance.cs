@@ -107,7 +107,7 @@
         {
             get
             {
-                var isServerRunning = this._server != null && this._server.IsRunning;
+                var isServerRunning = _server != null && this._server.IsRunning;
                 return isServerRunning;
             }
         }
@@ -294,7 +294,12 @@
         /// </summary>
         public void Start()
         {
-            _server.Start();
+
+            if (_server != null)
+            {
+                _server.Start();
+            }
+
         }
 
         /// <summary>
@@ -302,7 +307,12 @@
         /// </summary>
         public void Stop()
         {
-            _server.Stop();
+
+            if (_server != null)
+            {
+                _server.Stop();
+            }
+
         }
 
         /// <summary>
@@ -322,7 +332,10 @@
                     this.Stop();
                 }
 
-                _server.Dispose();
+                if (_server != null)
+                {
+                    _server.Dispose();
+                }
 
                 if (_lock != null)
                 {
