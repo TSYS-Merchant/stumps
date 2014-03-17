@@ -55,6 +55,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="BasicHttpResponseTests.cs" />
     <Compile Include="ContentEncoderTests.cs" />
     <Compile Include="HttpPipelineHandlerTests.cs" />
     <Compile Include="Http\HeaderDictionaryTests.cs" />
