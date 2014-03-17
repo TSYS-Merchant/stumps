@@ -110,7 +110,7 @@
         ///     Gets the body for the HTTP request.
         /// </summary>
         /// <returns>
-        ///     The body for the HTTP request
+        ///     The body for the HTTP request.
         /// </returns>
         public byte[] GetBody()
         {
