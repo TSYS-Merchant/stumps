@@ -57,6 +57,7 @@
   <ItemGroup>
     <Compile Include="ContentEncoderTests.cs" />
     <Compile Include="HttpPipelineHandlerTests.cs" />
+    <Compile Include="Http\HeaderDictionaryTests.cs" />
     <Compile Include="Http\HttpHelper.cs" />
     <Compile Include="Http\HttpServerTests.cs" />
     <Compile Include="Http\StumpsHttpContextTests.cs" />
