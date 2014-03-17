@@ -4,25 +4,9 @@
     /// <summary>
     ///     An interface that represents an HTTP response.
     /// </summary>
-    public interface IStumpsHttpResponse
+    public interface IStumpsHttpResponse : IStumpsHttpContextPart
     {
-
-        /// <summary>
-        ///     Gets the length of the HTTP request body.
-        /// </summary>
-        /// <value>
-        ///     The length of the HTTP request body.
-        /// </value>
-        int BodyLength { get; }
-
-        /// <summary>
-        ///     Gets the collection of HTTP headers returned with the response.
-        /// </summary>
-        /// <value>
-        ///     The collection of HTTP headers returned with the response.
-        /// </value>
-        IHeaderDictionary Headers { get; }
-
+        
         /// <summary>
         ///     Gets or sets the redirect address.
         /// </summary>
@@ -57,12 +41,6 @@
         ///     Clears the existing body of the HTTP response.
         /// </summary>
         void ClearBody();
-
-        /// <summary>
-        ///     Gets the body of the HTTP response.
-        /// </summary>
-        /// <returns>An array of <see cref="T:System.Byte"/> that represent the HTTP response.</returns>
-        byte[] GetBody();
 
     }
 

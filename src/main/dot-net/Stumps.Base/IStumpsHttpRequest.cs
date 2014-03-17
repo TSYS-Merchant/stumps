@@ -6,24 +6,8 @@
     /// <summary>
     ///     An interface that represents an incomming HTTP request.
     /// </summary>
-    public interface IStumpsHttpRequest
+    public interface IStumpsHttpRequest : IStumpsHttpContextPart
     {
-
-        /// <summary>
-        ///     Gets the length of the HTTP request body.
-        /// </summary>
-        /// <value>
-        ///     The length of the HTTP request body.
-        /// </value>
-        int BodyLength { get; }
-
-        /// <summary>
-        ///     Gets the collection of HTTP headers.
-        /// </summary>
-        /// <value>
-        ///     The collection of HTTP headers.
-        /// </value>
-        IHeaderDictionary Headers { get; }
 
         /// <summary>
         ///     Gets the HTTP data transfer method used by the client.
@@ -64,12 +48,6 @@
         ///     The remote end point where the HTTP request came from.
         /// </value>
         IPEndPoint RemoteEndPoint { get; }
-
-        /// <summary>
-        /// Gets the body for the HTTP request.
-        /// </summary>
-        /// <returns>The body for the HTTP request.</returns>
-        byte[] GetBody();
 
     }
 

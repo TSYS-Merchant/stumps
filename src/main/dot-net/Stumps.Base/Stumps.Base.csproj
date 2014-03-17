@@ -46,6 +46,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>BaseResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="BasicHttpResponse.cs" />
     <Compile Include="ContentEncoder.cs" />
     <Compile Include="ContentEncoderMode.cs" />
     <Compile Include="DefaultResponseHandler.cs" />
@@ -63,6 +64,7 @@
     <Compile Include="Http\StumpsHttpResponse.cs" />
     <Compile Include="IHeaderDictionary.cs" />
     <Compile Include="IStumpRule.cs" />
+    <Compile Include="IStumpsHttpContextPart.cs" />
     <Compile Include="IStumpsHttpContext.cs" />
     <Compile Include="IStumpsHttpRequest.cs" />
     <Compile Include="IStumpsHttpResponse.cs" />
