@@ -10,6 +10,18 @@
     {
 
         [Test]
+        public void IsMatch_WithNullRequest_ReturnsFalse()
+        {
+
+            var ruleBody = GenerateByteArray(50, Environment.TickCount);
+
+            var rule = new BodyMatchRule(ruleBody);
+
+            Assert.IsFalse(rule.IsMatch(null));
+
+        }
+
+        [Test]
         public void IsMatch_GivenBodyDifferentFromRuleButSameSize_ReturnsFalse()
         {
 

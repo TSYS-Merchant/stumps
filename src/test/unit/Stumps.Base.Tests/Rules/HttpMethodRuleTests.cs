@@ -24,6 +24,13 @@
         }
 
         [Test]
+        public void IsMatch_WithNullRequest_ReturnsFalse()
+        {
+            var rule = new HttpMethodRule("POST");
+            Assert.IsFalse(rule.IsMatch(null));
+        }
+
+        [Test]
         public void IsMatch_ExactTextRuleInversedWithMatchingString_ReturnsFalse()
         {
 

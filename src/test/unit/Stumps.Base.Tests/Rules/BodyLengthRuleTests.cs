@@ -20,6 +20,15 @@
 
         }
 
+        [Test]
+        public void IsMatch_WithNullRequest_ReturnsFalse()
+        {
+
+            var rule = new BodyLengthRule(15, 15);
+            Assert.IsFalse(rule.IsMatch(null));
+
+        }
+
         [TestCase(0, false)]
         [TestCase(14, false)]
         [TestCase(16, false)]

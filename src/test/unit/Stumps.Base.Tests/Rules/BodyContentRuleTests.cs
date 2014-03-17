@@ -31,6 +31,37 @@
         }
 
         [Test]
+        public void IsMatch_NullContext_ReturnsFalse()
+        {
+
+            var rule = new BodyContentRule(
+                new string[]
+                {
+                    "passed"
+                });
+
+            Assert.IsFalse(rule.IsMatch(null));
+
+        }
+
+        [Test]
+        public void IsMatch_WithoutBody_ReturnsFalse()
+        {
+
+            var request = Substitute.For<IStumpsHttpRequest>();
+            request.BodyLength.Returns(0);
+
+            var rule = new BodyContentRule(
+                new string[]
+                {
+                    "passed"
+                });
+
+            Assert.IsFalse(rule.IsMatch(null));
+
+        }
+
+        [Test]
         public void IsMatch_BinaryContentWithTextString_ReturnsFalse()
         {
 
