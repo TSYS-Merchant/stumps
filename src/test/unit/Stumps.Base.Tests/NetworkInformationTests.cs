@@ -1,17 +1,17 @@
-﻿namespace Stumps.Utility
+﻿namespace Stumps
 {
 
     using System.Net.NetworkInformation;
     using NUnit.Framework;
 
     [TestFixture]
-    public class NetworkUtilityTests
+    public class NetworkInformationTests
     {
 
         [Test]
         public void FindRandomOpenPort_ReturnsPort()
         {
-            var port = NetworkUtility.FindRandomOpenPort();
+            var port = NetworkInformation.FindRandomOpenPort();
             Assert.IsNotNull(port);
 
         }
@@ -20,7 +20,7 @@
         public void FindRandomOpenPort_FindsValidPort()
         {
 
-            var port = NetworkUtility.FindRandomOpenPort();
+            var port = NetworkInformation.FindRandomOpenPort();
             Assert.IsFalse(IsPortInUse(port));
 
         }

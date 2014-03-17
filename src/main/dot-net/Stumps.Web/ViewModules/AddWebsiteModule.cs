@@ -27,7 +27,7 @@
 
             Get["/AddWebsite"] = _ =>
             {
-                var port = NetworkUtility.FindRandomOpenPort();
+                var port = NetworkInformation.FindRandomOpenPort();
 
                 var model = new
                 {

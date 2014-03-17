@@ -1,4 +1,4 @@
-﻿namespace Stumps.Utility
+﻿namespace Stumps
 {
 
     using System;
@@ -8,7 +8,7 @@
     /// <summary>
     ///     A class that represents a set of Network related functions.
     /// </summary>
-    internal static class NetworkUtility
+    public static class NetworkInformation
     {
 
         public const int MinimumPort = 7000;
@@ -26,14 +26,14 @@
             var properties = IPGlobalProperties.GetIPGlobalProperties();
             var endpointList = properties.GetActiveTcpListeners();
 
-            var usedPorts = new bool[NetworkUtility.MaximumPort - NetworkUtility.MinimumPort + 1];
+            var usedPorts = new bool[NetworkInformation.MaximumPort - NetworkInformation.MinimumPort + 1];
 
             foreach (var endpoint in endpointList)
             {
-                if (endpoint.Port >= NetworkUtility.MinimumPort &&
-                    endpoint.Port <= NetworkUtility.MaximumPort)
+                if (endpoint.Port >= NetworkInformation.MinimumPort &&
+                    endpoint.Port <= NetworkInformation.MaximumPort)
                 {
-                    var port = endpoint.Port - NetworkUtility.MinimumPort;
+                    var port = endpoint.Port - NetworkInformation.MinimumPort;
                     usedPorts[port] = true;
                 }
             }
@@ -49,7 +49,7 @@
 
                 if (!usedPorts[portGuess])
                 {
-                    foundPort = portGuess + NetworkUtility.MinimumPort;
+                    foundPort = portGuess + NetworkInformation.MinimumPort;
                     break;
                 }
             }

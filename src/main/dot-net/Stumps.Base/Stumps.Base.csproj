@@ -69,6 +69,7 @@
     <Compile Include="IStumpsHttpRequest.cs" />
     <Compile Include="IStumpsHttpResponse.cs" />
     <Compile Include="IStumpsManager.cs" />
+    <Compile Include="NetworkInformation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="..\CommonAssembly\ProductAssemblyInfo.cs">
       <Link>Properties\ProductAssemblyInfo.cs</Link>
@@ -91,7 +92,6 @@
     <Compile Include="StumpsServer.cs" />
     <Compile Include="TextContainsMatch.cs" />
     <Compile Include="TextMatch.cs" />
-    <Compile Include="Utility\NetworkUtility.cs" />
     <Compile Include="Utility\StreamUtility.cs" />
     <Compile Include="Utility\StringUtility.cs" />
   </ItemGroup>

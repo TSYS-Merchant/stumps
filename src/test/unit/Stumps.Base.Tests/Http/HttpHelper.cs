@@ -18,7 +18,7 @@
         public static HttpServer CreateHttpServer(IHttpHandler handler)
         {
 
-            var openPort = NetworkUtility.FindRandomOpenPort();
+            var openPort = NetworkInformation.FindRandomOpenPort();
 
             var server = new HttpServer(openPort, handler);
 
