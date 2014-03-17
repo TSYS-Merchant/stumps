@@ -9,7 +9,7 @@
     /// <summary>
     ///     A class that represents a Stumps server.
     /// </summary>
-    public sealed class StumpsServer : IDisposable
+    public sealed class StumpsServer : IStumpsServer
     {
 
         private readonly object _syncRoot;

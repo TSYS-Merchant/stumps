@@ -27,21 +27,31 @@
         /// </summary>
         private const string SecureUriFormat = "https://{0}/";
 
+        private readonly IServerFactory _serverFactory;
+
         private readonly List<StumpContract> _stumpList;
         private readonly Dictionary<string, StumpContract> _stumpReference;
 
         private readonly IDataAccess _dataAccess;
-        private StumpsServer _server;
+        private IStumpsServer _server;
         private bool _disposed;
         private ReaderWriterLockSlim _lock;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:Stumps.Server.StumpsServerInstance"/> class.
         /// </summary>
+        /// <param name="serverFactory">The factory used to initialize new server instances.</param>
         /// <param name="proxyId">The unique identifier of the proxy.</param>
         /// <param name="dataAccess">The data access provider used by the instance.</param>
-        public StumpsServerInstance(string proxyId, IDataAccess dataAccess)
+        public StumpsServerInstance(IServerFactory serverFactory, string proxyId, IDataAccess dataAccess)
         {
+
+            if (serverFactory == null)
+            {
+                throw new ArgumentNullException("serverFactory");
+            }
+
+            _serverFactory = serverFactory;
 
             this.ServerId = proxyId;
 
@@ -598,12 +608,12 @@
 
                 var uri = new Uri(uriString);
 
-                _server = new StumpsServer(this.ListeningPort, uri);
+                _server = _serverFactory.CreateServer(this.ListeningPort, uri);
             }
             else
             {
                 // TODO: Choose which method to use for the fallback when no proxy is available.
-                _server = new StumpsServer(this.ListeningPort, ServerDefaultResponse.Http503ServiceUnavailable);
+                _server = _serverFactory.CreateServer(this.ListeningPort, ServerDefaultResponse.Http503ServiceUnavailable);
             }
 
         }
