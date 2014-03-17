@@ -49,7 +49,8 @@
     <Compile Include="BasicHttpResponse.cs" />
     <Compile Include="ContentEncoder.cs" />
     <Compile Include="ContentEncoderMode.cs" />
-    <Compile Include="DefaultResponseHandler.cs" />
+    <Compile Include="FallbackResponse.cs" />
+    <Compile Include="FallbackResponseHandler.cs" />
     <Compile Include="HttpPipelineHandler.cs" />
     <Compile Include="Http\HeaderDictionary.cs" />
     <Compile Include="Http\HttpServer.cs" />
@@ -85,7 +86,6 @@
     <Compile Include="Rules\HeaderRule.cs" />
     <Compile Include="Rules\HttpMethodRule.cs" />
     <Compile Include="Rules\UrlRule.cs" />
-    <Compile Include="ServerDefaultResponse.cs" />
     <Compile Include="Stump.cs" />
     <Compile Include="StumpsContextEventArgs.cs" />
     <Compile Include="StumpsHandler.cs" />

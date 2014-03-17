@@ -15,7 +15,7 @@
         private readonly object _syncRoot;
         private readonly IStumpsManager _stumpsManager;
         private readonly Uri _proxyHost;
-        private readonly ServerDefaultResponse _defaultResponse;
+        private readonly FallbackResponse _defaultResponse;
 
         private readonly int _port;
 
@@ -33,7 +33,7 @@
         /// <param name="listeningPort">The port the HTTP server is using to listen for traffic.</param>
         /// <param name="defaultResponse">The default response returned to a client when a matching <see cref="T:Stumps.Stump"/> is not found.</param>
         /// <exception cref="System.ArgumentOutOfRangeException"><paramref name="listeningPort" /> exceeds the allowed TCP port range.</exception>
-        public StumpsServer(int listeningPort, ServerDefaultResponse defaultResponse) : this(listeningPort, null)
+        public StumpsServer(int listeningPort, FallbackResponse defaultResponse) : this(listeningPort, null)
         {
             _defaultResponse = defaultResponse;
         }
@@ -239,7 +239,7 @@
                 else
                 {
                     // Setup the Service Unavailable HTTP handler
-                    var stumpNotFoundHandler = new DefaultResponseHandler(_defaultResponse);
+                    var stumpNotFoundHandler = new FallbackResponseHandler(_defaultResponse);
                     pipeline.Add(stumpNotFoundHandler);
                 }
 

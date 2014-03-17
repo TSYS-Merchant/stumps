@@ -5,29 +5,29 @@ namespace Stumps
     using Stumps.Http;
 
     /// <summary>
-    ///     A class implementing the <see cref="T:Stumps.Http.IHttpHandler"/> interface that provides a default
+    ///     A class implementing the <see cref="T:Stumps.Http.IHttpHandler"/> interface that provides a fallback
     ///     response to an incomming HTTP request.
     /// </summary>
-    internal class DefaultResponseHandler : IHttpHandler
+    internal class FallbackResponseHandler : IHttpHandler
     {
 
         private readonly int _statusCode;
         private readonly string _statusCodeDescription;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Stumps.DefaultResponseHandler"/> class.
+        ///     Initializes a new instance of the <see cref="T:Stumps.FallbackResponseHandler"/> class.
         /// </summary>
-        /// <param name="defaultResponse">The default response.</param>
-        /// <exception cref="System.ArgumentOutOfRangeException"><paramref name="defaultResponse"/> is <c>null</c>.</exception>
-        public DefaultResponseHandler(ServerDefaultResponse defaultResponse)
+        /// <param name="response">The default response.</param>
+        /// <exception cref="System.ArgumentOutOfRangeException"><paramref name="response"/> is <c>null</c>.</exception>
+        public FallbackResponseHandler(FallbackResponse response)
         {
 
-            if (Enum.IsDefined(typeof(ServerDefaultResponse), defaultResponse))
+            if (!Enum.IsDefined(typeof(FallbackResponse), response))
             {
-                throw new ArgumentOutOfRangeException("defaultResponse");
+                throw new ArgumentOutOfRangeException("response");
             }
 
-            _statusCode = (int)defaultResponse;
+            _statusCode = (int)response;
             _statusCodeDescription = HttpStatusCodes.GetStatusDescription(_statusCode);
 
         }
@@ -54,6 +54,7 @@ namespace Stumps
             }
 
             context.Response.Headers.Clear();
+            context.Response.ClearBody();
             context.Response.StatusCode = _statusCode;
             context.Response.StatusDescription = _statusCodeDescription;
 

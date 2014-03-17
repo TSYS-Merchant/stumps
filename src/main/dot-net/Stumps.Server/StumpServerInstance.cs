@@ -624,7 +624,7 @@
             else
             {
                 // TODO: Choose which method to use for the fallback when no proxy is available.
-                _server = _serverFactory.CreateServer(this.ListeningPort, ServerDefaultResponse.Http503ServiceUnavailable);
+                _server = _serverFactory.CreateServer(this.ListeningPort, FallbackResponse.Http503ServiceUnavailable);
             }
 
         }

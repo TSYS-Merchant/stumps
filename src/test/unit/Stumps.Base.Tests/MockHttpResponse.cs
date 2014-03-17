@@ -2,11 +2,18 @@
 {
 
     using System;
+    using Stumps.Http;
 
     public class MockHttpResponse : IStumpsHttpResponse
     {
 
-        private byte[] _bodyBuffer = new byte[0];
+        private byte[] _bodyBuffer;
+        
+        public MockHttpResponse()
+        {
+            _bodyBuffer = new byte[0];
+            this.Headers = new HeaderDictionary();
+        }
 
         public int BodyLength
         {

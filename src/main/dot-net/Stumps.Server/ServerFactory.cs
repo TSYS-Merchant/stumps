@@ -11,12 +11,12 @@ namespace Stumps.Server
         ///     Creates a new instance of <see cref="T:Stumps.IStumpsServer" />.
         /// </summary>
         /// <param name="listeningPort">The port the HTTP server is using to listen for traffic.</param>
-        /// <param name="defaultResponse">The default response returned to a client when a matching <see cref="T:Stumps.Stump"/> is not found.</param>
+        /// <param name="fallbackResponse">The default response returned to a client when a matching <see cref="T:Stumps.Stump"/> is not found.</param>
         /// <exception cref="System.ArgumentOutOfRangeException"><paramref name="listeningPort" /> exceeds the allowed TCP port range.</exception>
         /// <returns>An instance of a class inherting from the <see cref="T:Stumps.IStumpsServer"/> interface.</returns>
-        public IStumpsServer CreateServer(int listeningPort, ServerDefaultResponse defaultResponse)
+        public IStumpsServer CreateServer(int listeningPort, FallbackResponse fallbackResponse)
         {
-            var server = new StumpsServer(listeningPort, defaultResponse);
+            var server = new StumpsServer(listeningPort, fallbackResponse);
             return server;
         }
 

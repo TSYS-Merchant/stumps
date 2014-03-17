@@ -13,9 +13,9 @@ namespace Stumps.Server
         ///     Creates a new instance of <see cref="T:Stumps.IStumpsServer" />.
         /// </summary>
         /// <param name="listeningPort">The port the HTTP server is using to listen for traffic.</param>
-        /// <param name="defaultResponse">The default response returned to a client when a matching <see cref="T:Stumps.Stump"/> is not found.</param>
+        /// <param name="fallbackResponse">The default response returned to a client when a matching <see cref="T:Stumps.Stump"/> is not found.</param>
         /// <returns>An instance of a class inherting from the <see cref="T:Stumps.IStumpsServer"/> interface.</returns>
-        IStumpsServer CreateServer(int listeningPort, ServerDefaultResponse defaultResponse);
+        IStumpsServer CreateServer(int listeningPort, FallbackResponse fallbackResponse);
 
         /// <summary>
         ///     Creates a new instance of <see cref="T:Stumps.IStumpsServer" />.

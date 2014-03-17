@@ -2,11 +2,11 @@ namespace Stumps
 {
 
     /// <summary>
-    ///     Provides the default response for a <see cref="T:Stumps.StumpsServer"/> when a proxy 
+    ///     Provides the fallback response for a <see cref="T:Stumps.StumpsServer"/> when a proxy 
     ///     is not defined unavailable, and a <see cref="T:Stumps.Stump"/> was not found matching an
     ///     incomming request. 
     /// </summary>
-    public enum ServerDefaultResponse
+    public enum FallbackResponse
     {
 
         /// <summary>
