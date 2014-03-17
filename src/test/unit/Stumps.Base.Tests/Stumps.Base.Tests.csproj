@@ -88,6 +88,7 @@
       <DependentUpon>TestData.resx</DependentUpon>
     </Compile>
     <Compile Include="TextAnalyzerTests.cs" />
+    <Compile Include="Utility\StreamUtilityTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\main\dot-net\Stumps.Base\Stumps.Base.csproj">
