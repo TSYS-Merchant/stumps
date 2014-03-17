@@ -1,4 +1,4 @@
-﻿namespace Stumps.Server.Proxy
+﻿namespace Stumps.Server
 {
 
     /// <summary>

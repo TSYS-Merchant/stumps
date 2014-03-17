@@ -177,7 +177,7 @@
         private void DetermineBodyIsText(IRecordedContextPart part)
         {
 
-            part.BodyIsText = StringUtility.IsText(part.Body);
+            part.BodyIsText = TextAnalyzer.IsText(part.Body);
 
         }
 

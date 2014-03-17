@@ -1,4 +1,4 @@
-﻿namespace Stumps.Server.Proxy
+﻿namespace Stumps.Server
 {
 
     /// <summary>
@@ -72,10 +72,10 @@
         public string[] MatchBodyText { get; set; }
 
         /// <summary>
-        ///     Gets or sets an array of formatted <see cref="T:Stumps.Server.Proxy.HttpHeader"/> values evaluated against the headers of an HTTP request for the stump to match.
+        ///     Gets or sets an array of formatted <see cref="T:Stumps.Server.HttpHeader"/> values evaluated against the headers of an HTTP request for the stump to match.
         /// </summary>
         /// <value>
-        ///     The array of formatted <see cref="T:Stumps.Server.Proxy.HttpHeader"/> values evaluated against the headers of an HTTP request for the stump to match.
+        ///     The array of formatted <see cref="T:Stumps.Server.HttpHeader"/> values evaluated against the headers of an HTTP request for the stump to match.
         /// </value>
         public HttpHeader[] MatchHeaders { get; set; }
 
@@ -109,7 +109,7 @@
         /// <value>
         ///     The response to the Stump.
         /// </value>
-        public RecordedResponse Response { get; set; }
+        public ContractHttpResponse Response { get; set; }
 
         /// <summary>
         ///     Gets or sets the organizational category the stump belongs to.

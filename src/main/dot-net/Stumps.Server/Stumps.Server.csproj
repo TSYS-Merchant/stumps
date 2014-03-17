@@ -66,7 +66,10 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ContractHttpResponse.cs" />
+    <Compile Include="HttpHeader.cs" />
     <Compile Include="IStumpsHost.cs" />
+    <Compile Include="StumpContract.cs" />
     <Compile Include="StumpsConfiguration.cs" />
     <Compile Include="Data\ConfigurationDataAccess.cs" />
     <Compile Include="Data\ConfigurationEntity.cs" />
@@ -78,15 +81,12 @@
     <Compile Include="Data\StumpEntity.cs" />
     <Compile Include="DefaultConfigurationSettings.cs" />
     <Compile Include="Proxy\IRecordedContextPart.cs" />
-    <Compile Include="Proxy\ProxyStumps.cs" />
-    <Compile Include="Proxy\StumpContract.cs" />
     <Compile Include="StumpServerInstance.cs" />
     <Compile Include="StumpsHost.cs" />
     <Compile Include="StumpsNetworkException.cs" />
     <Compile Include="Utility\RandomGenerator.cs" />
     <Compile Include="Proxy\RecordedContext.cs" />
     <Compile Include="Logging\DebugLogger.cs" />
-    <Compile Include="Proxy\HttpHeader.cs" />
     <Compile Include="Proxy\RecordedRequest.cs" />
     <Compile Include="Proxy\RecordedResponse.cs" />
     <Compile Include="Proxy\ProxyRecordings.cs" />

@@ -85,7 +85,7 @@
                 throw new ArgumentOutOfRangeException("port");
             }
 
-            if (NetworkUtility.IsPortBeingUsed(port))
+            if (NetworkInformation.IsPortBeingUsed(port))
             {
                 throw new StumpsNetworkException(Resources.PortIsInUseError);
             }
@@ -326,8 +326,6 @@
                 AutoStart = entity.AutoStart,
                 ExternalHostName = entity.ExternalHostName
             };
-
-            server.Stumps.Load();
 
             _serverInstances.AddOrUpdate(server.ServerId, server, (key, oldServer) => server);
 
