@@ -70,11 +70,6 @@
         private bool IsHashEqual(byte[] hashBytes)
         {
 
-            if (hashBytes.Length != _bodyHash.Length)
-            {
-                return false;
-            }
-
             for (var i = 0; i < _bodyHash.Length; i++)
             {
                 if (_bodyHash[i] != hashBytes[i])
