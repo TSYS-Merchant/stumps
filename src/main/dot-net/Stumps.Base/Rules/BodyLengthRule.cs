@@ -4,7 +4,7 @@
     /// <summary>
     ///     A class representing a Stump rule that evaluates the length of the body of an HTTP request.
     /// </summary>
-    internal class BodyLengthRule : IStumpRule
+    public class BodyLengthRule : IStumpRule
     {
 
         private readonly int _maximumSize;

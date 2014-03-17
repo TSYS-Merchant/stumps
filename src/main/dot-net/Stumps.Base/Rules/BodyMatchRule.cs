@@ -2,13 +2,11 @@
 {
 
     using System.Security.Cryptography;
-    using Stumps.Http;
-    using Stumps.Utility;
 
     /// <summary>
     ///     A class representing a Stump rule that evaluates the exact content of the body of an HTTP request.
     /// </summary>
-    internal sealed class BodyMatchRule : IStumpRule
+    public class BodyMatchRule : IStumpRule
     {
 
         private readonly byte[] _bodyHash;

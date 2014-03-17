@@ -1,12 +1,10 @@
 ﻿namespace Stumps.Rules
 {
 
-    using Stumps.Http;
-
     /// <summary>
     ///     A class representing a Stump rule that evaluates the HTTP method of an HTTP request.
     /// </summary>
-    internal class HttpMethodRule : IStumpRule
+    public class HttpMethodRule : IStumpRule
     {
 
         private readonly TextMatch _textMatch;
@@ -27,7 +25,7 @@
         /// <summary>
         ///     Determines whether the specified request matches the rule.
         /// </summary>
-        /// <param name="request">The <see cref="T:Stumps.Http.IStumpsHttpRequest" /> to evaluate.</param>
+        /// <param name="request">The <see cref="T:Stumps.IStumpsHttpRequest" /> to evaluate.</param>
         /// <returns>
         ///   <c>true</c> if the <paramref name="request" /> matches the rule, otherwise, <c>false</c>.
         /// </returns>

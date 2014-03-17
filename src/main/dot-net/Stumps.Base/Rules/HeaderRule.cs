@@ -1,12 +1,10 @@
 ﻿namespace Stumps.Rules
 {
 
-    using Stumps.Http;
-
     /// <summary>
     ///     A class representing a Stump rule that evaluates the headers of an HTTP request.
     /// </summary>
-    internal class HeaderRule : IStumpRule
+    public class HeaderRule : IStumpRule
     {
 
         private readonly TextMatch _nameTextMatch;

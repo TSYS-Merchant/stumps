@@ -3,8 +3,6 @@
 
     using System.Collections.Generic;
     using System.Text;
-    using Stumps.Http;
-    using Stumps.Utility;
 
     /// <summary>
     ///     A class representing a Stump rule that examines the content of the body using text evaluations 
