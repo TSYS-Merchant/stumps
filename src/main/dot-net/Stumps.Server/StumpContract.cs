@@ -8,6 +8,15 @@
     {
 
         /// <summary>
+        ///     Initializes a new instance of the <see cref="T:Stumps.Server.StumpContract"/> class.
+        /// </summary>
+        public StumpContract()
+        {
+            this.MatchHeaders = new HttpHeader[0];
+            this.Response = new ContractHttpResponse();
+        }
+
+        /// <summary>
         ///     Gets or sets the HTTP method returned in the response to the stump.
         /// </summary>
         /// <value>

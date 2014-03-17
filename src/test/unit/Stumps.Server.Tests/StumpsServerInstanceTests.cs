@@ -1,41 +1,60 @@
 namespace Stumps.Server
 {
 
-    using NUnit.Framework;
     using NSubstitute;
+    using NUnit.Framework;
     using Stumps.Server.Data;
-    using Stumps.Server.Proxy;
-    using Stumps;
 
+    [TestFixture]
     public class StumpsServerInstanceTests
     {
 
-        private static string _serverId = "www.google.com";
+        private IDataAccess _dal;
+        private string _serverId;
+        
+        [TestFixtureSetUp]
+        public void StumpsServerInstanceTests_SetUp()
+        {
+
+            _serverId = "ABCD";
+
+            var proxyEntity = new ProxyServerEntity()
+            {
+                AutoStart = false,
+                ExternalHostName = "stumps-project.com",
+                Port = 9000,
+                ProxyId = _serverId,
+                UseSsl = false
+            };
+
+            _dal = Substitute.For<IDataAccess>();
+            _dal.ProxyServerFind("ABCD").Returns(proxyEntity);
+
+        }
 
         [Test]
         public void StumpNameExists_WithExistantName_ReturnsTrue()
         {
 
-            //var dal = Substitute.For<IDataAccess>();
-            //var contract = new StumpContract();
-            //contract.StumpName = "name";
-            //contract.StumpId = "abc";
-            //contract.MatchHeaders = new HttpHeader[]
-            //{
-            //};
+            var contract = new StumpContract()
+            {
+                StumpName = "StumpName",
+                StumpId = "abc"
+            };
 
-            //var instance = new StumpsServerInstance(Substitute.For<IServerFactory>(), _serverId, dal);
-            //instance.CreateStump(contract);
-            //Assert.IsTrue(instance.StumpNameExists("name"));
+            var instance = new StumpsServerInstance(Substitute.For<IServerFactory>(), _serverId, _dal);
+            instance.CreateStump(contract);
+            Assert.IsTrue(instance.StumpNameExists(contract.StumpName));
+
         }
 
         [Test]
         public void StumpNameExists_WithNonExistantName_ReturnsFalse()
         {
-            //var dal = Substitute.For<IDataAccess>();
 
-            //var instance = new StumpsServerInstance(Substitute.For<IServerFactory>(), _serverId, dal);
-            //Assert.IsFalse(instance.StumpNameExists("nameDNE"));
+            var instance = new StumpsServerInstance(Substitute.For<IServerFactory>(), _serverId, _dal);
+            Assert.IsFalse(instance.StumpNameExists("name"));
+
         }
 
     }

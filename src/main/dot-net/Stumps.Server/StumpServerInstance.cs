@@ -410,31 +410,29 @@
         private StumpEntity CreateEntityFromContract(StumpContract contract)
         {
 
-            var entity = new StumpEntity
-            {
-                HttpMethod = contract.HttpMethod,
-                MatchBodyFileName = string.Empty,
-                MatchBodyContentType = contract.MatchBodyContentType ?? string.Empty,
-                MatchBodyIsImage = contract.MatchBodyIsImage,
-                MatchBodyIsText = contract.MatchBodyIsText,
-                MatchBodyMaximumLength = contract.MatchBodyMaximumLength,
-                MatchBodyMinimumLength = contract.MatchBodyMinimumLength,
-                MatchBodyText = contract.MatchBodyText,
-                MatchHeaders = CreateHeaderEntity(contract.MatchHeaders),
-                MatchHttpMethod = contract.MatchHttpMethod,
-                MatchRawUrl = contract.MatchRawUrl,
-                RawUrl = contract.RawUrl,
-                ResponseBodyContentType = contract.Response.Headers["content-type"] ?? string.Empty,
-                ResponseBodyFileName = string.Empty,
-                ResponseBodyIsImage = contract.Response.BodyIsImage,
-                ResponseBodyIsText = contract.Response.BodyIsText,
-                ResponseHeaders = CreateHeaderEntity(contract.Response.Headers),
-                ResponseStatusCode = contract.Response.StatusCode,
-                ResponseStatusDescription = contract.Response.StatusDescription,
-                StumpId = contract.StumpId,
-                StumpCategory = contract.StumpCategory,
-                StumpName = contract.StumpName
-            };
+            var entity = new StumpEntity();
+            entity.HttpMethod = contract.HttpMethod;
+            entity.MatchBodyFileName = string.Empty;
+            entity.MatchBodyContentType = contract.MatchBodyContentType ?? string.Empty;
+            entity.MatchBodyIsImage = contract.MatchBodyIsImage;
+            entity.MatchBodyIsText = contract.MatchBodyIsText;
+            entity.MatchBodyMaximumLength = contract.MatchBodyMaximumLength;
+            entity.MatchBodyMinimumLength = contract.MatchBodyMinimumLength;
+            entity.MatchBodyText = contract.MatchBodyText;
+            entity.MatchHeaders = CreateHeaderEntity(contract.MatchHeaders);
+            entity.MatchHttpMethod = contract.MatchHttpMethod;
+            entity.MatchRawUrl = contract.MatchRawUrl;
+            entity.RawUrl = contract.RawUrl;
+            entity.ResponseBodyContentType = contract.Response.Headers["content-type"] ?? string.Empty;
+            entity.ResponseBodyFileName = string.Empty;
+            entity.ResponseBodyIsImage = contract.Response.BodyIsImage;
+            entity.ResponseBodyIsText = contract.Response.BodyIsText;
+            entity.ResponseHeaders = CreateHeaderEntity(contract.Response.Headers);
+            entity.ResponseStatusCode = contract.Response.StatusCode;
+            entity.ResponseStatusDescription = contract.Response.StatusDescription;
+            entity.StumpId = contract.StumpId;
+            entity.StumpCategory = contract.StumpCategory;
+            entity.StumpName = contract.StumpName;
 
             return entity;
 
