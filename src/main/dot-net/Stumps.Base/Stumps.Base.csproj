@@ -50,7 +50,6 @@
     <Compile Include="ContentEncoder.cs" />
     <Compile Include="ContentEncoderMode.cs" />
     <Compile Include="DefaultResponseHandler.cs" />
-    <Compile Include="HttpAnalysis.cs" />
     <Compile Include="HttpPipelineHandler.cs" />
     <Compile Include="Http\HeaderDictionary.cs" />
     <Compile Include="Http\HttpServer.cs" />
