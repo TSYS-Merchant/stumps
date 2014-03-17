@@ -1,4 +1,4 @@
-﻿namespace Stumps.Utility
+﻿namespace Stumps
 {
 
     using System;
@@ -7,7 +7,7 @@
     using NUnit.Framework;
 
     [TestFixture]
-    public class StringUtilityTests
+    public class TextAnalyzerTests
     {
 
         [Test]
@@ -18,7 +18,7 @@
             var random = new Random();
             random.NextBytes(buffer);
 
-            Assert.IsFalse(StringUtility.IsText(buffer));
+            Assert.IsFalse(TextAnalyzer.IsText(buffer));
 
         }
 
@@ -27,7 +27,7 @@
         {
 
             Assert.IsFalse(
-                StringUtility.IsText(
+                TextAnalyzer.IsText(
                     new byte[]
                     {
                     }));
@@ -50,7 +50,7 @@
             newBuffer[3] = 201;
             newBuffer[4] = 202;
 
-            Assert.IsTrue(StringUtility.IsText(newBuffer));
+            Assert.IsTrue(TextAnalyzer.IsText(newBuffer));
 
         }
 
@@ -58,7 +58,7 @@
         public void IsText_NullValue_ReturnsFalse()
         {
 
-            Assert.IsFalse(StringUtility.IsText(null));
+            Assert.IsFalse(TextAnalyzer.IsText(null));
 
         }
 
@@ -68,7 +68,7 @@
 
             var text = "for (int i = 0; i < 100; i++ ) { console.WriteLine(\"Hello {0}\", i); }" + Environment.NewLine;
             var buffer = Encoding.UTF8.GetBytes(text);
-            Assert.IsTrue(StringUtility.IsText(buffer));
+            Assert.IsTrue(TextAnalyzer.IsText(buffer));
 
         }
 

@@ -53,7 +53,7 @@
 
             var buffer = request.GetBody();
 
-            if (!StringUtility.IsText(buffer))
+            if (!TextAnalyzer.IsText(buffer))
             {
                 return false;
             }

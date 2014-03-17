@@ -50,6 +50,7 @@
     <Compile Include="ContentEncoder.cs" />
     <Compile Include="ContentEncoderMode.cs" />
     <Compile Include="DefaultResponseHandler.cs" />
+    <Compile Include="HttpAnalysis.cs" />
     <Compile Include="HttpPipelineHandler.cs" />
     <Compile Include="Http\HeaderDictionary.cs" />
     <Compile Include="Http\HttpServer.cs" />
@@ -90,10 +91,10 @@
     <Compile Include="StumpsHandler.cs" />
     <Compile Include="StumpsManager.cs" />
     <Compile Include="StumpsServer.cs" />
+    <Compile Include="TextAnalyzer.cs" />
     <Compile Include="TextContainsMatch.cs" />
     <Compile Include="TextMatch.cs" />
     <Compile Include="Utility\StreamUtility.cs" />
-    <Compile Include="Utility\StringUtility.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="BaseResources.resx">

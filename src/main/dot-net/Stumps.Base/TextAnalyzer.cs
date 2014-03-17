@@ -1,10 +1,10 @@
-﻿namespace Stumps.Utility
+﻿namespace Stumps
 {
 
     /// <summary>
     ///     A class that represents a set of String based functions.
     /// </summary>
-    internal static class StringUtility
+    public static class TextAnalyzer
     {
 
         /// <summary>
@@ -40,7 +40,7 @@
 
             var badPercent = (float)badCount / buffer.Length;
 
-            if (badPercent > StringUtility.TextThreshold)
+            if (badPercent > TextAnalyzer.TextThreshold)
             {
                 isText = false;
             }
