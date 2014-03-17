@@ -24,6 +24,30 @@ namespace Stumps
         }
 
         [Test]
+        public void Indexer_ReturnsItem()
+        {
+
+            var pipe = new HttpPipelineHandler();
+            
+            var handler1 = new MockHandler()
+            {
+                HandlerId = 1
+            };
+            
+            var handler2 = new MockHandler()
+            {
+                HandlerId = 2
+            };
+
+            pipe.Add(handler1);
+            pipe.Add(handler2);
+
+            Assert.AreEqual(1, ((MockHandler)pipe[0]).HandlerId);
+            Assert.AreEqual(2, ((MockHandler)pipe[1]).HandlerId);
+
+        }
+
+        [Test]
         public void ProcessRequest_ExecuteMultipleHandlersInPipeline()
         {
 
@@ -90,6 +114,23 @@ namespace Stumps
 
             var result = handler.ProcessRequest(context);
             Assert.AreEqual(ProcessHandlerResult.Continue, result, "The process request returned a Terminate.");
+
+        }
+
+
+        [Test]
+        public void ProcessRequest_WithValidContext_RaisesContextProcessedEvent()
+        {
+
+            var context = Substitute.For<IStumpsHttpContext>();
+
+            var handler = new HttpPipelineHandler();
+            var hitCount = 0;
+            handler.ContextProcessed += (o, e) => hitCount++;
+
+            var result = handler.ProcessRequest(context);
+
+            Assert.AreEqual(1, hitCount);
 
         }
 

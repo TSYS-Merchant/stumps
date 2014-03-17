@@ -32,6 +32,8 @@
 
         public string StatusDescription { get; set; }
 
+        public int HandlerId { get; set; }
+
         public ProcessHandlerResult ProcessRequest(IStumpsHttpContext context)
         {
 
@@ -47,6 +49,11 @@
             {
                 context.Response.ClearBody();
                 context.Response.AppendToBody(_body);
+            }
+
+            if (this.ContextProcessed != null)
+            {
+                this.ContextProcessed(this, new StumpsContextEventArgs(context));
             }
 
             return ProcessHandlerResult.Terminate;
