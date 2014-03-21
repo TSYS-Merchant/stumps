@@ -2,8 +2,12 @@ namespace Stumps
 {
 
     using System;
+    using System.Text;
     using Stumps.Http;
 
+    /// <summary>
+    ///     A class representing a simple and basic HTTP response.
+    /// </summary>
     public class BasicHttpResponse
     {
 
@@ -102,6 +106,39 @@ namespace Stumps
         }
 
         /// <summary>
+        ///     Appends a string value to the body of the HTTP response.
+        /// </summary>
+        /// <param name="value">The value to append to the body of the HTTP response.</param>
+        /// <remarks>The <paramref name="value"/> will be converted to a byte array using UTF8 encoding.</remarks>
+        public virtual void AppendToBody(string value)
+        {
+            AppendToBody(value, Encoding.UTF8);
+        }
+
+        /// <summary>
+        /// Appends a string value to the body of the HTTP response using a specified encoding.
+        /// </summary>
+        /// <param name="value">The value to append to the body of the HTTP response.</param>
+        /// <param name="encoding">The encoding used to convert the <paramref name="value"/> into a byte array.</param>
+        public virtual void AppendToBody(string value, Encoding encoding)
+        {
+
+            if (encoding == null)
+            {
+                throw new ArgumentNullException("encoding");
+            }
+
+            if (string.IsNullOrEmpty(value))
+            {
+                return;
+            }
+
+            var bytes = encoding.GetBytes(value);
+            AppendToBody(bytes);
+
+        }
+
+        /// <summary>
         ///     Clears the existing body of the HTTP response.
         /// </summary>
         public virtual void ClearBody()
@@ -118,6 +155,33 @@ namespace Stumps
         public virtual byte[] GetBody()
         {
             return _bodyBuffer;
+        }
+
+        /// <summary>
+        ///     Gets the body of the HTTP response as a <see cref="T:System.String"/>.
+        /// </summary>
+        /// <returns>A <see cref="T:System.String"/> representing the body of the HTTP response.</returns>
+        /// <remarks>The body is decoded using UTF8 encoding.</remarks>
+        public virtual string GetBodyAsString()
+        {
+            return GetBodyAsString(Encoding.UTF8);
+        }
+
+        /// <summary>
+        ///     Gets the body of the HTTP response as a <see cref="T:System.String"/>.
+        /// </summary>
+        /// <param name="encoding">The encoding used to convert the HTTP body into a <see cref="T:System.String"/>.</param>
+        /// <remarks>The body is decoded using UTF8 encoding.</remarks>
+        public virtual string GetBodyAsString(Encoding encoding)
+        {
+
+            if (encoding == null)
+            {
+                throw new ArgumentNullException("encoding");
+            }
+
+            return encoding.GetString(_bodyBuffer);
+
         }
 
     }
