@@ -8,7 +8,7 @@ namespace Stumps
     /// <summary>
     ///     A class representing a simple and basic HTTP response.
     /// </summary>
-    public class BasicHttpResponse
+    public class BasicHttpResponse : IStumpsHttpResponse
     {
 
         private byte[] _bodyBuffer;

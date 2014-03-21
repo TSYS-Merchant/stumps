@@ -11,6 +11,7 @@
     {
 
         private readonly List<IStumpRule> _ruleList;
+        private IStumpsHttpResponse _response;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:Stumps.Stump" /> class.
@@ -28,20 +29,28 @@
             this.StumpId = stumpId;
             _ruleList = new List<IStumpRule>();
 
-            this.Response = null;
+            _response = null;
 
         }
 
         /// <summary>
-        /// Gets the response to the Stump.
+        ///     Gets or sets the response for the Stump.
         /// </summary>
         /// <value>
-        /// The response to the Stump.
+        ///     The response for the Stump.
         /// </value>
         public IStumpsHttpResponse Response
         {
-            get;
-            private set;
+            get { return _response; }
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException("value");
+                }
+
+                _response = value;
+            }
         }
 
         /// <summary>
