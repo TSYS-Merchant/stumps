@@ -68,6 +68,16 @@
         }
 
         /// <summary>
+        ///     Occurs when the server finishes processing an HTTP request.
+        /// </summary>
+        public event EventHandler<StumpsContextEventArgs> RequestProcessed;
+
+        /// <summary>
+        ///     Occurs when the server receives an incomming HTTP request.
+        /// </summary>
+        public event EventHandler<StumpsContextEventArgs> RequestReceived;
+
+        /// <summary>
         ///     Gets a value indicating whether the server is running.
         /// </summary>
         /// <value>
@@ -226,14 +236,13 @@
 
                 // Setup the Stump HTTP handler
                 var stumpsHandler = new StumpsHandler(_stumpsManager);
-                stumpsHandler.ContextProcessed += (o, e) => Interlocked.Increment(ref _stumpsCounter);
+
                 pipeline.Add(stumpsHandler);
 
                 // Setup the Proxy HTTP handler
                 if (_proxyHost != null)
                 {
                     var proxyHandler = new ProxyHandler(_proxyHost);
-                    proxyHandler.ContextProcessed += (o, e) => Interlocked.Increment(ref _proxyCounter);
                     pipeline.Add(proxyHandler);
                 }
                 else
@@ -244,12 +253,62 @@
                 }
 
                 _server = new HttpServer(_port, pipeline);
-                _server.RequestFinishing += (o, e) => Interlocked.Increment(ref _requestCounter);
+
+                _server.RequestStarting += server_RequestStarting;
+                _server.RequestFinishing += server_requestFinishing;
+
                 _server.StartListening();
 
             }
 
         }
+
+        /// <summary>
+        /// Handles the requestFinishing event of the server instance.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="T:Stumps.StumpsContextEventArgs"/> instance containing the event data.</param>
+        private void server_requestFinishing(object sender, StumpsContextEventArgs e)
+        {
+
+            // Increment the request counter
+            Interlocked.Increment(ref _requestCounter);
+
+            if (e.ResponseOrigin == HttpResponseOrigin.RemoteServer)
+            {
+                // Increment the proxy counter
+                Interlocked.Increment(ref _proxyCounter);
+            }
+            else if (e.ResponseOrigin == HttpResponseOrigin.Stump)
+            {
+                // Increment the Stumps counter
+                Interlocked.Increment(ref _stumpsCounter);
+            }
+
+            // Raise the processed event
+            if (this.RequestProcessed != null)
+            {
+                this.RequestProcessed(this, e);
+            }
+
+        }
+
+        /// <summary>
+        ///     Handles the RequestStarting event of the server instance.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="T:Stumps.StumpsContextEventArgs"/> instance containing the event data.</param>
+        private void server_RequestStarting(object sender, StumpsContextEventArgs e)
+        {
+
+            // Raise the request received event
+            if (this.RequestReceived != null)
+            {
+                this.RequestReceived(this, e);
+            }
+
+        }
+
 
         /// <summary>
         ///     Stops this instance of the Stumps server.
