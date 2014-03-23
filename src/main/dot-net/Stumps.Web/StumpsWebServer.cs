@@ -3,14 +3,14 @@
 
     using System;
     using System.Net;
-    using Nancy.Bootstrapper;
     using Nancy.Hosting.Self;
-    using Stumps.Logging;
+    using Stumps.Server;
+    using Stumps.Server.Logging;
 
     /// <summary>
-    ///     A class representing the web server Stumps module.
+    ///     A class representing Stumps web server.
     /// </summary>
-    internal sealed class WebServerModule : IStumpModule
+    public sealed class StumpsWebServer
     {
 
         private readonly ILogger _logger;
@@ -19,14 +19,19 @@
         private bool _started;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="WebServerModule"/> class.
+        ///     Initializes a new instance of the <see cref="Stumps.Web.StumpsWebServer" /> class.
         /// </summary>
         /// <param name="logger">The logger used by the instance.</param>
-        /// <param name="bootstrapper">The Nancy bootstrapper.</param>
+        /// <param name="host">The Stumps Server host.</param>
         /// <param name="port">The port used to listen for traffic.</param>
-        /// <exception cref="System.ArgumentNullException"><paramref name="logger"/> is <c>null</c>.</exception>
-        /// <exception cref="System.ArgumentOutOfRangeException"><paramref name="port"/> is invalid.</exception>
-        public WebServerModule(ILogger logger, INancyBootstrapper bootstrapper, int port)
+        /// <exception cref="System.ArgumentNullException">
+        /// <paramref name="logger" /> is <c>null</c>.
+        /// or
+        /// <paramref name="host"/> is <c>null</c>.
+        /// </exception>
+        /// <exception cref="System.ArgumentOutOfRangeException"><paramref name="port" /> is invalid.</exception>
+        /// <exception cref="System.InvalidOperationException">The port is already being used.</exception>
+        public StumpsWebServer(ILogger logger, IStumpsHost host, int port)
         {
 
             if (logger == null)
@@ -34,9 +39,19 @@
                 throw new ArgumentNullException("logger");
             }
 
+            if (host == null)
+            {
+                throw new ArgumentNullException("host");
+            }
+
             if (port < IPEndPoint.MinPort || port > IPEndPoint.MaxPort)
             {
                 throw new ArgumentOutOfRangeException("port");
+            }
+
+            if (NetworkInformation.IsPortBeingUsed(port))
+            {
+                throw new InvalidOperationException("The port is already being used.");
             }
 
             _logger = logger;
@@ -44,7 +59,8 @@
             var urlString = string.Format(
                 System.Globalization.CultureInfo.InvariantCulture, "http://localhost:{0}/", port);
 
-            this._server = bootstrapper == null ? new NancyHost(new Uri(urlString)) : new NancyHost(bootstrapper, new Uri(urlString));
+            var bootStrapper = new Bootstrapper(host);
+            _server = new NancyHost(bootStrapper, new Uri(urlString));
 
         }
 

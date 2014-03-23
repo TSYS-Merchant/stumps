@@ -3,7 +3,7 @@
 
     using System;
     using Nancy;
-    using Stumps.Proxy;
+    using Stumps.Server;
     using Stumps.Utility;
     using Stumps.Web.Responses;
 
@@ -15,19 +15,19 @@
 
         private readonly byte[] _favIcon;
         private bool _disposed;
-        private IProxyHost _host;
+        private IStumpsHost _host;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:Stumps.Web.Bootstrapper"/> class.
         /// </summary>
-        /// <param name="proxyHost">The <see cref="T:Stumps.Proxy.IProxyHost"/> used by the instance.</param>
-        /// <exception cref="System.ArgumentNullException"><paramref name="proxyHost"/> is <c>null</c>.</exception>
-        public Bootstrapper(IProxyHost proxyHost)
+        /// <param name="stumpsHost">The <see cref="T:Stumps.Server.IStumpsHost"/> used by the instance.</param>
+        /// <exception cref="System.ArgumentNullException"><paramref name="stumpsHost"/> is <c>null</c>.</exception>
+        public Bootstrapper(IStumpsHost stumpsHost)
         {
 
-            if (proxyHost == null)
+            if (stumpsHost == null)
             {
-                throw new ArgumentNullException("proxyHost");
+                throw new ArgumentNullException("stumpsHost");
             }
 
             using (var resourceStream = this.GetType().Assembly.GetManifestResourceStream("Stumps.Web.Resources.favicon.ico"))
@@ -35,7 +35,7 @@
                 _favIcon = StreamUtility.ConvertStreamToByteArray(resourceStream);
             }
 
-            _host = proxyHost;
+            _host = stumpsHost;
 
         }
 

@@ -92,7 +92,7 @@
                 var bootStrapper = new Bootstrapper(host);
 
                 // Initialize the Nancy web server module.
-                var webServer = new WebServerModule(logger, bootStrapper, this.Configuration.WebApiPort);
+                var webServer = new StumpsWebServer(logger, bootStrapper, this.Configuration.WebApiPort);
 
                 _modules = new List<IStumpModule>
                 {
