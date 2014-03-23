@@ -6,7 +6,7 @@
     <ProjectGuid>{F28D39EB-5AAA-4AFC-A9BF-264CD9A33445}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Stumps.Startup.Tests</RootNamespace>
+    <RootNamespace>Stumps.Startup</RootNamespace>
     <AssemblyName>Stumps.Startup.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

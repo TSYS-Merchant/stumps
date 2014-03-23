@@ -2,14 +2,9 @@
 {
 
     using System;
-    using System.Collections.Generic;
-    using Stumps.Data;
-    using Stumps.Logging;
-    using Stumps.Proxy;
     using Stumps.Server;
     using Stumps.Server.Data;
     using Stumps.Server.Logging;
-    using Stumps.Server.Proxy;
     using Stumps.Web;
 
     /// <summary>
@@ -20,14 +15,16 @@
 
         private readonly object _syncRoot;
         private bool _disposed;
-        private List<IStumpModule> _modules;
+
+        private StumpsHost _host;
+        private StumpsWebServer _webServer;
 
         private bool _started;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:Stumps.StumpsServer"/> class.
         /// </summary>
-        /// <param name="configuration">The <see cref="T:Stumps.StumpsConfiguration"/> used to initialize the instance.</param>
+        /// <param name="configuration">The <see cref="T:Stumps.Server.StumpsConfiguration"/> used to initialize the instance.</param>
         /// <exception cref="System.ArgumentNullException"><paramref name="configuration"/> is <c>null</c>.</exception>
         public StumpsRunner(StumpsConfiguration configuration)
         {
@@ -51,10 +48,10 @@
         }
 
         /// <summary>
-        /// Gets the <see cref="T:Stumps.StumpsConfiguration"/> used to initialize the instance.
+        /// Gets the <see cref="T:Stumps.Server.StumpsConfiguration"/> used to initialize the instance.
         /// </summary>
         /// <value>
-        /// The <see cref="T:Stumps.StumpsConfiguration"/> used to initialize the instance.
+        /// The <see cref="T:Stumps.Server.StumpsConfiguration"/> used to initialize the instance.
         /// </value>
         public StumpsConfiguration Configuration { get; private set; }
 
@@ -81,26 +78,18 @@
                 // Initialize a new instance of the data access layer.
                 var dataAccess = new DataAccess(this.Configuration.StoragePath);
 
+                var factory = new ServerFactory();
+
                 // Initialize and load a new instance of the proxy host.
-                var host = new StumpsHost(logger, dataAccess);
-                host.Load();
-
-                // Initialize a new proxy server module.
-                var proxyServer = new ProxyServerModule(logger, host);
-
-                // Initialize the Nancy boot strapper.
-                var bootStrapper = new Bootstrapper(host);
+                _host = new StumpsHost(factory, logger, dataAccess);
+                _host.Load();
 
                 // Initialize the Nancy web server module.
-                var webServer = new StumpsWebServer(logger, bootStrapper, this.Configuration.WebApiPort);
+                _webServer = new StumpsWebServer(logger, _host, this.Configuration.WebApiPort);
 
-                _modules = new List<IStumpModule>
-                {
-                    proxyServer,
-                    webServer
-                };
-
-                StartModules();
+                // Start the host and the web server
+                _host.Start();
+                _webServer.Start();
 
             }
 
@@ -121,7 +110,11 @@
 
                 _started = false;
 
-                StopAndDisposeModules();
+                _webServer.Shutdown();
+                _host.Shutdown();
+
+                _host.Dispose();
+                _webServer.Dispose();
 
             }
 
@@ -148,34 +141,7 @@
             GC.SuppressFinalize(this);
 
         }
-
-        /// <summary>
-        ///     Starts all supported modules.
-        /// </summary>
-        private void StartModules()
-        {
-            foreach (var module in _modules)
-            {
-                module.Start();
-            }
-        }
-
-        /// <summary>
-        ///     Stops and disposes all modules.
-        /// </summary>
-        private void StopAndDisposeModules()
-        {
-
-            foreach (var module in _modules)
-            {
-                module.Shutdown();
-                module.Dispose();
-            }
-
-            _modules.Clear();
-
-        }
-
+        
     }
 
 }

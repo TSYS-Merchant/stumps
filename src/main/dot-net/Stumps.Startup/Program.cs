@@ -5,8 +5,8 @@
     using System.Diagnostics;
     using System.IO;
     using System.Reflection;
-    using Stumps.Server.Data;
     using Stumps.Server;
+    using Stumps.Server.Data;
 
     public static class Program
     {

@@ -1,10 +1,11 @@
-﻿namespace Stumps
+﻿namespace Stumps.Startup
 {
 
     using System;
     using NSubstitute;
     using NUnit.Framework;
-    using Stumps.Data;
+    using Stumps.Server;
+    using Stumps.Server.Data;
 
     [TestFixture]
     public class StumpsRunnerTests
