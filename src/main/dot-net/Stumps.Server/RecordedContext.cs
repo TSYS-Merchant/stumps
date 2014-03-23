@@ -15,6 +15,8 @@
         public RecordedContext()
         {
             this.RequestDate = DateTime.Now;
+            this.Request = new RecordedRequest();
+            this.Response = new RecordedResponse();
         }
 
         /// <summary>
@@ -31,7 +33,7 @@
         /// <value>
         ///     The recorded HTTP request.
         /// </value>
-        public RecordedRequest Request { get; set; }
+        public RecordedRequest Request { get; private set; }
 
         /// <summary>
         ///     Gets or sets the recorded HTTP response.
@@ -39,7 +41,7 @@
         /// <value>
         ///     The recorded HTTP response.
         /// </value>
-        public RecordedResponse Response { get; set; }
+        public RecordedResponse Response { get; private set; }
 
     }
 
