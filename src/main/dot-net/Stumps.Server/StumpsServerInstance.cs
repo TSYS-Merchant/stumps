@@ -562,8 +562,6 @@
 
             var stump = new Stump(contract.StumpId);
 
-            // stump.Contract = contract;
-
             if (contract.MatchRawUrl && !string.IsNullOrWhiteSpace(contract.RawUrl))
             {
                 stump.AddRule(new UrlRule(contract.RawUrl));
@@ -594,6 +592,8 @@
             {
                 stump.AddRule(new BodyMatchRule(contract.MatchBody));
             }
+
+            stump.Response = contract.Response;
 
             return stump;
 
