@@ -5,7 +5,7 @@
     using System.Collections;
     using System.Globalization;
     using Nancy;
-    using Stumps.Proxy;
+    using Stumps.Server;
 
     /// <summary>
     ///     A class that provides support the Stumps overview webpage of the Stumps website.
@@ -16,24 +16,24 @@
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:Stumps.Web.ViewModules.StumpsOverviewModule"/> class.
         /// </summary>
-        /// <param name="proxyHost">The <see cref="T:Stumps.Proxy.IProxyHost"/> used by the instance.</param>
-        /// <exception cref="System.ArgumentNullException"><paramref name="proxyHost"/> is <c>null</c>.</exception>
-        public StumpsOverviewModule(IProxyHost proxyHost)
+        /// <param name="stumpsHost">The <see cref="T:Stumps.Server.IStumpsHost"/> used by the instance.</param>
+        /// <exception cref="System.ArgumentNullException"><paramref name="stumpsHost"/> is <c>null</c>.</exception>
+        public StumpsOverviewModule(IStumpsHost stumpsHost)
         {
 
-            if (proxyHost == null)
+            if (stumpsHost == null)
             {
-                throw new ArgumentNullException("proxyHost");
+                throw new ArgumentNullException("stumpsHost");
             }
 
-            Get["/proxy/{proxyId}/stumps"] = _ =>
+            Get["/proxy/{serverId}/stumps"] = _ =>
             {
-                var proxyId = (string)_.proxyId;
-                var environment = proxyHost.FindProxy(proxyId);
+                var proxyId = (string)_.serverId;
+                var server = stumpsHost.FindServer(proxyId);
 
                 var stumpModelArray = new ArrayList();
 
-                var stumpContractList = environment.Stumps.FindAllContracts();
+                var stumpContractList = server.FindAllContracts();
                 foreach (var contract in stumpContractList)
                 {
                     var stumpModel = new
@@ -47,9 +47,9 @@
 
                 var model = new
                 {
-                    ProxyId = environment.ProxyId,
-                    ExternalHostName = environment.UseSsl ? environment.ExternalHostName + " (SSL)" : environment.ExternalHostName,
-                    LocalWebsite = "http://localhost:" + environment.Port.ToString(CultureInfo.InvariantCulture) + "/",
+                    ProxyId = server.ServerId,
+                    ExternalHostName = server.UseSsl ? server.ExternalHostName + " (SSL)" : server.ExternalHostName,
+                    LocalWebsite = "http://localhost:" + server.ListeningPort.ToString(CultureInfo.InvariantCulture) + "/",
                     Stumps = stumpModelArray
                 };
 

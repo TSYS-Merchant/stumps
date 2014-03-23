@@ -5,7 +5,7 @@
     using System.Collections;
     using System.Globalization;
     using Nancy;
-    using Stumps.Proxy;
+    using Stumps.Server;
 
     /// <summary>
     ///     A class that provides support the overview webpage of the Stumps website.
@@ -16,38 +16,38 @@
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:Stumps.Web.ViewModules.MainModule"/> class.
         /// </summary>
-        /// <param name="proxyHost">The <see cref="T:Stumps.Proxy.IProxyHost"/> used by the instance.</param>
-        /// <exception cref="System.ArgumentNullException"><paramref name="proxyHost"/> is <c>null</c>.</exception>
-        public MainModule(IProxyHost proxyHost)
+        /// <param name="stumpsHost">The <see cref="T:Stumps.Server.IStumpsHost"/> used by the instance.</param>
+        /// <exception cref="System.ArgumentNullException"><paramref name="stumpsHost"/> is <c>null</c>.</exception>
+        public MainModule(IStumpsHost stumpsHost)
         {
 
-            if (proxyHost == null)
+            if (stumpsHost == null)
             {
-                throw new ArgumentNullException("proxyHost");
+                throw new ArgumentNullException("stumpsHost");
             }
 
             Get["/"] = _ =>
             {
 
-                var environmentList = proxyHost.FindAll();
+                var servers = stumpsHost.FindAll();
                 var list = new ArrayList();
 
-                foreach (var environment in environmentList)
+                foreach (var server in servers)
                 {
                     list.Add(
                         new
                         {
-                            State = ModuleHelper.StateValue(environment, "running", "stopped", "recording"),
-                            StateImage = ModuleHelper.StateValue(environment, "svr_run.png", "svr_stp.png", "svr_rec.png"),
-                            ExternalHostName = environment.UseSsl ? environment.ExternalHostName + " (SSL)" : environment.ExternalHostName,
-                            RequestsServed = PrettyNumber(environment.RequestsServed),
-                            StumpsServed = PrettyNumber(environment.StumpsServed),
-                            LocalWebsite = "http://localhost:" + environment.Port.ToString(CultureInfo.InvariantCulture) + "/",
-                            ProxyId = environment.ProxyId,
-                            IsRunning = environment.IsRunning ? "isRunning" : string.Empty,
-                            IsRecording = environment.RecordTraffic ? "isRecording" : string.Empty,
-                            RecordingCount = PrettyNumber(environment.Recordings.Count),
-                            StumpsCount = PrettyNumber(environment.Stumps.Count)
+                            State = ModuleHelper.StateValue(server, "running", "stopped", "recording"),
+                            StateImage = ModuleHelper.StateValue(server, "svr_run.png", "svr_stp.png", "svr_rec.png"),
+                            ExternalHostName = server.UseSsl ? server.ExternalHostName + " (SSL)" : server.ExternalHostName,
+                            RequestsServed = PrettyNumber(server.TotalRequestsServed),
+                            StumpsServed = PrettyNumber(server.RequestsServedWithStump),
+                            LocalWebsite = "http://localhost:" + server.ListeningPort.ToString(CultureInfo.InvariantCulture) + "/",
+                            ProxyId = server.ServerId,
+                            IsRunning = server.IsRunning ? "isRunning" : string.Empty,
+                            IsRecording = server.RecordTraffic ? "isRecording" : string.Empty,
+                            RecordingCount = PrettyNumber(server.Recordings.Count),
+                            StumpsCount = PrettyNumber(server.StumpCount)
                         });
 
                 }

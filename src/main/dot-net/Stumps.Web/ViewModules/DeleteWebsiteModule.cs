@@ -3,7 +3,7 @@
 
     using System;
     using Nancy;
-    using Stumps.Proxy;
+    using Stumps.Server;
 
     /// <summary>
     ///     A class that provides support for deleting a proxy server through the Stumps website.
@@ -14,25 +14,25 @@
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:Stumps.Web.ViewModules.DeleteWebsiteModule"/> class.
         /// </summary>
-        /// <param name="proxyHost">The <see cref="T:Stumps.Proxy.IProxyHost"/> used by the instance.</param>
-        /// <exception cref="System.ArgumentNullException"><paramref name="proxyHost"/> is <c>null</c>.</exception>
-        public DeleteWebsiteModule(IProxyHost proxyHost)
+        /// <param name="stumpsHost">The <see cref="T:Stumps.Server.IStumpsHost"/> used by the instance.</param>
+        /// <exception cref="System.ArgumentNullException"><paramref name="stumpsHost"/> is <c>null</c>.</exception>
+        public DeleteWebsiteModule(IStumpsHost stumpsHost)
         {
 
-            if (proxyHost == null)
+            if (stumpsHost == null)
             {
-                throw new ArgumentNullException("proxyHost");
+                throw new ArgumentNullException("stumpsHost");
             }
 
-            Get["/proxy/{proxyId}/delete"] = _ =>
+            Get["/proxy/{serverId}/delete"] = _ =>
             {
-                var proxyId = (string)_.proxyId;
-                var environment = proxyHost.FindProxy(proxyId);
+                var serverId = (string)_.serverId;
+                var server = stumpsHost.FindServer(serverId);
 
                 var model = new
                 {
-                    ProxyId = environment.ProxyId,
-                    ExternalHostName = environment.ExternalHostName
+                    ProxyId = server.ServerId,
+                    ExternalHostName = server.ExternalHostName
                 };
 
                 return View["deletewebsite", model];

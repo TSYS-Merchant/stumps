@@ -3,7 +3,7 @@
 
     using System;
     using Nancy;
-    using Stumps.Proxy;
+    using Stumps.Server;
 
     /// <summary>
     ///     A class that provides support for deleting a Stump from a proxy sever through the Stumps website.
@@ -14,28 +14,28 @@
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:Stumps.Web.ViewModules.DeleteStumpModule"/> class.
         /// </summary>
-        /// <param name="proxyHost">The <see cref="T:Stumps.Proxy.IProxyHost"/> used by the instance.</param>
-        /// <exception cref="System.ArgumentNullException"><paramref name="proxyHost"/> is <c>null</c>.</exception>
-        public DeleteStumpModule(IProxyHost proxyHost)
+        /// <param name="stumpsHost">The <see cref="T:Stumps.Server.IStumpsHost"/> used by the instance.</param>
+        /// <exception cref="System.ArgumentNullException"><paramref name="stumpsHost"/> is <c>null</c>.</exception>
+        public DeleteStumpModule(IStumpsHost stumpsHost)
         {
 
-            if (proxyHost == null)
+            if (stumpsHost == null)
             {
-                throw new ArgumentNullException("proxyHost");
+                throw new ArgumentNullException("stumpsHost");
             }
 
-            Get["/proxy/{proxyId}/stumps/{stumpId}/delete"] = _ =>
+            Get["/proxy/{serverId}/stumps/{stumpId}/delete"] = _ =>
             {
-                var proxyId = (string)_.proxyId;
+                var serverId = (string)_.serverId;
                 var stumpId = (string)_.stumpId;
-                var environment = proxyHost.FindProxy(proxyId);
-                var stump = environment.Stumps.FindStump(stumpId);
+                var server = stumpsHost.FindServer(serverId);
+                var stump = server.FindStump(stumpId);
 
                 var model = new
                 {
-                    StumpName = stump.Contract.StumpName,
-                    StumpId = stump.Contract.StumpId,
-                    ProxyId = environment.ProxyId
+                    StumpName = stump.StumpName,
+                    StumpId = stump.StumpId,
+                    ProxyId = server.ServerId
                 };
 
                 return View["deletestump", model];

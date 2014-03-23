@@ -2,7 +2,7 @@
 {
 
     using System.Text;
-    using Stumps.Proxy;
+    using Stumps.Server;
 
     /// <summary>
     ///     A class that provides helpers for Nancy modules.
@@ -13,7 +13,7 @@
         /// <summary>
         ///     Generates the body text from a recorded context part.
         /// </summary>
-        /// <param name="part">The <see cref="T:Stumps.Proxy.IRecordedContextPart"/>.</param>
+        /// <param name="part">The <see cref="T:Stumps.Server.IRecordedContextPart"/>.</param>
         /// <returns>A <see cref="T:System.String"/> containing the text of the body.</returns>
         public static string GenerateBodyText(IRecordedContextPart part)
         {
