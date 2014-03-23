@@ -2,6 +2,7 @@
 {
 
     using System;
+    using Stumps.Server;
 
     public class ConsoleStartup : IStartup
     {
@@ -13,18 +14,18 @@
         public void RunInstance()
         {
 
-            this.MessageWriter.Information(Resources.StartupStarting);
+            this.MessageWriter.Information(StartupResources.StartupStarting);
 
-            using (var server = new StumpsServer(this.Configuration))
+            using (var server = new StumpsRunner(this.Configuration))
             {
                 server.Start();
-                this.MessageWriter.Information(Resources.StartupComplete);
+                this.MessageWriter.Information(StartupResources.StartupComplete);
 
                 Console.ReadLine();
 
-                this.MessageWriter.Information(Resources.ShutdownStarting);
+                this.MessageWriter.Information(StartupResources.ShutdownStarting);
                 server.Stop();
-                this.MessageWriter.Information(Resources.ShutdownComplete);
+                this.MessageWriter.Information(StartupResources.ShutdownComplete);
             }
 
         }

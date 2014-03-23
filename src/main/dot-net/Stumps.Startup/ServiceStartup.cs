@@ -2,6 +2,7 @@
 {
 
     using System.ServiceProcess;
+    using Stumps.Server;
 
     public class ServiceStartup : IStartup
     {

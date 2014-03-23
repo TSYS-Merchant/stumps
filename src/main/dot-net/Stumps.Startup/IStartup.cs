@@ -1,6 +1,8 @@
 ﻿namespace Stumps
 {
 
+    using Stumps.Server;
+
     public interface IStartup
     {
 

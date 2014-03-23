@@ -5,7 +5,8 @@
     using System.Diagnostics;
     using System.IO;
     using System.Reflection;
-    using Stumps.Data;
+    using Stumps.Server;
+    using Stumps.Server.Data;
 
     public static class Program
     {
@@ -25,7 +26,7 @@
 
             if (IsApplicationAlreadyRunning())
             {
-                writer.WriteError(Resources.ApplicationRunning);
+                writer.WriteError(StartupResources.ApplicationRunning);
                 return;
             }
 
@@ -40,11 +41,11 @@
             if (configurationFile == null)
             {
 
-                writer.WriteError(Resources.InvalidArguments + string.Join(@" ", args));
+                writer.WriteError(StartupResources.InvalidArguments + string.Join(@" ", args));
 
                 if (isRunningAsConsole)
                 {
-                    writer.Information(Resources.HelpInformation);
+                    writer.Information(StartupResources.HelpInformation);
                 }
 
                 return;

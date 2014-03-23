@@ -81,6 +81,9 @@ _TeamCity*
 *.ncrunch*
 .*crunch*.local.xml
 
+# OpenCover
+[Cc]overage.xml
+
 # Installshield output folder
 [Ee]xpress/
 
