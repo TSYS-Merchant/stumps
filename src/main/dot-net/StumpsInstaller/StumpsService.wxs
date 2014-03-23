@@ -11,6 +11,7 @@
       </Component>
 
       <Component Id="StumpsServer" Guid="{6B78169B-555B-4B73-8723-B2F83C319881}">
+        <File Id="Stumps_Base_dll" Source="..\Stumps.Startup\bin\Release\Stumps.Base.dll" />
         <File Id="Stumps_Server_dll" Source="..\Stumps.Startup\bin\Release\Stumps.Server.dll" />
         <File Id="Stumps_Web_dll" Source="..\Stumps.Startup\bin\Release\Stumps.Web.dll" />
         <File Id="Nancy_dll" Source="..\Stumps.Startup\bin\Release\Nancy.dll" />
