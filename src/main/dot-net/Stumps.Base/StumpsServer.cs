@@ -92,6 +92,12 @@
             get { return _started; }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to allow stumps to serve a requests.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if stumps are allowed to serve requests; otherwise, <c>false</c>.
+        /// </value>
         public bool AllowStumps
         {
             get
