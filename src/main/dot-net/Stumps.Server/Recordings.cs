@@ -48,7 +48,7 @@
             var recordedContext = new RecordedContext();
             
             recordedContext.Request.Body = context.Request.GetBody();
-            recordedContext.Request.BodyContentType = context.Request.Headers["Content-Type"];
+            recordedContext.Request.BodyContentType = context.Request.Headers["Content-Type"] ?? string.Empty;
             recordedContext.Request.HttpMethod = context.Request.HttpMethod;
             recordedContext.Request.RawUrl = context.Request.RawUrl;
             CopyHeaders(context.Request.Headers, recordedContext.Request);
@@ -60,7 +60,7 @@
             }
 
             recordedContext.Response.Body = context.Response.GetBody();
-            recordedContext.Response.BodyContentType = context.Response.Headers["Content-Type"];
+            recordedContext.Response.BodyContentType = context.Response.Headers["Content-Type"] ?? string.Empty;
             recordedContext.Response.StatusCode = context.Response.StatusCode;
             recordedContext.Response.StatusDescription = context.Response.StatusDescription;
             CopyHeaders(context.Response.Headers, recordedContext.Response);
