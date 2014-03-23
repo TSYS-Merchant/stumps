@@ -259,9 +259,6 @@ $('#portBox').blur(function() {
                 $('#singleAdvice' + location).hide(); 
                 $('#icon' + location).hide();
             }
-        },
-        error: function() {
-            alert('Something else went wrong.');
         }
     });
 });
