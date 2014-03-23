@@ -29,27 +29,15 @@
                 throw new ArgumentNullException("stream");
             }
 
-            var buffer = new byte[StreamUtility.BufferSize];
-            byte[] outArray;
-
-            stream.Position = 0;
+            byte[] streamAsBytes;
 
             using (var ms = new MemoryStream())
             {
-
-                int bytesRead;
-                while ((bytesRead = stream.Read(buffer, 0, StreamUtility.BufferSize)) > 0)
-                {
-                    ms.Write(buffer, 0, bytesRead);
-                }
-
-                outArray = ms.ToArray();
-
+                stream.CopyTo(ms);
+                streamAsBytes = ms.ToArray();
             }
 
-            stream.Position = 0;
-
-            return outArray;
+            return streamAsBytes;
 
         }
 
