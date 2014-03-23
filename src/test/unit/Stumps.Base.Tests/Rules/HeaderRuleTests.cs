@@ -1,9 +1,9 @@
 ﻿namespace Stumps.Rules
 {
 
-    using Stumps.Http;
-    using NUnit.Framework;
     using NSubstitute;
+    using NUnit.Framework;
+    using Stumps.Http;
 
     [TestFixture]
     public class HeaderRuleTests

@@ -135,7 +135,6 @@
         /// </value>
         public bool RecordTraffic { get; set; }
 
-
         /// <summary>
         ///     Gets the number of requests served with the proxy.
         /// </summary>
@@ -176,7 +175,6 @@
         {
             get { return _stumpList.Count; }
         }
-
 
         /// <summary>
         ///     Gets the total number of requests served.

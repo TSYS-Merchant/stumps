@@ -117,7 +117,6 @@ namespace Stumps
 
         }
 
-
         [Test]
         public void ProcessRequest_WithValidContext_RaisesContextProcessedEvent()
         {

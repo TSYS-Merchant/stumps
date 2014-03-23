@@ -13,8 +13,10 @@ namespace Stumps
         public void Constructor_WithInvalidEnum_ThrowsException()
         {
 
+            var responseMember = (FallbackResponse)5;
+
             Assert.That(
-                () => new FallbackResponseHandler((FallbackResponse) 5),
+                () => new FallbackResponseHandler(responseMember),
                 Throws.Exception.TypeOf<ArgumentOutOfRangeException>().With.Property("ParamName").EqualTo("response"));
 
         }

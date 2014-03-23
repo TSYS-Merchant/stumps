@@ -1,8 +1,8 @@
 ﻿namespace Stumps.Rules
 {
 
-    using NUnit.Framework;
     using NSubstitute;
+    using NUnit.Framework;
 
     [TestFixture]
     public class BodyLengthRuleTests
