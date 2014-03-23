@@ -30,6 +30,9 @@
         <File Id="stumpsoverview_sshtml" Source="..\Stumps.Startup\bin\Release\stumpsoverview.sshtml" />
       </Component>
 
+      <Component Id="StumpsLauncher" Guid="{B8465662-E9DE-4831-ACCE-B3887B2E9001}">
+        <File Id="StumpsLauncher_exe" Source="..\Stumps.Launcher\bin\Release\StumpsLauncher.exe" />
+      </Component>
     </DirectoryRef>
 
     <DirectoryRef Id="ContentFolder">
@@ -79,7 +82,9 @@
       <ComponentRef Id="StumpsService" />
       <ComponentRef Id="StumpsServer" />
       <ComponentRef Id="StumpsWebsite" />
+      <ComponentRef Id="StumpsLauncher" />
       <ComponentRef Id="StumpsContent" />
+      <ComponentRef Id="ApplicationShortcuts" />
     </ComponentGroup>
   </Fragment>
 </Wix>

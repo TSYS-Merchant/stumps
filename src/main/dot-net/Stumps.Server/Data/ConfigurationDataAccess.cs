@@ -2,8 +2,8 @@
 {
 
     using System;
+    using System.IO;
     using Stumps.Server.Utility;
-    using Stumps.Utility;
 
     /// <summary>
     ///     A class that provides an implementation of <see cref="T:Stumps.Server.Data.IConfigurationDataAccess"/>
@@ -28,6 +28,32 @@
             }
 
             _configurationFile = configurationFile;
+
+        }
+
+        /// <summary>
+        ///     Ensures the configuration is correctly initialized.
+        /// </summary>
+        /// <param name="configureDefaultsAction">The action to execute after preparing the data access.</param>
+        public void EnsureConfigurationIsInitialized(Action configureDefaultsAction)
+        {
+
+            if (File.Exists(_configurationFile))
+            {
+                return;
+            }
+
+            var configurationFileDirectory = Path.GetDirectoryName(this._configurationFile);
+            configurationFileDirectory = string.IsNullOrEmpty(configurationFileDirectory)
+                                             ? "."
+                                             : configurationFileDirectory;
+
+            if (!Directory.Exists(configurationFileDirectory))
+            {
+                Directory.CreateDirectory(configurationFileDirectory);
+            }
+
+            configureDefaultsAction();
 
         }
 
