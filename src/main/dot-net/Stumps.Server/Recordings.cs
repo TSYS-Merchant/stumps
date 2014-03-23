@@ -52,6 +52,7 @@
             recordedContext.Request.HttpMethod = context.Request.HttpMethod;
             recordedContext.Request.RawUrl = context.Request.RawUrl;
             CopyHeaders(context.Request.Headers, recordedContext.Request);
+            DecodeBody(recordedContext.Request);
             DetermineBodyIsImage(recordedContext.Request);
 
             if (!recordedContext.Request.BodyIsImage)
@@ -64,6 +65,7 @@
             recordedContext.Response.StatusCode = context.Response.StatusCode;
             recordedContext.Response.StatusDescription = context.Response.StatusDescription;
             CopyHeaders(context.Response.Headers, recordedContext.Response);
+            DecodeBody(recordedContext.Response);
             DetermineBodyIsImage(recordedContext.Response);
 
             if (!recordedContext.Response.BodyIsImage)
@@ -169,7 +171,27 @@
             }
 
         }
-        
+
+        /// <summary>
+        ///     Decodes the body of a based on the content encoding.
+        /// </summary>
+        /// <param name="part">The <see cref="T:Stumps.Server.IRecordedContextPart"/> part containing the body to decode.</param>
+        private void DecodeBody(IRecordedContextPart part)
+        {
+
+            var buffer = part.Body;
+            var header = part.FindHeader("Content-Encoding");
+
+            if (header != null)
+            {
+                var encoder = new ContentEncoder(header.Value);
+                buffer = encoder.Decode(buffer);
+            }
+
+            part.Body = buffer;
+
+        }
+
         /// <summary>
         ///     Determines if the body of the recorded context part is an image.
         /// </summary>

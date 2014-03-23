@@ -126,7 +126,14 @@
             
             if (stump.Response.BodyLength > 0)
             {
-                incommingHttpContext.Response.AppendToBody(stump.Response.GetBody());
+                var buffer = stump.Response.GetBody();
+                if (stump.Response.Headers["Content-Encoding"] != null)
+                {
+                    var encoder = new ContentEncoder(stump.Response.Headers["Content-Encoding"]);
+                    buffer = encoder.Encode(buffer);
+                }
+
+                incommingHttpContext.Response.AppendToBody(buffer);
             }
 
         }
