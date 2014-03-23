@@ -86,10 +86,10 @@
     <Compile Include="Data\ProxyServerEntity.cs" />
     <Compile Include="Data\StumpEntity.cs" />
     <Compile Include="DefaultConfigurationSettings.cs" />
-    <Compile Include="StumpServerInstance.cs" />
     <Compile Include="StumpsHost.cs" />
     <Compile Include="StumpsNetworkException.cs" />
     <Compile Include="ServerFactory.cs" />
+    <Compile Include="StumpsServerInstance.cs" />
     <Compile Include="Utility\RandomGenerator.cs" />
     <Compile Include="Logging\DebugLogger.cs" />
     <Compile Include="Logging\ILogger.cs" />
