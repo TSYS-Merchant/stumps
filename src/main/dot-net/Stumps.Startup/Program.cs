@@ -54,23 +54,7 @@
 
             var configurationDal = new ConfigurationDataAccess(configurationFile);
             var configuration = new StumpsConfiguration(configurationDal);
-
-            if (!File.Exists(configurationFile))
-            {
-
-                var configurationFileDirectory = Path.GetDirectoryName(configurationFile);
-                configurationFileDirectory = string.IsNullOrEmpty(configurationFileDirectory)
-                                                 ? "."
-                                                 : configurationFileDirectory;
-
-                if (!Directory.Exists(configurationFileDirectory))
-                {
-                    Directory.CreateDirectory(configurationFileDirectory);
-                }
-
-                configuration.SaveConfiguration();
-
-            }
+            configurationDal.EnsureConfigurationIsInitialized(configuration.SaveConfiguration);
 
             configuration.LoadConfiguration();
 
