@@ -63,7 +63,12 @@ namespace Stumps
             context.Response.StatusCode = _statusCode;
             context.Response.StatusDescription = _statusCodeDescription;
 
-            ((StumpsHttpResponse)context.Response).Origin = _origin;
+            var stumpsResponse = context.Response as StumpsHttpResponse;
+
+            if (stumpsResponse != null)
+            {
+                stumpsResponse.Origin = _origin;
+            }
 
             if (this.ContextProcessed != null)
             {

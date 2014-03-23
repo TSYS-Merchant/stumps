@@ -97,7 +97,12 @@
 
             }
 
-            ((StumpsHttpResponse)context.Response).Origin = HttpResponseOrigin.RemoteServer;
+            var stumpsResponse = context.Response as StumpsHttpResponse;
+
+            if (stumpsResponse != null)
+            {
+                stumpsResponse.Origin = HttpResponseOrigin.RemoteServer;
+            }
 
             if (this.ContextProcessed != null)
             {
