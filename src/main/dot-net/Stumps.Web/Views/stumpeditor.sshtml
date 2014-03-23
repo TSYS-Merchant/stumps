@@ -96,13 +96,8 @@
 	<div class="stumpInfo greenBackground">
 		<table>
 			<tr>
-				<td>
-					<label for="stmp_name">Name</label><input type="text" id="stmp_name" value="@Model.StumpName" />
-                </td>              
-                <td>
-					<label for="stmp_category">Category</label><select id="stmp_category" /><option value="uncategorized">Uncategorized</option></select>
-				</td>
-				<td class="right"><label class="button" id="saveButton">@Model.CreateButtonText</label></td>
+				<td><label for="stmp_name">Name</label><input type="text" id="stmp_name" value="@Model.StumpName" /><label for="stmp_category">Category</label><select id="stmp_category" /><option value="uncategorized">Uncategorized</option></select></td>
+				<td class="right" style="width: 200px;"><label class="button" id="saveButton">@Model.CreateButtonText</label></td>
 			</tr>
 		</table>
 	</div>
@@ -263,7 +258,7 @@ function ensureSingleTextCriteria() {
 @If.LoadStump
 function saveStump() {	
 
-	if ( $('.advice').is(':visible') ) {
+	if ( $('.stumpAdvice').is(':visible') ) {
         return;
     }
 
@@ -310,7 +305,7 @@ function saveStump() {
 @If.LoadRecord
 function saveStump() {
 	
-	if ( $('.advice').is(':visible') ) {
+	if ( $('.stumpAdvice').is(':visible') ) {
         return;
     }
 
@@ -367,22 +362,12 @@ function saveButton_complete() {
 }
 
 function showAdvice(obj, location, msg) {
-    var img = document.createElement('IMG');
-    img.setAttribute('src', '/content/exclamation-error-b.png');
-    img.setAttribute('class', 'stumpAdvice');
-    img.setAttribute('id', 'icon' + location);
-    img.setAttribute('title', msg);
-    img.setAttribute('alt', msg);
-
-    $('#singleAdvice' + location).stop(true, false).remove(); // remove any prev msg
     $('#icon' + location).stop(true, false).remove();
-    $('<span id="singleAdvice' + location + '" class="stumpAdvice"></span>').insertAfter(obj);
-    $('#singleAdvice' + location).before(img);
+	$('<img src="/content/exclamation-error-30.png" class="stumpAdvice" id="icon' + location + '" title="' + msg + '" alt="' + msg + '" />').insertAfter(obj);
 }
 
 $('#stmp_name').blur(function() {
     var location = 'stmp_name';
-	$('#singleAdvice' + location).hide();   
     $('#icon' + location).hide();
 
 	var currentStumpName = '@Model.StumpName';

@@ -85,7 +85,6 @@ $('#hostName').blur(function () {
     if(!validateDomain($(this).val())) {
         showAdvice(this, location,  "Invalid Domain Name");
     } else {
-        $('#singleAdvice' + location).hide();   
         $('#icon' + location).hide();
      }
 
@@ -214,7 +213,6 @@ $('#portBox').keydown(function (event) {
             showAdvice(this, location, "Integer values only");
             event.preventDefault();
             $('#portBox').click(function() {
-                $('#singleAdvice' + location).hide();   
                 $('#icon' + location).hide();
             });
         }
@@ -222,19 +220,9 @@ $('#portBox').keydown(function (event) {
 });
 
 function showAdvice(obj, location, msg) {
-    var img = document.createElement('IMG');
-    img.setAttribute('src', 'Content/exclamation-error-b.png');
-    img.setAttribute('class', 'advice');
-    img.setAttribute('id', 'icon' + location);
-    img.setAttribute('title', msg);
-    img.setAttribute('alt', msg);
-
-    $('#singleAdvice' + location).stop(true, false).remove();  // remove any prev msg
     $('#icon' + location).stop(true, false).remove();
-    $('<span id="singleAdvice' + location + '" class="advice"></span>').insertAfter(obj);
-    $('#singleAdvice' + location).before(img);
+	$('<img src="Content/exclamation-error-40.png" class="advice" id="icon' + location + '" title="' + msg + '" alt="' + msg + '" />').insertAfter(obj);
 }
-
 
 $('#portBox').blur(function() {
     var location = 'portBox';
@@ -256,7 +244,6 @@ $('#portBox').blur(function() {
                 showAdvice('#portBox', location, "Port Unavailable");
             }
             else {
-                $('#singleAdvice' + location).hide(); 
                 $('#icon' + location).hide();
             }
         }

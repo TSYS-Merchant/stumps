@@ -9,11 +9,10 @@
 
 .stumpAdvice
 {
-    padding-left: 5px; 
-    font-style: oblique;
-    font-weight: bold;
-    color: #cf5a13;
-    margin-left: -56px;
+    margin-left: -60px;
+    vertical-align: top;
+    padding-top: 2px;
+    padding-right: 38px;
 }
 
 .stumpInfo {

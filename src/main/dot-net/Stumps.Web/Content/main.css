@@ -9,13 +9,13 @@
 
 .advice
 {
-    padding-left: 5px; 
     font-style: oblique;
     font-weight: bold;
-    color: #cf5a13;
     margin-left: -35px;
-
+    padding-top: 4px;
+    vertical-align: top;
 }
+
 label input
 {
     margin-left: 10px;
