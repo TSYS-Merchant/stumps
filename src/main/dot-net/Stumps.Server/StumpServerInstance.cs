@@ -8,7 +8,6 @@
     using System.Threading;
     using Stumps.Rules;
     using Stumps.Server.Data;
-    using Stumps.Server.Proxy;
     using Stumps.Server.Utility;
 
     /// <summary>
@@ -107,7 +106,7 @@
         {
             get
             {
-                var isServerRunning = _server != null && this._server.IsRunning;
+                var isServerRunning = _server != null && _server.IsRunning;
                 return isServerRunning;
             }
         }
@@ -624,6 +623,14 @@
                 _server = _serverFactory.CreateServer(this.ListeningPort, FallbackResponse.Http503ServiceUnavailable);
             }
 
+            _server.RequestProcessed += (o, e) =>
+            {
+                if (this.RecordTraffic)
+                {
+                    this.Recordings.Add(e.Context);
+                }
+            };
+
         }
 
         /// <summary>
@@ -640,7 +647,7 @@
             }
 
         }
-
+        
         /// <summary>
         ///     Loads a stump from a specified <see cref="T:Stumps.Server.StumpContract"/>.
         /// </summary>

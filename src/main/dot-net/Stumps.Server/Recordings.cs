@@ -33,11 +33,11 @@
         }
 
         /// <summary>
-        ///     Adds the specified <see cref="T:Stumps.Server.RecordedContext"/> to the collection.
+        ///     Adds the specified <see cref="T:Stumps.IStumpsHttpContext"/> to the collection.
         /// </summary>
-        /// <param name="context">The <see cref="T:Stumps.Server.RecordedContext"/> to add to the collection.</param>
+        /// <param name="context">The <see cref="T:Stumps.IStumpsHttpContext"/> to add to the collection.</param>
         /// <exception cref="System.ArgumentNullException"><paramref name="context"/> is <c>null</c>.</exception>
-        public void Add(RecordedContext context)
+        public void Add(IStumpsHttpContext context)
         {
 
             if (context == null)
@@ -45,26 +45,37 @@
                 throw new ArgumentNullException("context");
             }
 
-            DetermineContentType(context.Request);
-            DetermineBodyIsImage(context.Request);
+            var recordedContext = new RecordedContext();
+            
+            recordedContext.Request.Body = context.Request.GetBody();
+            recordedContext.Request.BodyContentType = context.Request.Headers["Content-Type"];
+            recordedContext.Request.HttpMethod = context.Request.HttpMethod;
+            recordedContext.Request.RawUrl = context.Request.RawUrl;
+            CopyHeaders(context.Request.Headers, recordedContext.Request);
+            DetermineBodyIsImage(recordedContext.Request);
 
-            if (!context.Request.BodyIsImage)
+            if (!recordedContext.Request.BodyIsImage)
             {
-                DetermineBodyIsText(context.Request);
+                DetermineBodyIsText(recordedContext.Request);
             }
 
-            DetermineContentType(context.Response);
-            DetermineBodyIsImage(context.Response);
+            recordedContext.Response.Body = context.Response.GetBody();
+            recordedContext.Response.BodyContentType = context.Response.Headers["Content-Type"];
+            recordedContext.Response.StatusCode = context.Response.StatusCode;
+            recordedContext.Response.StatusDescription = context.Response.StatusDescription;
+            CopyHeaders(context.Response.Headers, recordedContext.Response);
+            DetermineBodyIsImage(recordedContext.Response);
 
-            if (!context.Response.BodyIsImage)
+            if (!recordedContext.Response.BodyIsImage)
             {
-                DetermineBodyIsText(context.Response);
+                DetermineBodyIsText(recordedContext.Response);
             }
 
             lock (_syncRoot)
             {
-                _recordings.Add(context);
+                _recordings.Add(recordedContext);
             }
+
         }
 
         /// <summary>
@@ -139,22 +150,26 @@
         }
 
         /// <summary>
-        ///     Determines the content type of the recorded context part.
+        ///     Copies the headers from a <see cref="T:Stumps.IHeaderDictionary"/> to the specified <see cref="T:Stumps.Server.IRecordedContextPart"/>.
         /// </summary>
-        /// <param name="part">The part of the recorded context to analyze.</param>
-        private void DetermineContentType(IRecordedContextPart part)
+        /// <param name="headerDictionary">The header dictionary used as the source of the headers.</param>
+        /// <param name="contextPart">The recorded context part used as the target for the headers.</param>
+        private void CopyHeaders(IHeaderDictionary headerDictionary, IRecordedContextPart contextPart)
         {
 
-            var header = part.FindHeader("content-type");
-            header = header ?? new HttpHeader
+            foreach (var headerName in headerDictionary.HeaderNames)
             {
-                Name = string.Empty,
-                Value = string.Empty
-            };
-            part.BodyContentType = header.Value;
+                var header = new HttpHeader
+                {
+                    Name = headerName,
+                    Value = headerDictionary[headerName]
+                };
+
+                contextPart.Headers.Add(header);
+            }
 
         }
-
+        
         /// <summary>
         ///     Determines if the body of the recorded context part is an image.
         /// </summary>
