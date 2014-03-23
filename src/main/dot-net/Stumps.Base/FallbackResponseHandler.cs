@@ -13,6 +13,7 @@ namespace Stumps
 
         private readonly int _statusCode;
         private readonly string _statusCodeDescription;
+        private readonly HttpResponseOrigin _origin;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:Stumps.FallbackResponseHandler"/> class.
@@ -29,6 +30,10 @@ namespace Stumps
 
             _statusCode = (int)response;
             _statusCodeDescription = HttpStatusCodes.GetStatusDescription(_statusCode);
+
+            _origin = response == FallbackResponse.Http404NotFound
+                          ? HttpResponseOrigin.NotFoundResponse
+                          : HttpResponseOrigin.ServiceUnavailable;
 
         }
 
@@ -57,6 +62,8 @@ namespace Stumps
             context.Response.ClearBody();
             context.Response.StatusCode = _statusCode;
             context.Response.StatusDescription = _statusCodeDescription;
+
+            ((StumpsHttpResponse)context.Response).Origin = _origin;
 
             if (this.ContextProcessed != null)
             {

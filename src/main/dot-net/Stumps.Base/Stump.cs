@@ -54,7 +54,7 @@
         }
 
         /// <summary>
-        /// Gets unique identifier for the instance.
+        ///     Gets the unique identifier for the instance.
         /// </summary>
         /// <value>
         ///     The unique identifier for the instance.

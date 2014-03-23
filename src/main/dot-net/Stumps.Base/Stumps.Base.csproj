@@ -51,6 +51,7 @@
     <Compile Include="ContentEncoderMode.cs" />
     <Compile Include="FallbackResponse.cs" />
     <Compile Include="FallbackResponseHandler.cs" />
+    <Compile Include="HttpResponseOrigin.cs" />
     <Compile Include="HttpPipelineHandler.cs" />
     <Compile Include="Http\HeaderDictionary.cs" />
     <Compile Include="Http\HttpServer.cs" />

@@ -63,6 +63,9 @@
 
                 PopulateResponse(context, stump);
 
+                ((StumpsHttpResponse)context.Response).Origin = HttpResponseOrigin.Stump;
+                ((StumpsHttpResponse)context.Response).StumpId = stump.StumpId;
+
                 if (this.ContextProcessed != null)
                 {
                     this.ContextProcessed(this, new StumpsContextEventArgs(context));
