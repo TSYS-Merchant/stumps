@@ -29,25 +29,25 @@
                 throw new ArgumentNullException("serverHost");
             }
 
-            Get["/api/proxy/{proxyId}/stumps/{stumpId}"] = _ =>
+            Get["/api/proxy/{serverId}/stumps/{stumpId}"] = _ =>
             {
 
-                var proxyId = (string)_.proxyId;
+                var serverId = (string)_.serverId;
                 var stumpId = (string)_.stumpId;
-                var server = serverHost.FindServer(proxyId);
+                var server = serverHost.FindServer(serverId);
                 var stump = server.FindStump(stumpId);
 
-                var model = CreateStumpModel(stump, proxyId, stumpId);
+                var model = CreateStumpModel(stump, serverId, stumpId);
 
                 return Response.AsJson(model);
 
             };
 
-            Get["/api/proxy/{proxyId}/stumps/{stumpId}/request"] = _ =>
+            Get["/api/proxy/{serverId}/stumps/{stumpId}/request"] = _ =>
             {
-                var proxyId = (string)_.proxyId;
+                var serverId = (string)_.serverId;
                 var stumpId = (string)_.stumpId;
-                var server = serverHost.FindServer(proxyId);
+                var server = serverHost.FindServer(serverId);
                 var stump = server.FindStump(stumpId);
 
                 var ms = new System.IO.MemoryStream(stump.MatchBody);
@@ -55,23 +55,23 @@
                 return Response.FromStream(ms, stump.MatchBodyContentType);
             };
 
-            Get["/api/proxy/{proxyId}/stumps/{stumpId}/response"] = _ =>
+            Get["/api/proxy/{serverId}/stumps/{stumpId}/response"] = _ =>
             {
-                var proxyId = (string)_.proxyId;
+                var serverId = (string)_.serverId;
                 var stumpId = (string)_.stumpId;
-                var server = serverHost.FindServer(proxyId);
+                var server = serverHost.FindServer(serverId);
                 var stump = server.FindStump(stumpId);
 
                 var ms = new System.IO.MemoryStream(stump.Response.GetBody());
 
-                return Response.FromStream(ms, stump.Response.Headers["Content-Type"]);
+                return Response.FromStream(ms, stump.Response.Headers["Content-Type"] ?? string.Empty);
             };
 
-            Post["/api/proxy/{proxyId}/stumps"] = _ =>
+            Post["/api/proxy/{serverId}/stumps"] = _ =>
             {
 
-                var proxyId = (string)_.proxyId;
-                var server = serverHost.FindServer(proxyId);
+                var serverId = (string)_.serverId;
+                var server = serverHost.FindServer(serverId);
 
                 var model = this.Bind<StumpModel>();
                 var contract = CreateContractFromRecord(model, server);
@@ -82,12 +82,12 @@
 
             };
 
-            Put["/api/proxy/{proxyId}/stumps/{stumpId}"] = _ =>
+            Put["/api/proxy/{serverId}/stumps/{stumpId}"] = _ =>
             {
 
-                var proxyId = (string)_.proxyId;
+                var serverId = (string)_.serverId;
 
-                var server = serverHost.FindServer(proxyId);
+                var server = serverHost.FindServer(serverId);
 
                 var model = this.Bind<StumpModel>();
                 var contract = CreateContractFromStump(model, server);
@@ -111,30 +111,30 @@
 
                 var stump = server.FindStump(model.StumpId);
 
-                var returnModel = CreateStumpModel(stump, proxyId, model.StumpId);
+                var returnModel = CreateStumpModel(stump, serverId, model.StumpId);
 
                 return Response.AsJson(returnModel);
 
             };
 
-            Delete["/api/proxy/{proxyId}/stumps/{stumpId}/delete"] = _ =>
+            Delete["/api/proxy/{serverId}/stumps/{stumpId}/delete"] = _ =>
             {
 
-                var proxyId = (string)_.proxyId;
+                var serverId = (string)_.serverId;
                 var stumpId = (string)_.stumpId;
-                var server = serverHost.FindServer(proxyId);
+                var server = serverHost.FindServer(serverId);
                 server.DeleteStump(stumpId);
 
                 return HttpStatusCode.OK;
 
             };
 
-            Get["/api/proxy/{proxyId}/stumps/isStumpNameAvailable/{stumpName}"] = _ =>
+            Get["/api/proxy/{serverId}/stumps/isStumpNameAvailable/{stumpName}"] = _ =>
             {
 
-                var proxyId = (string)_.proxyId;
+                var serverId = (string)_.serverId;
                 var stumpName = (string)_.stumpName;
-                var server = serverHost.FindServer(proxyId);
+                var server = serverHost.FindServer(serverId);
 
                 var isStumpNameAvailable = !server.StumpNameExists(stumpName);
 

@@ -28,8 +28,8 @@
 
             Get["/proxy/{serverId}/stumps"] = _ =>
             {
-                var proxyId = (string)_.serverId;
-                var server = stumpsHost.FindServer(proxyId);
+                var serverId = (string)_.serverId;
+                var server = stumpsHost.FindServer(serverId);
 
                 var stumpModelArray = new ArrayList();
 

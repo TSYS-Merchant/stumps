@@ -145,7 +145,7 @@
                 return Response.AsJson(model);
             };
 
-            Put["/api/proxy/{proxyId}/recording/status"] = _ =>
+            Put["/api/proxy/{serverId}/recording/status"] = _ =>
             {
                 var serverId = (string)_.serverId;
                 var server = stumpsHost.FindServer(serverId);

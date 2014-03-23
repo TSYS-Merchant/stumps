@@ -52,9 +52,9 @@
 
             Get["/proxy/{serverId}/stumps/{stumpId}"] = _ =>
             {
-                var proxyId = (string)_.serverId;
+                var serverId = (string)_.serverId;
                 var stumpId = (string)_.stumpId;
-                var server = stumpsHost.FindServer(proxyId);
+                var server = stumpsHost.FindServer(serverId);
                 var stump = server.FindStump(stumpId);
 
                 var model = new
@@ -65,7 +65,7 @@
                     ProxyId = server.ServerId,
                     ExternalHostName = server.UseSsl ? server.ExternalHostName + " (SSL)" : server.ExternalHostName,
                     LocalWebsite = "http://localhost:" + server.ListeningPort.ToString(CultureInfo.InvariantCulture) + "/",
-                    BackUrl = "/proxy/" + proxyId + "/stumps",
+                    BackUrl = "/proxy/" + serverId + "/stumps",
                     CreateButtonText = "Save Stump",
                     LoadRecord = false,
                     LoadStump = true,
