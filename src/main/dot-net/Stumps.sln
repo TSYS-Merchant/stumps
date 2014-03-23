@@ -36,6 +36,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{DEF9F0BD
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stumps.Startup.Tests", "..\..\test\unit\Stumps.Startup.Tests\Stumps.Startup.Tests.csproj", "{F28D39EB-5AAA-4AFC-A9BF-264CD9A33445}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stumps.Launcher", "Stumps.Launcher\Stumps.Launcher.csproj", "{797A9CFF-38F0-4CC0-A40B-BAA119A13F39}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -125,6 +127,16 @@ Global
 		{F28D39EB-5AAA-4AFC-A9BF-264CD9A33445}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{F28D39EB-5AAA-4AFC-A9BF-264CD9A33445}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{F28D39EB-5AAA-4AFC-A9BF-264CD9A33445}.Release|x86.ActiveCfg = Release|Any CPU
+		{797A9CFF-38F0-4CC0-A40B-BAA119A13F39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{797A9CFF-38F0-4CC0-A40B-BAA119A13F39}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{797A9CFF-38F0-4CC0-A40B-BAA119A13F39}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{797A9CFF-38F0-4CC0-A40B-BAA119A13F39}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{797A9CFF-38F0-4CC0-A40B-BAA119A13F39}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{797A9CFF-38F0-4CC0-A40B-BAA119A13F39}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{797A9CFF-38F0-4CC0-A40B-BAA119A13F39}.Release|Any CPU.Build.0 = Release|Any CPU
+		{797A9CFF-38F0-4CC0-A40B-BAA119A13F39}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{797A9CFF-38F0-4CC0-A40B-BAA119A13F39}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{797A9CFF-38F0-4CC0-A40B-BAA119A13F39}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
