@@ -5,7 +5,6 @@
     using System.Collections.Generic;
     using System.IO;
     using Stumps.Server.Utility;
-    using Stumps.Utility;
 
     /// <summary>
     ///     A class that provides an implementation of <see cref="T:Stumps.Server.Data.IDataAccess"/>
@@ -125,7 +124,7 @@
         public ProxyServerEntity ProxyServerFind(string proxyId)
         {
 
-            var path = _storagePath + proxyId + DataAccess.ProxyFileExtension;
+            var path = Path.Combine(_storagePath, proxyId + DataAccess.ProxyFileExtension);
             var proxy = JsonUtility.DeserializeFromFile<ProxyServerEntity>(path);
             return proxy;
 
