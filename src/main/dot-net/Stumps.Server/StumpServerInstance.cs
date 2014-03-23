@@ -63,7 +63,7 @@
             _stumpReference = new Dictionary<string, StumpContract>(StringComparer.OrdinalIgnoreCase);
 
             // Setup the recordings maintained by the server instance.
-            this.Recordings = new ProxyRecordings();
+            this.Recordings = new Recordings();
 
             // Initialize the server
             InitializeServer();
@@ -126,7 +126,7 @@
         /// <value>
         ///     The recorded HTTP requests and responses.
         /// </value>
-        public ProxyRecordings Recordings { get; private set; }
+        public Recordings Recordings { get; private set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether to record all traffic.

@@ -1,23 +1,22 @@
-﻿namespace Stumps.Server.Proxy
+﻿namespace Stumps.Server
 {
 
     using System;
     using System.Collections.Generic;
-    using Stumps.Utility;
 
     /// <summary>
     ///     A class that represents a collection of recordings from a proxy server.
     /// </summary>
-    public sealed class ProxyRecordings
+    public sealed class Recordings
     {
 
         private readonly List<RecordedContext> _recordings;
         private readonly object _syncRoot = new object();
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Stumps.Server.Proxy.ProxyRecordings"/> class.
+        ///     Initializes a new instance of the <see cref="T:Stumps.Server.Recordings"/> class.
         /// </summary>
-        public ProxyRecordings()
+        public Recordings()
         {
             _recordings = new List<RecordedContext>();
         }
@@ -34,9 +33,9 @@
         }
 
         /// <summary>
-        ///     Adds the specified <see cref="T:Stumps.Server.Proxy.RecordedContext"/> to the collection.
+        ///     Adds the specified <see cref="T:Stumps.Server.RecordedContext"/> to the collection.
         /// </summary>
-        /// <param name="context">The <see cref="T:Stumps.Server.Proxy.RecordedContext"/> to add to the collection.</param>
+        /// <param name="context">The <see cref="T:Stumps.Server.RecordedContext"/> to add to the collection.</param>
         /// <exception cref="System.ArgumentNullException"><paramref name="context"/> is <c>null</c>.</exception>
         public void Add(RecordedContext context)
         {
@@ -84,7 +83,7 @@
         /// </summary>
         /// <param name="afterIndex">The index used to find all recorded contexts after.</param>
         /// <returns>
-        ///     A generic list of <see cref="T:Stumps.Server.Proxy.RecordedContext"/> objects.
+        ///     A generic list of <see cref="T:Stumps.Server.RecordedContext"/> objects.
         /// </returns>
         public IList<RecordedContext> Find(int afterIndex)
         {
@@ -114,7 +113,7 @@
         /// </summary>
         /// <param name="index">The index of the recorded context.</param>
         /// <returns>
-        ///     A <see cref="T:Stumps.Server.Proxy.RecordedContext"/> found at the specified <paramref name="index"/>.
+        ///     A <see cref="T:Stumps.Server.RecordedContext"/> found at the specified <paramref name="index"/>.
         /// </returns>
         /// <remarks>
         ///     If a recorded context cannot be found at the specified <paramref name="index"/>, a <c>null</c>

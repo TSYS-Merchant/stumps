@@ -1,4 +1,4 @@
-﻿namespace Stumps.Server.Proxy
+﻿namespace Stumps.Server
 {
 
     using System.Collections.Generic;
@@ -26,18 +26,18 @@
         string BodyContentType { get; set; }
 
         /// <summary>
-        ///     Gets or sets a value indicating whether the <see cref="P:Stumps.Server.Proxy.IRecordedContextPart.Body"/> of the current instance is an image.
+        ///     Gets or sets a value indicating whether the <see cref="P:Stumps.Server.IRecordedContextPart.Body"/> of the current instance is an image.
         /// </summary>
         /// <value>
-        ///   <c>true</c> if the <see cref="P:Stumps.Server.Proxy.IRecordedContextPart.Body"/> of the current instance is an image; otherwise, <c>false</c>.
+        ///   <c>true</c> if the <see cref="P:Stumps.Server.IRecordedContextPart.Body"/> of the current instance is an image; otherwise, <c>false</c>.
         /// </value>
         bool BodyIsImage { get; set; }
 
         /// <summary>
-        ///     Gets or sets a value indicating whether the <see cref="P:Stumps.Server.Proxy.IRecordedContextPart.Body"/> of the current instance is text.
+        ///     Gets or sets a value indicating whether the <see cref="P:Stumps.Server.IRecordedContextPart.Body"/> of the current instance is text.
         /// </summary>
         /// <value>
-        ///   <c>true</c> if the <see cref="P:Stumps.Server.Proxy.IRecordedContextPart.Body"/> of the current instance is text; otherwise, <c>false</c>.
+        ///   <c>true</c> if the <see cref="P:Stumps.Server.IRecordedContextPart.Body"/> of the current instance is text; otherwise, <c>false</c>.
         /// </value>
         bool BodyIsText { get; set; }
 
@@ -54,10 +54,10 @@
         /// </summary>
         /// <param name="name">The name of the specified header.</param>
         /// <returns>
-        ///     A <see cref="T:Stumps.Server.Proxy.HttpHeader"/> with the specified <paramref name="name"/>.
+        ///     A <see cref="T:Stumps.Server.HttpHeader"/> with the specified <paramref name="name"/>.
         /// </returns>
         /// <remarks>
-        ///     A <c>null</c> value is returned if an <see cref="T:Stumps.Server.Proxy.HttpHeader"/> is not found.
+        ///     A <c>null</c> value is returned if an <see cref="T:Stumps.Server.HttpHeader"/> is not found.
         /// </remarks>
         HttpHeader FindHeader(string name);
 
