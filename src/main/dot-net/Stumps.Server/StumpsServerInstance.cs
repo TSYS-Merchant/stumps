@@ -135,6 +135,29 @@
         /// </value>
         public bool RecordTraffic { get; set; }
 
+
+        /// <summary>
+        ///     Gets the number of requests served with the proxy.
+        /// </summary>
+        /// <value>
+        ///     The number of requests served with the proxy.
+        /// </value>
+        public int RequestsServedWithProxy
+        {
+            get { return _server.RequestsServedWithProxy; }
+        }
+
+        /// <summary>
+        ///     Gets the number requests served with a Stump.
+        /// </summary>
+        /// <value>
+        ///     The number of requests served with a Stumps.
+        /// </value>
+        public int RequestsServedWithStump
+        {
+            get { return _server.RequestsServedWithStump; }
+        }
+
         /// <summary>
         ///     Gets or sets the unique identifier for the server.
         /// </summary>
@@ -153,7 +176,19 @@
         {
             get { return _stumpList.Count; }
         }
-        
+
+
+        /// <summary>
+        ///     Gets the total number of requests served.
+        /// </summary>
+        /// <value>
+        ///     The total number of requests served.
+        /// </value>
+        public int TotalRequestsServed
+        {
+            get { return _server.TotalRequestsServed; }
+        }
+
         /// <summary>
         ///     Gets or sets a value indicating whether the exernal host requires SSL.
         /// </summary>
