@@ -73,6 +73,7 @@
     </Compile>
     <Compile Include="Responses\ErrorHtmlResponse.cs" />
     <Compile Include="Responses\ErrorJsonResponse.cs" />
+    <Compile Include="StumpsWebServer.cs" />
     <Compile Include="ViewModules\AddWebsiteModule.cs" />
     <Compile Include="ViewModules\DeleteStumpModule.cs" />
     <Compile Include="ViewModules\DeleteWebsiteModule.cs" />
@@ -86,7 +87,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>WebResources.resx</DependentUpon>
     </Compile>
-    <Compile Include="WebServerModule.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
