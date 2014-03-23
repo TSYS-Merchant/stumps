@@ -10,6 +10,16 @@ namespace Stumps
     {
 
         /// <summary>
+        ///     Occurs when the server finishes processing an HTTP request.
+        /// </summary>
+        event EventHandler<StumpsContextEventArgs> RequestProcessed;
+
+        /// <summary>
+        ///     Occurs when the server receives an incomming HTTP request.
+        /// </summary>
+        event EventHandler<StumpsContextEventArgs> RequestReceived;
+
+        /// <summary>
         ///     Gets a value indicating whether the server is running.
         /// </summary>
         /// <value>
