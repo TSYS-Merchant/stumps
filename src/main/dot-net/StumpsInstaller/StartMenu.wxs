@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Fragment>
+    <DirectoryRef Id="ApplicationProgramsFolder">
+      <Component Id="ApplicationShortcuts" Guid="{497453C5-9835-47F4-AD4F-F68515B4C720}">
+
+        <Shortcut Id="LauncherShortcut"
+                  Name="Stumps Dashboard"
+                  Description="Launch the Stumps Dashboard Website"
+                  Target="[INSTALLFOLDER]StumpsLauncher.exe"
+                  WorkingDirectory="INSTALLFOLDER"/>
+
+        <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall"/>
+        <RegistryValue Root="HKCU" Key="Software\Stumps" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+      </Component>
+    </DirectoryRef>
+  </Fragment>
+
+</Wix>
