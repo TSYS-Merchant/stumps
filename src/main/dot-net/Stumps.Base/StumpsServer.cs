@@ -254,10 +254,34 @@
 
                 _server = new HttpServer(_port, pipeline);
 
-                _server.RequestStarting += server_RequestStarting;
-                _server.RequestFinishing += server_requestFinishing;
+                _server.RequestStarting += Server_RequestStarting;
+                _server.RequestFinishing += Server_RequestFinishing;
 
                 _server.StartListening();
+
+            }
+
+        }
+        
+        /// <summary>
+        ///     Stops this instance of the Stumps server.
+        /// </summary>
+        public void Stop()
+        {
+
+            lock (_syncRoot)
+            {
+
+                if (!_started)
+                {
+                    return;
+                }
+
+                _started = false;
+                _server.StopListening();
+
+                _server.Dispose();
+                _server = null;
 
             }
 
@@ -268,7 +292,7 @@
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="T:Stumps.StumpsContextEventArgs"/> instance containing the event data.</param>
-        private void server_requestFinishing(object sender, StumpsContextEventArgs e)
+        private void Server_RequestFinishing(object sender, StumpsContextEventArgs e)
         {
 
             // Increment the request counter
@@ -298,38 +322,13 @@
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="T:Stumps.StumpsContextEventArgs"/> instance containing the event data.</param>
-        private void server_RequestStarting(object sender, StumpsContextEventArgs e)
+        private void Server_RequestStarting(object sender, StumpsContextEventArgs e)
         {
 
             // Raise the request received event
             if (this.RequestReceived != null)
             {
                 this.RequestReceived(this, e);
-            }
-
-        }
-
-
-        /// <summary>
-        ///     Stops this instance of the Stumps server.
-        /// </summary>
-        public void Stop()
-        {
-
-            lock (_syncRoot)
-            {
-
-                if (!_started)
-                {
-                    return;
-                }
-
-                _started = false;
-                _server.StopListening();
-
-                _server.Dispose();
-                _server = null;
-
             }
 
         }

@@ -2,14 +2,14 @@
 {
 
     using System;
+    using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
+    using System.Threading;
+    using Stumps.Rules;
     using Stumps.Server.Data;
     using Stumps.Server.Proxy;
     using Stumps.Server.Utility;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Threading;
-    using Stumps.Rules;
 
     /// <summary>
     /// A class that represents an the environment and configuration of a proxy server.
@@ -399,7 +399,6 @@
 
         }
 
-
         /// <summary>
         ///     Creates a Stump data entity from a Stump contract.
         /// </summary>
@@ -437,7 +436,6 @@
             return entity;
 
         }
-
 
         /// <summary>
         ///     Creates an array of header entities from an enumerable list of <see cref="T:Stumps.Server.HttpHeader"/> objects.
@@ -594,7 +592,6 @@
             return response;
 
         }
-
 
         /// <summary>
         ///     Initializes the Stumps server controlled by this instance.

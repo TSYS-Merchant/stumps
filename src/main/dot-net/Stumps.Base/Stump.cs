@@ -41,7 +41,11 @@
         /// </value>
         public IStumpsHttpResponse Response
         {
-            get { return _response; }
+            get
+            {
+                return _response;
+            }
+
             set
             {
                 if (value == null)
