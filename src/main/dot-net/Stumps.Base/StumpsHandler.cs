@@ -2,9 +2,7 @@
 {
 
     using System;
-    using System.Collections.Generic;
     using Stumps.Http;
-    using Stumps.Utility;
 
     /// <summary>
     ///     A class implementing the <see cref="T:Stumps.Http.IHttpHandler"/> interface that processes HTTP requests
@@ -14,6 +12,7 @@
     {
 
         private readonly IStumpsManager _stumpsManager;
+        private volatile bool _handlerEnabled;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:Stumps.StumpsHandler" /> class.
@@ -29,6 +28,7 @@
             }
 
             _stumpsManager = stumpsManager;
+            _handlerEnabled = true;
 
         }
 
@@ -36,6 +36,18 @@
         ///     Occurs when an incomming HTTP requst is processed and responded to by the HTTP handler.
         /// </summary>
         public event EventHandler<StumpsContextEventArgs> ContextProcessed;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether [enabled].
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if [enabled]; otherwise, <c>false</c>.
+        /// </value>
+        public bool Enabled
+        {
+            get { return _handlerEnabled; }
+            set { _handlerEnabled = value; }
+        }
 
         /// <summary>
         ///     Processes an incoming HTTP request.
@@ -53,7 +65,12 @@
                 throw new ArgumentNullException("context");
             }
 
-            // TODO: Continue if we are recording traffic
+            // Early exit, if all Stumps are disabled
+            if (!_handlerEnabled)
+            {
+                return ProcessHandlerResult.Continue;
+            }
+
             var result = ProcessHandlerResult.Continue;
 
             var stump = _stumpsManager.FindStumpForContext(context);

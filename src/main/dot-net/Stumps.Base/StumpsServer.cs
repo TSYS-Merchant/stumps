@@ -16,11 +16,14 @@
         private readonly IStumpsManager _stumpsManager;
         private readonly Uri _proxyHost;
         private readonly FallbackResponse _defaultResponse;
-
         private readonly int _port;
+
+        private volatile bool _stumpsAllowed;
 
         private bool _disposed;
         private HttpServer _server;
+        private StumpsHandler _stumpsHandler;
+
         private bool _started;
 
         private int _requestCounter;
@@ -57,6 +60,7 @@
             _port = listeningPort;
 
             _proxyHost = proxyHostUri;
+
         }
 
         /// <summary>
@@ -86,6 +90,20 @@
         public bool IsRunning
         {
             get { return _started; }
+        }
+
+        public bool AllowStumps
+        {
+            get
+            {
+                return _stumpsAllowed;
+            }
+
+            set
+            {
+                _stumpsAllowed = value;
+                UpdateStumpsEnabledFlag(value);
+            }
         }
 
         /// <summary>
@@ -235,9 +253,9 @@
                 var pipeline = new HttpPipelineHandler();
 
                 // Setup the Stump HTTP handler
-                var stumpsHandler = new StumpsHandler(_stumpsManager);
+               _stumpsHandler = new StumpsHandler(_stumpsManager);
 
-                pipeline.Add(stumpsHandler);
+               pipeline.Add(_stumpsHandler);
 
                 // Setup the Proxy HTTP handler
                 if (_proxyHost != null)
@@ -329,6 +347,20 @@
             if (this.RequestReceived != null)
             {
                 this.RequestReceived(this, e);
+            }
+
+        }
+
+        /// <summary>
+        ///     Updates the enabled flag of the Stumps handler.
+        /// </summary>
+        /// <param name="enabled">If set to <c>true</c>, Stumps are enabled.</param>
+        private void UpdateStumpsEnabledFlag(bool enabled)
+        {
+
+            if (_server != null && _stumpsHandler != null)
+            {
+                _stumpsHandler.Enabled = enabled;
             }
 
         }
