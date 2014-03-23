@@ -3,8 +3,7 @@
 
     using System;
     using Nancy;
-    using Stumps.Proxy;
-    using Stumps.Utility;
+    using Stumps.Server;
     using Stumps.Web.Models;
 
     /// <summary>
@@ -16,14 +15,14 @@
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:Stumps.Web.ApiModules.PortAvailableModule"/> class.
         /// </summary>
-        /// <param name="proxyHost">The <see cref="T:Stumps.Proxy.IProxyHost"/> used by the instance.</param>
-        /// <exception cref="System.ArgumentNullException"><paramref name="proxyHost"/> is <c>null</c>.</exception>
-        public PortAvailableModule(IProxyHost proxyHost) : base("/api")
+        /// <param name="stumpsHost">The <see cref="T:Stumps.Server.IStumpsHost"/> used by the instance.</param>
+        /// <exception cref="System.ArgumentNullException"><paramref name="stumpsHost"/> is <c>null</c>.</exception>
+        public PortAvailableModule(IStumpsHost stumpsHost) : base("/api")
         {
 
-            if (proxyHost == null)
+            if (stumpsHost == null)
             {
-                throw new ArgumentNullException("proxyHost");
+                throw new ArgumentNullException("stumpsHost");
             }
 
             Get["/portAvailable/{port}"] = _ =>

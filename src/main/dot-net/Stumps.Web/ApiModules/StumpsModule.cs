@@ -6,7 +6,7 @@
     using System.Text;
     using Nancy;
     using Nancy.ModelBinding;
-    using Stumps.Proxy;
+    using Stumps.Server;
     using Stumps.Web.Models;
 
     /// <summary>
@@ -18,15 +18,15 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Stumps.Web.ApiModules.StumpsModule"/> class.
         /// </summary>
-        /// <param name="proxyHost">The <see cref="T:Stumps.Proxy.IProxyHost"/> used by the instance.</param>
-        /// <exception cref="System.ArgumentNullException"><paramref name="proxyHost"/> is <c>null</c>.</exception>
+        /// <param name="serverHost">The <see cref="T:Stumps.Server.IStumpsHost"/> used by the instance.</param>
+        /// <exception cref="System.ArgumentNullException"><paramref name="serverHost"/> is <c>null</c>.</exception>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Assumed to be handled by Nancy")]
-        public StumpsModule(IProxyHost proxyHost)
+        public StumpsModule(IStumpsHost serverHost)
         {
 
-            if (proxyHost == null)
+            if (serverHost == null)
             {
-                throw new ArgumentNullException("proxyHost");
+                throw new ArgumentNullException("serverHost");
             }
 
             Get["/api/proxy/{proxyId}/stumps/{stumpId}"] = _ =>
@@ -34,8 +34,8 @@
 
                 var proxyId = (string)_.proxyId;
                 var stumpId = (string)_.stumpId;
-                var environment = proxyHost.FindProxy(proxyId);
-                var stump = environment.Stumps.FindStump(stumpId);
+                var server = serverHost.FindServer(proxyId);
+                var stump = server.FindStump(stumpId);
 
                 var model = CreateStumpModel(stump, proxyId, stumpId);
 
@@ -47,36 +47,36 @@
             {
                 var proxyId = (string)_.proxyId;
                 var stumpId = (string)_.stumpId;
-                var environment = proxyHost.FindProxy(proxyId);
-                var stump = environment.Stumps.FindStump(stumpId);
+                var server = serverHost.FindServer(proxyId);
+                var stump = server.FindStump(stumpId);
 
-                var ms = new System.IO.MemoryStream(stump.Contract.MatchBody);
+                var ms = new System.IO.MemoryStream(stump.MatchBody);
 
-                return Response.FromStream(ms, stump.Contract.MatchBodyContentType);
+                return Response.FromStream(ms, stump.MatchBodyContentType);
             };
 
             Get["/api/proxy/{proxyId}/stumps/{stumpId}/response"] = _ =>
             {
                 var proxyId = (string)_.proxyId;
                 var stumpId = (string)_.stumpId;
-                var environment = proxyHost.FindProxy(proxyId);
-                var stump = environment.Stumps.FindStump(stumpId);
+                var server = serverHost.FindServer(proxyId);
+                var stump = server.FindStump(stumpId);
 
-                var ms = new System.IO.MemoryStream(stump.Contract.Response.Body);
+                var ms = new System.IO.MemoryStream(stump.Response.GetBody());
 
-                return Response.FromStream(ms, stump.Contract.Response.BodyContentType);
+                return Response.FromStream(ms, stump.Response.Headers["Content-Type"]);
             };
 
             Post["/api/proxy/{proxyId}/stumps"] = _ =>
             {
 
                 var proxyId = (string)_.proxyId;
-                var environment = proxyHost.FindProxy(proxyId);
+                var server = serverHost.FindServer(proxyId);
 
                 var model = this.Bind<StumpModel>();
-                var contract = CreateContractFromRecord(model, environment);
+                var contract = CreateContractFromRecord(model, server);
 
-                environment.Stumps.CreateStump(contract);
+                server.CreateStump(contract);
 
                 return HttpStatusCode.OK;
 
@@ -87,29 +87,29 @@
 
                 var proxyId = (string)_.proxyId;
 
-                var environment = proxyHost.FindProxy(proxyId);
+                var server = serverHost.FindServer(proxyId);
 
                 var model = this.Bind<StumpModel>();
-                var contract = CreateContractFromStump(model, environment);
+                var contract = CreateContractFromStump(model, server);
 
-                if (environment.Stumps.FindStump(contract.StumpId).Equals(null))
+                if (server.FindStump(contract.StumpId).Equals(null))
                 {
                     throw new ArgumentException("Stump name cannot be null.");
                 }
 
-                if (environment.Stumps.StumpNameExists(contract.StumpName))
+                if (server.StumpNameExists(contract.StumpName))
                 {
-                    var oldStump = environment.Stumps.FindStump(contract.StumpId);
-                    if (!oldStump.Contract.StumpName.Equals(contract.StumpName, StringComparison.OrdinalIgnoreCase))
+                    var oldStump = server.FindStump(contract.StumpId);
+                    if (!oldStump.StumpName.Equals(contract.StumpName, StringComparison.OrdinalIgnoreCase))
                     {
                         throw new ArgumentException("Attempting to create a stump with a name that already exists.");
                     }
                 }
 
-                environment.Stumps.DeleteStump(model.StumpId);
-                environment.Stumps.CreateStump(contract);
+                server.DeleteStump(model.StumpId);
+                server.CreateStump(contract);
 
-                var stump = environment.Stumps.FindStump(model.StumpId);
+                var stump = server.FindStump(model.StumpId);
 
                 var returnModel = CreateStumpModel(stump, proxyId, model.StumpId);
 
@@ -122,8 +122,8 @@
 
                 var proxyId = (string)_.proxyId;
                 var stumpId = (string)_.stumpId;
-                var environment = proxyHost.FindProxy(proxyId);
-                environment.Stumps.DeleteStump(stumpId);
+                var server = serverHost.FindServer(proxyId);
+                server.DeleteStump(stumpId);
 
                 return HttpStatusCode.OK;
 
@@ -134,9 +134,9 @@
 
                 var proxyId = (string)_.proxyId;
                 var stumpName = (string)_.stumpName;
-                var environment = proxyHost.FindProxy(proxyId);
+                var server = serverHost.FindServer(proxyId);
 
-                var isStumpNameAvailable = !environment.Stumps.StumpNameExists(stumpName);
+                var isStumpNameAvailable = !server.StumpNameExists(stumpName);
 
                 var model = new
                 {
@@ -150,21 +150,36 @@
         }
 
         /// <summary>
+        /// Copies an array of header models to a header dictionary.
+        /// </summary>
+        /// <param name="models">The source header models.</param>
+        /// <param name="dict">The target header dictionary.</param>
+        private void CopyHeaderModelToDictionary(IEnumerable<HeaderModel> models, IHeaderDictionary dict)
+        {
+            dict.Clear();
+
+            foreach (var model in models)
+            {
+                dict.AddOrUpdate(model.Name, model.Value);
+            }
+
+        }
+
+        /// <summary>
         ///     Creates a Stump contract from a recorded web request.
         /// </summary>
         /// <param name="model">The <see cref="T:Stumps.Web.Models.StumpModel"/> used to create the contract.</param>
-        /// <param name="environment">The <see cref="T:Stumps.Proxy.ProxyEnvironment" /> that contains the recorded web request.</param>
-        /// <returns>A <see cref="T:Stumps.Proxy.StumpContract" /> created from a recorded web request.</returns>
-        private StumpContract CreateContractFromRecord(StumpModel model, ProxyEnvironment environment)
+        /// <param name="server">The <see cref="T:Stumps.Server.StumpsServerInstance" /> that contains the recorded web request.</param>
+        /// <returns>A <see cref="T:Stumps.Server.StumpContract" /> created from a recorded web request.</returns>
+        private StumpContract CreateContractFromRecord(StumpModel model, StumpsServerInstance server)
         {
 
-            var record = environment.Recordings.FindAt(model.RecordId);
+            var record = server.Recordings.FindAt(model.RecordId);
 
             var contract = new StumpContract
             {
                 HttpMethod = model.RequestHttpMethod,
                 RawUrl = model.RequestUrl,
-                Response = new RecordedResponse(),
                 StumpId = string.Empty,
                 StumpName = model.Name,
                 StumpCategory = "Uncategorized"
@@ -211,30 +226,28 @@
             {
 
                 case BodySource.Modified:
-                    contract.Response.Body = System.Text.Encoding.UTF8.GetBytes(model.ResponseBodyModification);
-                    contract.Response.BodyContentType = record.Response.BodyContentType;
+                    contract.Response.ClearBody();
+                    contract.Response.AppendToBody(Encoding.UTF8.GetBytes(model.ResponseBodyModification));
                     contract.Response.BodyIsImage = false;
                     contract.Response.BodyIsText = true;
                     break;
 
                 case BodySource.NoBody:
-                    contract.Response.Body = new byte[]
-                    {
-                    };
+                    contract.Response.ClearBody();
                     contract.Response.BodyIsImage = false;
                     contract.Response.BodyIsText = false;
                     break;
 
                 case BodySource.Origin:
-                    contract.Response.Body = record.Response.Body;
-                    contract.Response.BodyContentType = record.Response.BodyContentType;
+                    contract.Response.ClearBody();
+                    contract.Response.AppendToBody(record.Response.Body);
                     contract.Response.BodyIsImage = record.Response.BodyIsImage;
                     contract.Response.BodyIsText = record.Response.BodyIsText;
                     break;
 
             }
 
-            contract.Response.Headers = CreateHeader(model.ResponseHeaders);
+            CopyHeaderModelToDictionary(model.ResponseHeaders, contract.Response.Headers);
             contract.Response.StatusCode = model.ResponseStatusCode;
             contract.Response.StatusDescription = model.ResponseStatusDescription;
 
@@ -246,12 +259,12 @@
         ///     Creates a Stump contract from an existing Stump.
         /// </summary>
         /// <param name="model">The <see cref="T:Stumps.Web.Models.StumpModel"/> used to create the contract.</param>
-        /// <param name="environment">The <see cref="T:Stumps.Proxy.ProxyEnvironment" /> that contains the Stump.</param>
-        /// <returns>A <see cref="T:Stumps.Proxy.StumpContract" /> created from an existing Stump.</returns>
-        private StumpContract CreateContractFromStump(StumpModel model, ProxyEnvironment environment)
+        /// <param name="server">The <see cref="T:Stumps.Server.StumpsServerInstance" /> that contains the Stump.</param>
+        /// <returns>A <see cref="T:Stumps.Server.StumpContract" /> created from an existing Stump.</returns>
+        private StumpContract CreateContractFromStump(StumpModel model, StumpsServerInstance server)
         {
 
-            var originalContract = environment.Stumps.FindStump(model.StumpId).Contract;
+            var originalContract = server.FindStump(model.StumpId);
 
             var contract = new StumpContract
             {
@@ -261,7 +274,6 @@
                 MatchHttpMethod = model.RequestHttpMethodMatch,
                 MatchRawUrl = model.RequestUrlMatch,
                 RawUrl = model.RequestUrl,
-                Response = new RecordedResponse(),
                 StumpId = model.StumpId,
                 StumpName = model.Name,
                 StumpCategory = "Uncategorized"
@@ -302,30 +314,28 @@
             {
 
                 case BodySource.Modified:
-                    contract.Response.Body = System.Text.Encoding.UTF8.GetBytes(model.ResponseBodyModification);
-                    contract.Response.BodyContentType = originalContract.Response.BodyContentType;
+                    contract.Response.ClearBody();
+                    contract.Response.AppendToBody(Encoding.UTF8.GetBytes(model.ResponseBodyModification));
                     contract.Response.BodyIsImage = false;
                     contract.Response.BodyIsText = true;
                     break;
 
                 case BodySource.NoBody:
-                    contract.Response.Body = new byte[]
-                    {
-                    };
+                    contract.Response.ClearBody();
                     contract.Response.BodyIsImage = false;
                     contract.Response.BodyIsText = false;
                     break;
 
                 case BodySource.Origin:
-                    contract.Response.Body = originalContract.Response.Body;
-                    contract.Response.BodyContentType = originalContract.Response.BodyContentType;
+                    contract.Response.ClearBody();
+                    contract.Response.AppendToBody(originalContract.Response.GetBody());
                     contract.Response.BodyIsImage = originalContract.Response.BodyIsImage;
                     contract.Response.BodyIsText = originalContract.Response.BodyIsText;
                     break;
 
             }
 
-            contract.Response.Headers = CreateHeader(model.ResponseHeaders);
+            CopyHeaderModelToDictionary(model.ResponseHeaders, contract.Response.Headers);
             contract.Response.StatusCode = model.ResponseStatusCode;
             contract.Response.StatusDescription = model.ResponseStatusDescription;
 
@@ -335,10 +345,10 @@
 
         /// <summary>
         ///     Converts an enumerable list of <see cref="T:Stumps.Web.Models.HeaderModel"/> objects into an 
-        ///     array of <see cref="T:Stumps.Proxy.HttpHeader"/> objects.
+        ///     array of <see cref="T:Stumps.Server.HttpHeader"/> objects.
         /// </summary>
         /// <param name="headers">The enumerable list of <see cref="T:Stumps.Web.Models.HeaderModel"/> objects.</param>
-        /// <returns>An array of <see cref="T:Stumps.Proxy.HttpHeader"/> objects.</returns>
+        /// <returns>An array of <see cref="T:Stumps.Server.HttpHeader"/> objects.</returns>
         private HttpHeader[] CreateHeader(IEnumerable<HeaderModel> headers)
         {
 
@@ -363,10 +373,10 @@
         }
 
         /// <summary>
-        ///     Converts an enumerable list of <see cref="T:Stumps.Proxy.HttpHeader"/> objects into an 
+        ///     Converts an enumerable list of <see cref="T:Stumps.Server.HttpHeader"/> objects into an 
         ///     array of <see cref="T:Stumps.Web.Models.HeaderModel"/> objects.
         /// </summary>
-        /// <param name="headers">The enumerable list of <see cref="T:Stumps.Proxy.HttpHeader"/> objects.</param>
+        /// <param name="headers">The enumerable list of <see cref="T:Stumps.Server.HttpHeader"/> objects.</param>
         /// <returns>An array of <see cref="T:Stumps.Web.Models.HeaderModel"/> objects.</returns>
         private HeaderModel[] CreateHeaderModel(IEnumerable<HttpHeader> headers)
         {
@@ -392,69 +402,92 @@
         }
 
         /// <summary>
+        ///     Converts a header dictionary into an array of <see cref="T:Stumps.Web.Models.HeaderModel"/> objects.
+        /// </summary>
+        /// <param name="dictionary">The source <see cref="T:Stumps.IHeaderDictionary"/> dictionary.</param>
+        /// <returns>An array of <see cref="T:Stumps.Web.Models.HeaderModel"/> objects.</returns>
+        private HeaderModel[] CreateHeaderModel(IHeaderDictionary dictionary)
+        {
+            var headerList = new List<HeaderModel>();
+
+            foreach (var name in dictionary.HeaderNames)
+            {
+                var model = new HeaderModel()
+                {
+                    Name = name,
+                    Value = dictionary[name]
+                };
+
+                headerList.Add(model);
+            }
+
+            return headerList.ToArray();
+        }
+
+        /// <summary>
         ///     Creates a <see cref="T:Stumps.Web.Models.StumpModel"/> from an existing Stump.
         /// </summary>
-        /// <param name="stump">The <see cref="T:Stumps.Proxy.Stump"/> used to create the model.</param>
-        /// <param name="proxyId">The unique identifier for the proxy the Stump belongs to.</param>
+        /// <param name="stump">The <see cref="T:Stumps.Server.StumpContract"/> used to create the model.</param>
+        /// <param name="serverId">The unique identifier for the proxy the Stump belongs to.</param>
         /// <param name="stumpId">The unique identifier of the Stump.</param>
         /// <returns>
         ///     A new <see cref="T:Stumps.Web.Models.StumpModel"/> object.
         /// </returns>
-        private StumpModel CreateStumpModel(Stump stump, string proxyId, string stumpId)
+        private StumpModel CreateStumpModel(StumpContract stump, string serverId, string stumpId)
         {
 
             var bodyMatch = BodyMatch.IsAnything;
 
-            if (stump.Contract.MatchBodyMaximumLength == 0 && stump.Contract.MatchBodyMinimumLength == 0)
+            if (stump.MatchBodyMaximumLength == 0 && stump.MatchBodyMinimumLength == 0)
             {
                 bodyMatch = BodyMatch.IsBlank;
             }
-            else if (stump.Contract.MatchBodyMaximumLength == int.MaxValue && stump.Contract.MatchBodyMinimumLength == 0)
+            else if (stump.MatchBodyMaximumLength == int.MaxValue && stump.MatchBodyMinimumLength == 0)
             {
                 bodyMatch = BodyMatch.IsNotBlank;
             }
-            else if (stump.Contract.MatchBodyText != null && stump.Contract.MatchBodyText.Length > 0 &&
-                     stump.Contract.MatchBody != null && stump.Contract.MatchBody.Length > 0)
+            else if (stump.MatchBodyText != null && stump.MatchBodyText.Length > 0 &&
+                     stump.MatchBody != null && stump.MatchBody.Length > 0)
             {
                 bodyMatch = BodyMatch.ContainsText;
             }
-            else if (stump.Contract.MatchBody != null && stump.Contract.MatchBody.Length > 0)
+            else if (stump.MatchBody != null && stump.MatchBody.Length > 0)
             {
                 bodyMatch = BodyMatch.ExactMatch;
             }
 
             var model = new StumpModel
             {
-                Name = stump.Contract.StumpName,
+                Name = stump.StumpName,
                 Origin = StumpOrigin.ExistingStump,
                 RecordId = -1,
                 RequestBody =
-                    stump.Contract.MatchBodyIsText ? Encoding.UTF8.GetString(stump.Contract.MatchBody) : string.Empty,
-                RequestBodyIsImage = stump.Contract.MatchBodyIsImage,
-                RequestBodyIsText = stump.Contract.MatchBodyIsText,
-                RequestBodyLength = stump.Contract.MatchBody != null ? stump.Contract.MatchBody.Length : 0,
+                    stump.MatchBodyIsText ? Encoding.UTF8.GetString(stump.MatchBody) : string.Empty,
+                RequestBodyIsImage = stump.MatchBodyIsImage,
+                RequestBodyIsText = stump.MatchBodyIsText,
+                RequestBodyLength = stump.MatchBody != null ? stump.MatchBody.Length : 0,
                 RequestBodyMatch = bodyMatch,
-                RequestBodyMatchValues = stump.Contract.MatchBodyText,
-                RequestBodyUrl = "/api/proxy/" + proxyId + "/stumps/" + stumpId + "/request",
-                RequestHeaderMatch = CreateHeaderModel(stump.Contract.MatchHeaders),
-                RequestHttpMethod = stump.Contract.HttpMethod,
-                RequestHttpMethodMatch = stump.Contract.MatchHttpMethod,
-                RequestUrl = stump.Contract.RawUrl,
-                RequestUrlMatch = stump.Contract.MatchRawUrl,
+                RequestBodyMatchValues = stump.MatchBodyText,
+                RequestBodyUrl = "/api/proxy/" + serverId + "/stumps/" + stumpId + "/request",
+                RequestHeaderMatch = CreateHeaderModel(stump.MatchHeaders),
+                RequestHttpMethod = stump.HttpMethod,
+                RequestHttpMethodMatch = stump.MatchHttpMethod,
+                RequestUrl = stump.RawUrl,
+                RequestUrlMatch = stump.MatchRawUrl,
                 ResponseBody =
-                    stump.Contract.Response.BodyIsText
-                        ? Encoding.UTF8.GetString(stump.Contract.Response.Body)
+                    stump.Response.BodyIsText
+                        ? Encoding.UTF8.GetString(stump.Response.GetBody())
                         : string.Empty,
-                ResponseBodyIsImage = stump.Contract.Response.BodyIsImage,
-                ResponseBodyIsText = stump.Contract.Response.BodyIsText,
-                ResponseBodyLength = stump.Contract.Response.Body != null ? stump.Contract.Response.Body.Length : 0,
+                ResponseBodyIsImage = stump.Response.BodyIsImage,
+                ResponseBodyIsText = stump.Response.BodyIsText,
+                ResponseBodyLength = stump.Response.BodyLength,
                 ResponseBodyModification = string.Empty,
                 ResponseBodySource = BodySource.Origin,
-                ResponseBodyUrl = "/api/proxy/" + proxyId + "/stumps/" + stumpId + "/response",
-                ResponseHeaders = CreateHeaderModel(stump.Contract.Response.Headers),
-                ResponseStatusCode = stump.Contract.Response.StatusCode,
-                ResponseStatusDescription = stump.Contract.Response.StatusDescription,
-                StumpId = stump.Contract.StumpId
+                ResponseBodyUrl = "/api/proxy/" + serverId + "/stumps/" + stumpId + "/response",
+                ResponseHeaders = CreateHeaderModel(stump.Response.Headers),
+                ResponseStatusCode = stump.Response.StatusCode,
+                ResponseStatusDescription = stump.Response.StatusDescription,
+                StumpId = stump.StumpId
             };
 
             return model;

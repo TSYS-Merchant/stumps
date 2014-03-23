@@ -5,7 +5,7 @@
     using System.Collections.Generic;
     using Nancy;
     using Nancy.ModelBinding;
-    using Stumps.Proxy;
+    using Stumps.Server;
     using Stumps.Web.Models;
 
     /// <summary>
@@ -17,37 +17,37 @@
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:Stumps.Web.ApiModules.ProxyServerModule"/> class.
         /// </summary>
-        /// <param name="proxyHost">The <see cref="T:Stumps.Proxy.IProxyHost"/> used by the instance.</param>
-        /// <exception cref="System.ArgumentNullException"><paramref name="proxyHost"/> is <c>null</c>.</exception>
-        public ProxyServerModule(IProxyHost proxyHost) : base("/api")
+        /// <param name="stumpsHost">The <see cref="T:Stumps.Server.IStumpsHost"/> used by the instance.</param>
+        /// <exception cref="System.ArgumentNullException"><paramref name="stumpsHost"/> is <c>null</c>.</exception>
+        public ProxyServerModule(IStumpsHost stumpsHost) : base("/api")
         {
 
-            if (proxyHost == null)
+            if (stumpsHost == null)
             {
-                throw new ArgumentNullException("proxyHost");
+                throw new ArgumentNullException("stumpsHost");
             }
 
             Get["/proxy"] = _ =>
             {
 
                 var modelList = new List<ProxyServerDetailsModel>();
-                var environmentList = proxyHost.FindAll();
+                var serverList = stumpsHost.FindAll();
 
-                foreach (var environment in environmentList)
+                foreach (var server in serverList)
                 {
                     var model = new ProxyServerDetailsModel
                     {
-                        AutoStart = environment.AutoStart,
-                        ExternalHostName = environment.ExternalHostName,
-                        IsRunning = environment.IsRunning,
-                        Port = environment.Port,
-                        RecordCount = environment.Recordings.Count,
-                        RecordTraffic = environment.RecordTraffic,
-                        RequestsServed = environment.RequestsServed,
-                        StumpsCount = environment.Stumps.Count,
-                        StumpsServed = environment.StumpsServed,
-                        ProxyId = environment.ProxyId,
-                        UseSsl = environment.UseSsl
+                        AutoStart = server.AutoStart,
+                        ExternalHostName = server.ExternalHostName,
+                        IsRunning = server.IsRunning,
+                        Port = server.ListeningPort,
+                        RecordCount = server.Recordings.Count,
+                        RecordTraffic = server.RecordTraffic,
+                        RequestsServed = server.TotalRequestsServed,
+                        StumpsCount = server.StumpCount,
+                        StumpsServed = server.RequestsServedWithStump,
+                        ProxyId = server.ServerId,
+                        UseSsl = server.UseSsl
                     };
 
                     modelList.Add(model);
@@ -61,16 +61,16 @@
             {
                 var model = this.Bind<ProxyServerModel>();
 
-                proxyHost.CreateProxy(model.ExternalHostName, model.Port, model.UseSsl, model.AutoStart);
+                stumpsHost.CreateServerInstance(model.ExternalHostName, model.Port, model.UseSsl, model.AutoStart);
 
                 return HttpStatusCode.Created;
             };
 
-            Delete["/proxy/{proxyId}"] = _ =>
+            Delete["/proxy/{serverId}"] = _ =>
             {
-                var proxyId = (string)_.proxyId;
+                var serverId = (string)_.serverId;
 
-                proxyHost.DeleteProxy(proxyId);
+                stumpsHost.DeleteServerInstance(serverId);
 
                 return HttpStatusCode.OK;
             };

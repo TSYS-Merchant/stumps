@@ -4,7 +4,7 @@
     using System;
     using Nancy;
     using Nancy.ModelBinding;
-    using Stumps.Proxy;
+    using Stumps.Server;
     using Stumps.Web.Models;
 
     /// <summary>
@@ -16,46 +16,46 @@
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:Stumps.Web.ApiModules.ProxyServerStatusModule"/> class.
         /// </summary>
-        /// <param name="proxyHost">The <see cref="T:Stumps.Proxy.IProxyHost"/> used by the instance.</param>
-        /// <exception cref="System.ArgumentNullException"><paramref name="proxyHost"/> is <c>null</c>.</exception>
-        public ProxyServerStatusModule(IProxyHost proxyHost)
+        /// <param name="stumpsHost">The <see cref="T:Stumps.Server.IStumpsHost"/> used by the instance.</param>
+        /// <exception cref="System.ArgumentNullException"><paramref name="stumpsHost"/> is <c>null</c>.</exception>
+        public ProxyServerStatusModule(IStumpsHost stumpsHost)
         {
 
-            if (proxyHost == null)
+            if (stumpsHost == null)
             {
-                throw new ArgumentNullException("proxyHost");
+                throw new ArgumentNullException("stumpsHost");
             }
 
-            Get["/api/proxy/{proxyId}/status"] = _ =>
+            Get["/api/proxy/{serverId}/status"] = _ =>
             {
 
-                var proxyId = (string)_.proxyId;
-                var environment = proxyHost.FindProxy(proxyId);
+                var serverId = (string)_.serverId;
+                var server = stumpsHost.FindServer(serverId);
 
                 var model = new RunningStatusModel
                 {
-                    IsRunning = environment.IsRunning
+                    IsRunning = server.IsRunning
                 };
 
                 return Response.AsJson(model);
 
             };
 
-            Put["/api/proxy/{proxyId}/status"] = _ =>
+            Put["/api/proxy/{serverId}/status"] = _ =>
             {
 
-                var proxyId = (string)_.proxyId;
-                var environment = proxyHost.FindProxy(proxyId);
+                var serverId = (string)_.serverId;
+                var environment = stumpsHost.FindServer(serverId);
 
                 var model = this.Bind<RunningStatusModel>();
 
                 if (model.IsRunning && !environment.IsRunning)
                 {
-                    proxyHost.Start(proxyId);
+                    stumpsHost.Start(serverId);
                 }
                 else if (!model.IsRunning && environment.IsRunning)
                 {
-                    proxyHost.Shutdown(proxyId);
+                    stumpsHost.Shutdown(serverId);
                 }
 
                 return Response.AsJson(model);

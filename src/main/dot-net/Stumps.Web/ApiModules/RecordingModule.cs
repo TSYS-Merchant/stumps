@@ -5,7 +5,7 @@
     using System.Collections.Generic;
     using Nancy;
     using Nancy.ModelBinding;
-    using Stumps.Proxy;
+    using Stumps.Server;
     using Stumps.Web.Models;
 
     /// <summary>
@@ -17,21 +17,21 @@
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:Stumps.Web.ApiModules.RecordingModule"/> class.
         /// </summary>
-        /// <param name="proxyHost">The <see cref="T:Stumps.Proxy.IProxyHost"/> used by the instance.</param>
-        /// <exception cref="System.ArgumentNullException"><paramref name="proxyHost"/> is <c>null</c>.</exception>
+        /// <param name="stumpsHost">The <see cref="T:Stumps.Server.IStumpsHost"/> used by the instance.</param>
+        /// <exception cref="System.ArgumentNullException"><paramref name="stumpsHost"/> is <c>null</c>.</exception>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Assumed to be handled by Nancy")]
-        public RecordingModule(IProxyHost proxyHost)
+        public RecordingModule(IStumpsHost stumpsHost)
         {
 
-            if (proxyHost == null)
+            if (stumpsHost == null)
             {
-                throw new ArgumentNullException("proxyHost");
+                throw new ArgumentNullException("stumpsHost");
             }
 
-            Get["/api/proxy/{proxyId}/recording"] = _ =>
+            Get["/api/proxy/{serverId}/recording"] = _ =>
             {
-                var proxyId = (string)_.proxyId;
-                var environment = proxyHost.FindProxy(proxyId);
+                var serverId = (string)_.serverId;
+                var environment = stumpsHost.FindServer(serverId);
                 var afterIndex = -1;
 
                 if (Request.Query.after != null)
@@ -65,13 +65,13 @@
                 return Response.AsJson(modelList);
             };
 
-            Get["/api/proxy/{proxyId}/recording/{recordIndex}"] = _ =>
+            Get["/api/proxy/{serverId}/recording/{recordIndex}"] = _ =>
             {
-                var proxyId = (string)_.proxyId;
+                var serverId = (string)_.serverId;
                 var recordIndex = (int)_.recordIndex;
-                var environment = proxyHost.FindProxy(proxyId);
+                var server = stumpsHost.FindServer(serverId);
 
-                var record = environment.Recordings.FindAt(recordIndex);
+                var record = server.Recordings.FindAt(recordIndex);
 
                 var model = new RecordingDetailsModel
                 {
@@ -80,7 +80,7 @@
                     RequestBodyIsImage = record.Request.BodyIsImage,
                     RequestBodyIsText = record.Request.BodyIsText,
                     RequestBodyLength = record.Request.Body != null ? record.Request.Body.Length : 0,
-                    RequestBodyUrl = "/api/proxy/" + proxyId + "/recording/" + recordIndex + "/request",
+                    RequestBodyUrl = "/api/proxy/" + serverId + "/recording/" + recordIndex + "/request",
                     RequestHttpMethod = record.Request.HttpMethod,
                     RequestRawUrl = record.Request.RawUrl,
                     RequestDate = record.RequestDate,
@@ -88,7 +88,7 @@
                     ResponseBodyIsImage = record.Response.BodyIsImage,
                     ResponseBodyIsText = record.Response.BodyIsText,
                     ResponseBodyLength = record.Response.Body != null ? record.Response.Body.Length : 0,
-                    ResponseBodyUrl = "/api/proxy/" + proxyId + "/recording/" + recordIndex + "/response",
+                    ResponseBodyUrl = "/api/proxy/" + serverId + "/recording/" + recordIndex + "/response",
                     ResponseStatusCode = record.Response.StatusCode,
                     ResponseStatusDescription = record.Response.StatusDescription
                 };
@@ -106,11 +106,11 @@
                 return Response.AsJson(model);
             };
 
-            Get["/api/proxy/{proxyId}/recording/{recordIndex}/request"] = _ =>
+            Get["/api/proxy/{serverId}/recording/{recordIndex}/request"] = _ =>
             {
-                var proxyId = (string)_.proxyId;
+                var serverId = (string)_.serverId;
                 var recordIndex = (int)_.recordIndex;
-                var environment = proxyHost.FindProxy(proxyId);
+                var environment = stumpsHost.FindServer(serverId);
 
                 var record = environment.Recordings.FindAt(recordIndex);
 
@@ -119,27 +119,27 @@
                 return Response.FromStream(ms, record.Request.BodyContentType);
             };
 
-            Get["/api/proxy/{proxyId}/recording/{recordIndex}/response"] = _ =>
+            Get["/api/proxy/{serverId}/recording/{recordIndex}/response"] = _ =>
             {
-                var proxyId = (string)_.proxyId;
+                var serverId = (string)_.serverId;
                 var recordIndex = (int)_.recordIndex;
-                var environment = proxyHost.FindProxy(proxyId);
+                var server = stumpsHost.FindServer(serverId);
 
-                var record = environment.Recordings.FindAt(recordIndex);
+                var record = server.Recordings.FindAt(recordIndex);
 
                 var ms = new System.IO.MemoryStream(record.Response.Body);
 
                 return Response.FromStream(ms, record.Response.BodyContentType);
             };
 
-            Get["/api/proxy/{proxyId}/recording/status"] = _ =>
+            Get["/api/proxy/{serverId}/recording/status"] = _ =>
             {
-                var proxyId = (string)_.proxyId;
-                var environment = proxyHost.FindProxy(proxyId);
+                var serverId = (string)_.serverId;
+                var server = stumpsHost.FindServer(serverId);
 
                 var model = new RecordStatusModel
                 {
-                    RecordTraffic = environment.RecordTraffic
+                    RecordTraffic = server.RecordTraffic
                 };
 
                 return Response.AsJson(model);
@@ -147,17 +147,17 @@
 
             Put["/api/proxy/{proxyId}/recording/status"] = _ =>
             {
-                var proxyId = (string)_.proxyId;
-                var environment = proxyHost.FindProxy(proxyId);
+                var serverId = (string)_.serverId;
+                var server = stumpsHost.FindServer(serverId);
 
                 var model = this.Bind<RecordStatusModel>();
 
                 if (model.RecordTraffic)
                 {
-                    environment.Recordings.Clear();
+                    server.Recordings.Clear();
                 }
 
-                environment.RecordTraffic = model.RecordTraffic;
+                server.RecordTraffic = model.RecordTraffic;
 
                 return Response.AsJson(model);
             };
@@ -165,9 +165,9 @@
         }
 
         /// <summary>
-        ///     Generates the HTTP headers used by a <see cref="T:Stumps.Proxy.IRecordedContextPart"/>.
+        ///     Generates the HTTP headers used by a <see cref="T:Stumps.Server.IRecordedContextPart"/>.
         /// </summary>
-        /// <param name="part">The <see cref="T:Stumps.Proxy.IRecordedContextPart"/> used to generate headers.</param>
+        /// <param name="part">The <see cref="T:Stumps.Server.IRecordedContextPart"/> used to generate headers.</param>
         /// <returns>An array of <see cref="Stumps.Web.Models.HeaderModel"/> objects.</returns>
         private HeaderModel[] GenerateHeaders(IRecordedContextPart part)
         {
