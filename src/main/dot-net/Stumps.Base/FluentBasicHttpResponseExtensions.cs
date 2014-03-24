@@ -1,6 +1,9 @@
 namespace Stumps
 {
 
+    using System.IO;
+    using System.Web;
+
     /// <summary>
     ///     A class that provides a set of Fluent extension methods to <see cref="T:Stumps.BasicHttpResponse"/> objects.
     /// </summary>
@@ -18,6 +21,27 @@ namespace Stumps
             response.ClearBody();
             response.AppendToBody(buffer);
             return response;
+        }
+
+        /// <summary>
+        ///     Specifies the body returned as part of the HTTP response. 
+        /// </summary>
+        /// <param name="response">The <see cref="T:Stumps.BasicHttpResponse"/> that returns in response to an HTTP request.</param>
+        /// <param name="path">The path to the file that contains the HTTP response.</param>
+        /// <returns>The calling <see cref="T:Stumps.BasicHttpResponse"/>.</returns>
+        public static BasicHttpResponse WithBodyFromFile(this BasicHttpResponse response, string path)
+        {
+
+            var buffer = File.ReadAllBytes(path);
+
+            response.ClearBody();
+            response.AppendToBody(buffer);
+
+            var mimeType = MimeMapping.GetMimeMapping(path);
+            response.Headers["Content-Type"] = mimeType;
+
+            return response;
+
         }
 
         /// <summary>

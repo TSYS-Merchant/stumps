@@ -253,6 +253,7 @@
         public Stump AddNewStump(string stumpId)
         {
             var stump = new Stump(stumpId);
+            _stumpsManager.AddStump(stump);
             return stump;
         }
 
