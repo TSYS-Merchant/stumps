@@ -110,14 +110,14 @@ namespace Stumps
         Stump FindStump(string stumpId);
 
         /// <summary>
+        ///     Stops this instance of the Stumps server.
+        /// </summary>
+        void Shutdown();
+
+        /// <summary>
         ///     Starts this instance of the Stumps server.
         /// </summary>
         void Start();
-
-        /// <summary>
-        ///     Stops this instance of the Stumps server.
-        /// </summary>
-        void Stop();
 
     }
 

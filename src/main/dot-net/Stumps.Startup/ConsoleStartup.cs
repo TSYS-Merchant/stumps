@@ -24,7 +24,7 @@
                 Console.ReadLine();
 
                 this.MessageWriter.Information(StartupResources.ShutdownStarting);
-                server.Stop();
+                server.Shutdown();
                 this.MessageWriter.Information(StartupResources.ShutdownComplete);
             }
 

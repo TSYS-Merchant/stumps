@@ -374,6 +374,19 @@
         }
 
         /// <summary>
+        ///     Stops this instance of the Stumps server.
+        /// </summary>
+        public void Shutdown()
+        {
+
+            if (_server != null)
+            {
+                _server.Shutdown();
+            }
+
+        }
+
+        /// <summary>
         ///     Starts this instance of the Stumps server.
         /// </summary>
         public void Start()
@@ -382,19 +395,6 @@
             if (_server != null)
             {
                 _server.Start();
-            }
-
-        }
-
-        /// <summary>
-        ///     Stops this instance of the Stumps server.
-        /// </summary>
-        public void Stop()
-        {
-
-            if (_server != null)
-            {
-                _server.Stop();
             }
 
         }
@@ -413,7 +413,7 @@
 
                 if (this.IsRunning)
                 {
-                    this.Stop();
+                    this.Shutdown();
                 }
 
                 if (_server != null)

@@ -227,7 +227,7 @@
 
                 if (_started)
                 {
-                    this.Stop();
+                    this.Shutdown();
                 }
 
                 if (_stumpsManager != null)
@@ -237,6 +237,30 @@
             }
 
             GC.SuppressFinalize(this);
+
+        }
+
+        /// <summary>
+        ///     Stops this instance of the Stumps server.
+        /// </summary>
+        public void Shutdown()
+        {
+
+            lock (_syncRoot)
+            {
+
+                if (!_started)
+                {
+                    return;
+                }
+
+                _started = false;
+                _server.StopListening();
+
+                _server.Dispose();
+                _server = null;
+
+            }
 
         }
 
@@ -284,30 +308,6 @@
                 _server.RequestFinishing += Server_RequestFinishing;
 
                 _server.StartListening();
-
-            }
-
-        }
-
-        /// <summary>
-        ///     Stops this instance of the Stumps server.
-        /// </summary>
-        public void Stop()
-        {
-
-            lock (_syncRoot)
-            {
-
-                if (!_started)
-                {
-                    return;
-                }
-
-                _started = false;
-                _server.StopListening();
-
-                _server.Dispose();
-                _server = null;
 
             }
 

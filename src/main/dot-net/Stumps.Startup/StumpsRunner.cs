@@ -56,6 +56,31 @@
         public StumpsConfiguration Configuration { get; private set; }
 
         /// <summary>
+        ///     Stops all running proxy servers and the REST API.
+        /// </summary>
+        public void Shutdown()
+        {
+
+            lock (_syncRoot)
+            {
+                if (!_started)
+                {
+                    return;
+                }
+
+                _started = false;
+
+                _webServer.Shutdown();
+                _host.Shutdown();
+
+                _host.Dispose();
+                _webServer.Dispose();
+
+            }
+
+        }
+
+        /// <summary>
         ///     Starts all proxy servers that are set to automatically start and the REST API.
         /// </summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Objects are disposed when the modules are stopped.")]
@@ -96,31 +121,6 @@
         }
 
         /// <summary>
-        ///     Stops all running proxy servers and the REST API.
-        /// </summary>
-        public void Stop()
-        {
-
-            lock (_syncRoot)
-            {
-                if (!_started)
-                {
-                    return;
-                }
-
-                _started = false;
-
-                _webServer.Shutdown();
-                _host.Shutdown();
-
-                _host.Dispose();
-                _webServer.Dispose();
-
-            }
-
-        }
-
-        /// <summary>
         ///     Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
         /// </summary>
         public void Dispose()
@@ -133,7 +133,7 @@
 
                 if (_started)
                 {
-                    this.Stop();
+                    this.Shutdown();
                 }
 
             }

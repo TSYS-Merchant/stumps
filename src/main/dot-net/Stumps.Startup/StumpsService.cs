@@ -29,7 +29,7 @@
 
         protected override void OnStop()
         {
-            _server.Stop();
+            _server.Shutdown();
         }
 
     }

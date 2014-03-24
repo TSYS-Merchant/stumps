@@ -141,7 +141,7 @@
 
             if (_serverInstances.ContainsKey(serverId))
             {
-                _serverInstances[serverId].Stop();
+                _serverInstances[serverId].Shutdown();
                 _serverInstances[serverId].Dispose();
 
                 StumpsServerInstance server;
@@ -228,7 +228,7 @@
 
             foreach (var keyPair in _serverInstances)
             {
-                keyPair.Value.Stop();
+                keyPair.Value.Shutdown();
             }
 
         }
@@ -251,7 +251,7 @@
 
             if (server != null)
             {
-                server.Stop();
+                server.Shutdown();
             }
 
         }

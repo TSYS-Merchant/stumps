@@ -82,22 +82,6 @@
         }
 
         /// <summary>
-        ///     Starts the instance of the module.
-        /// </summary>
-        public void Start()
-        {
-            if (_started)
-            {
-                return;
-            }
-
-            _server.Start();
-            _logger.LogInfo("Web server started.");
-
-            _started = true;
-        }
-
-        /// <summary>
         ///     Shuts down the instance of the module.
         /// </summary>
         public void Shutdown()
@@ -111,6 +95,22 @@
             _logger.LogInfo("Web server shut down.");
 
             _started = false;
+        }
+
+        /// <summary>
+        ///     Starts the instance of the module.
+        /// </summary>
+        public void Start()
+        {
+            if (_started)
+            {
+                return;
+            }
+
+            _server.Start();
+            _logger.LogInfo("Web server started.");
+
+            _started = true;
         }
 
     }
