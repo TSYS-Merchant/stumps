@@ -16,18 +16,18 @@
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:Stumps.Rules.BodyContentRule"/> class.
         /// </summary>
-        /// <param name="textEvaluatorStrings">The array of strings representing text evaluation rules.</param>
-        public BodyContentRule(string[] textEvaluatorStrings)
+        /// <param name="textEvaluators">The array of strings representing text evaluation rules.</param>
+        public BodyContentRule(string[] textEvaluators)
         {
 
-            if (textEvaluatorStrings == null)
+            if (textEvaluators == null)
             {
                 return;
             }
 
-            _textMatchList = new List<TextContainsMatch>(textEvaluatorStrings.Length);
+            _textMatchList = new List<TextContainsMatch>(textEvaluators.Length);
 
-            foreach (var rule in textEvaluatorStrings)
+            foreach (var rule in textEvaluators)
             {
                 _textMatchList.Add(new TextContainsMatch(rule, false));
             }

@@ -56,9 +56,9 @@
             return _body;
         }
 
-        public void SetBody(byte[] bytes)
+        public void SetBody(byte[] buffer)
         {
-            _body = bytes;
+            _body = buffer;
         }
 
     }

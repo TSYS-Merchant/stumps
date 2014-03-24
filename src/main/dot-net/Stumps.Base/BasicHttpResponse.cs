@@ -88,21 +88,23 @@ namespace Stumps
         /// <summary>
         ///     Appends a byte array to the body of the HTTP response.
         /// </summary>
-        /// <param name="bytes">The bytes to append to the body of the response.</param>
-        public virtual void AppendToBody(byte[] bytes)
+        /// <param name="buffer">The bytes to append to the body of the response.</param>
+        public virtual void AppendToBody(byte[] buffer)
         {
-            if (bytes == null)
+
+            if (buffer == null)
             {
                 return;
             }
 
-            var newBodyLength = _bodyBuffer.Length + bytes.Length;
+            var newBodyLength = _bodyBuffer.Length + buffer.Length;
             var newBuffer = new byte[newBodyLength];
 
             Buffer.BlockCopy(_bodyBuffer, 0, newBuffer, 0, _bodyBuffer.Length);
-            Buffer.BlockCopy(bytes, 0, newBuffer, _bodyBuffer.Length, bytes.Length);
+            Buffer.BlockCopy(buffer, 0, newBuffer, _bodyBuffer.Length, buffer.Length);
 
             _bodyBuffer = newBuffer;
+
         }
 
         /// <summary>

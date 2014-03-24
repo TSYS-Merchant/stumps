@@ -34,8 +34,8 @@
         /// <summary>
         ///     Appends a byte array to the body of the HTTP response.
         /// </summary>
-        /// <param name="bytes">The bytes to append to the body of the response.</param>
-        void AppendToBody(byte[] bytes);
+        /// <param name="buffer">The bytes to append to the body of the response.</param>
+        void AppendToBody(byte[] buffer);
 
         /// <summary>
         ///     Clears the existing body of the HTTP response.

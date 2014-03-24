@@ -41,18 +41,18 @@
             get; set;
         }
 
-        public void AppendToBody(byte[] bytes)
+        public void AppendToBody(byte[] buffer)
         {
-            if (bytes == null)
+            if (buffer == null)
             {
                 return;
             }
 
-            var newBodyLength = _bodyBuffer.Length + bytes.Length;
+            var newBodyLength = _bodyBuffer.Length + buffer.Length;
             var newBuffer = new byte[newBodyLength];
 
             Buffer.BlockCopy(_bodyBuffer, 0, newBuffer, 0, _bodyBuffer.Length);
-            Buffer.BlockCopy(bytes, 0, newBuffer, _bodyBuffer.Length, bytes.Length);
+            Buffer.BlockCopy(buffer, 0, newBuffer, _bodyBuffer.Length, buffer.Length);
 
             _bodyBuffer = newBuffer;
         }
