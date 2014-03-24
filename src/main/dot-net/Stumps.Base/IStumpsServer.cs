@@ -68,6 +68,14 @@ namespace Stumps
         int StumpCount { get; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether to use stumps when serving requests.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> to use stumps when serving requests; otherwise, <c>false</c>.
+        /// </value>
+        bool StumpsEnabled { get; set; }
+
+        /// <summary>
         ///     Gets the total number of requests served.
         /// </summary>
         /// <value>
