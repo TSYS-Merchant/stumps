@@ -20,6 +20,17 @@ namespace Stumps
         event EventHandler<StumpsContextEventArgs> RequestReceived;
 
         /// <summary>
+        ///     Gets or sets the default response when a <see cref="T:Stumps.Stump"/> is not found, 
+        ///     and a remote HTTP server is not available.
+        /// </summary>
+        /// <value>
+        ///     The default response when a <see cref="T:Stumps.Stump"/> is not found, and a remote HTTP 
+        ///     server is not available.
+        /// </value>
+        /// <exception cref="System.InvalidOperationException">The value cannot be changed while the server is running.</exception>
+        FallbackResponse DefaultResponse { get; set; }
+        
+        /// <summary>
         ///     Gets a value indicating whether the server is running.
         /// </summary>
         /// <value>
@@ -33,15 +44,19 @@ namespace Stumps
         /// <value>
         ///     The port the HTTP server is using to listen for traffic.
         /// </value>
-        int ListeningPort { get; }
+        /// <exception cref="System.InvalidOperationException">The value cannot be changed while the server is running.</exception>
+        /// <exception cref="System.ArgumentOutOfRangeException">The value is not a valid TCP port.</exception>
+        int ListensOnPort { get; }
 
         /// <summary>
-        ///     Gets the external host that is contacted when a <see cref="T:Stumps.Stump"/> is unavailable to handle the incomming request.
+        ///     Gets the remote HTTP that is contacted when a <see cref="T:Stumps.Stump" /> is unavailable to handle the incomming request.
         /// </summary>
         /// <value>
-        ///     The external host that is contacted when a <see cref="T:Stumps.Stump"/> is unavailable to handle the incomming request.
+        ///     The remote HTTP that is contacted when a <see cref="T:Stumps.Stump" /> is unavailable to handle the incomming request.
         /// </value>
-        Uri ProxyHostUri { get; }
+        /// <exception cref="System.InvalidOperationException">The value cannot be changed while the server is running.</exception>
+        /// <exception cref="System.ArgumentOutOfRangeException">The URI for the remote HTTP server is invalid.</exception>
+        Uri RemoteHttpServer { get; }
 
         /// <summary>
         ///     Gets the number of requests served with the proxy.
@@ -82,6 +97,15 @@ namespace Stumps
         ///     The total number of requests served.
         /// </value>
         int TotalRequestsServed { get; }
+
+        /// <summary>
+        ///     Adds a new <see cref="T:Stumps.Stump" /> with a specified identifier to the collection.
+        /// </summary>
+        /// <param name="stumpId">The unique identifier for the <see cref="T:Stumps.Stump" />.</param>
+        /// <returns>A new <see cref="T:Stumps.Stump"/> with the specified <paramref name="stumpId"/>.</returns>
+        /// <exception cref="System.ArgumentNullException"><paramref name="stumpId"/> is <c>null</c>.</exception>
+        /// <exception cref="System.ArgumentException">A <see cref="T:Stumps.Stump" /> with the same identifier already exists.</exception>
+        Stump AddNewStump(string stumpId);
 
         /// <summary>
         ///     Adds a new <see cref="T:Stumps.Stump" /> to the collection.
