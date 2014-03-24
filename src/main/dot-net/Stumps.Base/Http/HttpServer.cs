@@ -103,6 +103,8 @@
                 disposable.Dispose();
             }
 
+            GC.SuppressFinalize(this);
+
         }
 
         /// <summary>
