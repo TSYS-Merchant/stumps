@@ -6,10 +6,14 @@
     public class MockHttpContext : IStumpsHttpContext
     {
 
-        public MockHttpContext()
+        public MockHttpContext() : this(null, null)
         {
-            this.Request = new MockHttpRequest();
-            this.Response = new MockHttpResponse();
+        }
+
+        public MockHttpContext(IStumpsHttpRequest request, IStumpsHttpResponse response)
+        {
+            this.Request = request ?? new MockHttpRequest();
+            this.Response = response ?? new MockHttpResponse();
         }
 
         public IStumpsHttpRequest Request { get; set; }

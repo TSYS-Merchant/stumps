@@ -85,6 +85,7 @@
     <Compile Include="Rules\HeaderRuleTests.cs" />
     <Compile Include="Rules\HttpMethodRuleTests.cs" />
     <Compile Include="Rules\UrlRuleTests.cs" />
+    <Compile Include="StumpTests.cs" />
     <Compile Include="TestData.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

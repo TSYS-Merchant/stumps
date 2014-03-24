@@ -2,7 +2,6 @@
 {
 
     using NSubstitute;
-    using Stumps.Utility;
 
     internal static class HttpHelper
     {

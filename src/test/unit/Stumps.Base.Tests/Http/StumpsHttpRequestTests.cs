@@ -31,10 +31,16 @@
 
                     startingEventCount++;
                     Assert.Greater(request.Headers.Count, 0);
-                    Assert.AreEqual("GET", request.HttpMethod);
+                    Assert.AreEqual("POST", request.HttpMethod);
                     Assert.AreEqual(server.Port, request.LocalEndPoint.Port);
                     Assert.AreEqual("1.1", request.ProtocolVersion);
                     Assert.AreEqual("/", request.RawUrl);
+                    Assert.AreEqual(3, request.BodyLength);
+                    CollectionAssert.AreEqual(
+                        new byte[]
+                        {
+                            1, 2, 3
+                        }, request.GetBody());
 
                 };
 
@@ -46,7 +52,16 @@
                 webRequest.ContentType = "Bobs.Content";
                 webRequest.Referer = "http://stumps-project.com/";
                 webRequest.UserAgent = "StumpsTestAgent";
+                webRequest.Method = "POST";
+                webRequest.ContentLength = 3;
+                var stream = webRequest.GetRequestStream();
+                stream.Write(
+                    new byte[]
+                    {
+                        1, 2, 3
+                    }, 0, 3);
 
+                stream.Close();
                 using (var response = (HttpWebResponse)webRequest.GetResponse())
                 {
                     Assert.IsNotNull(response);

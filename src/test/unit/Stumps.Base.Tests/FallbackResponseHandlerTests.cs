@@ -90,6 +90,23 @@ namespace Stumps
 
         }
 
+        [Test]
+        public void ProcessRequest_WithStumpsHttpResponse_PopulatesOrigin()
+        {
+
+            var handler = new FallbackResponseHandler(FallbackResponse.Http503ServiceUnavailable);
+
+            var hitCount = 0;
+            handler.ContextProcessed += (o, e) => hitCount++;
+
+            var response = new StumpsHttpResponse();
+            var context = new MockHttpContext(null, response);
+
+            handler.ProcessRequest(context);
+            Assert.AreEqual(response.Origin, HttpResponseOrigin.ServiceUnavailable);
+
+        }
+
     }
 
 }
