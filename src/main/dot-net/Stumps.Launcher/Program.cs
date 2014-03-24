@@ -2,22 +2,22 @@ namespace Stumps.Launcher
 {
 
     using System;
+    using System.Diagnostics;
     using System.IO;
     using Stumps.Server;
     using Stumps.Server.Data;
-    using System.Diagnostics;
 
     /// <summary>
     ///     A class that provides the primary entry point for the application.
     /// </summary>
-    static class Program
+    public static class Program
     {
 
         /// <summary>
         ///     The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        public static void Main()
         {
 
             var configurationFile = Path.Combine(
