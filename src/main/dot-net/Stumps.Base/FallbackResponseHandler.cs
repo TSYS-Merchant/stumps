@@ -28,6 +28,9 @@ namespace Stumps
                 throw new ArgumentOutOfRangeException("response");
             }
 
+            // Fallback to 503 Service Unavailable when undefined
+            response = response == FallbackResponse.Undefined ? FallbackResponse.Http503ServiceUnavailable : response;
+
             _statusCode = (int)response;
             _statusCodeDescription = HttpStatusCodes.GetStatusDescription(_statusCode);
 
