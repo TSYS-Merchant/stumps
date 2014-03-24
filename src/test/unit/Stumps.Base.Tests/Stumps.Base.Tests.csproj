@@ -85,6 +85,7 @@
     <Compile Include="Rules\HeaderRuleTests.cs" />
     <Compile Include="Rules\HttpMethodRuleTests.cs" />
     <Compile Include="Rules\UrlRuleTests.cs" />
+    <Compile Include="StreamUtilityTests.cs" />
     <Compile Include="StumpTests.cs" />
     <Compile Include="TestData.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -92,7 +93,6 @@
       <DependentUpon>TestData.resx</DependentUpon>
     </Compile>
     <Compile Include="TextAnalyzerTests.cs" />
-    <Compile Include="Utility\StreamUtilityTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\main\dot-net\Stumps.Base\Stumps.Base.csproj">

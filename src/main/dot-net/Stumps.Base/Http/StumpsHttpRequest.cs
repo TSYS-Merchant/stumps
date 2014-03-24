@@ -3,7 +3,6 @@
 
     using System.Globalization;
     using System.Net;
-    using Stumps.Utility;
 
     /// <summary>
     ///     A class that represents an incomming HTTP request.

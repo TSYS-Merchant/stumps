@@ -3,7 +3,6 @@
 
     using Nancy;
     using Nancy.Responses;
-    using Stumps.Utility;
 
     /// <summary>
     ///     A class that provides custom HTML pages for HTTP errors.

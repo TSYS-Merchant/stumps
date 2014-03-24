@@ -94,6 +94,7 @@
     <Compile Include="Rules\HeaderRule.cs" />
     <Compile Include="Rules\HttpMethodRule.cs" />
     <Compile Include="Rules\UrlRule.cs" />
+    <Compile Include="StreamUtility.cs" />
     <Compile Include="Stump.cs" />
     <Compile Include="StumpsContextEventArgs.cs" />
     <Compile Include="StumpsHandler.cs" />
@@ -102,7 +103,6 @@
     <Compile Include="TextAnalyzer.cs" />
     <Compile Include="TextContainsMatch.cs" />
     <Compile Include="TextMatch.cs" />
-    <Compile Include="Utility\StreamUtility.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="BaseResources.resx">
