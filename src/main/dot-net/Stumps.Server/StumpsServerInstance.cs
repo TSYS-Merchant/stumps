@@ -36,6 +36,9 @@
         private bool _disposed;
         private ReaderWriterLockSlim _lock;
 
+        private bool _recordTraffic;
+        private bool _lastKnownStumpsEnabledState;
+
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:Stumps.Server.StumpsServerInstance"/> class.
         /// </summary>
@@ -133,7 +136,56 @@
         /// <value>
         ///   <c>true</c> if traffic should be recorded; otherwise, <c>false</c>.
         /// </value>
-        public bool RecordTraffic { get; set; }
+        public bool RecordTraffic
+        {
+            get
+            {
+                return _recordTraffic;
+            }
+
+            set 
+            { 
+                if (value)
+                {
+                    _lastKnownStumpsEnabledState = this.StumpsEnabled;
+
+                    if (this.RecordingBehavior == RecordingBehavior.DisableStumps)
+                    {
+                        this.StumpsEnabled = false;
+                    }
+                }
+                else
+                {
+                    this.StumpsEnabled = _lastKnownStumpsEnabledState;
+                }
+
+                _recordTraffic = value;
+            }
+        }
+
+        /// <summary>
+        ///     Gets or sets the behavior of the instance when recording traffic.
+        /// </summary>
+        /// <value>
+        ///     The behavior of the instance when recording traffic.
+        /// </value>
+        public RecordingBehavior RecordingBehavior
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to use stumps when serving requests.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> to use stumps when serving requests; otherwise, <c>false</c>.
+        /// </value>
+        public bool StumpsEnabled
+        {
+            get { return _server.StumpsEnabled; }
+            set { _server.StumpsEnabled = value; }
+        }
 
         /// <summary>
         ///     Gets the number of requests served with the proxy.
@@ -637,6 +689,9 @@
             this.ExternalHostName = entity.ExternalHostName;
             this.ListeningPort = entity.Port;
             this.UseSsl = entity.UseSsl;
+            this.RecordingBehavior = entity.DisableStumpsWhenRecording
+                                         ? RecordingBehavior.DisableStumps
+                                         : RecordingBehavior.LeaveStumpsUnchanged;
 
             if (!string.IsNullOrWhiteSpace(this.ExternalHostName))
             {

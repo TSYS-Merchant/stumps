@@ -16,6 +16,14 @@
         public bool AutoStart { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether to disable stumps when recording.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> to disable stumps when recording; otherwise, <c>false</c>.
+        /// </value>
+        public bool DisableStumpsWhenRecording { get; set; }
+
+        /// <summary>
         ///     Gets or sets the name of the host name for the remote server.
         /// </summary>
         /// <value>

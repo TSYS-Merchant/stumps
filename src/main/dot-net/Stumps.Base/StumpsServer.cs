@@ -18,7 +18,7 @@
         private readonly FallbackResponse _defaultResponse;
         private readonly int _port;
 
-        private volatile bool _stumpsAllowed;
+        private volatile bool _stumpsEnabled;
 
         private bool _disposed;
         private HttpServer _server;
@@ -36,7 +36,8 @@
         /// <param name="listeningPort">The port the HTTP server is using to listen for traffic.</param>
         /// <param name="defaultResponse">The default response returned to a client when a matching <see cref="T:Stumps.Stump"/> is not found.</param>
         /// <exception cref="System.ArgumentOutOfRangeException"><paramref name="listeningPort" /> exceeds the allowed TCP port range.</exception>
-        public StumpsServer(int listeningPort, FallbackResponse defaultResponse) : this(listeningPort, null)
+        public StumpsServer(int listeningPort, FallbackResponse defaultResponse)
+            : this(listeningPort, null)
         {
             _defaultResponse = defaultResponse;
         }
@@ -60,7 +61,7 @@
             _port = listeningPort;
 
             _proxyHost = proxyHostUri;
-
+            this.StumpsEnabled = true;
         }
 
         /// <summary>
@@ -90,26 +91,6 @@
         public bool IsRunning
         {
             get { return _started; }
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether to allow stumps to serve a requests.
-        /// </summary>
-        /// <value>
-        ///   <c>true</c> if stumps are allowed to serve requests; otherwise, <c>false</c>.
-        /// </value>
-        public bool AllowStumps
-        {
-            get
-            {
-                return _stumpsAllowed;
-            }
-
-            set
-            {
-                _stumpsAllowed = value;
-                UpdateStumpsEnabledFlag(value);
-            }
         }
 
         /// <summary>
@@ -165,6 +146,26 @@
         public int StumpCount
         {
             get { return _stumpsManager.Count; }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to use stumps when serving requests.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> to use stumps when serving requests; otherwise, <c>false</c>.
+        /// </value>
+        public bool StumpsEnabled
+        {
+            get
+            {
+                return _stumpsEnabled;
+            }
+
+            set
+            {
+                _stumpsEnabled = value;
+                UpdateStumpsEnabledFlag(value);
+            }
         }
 
         /// <summary>
@@ -259,9 +260,10 @@
                 var pipeline = new HttpPipelineHandler();
 
                 // Setup the Stump HTTP handler
-               _stumpsHandler = new StumpsHandler(_stumpsManager);
+                _stumpsHandler = new StumpsHandler(_stumpsManager);
+                _stumpsHandler.Enabled = this.StumpsEnabled;
 
-               pipeline.Add(_stumpsHandler);
+                pipeline.Add(_stumpsHandler);
 
                 // Setup the Proxy HTTP handler
                 if (_proxyHost != null)
@@ -286,7 +288,7 @@
             }
 
         }
-        
+
         /// <summary>
         ///     Stops this instance of the Stumps server.
         /// </summary>
