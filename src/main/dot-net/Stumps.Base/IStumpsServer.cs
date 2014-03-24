@@ -49,14 +49,14 @@ namespace Stumps
         int ListensOnPort { get; }
 
         /// <summary>
-        ///     Gets the remote HTTP that is contacted when a <see cref="T:Stumps.Stump" /> is unavailable to handle the incomming request.
+        ///     Gets or sets the remote HTTP that is contacted when a <see cref="T:Stumps.Stump" /> is unavailable to handle the incomming request.
         /// </summary>
         /// <value>
         ///     The remote HTTP that is contacted when a <see cref="T:Stumps.Stump" /> is unavailable to handle the incomming request.
         /// </value>
         /// <exception cref="System.InvalidOperationException">The value cannot be changed while the server is running.</exception>
         /// <exception cref="System.ArgumentOutOfRangeException">The URI for the remote HTTP server is invalid.</exception>
-        Uri RemoteHttpServer { get; }
+        Uri RemoteHttpServer { get; set; }
 
         /// <summary>
         ///     Gets the number of requests served with the proxy.
