@@ -3,7 +3,6 @@
 
     using NSubstitute;
     using NUnit.Framework;
-    using Stumps.Http;
 
     [TestFixture]
     public class HeaderRuleTests
@@ -143,8 +142,8 @@
         {
 
             var request = Substitute.For<IStumpsHttpRequest>();
-            request.Headers.Returns(new HeaderDictionary());
-            request.Headers.AddOrUpdate(headerName, headerValue);
+            request.Headers.Returns(new HttpHeaders());
+            request.Headers[headerName] = headerValue;
 
             return request;
 
@@ -173,7 +172,7 @@
             var rule = new HeaderRule(string.Empty, string.Empty);
 
             var request = Substitute.For<IStumpsHttpRequest>();
-            IHeaderDictionary dict = null;
+            IHttpHeaders dict = null;
 
             request.Headers.Returns(dict);
 

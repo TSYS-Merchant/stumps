@@ -154,13 +154,13 @@
         /// </summary>
         /// <param name="models">The source header models.</param>
         /// <param name="dict">The target header dictionary.</param>
-        private void CopyHeaderModelToDictionary(IEnumerable<HeaderModel> models, IHeaderDictionary dict)
+        private void CopyHeaderModelToDictionary(IEnumerable<HeaderModel> models, IHttpHeaders dict)
         {
             dict.Clear();
 
             foreach (var model in models)
             {
-                dict.AddOrUpdate(model.Name, model.Value);
+                dict[model.Name] = model.Value;
             }
 
         }
@@ -406,7 +406,7 @@
         /// </summary>
         /// <param name="dictionary">The source <see cref="T:Stumps.IHeaderDictionary"/> dictionary.</param>
         /// <returns>An array of <see cref="T:Stumps.Web.Models.HeaderModel"/> objects.</returns>
-        private HeaderModel[] CreateHeaderModel(IHeaderDictionary dictionary)
+        private HeaderModel[] CreateHeaderModel(IHttpHeaders dictionary)
         {
             var headerList = new List<HeaderModel>();
 

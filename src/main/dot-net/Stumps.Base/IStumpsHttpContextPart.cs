@@ -21,7 +21,7 @@ namespace Stumps
         /// <value>
         ///     The collection of HTTP headers.
         /// </value>
-        IHeaderDictionary Headers { get; }
+        IHttpHeaders Headers { get; }
 
         /// <summary>
         /// Gets the bytes for the HTTP body.

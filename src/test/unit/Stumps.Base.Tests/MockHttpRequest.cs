@@ -15,7 +15,7 @@
             set;
         }
 
-        public IHeaderDictionary Headers
+        public IHttpHeaders Headers
         {
             get;
             set;

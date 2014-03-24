@@ -1,7 +1,6 @@
 ﻿namespace Stumps.Http
 {
 
-    using System;
     using System.Globalization;
     using System.Net;
     using Stumps.Utility;
@@ -20,7 +19,7 @@
         public StumpsHttpRequest()
         {
             _bodyBuffer = new byte[0];
-            this.Headers = new HeaderDictionary();
+            this.Headers = new ReadOnlyHttpHeaders();
         }
 
         /// <summary>
@@ -40,7 +39,7 @@
         /// <value>
         ///     The collection of HTTP headers.
         /// </value>
-        public IHeaderDictionary Headers
+        public IHttpHeaders Headers
         {
             get;
             private set;
@@ -136,9 +135,11 @@
             _bodyBuffer = StreamUtility.ConvertStreamToByteArray(request.InputStream);
 
             // Setup the headers
+            var headers = (ReadOnlyHttpHeaders)this.Headers;
+            
             foreach (var key in request.Headers.AllKeys)
             {
-                this.Headers.AddOrUpdate(key, request.Headers[key]);
+                headers.AddOrUpdateInternal(key, request.Headers[key]);
             }
 
         }

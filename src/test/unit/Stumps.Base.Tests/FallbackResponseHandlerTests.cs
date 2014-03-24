@@ -66,7 +66,7 @@ namespace Stumps
             var handler = new FallbackResponseHandler(FallbackResponse.Http503ServiceUnavailable);
             var context = new MockHttpContext();
             context.Response.AppendToBody(new byte[100]);
-            context.Response.Headers.AddOrUpdate("ABCD", "123");
+            context.Response.Headers["ABCD"] = "123";
             handler.ProcessRequest(context);
 
             Assert.AreEqual(0, context.Response.Headers.Count);

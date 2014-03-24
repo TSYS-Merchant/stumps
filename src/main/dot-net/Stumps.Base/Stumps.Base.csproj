@@ -22,6 +22,10 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>..\CodeQuality.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -51,9 +55,9 @@
     <Compile Include="ContentEncoderMode.cs" />
     <Compile Include="FallbackResponse.cs" />
     <Compile Include="FallbackResponseHandler.cs" />
+    <Compile Include="HttpHeaders.cs" />
     <Compile Include="HttpResponseOrigin.cs" />
     <Compile Include="HttpPipelineHandler.cs" />
-    <Compile Include="Http\HeaderDictionary.cs" />
     <Compile Include="Http\HttpServer.cs" />
     <Compile Include="Http\HttpServer_Threaded.cs">
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
@@ -66,7 +70,7 @@
     <Compile Include="Http\StumpsHttpContext.cs" />
     <Compile Include="Http\StumpsHttpRequest.cs" />
     <Compile Include="Http\StumpsHttpResponse.cs" />
-    <Compile Include="IHeaderDictionary.cs" />
+    <Compile Include="IHttpHeaders.cs" />
     <Compile Include="IStumpRule.cs" />
     <Compile Include="IStumpsHttpContextPart.cs" />
     <Compile Include="IStumpsHttpContext.cs" />
@@ -83,6 +87,7 @@
       <Link>Properties\VersionAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="ProxyHandler.cs" />
+    <Compile Include="ReadOnlyHttpHeaders.cs" />
     <Compile Include="Rules\BodyContentRule.cs" />
     <Compile Include="Rules\BodyLengthRule.cs" />
     <Compile Include="Rules\BodyMatchRule.cs" />

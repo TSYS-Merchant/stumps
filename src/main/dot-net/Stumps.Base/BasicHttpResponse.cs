@@ -19,7 +19,7 @@ namespace Stumps
         public BasicHttpResponse()
         {
 
-            this.Headers = new HeaderDictionary();
+            this.Headers = new HttpHeaders();
             this.StatusCode = HttpStatusCodes.HttpOk;
             this.StatusDescription = HttpStatusCodes.GetStatusDescription(this.StatusCode);
             _bodyBuffer = new byte[0];
@@ -43,7 +43,7 @@ namespace Stumps
         /// <value>
         ///     The collection of HTTP headers returned with the response.
         /// </value>
-        public IHeaderDictionary Headers
+        public IHttpHeaders Headers
         {
             get;
             private set;

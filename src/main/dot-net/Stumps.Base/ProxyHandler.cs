@@ -326,7 +326,7 @@
 
             foreach (var headerName in remoteWebResponse.Headers.AllKeys)
             {
-                incommingHttpContext.Response.Headers.AddOrUpdate(headerName, remoteWebResponse.Headers[headerName]);
+                incommingHttpContext.Response.Headers[headerName] = remoteWebResponse.Headers[headerName];
             }
 
         }

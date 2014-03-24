@@ -39,7 +39,7 @@
 
             foreach (var value in _headers)
             {
-                context.Response.Headers.AddOrUpdate(value.Item1, value.Item2);
+                context.Response.Headers[value.Item1] = value.Item2;
             }
 
             context.Response.StatusCode = this.StatusCode;

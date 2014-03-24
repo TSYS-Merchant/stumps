@@ -474,7 +474,7 @@
 
             foreach (var header in entity.ResponseHeaders)
             {
-                response.Headers.AddOrUpdate(header.Name, header.Value);
+                response.Headers[header.Name] = header.Value;
             }
 
             contract.Response = response;
@@ -555,7 +555,7 @@
         /// <returns>
         ///     An array of <see cref="T:Stumps.Server.Data.HeaderEntity"/> objects.
         /// </returns>
-        private HeaderEntity[] CreateHeaderEntity(IHeaderDictionary headers)
+        private HeaderEntity[] CreateHeaderEntity(IHttpHeaders headers)
         {
 
             var headerList = new List<HeaderEntity>();

@@ -12,7 +12,7 @@
         public MockHttpResponse()
         {
             _bodyBuffer = new byte[0];
-            this.Headers = new HeaderDictionary();
+            this.Headers = new HttpHeaders();
         }
 
         public int BodyLength
@@ -20,7 +20,7 @@
             get { return _bodyBuffer.Length; }
         }
 
-        public IHeaderDictionary Headers
+        public IHttpHeaders Headers
         {
             get;
             private set;

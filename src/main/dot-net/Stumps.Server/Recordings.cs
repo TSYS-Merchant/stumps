@@ -156,7 +156,7 @@
         /// </summary>
         /// <param name="headerDictionary">The header dictionary used as the source of the headers.</param>
         /// <param name="contextPart">The recorded context part used as the target for the headers.</param>
-        private void CopyHeaders(IHeaderDictionary headerDictionary, IRecordedContextPart contextPart)
+        private void CopyHeaders(IHttpHeaders headerDictionary, IRecordedContextPart contextPart)
         {
 
             foreach (var headerName in headerDictionary.HeaderNames)
