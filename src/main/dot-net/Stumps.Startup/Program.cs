@@ -8,6 +8,9 @@
     using Stumps.Server;
     using Stumps.Server.Data;
 
+    /// <summary>
+    ///     A class that provides the primary entry point for the application.
+    /// </summary>
     public static class Program
     {
 
@@ -67,6 +70,11 @@
 
         }
 
+        /// <summary>
+        ///     Determines the configuration file to use based on the command-line arguments.
+        /// </summary>
+        /// <param name="args">The command line arguments.</param>
+        /// <returns>A <see cref="T:System.String"/> containing the file name for the configuration file.</returns>
         private static string DetermineConfigurationFileFromArgs(string[] args)
         {
 
@@ -84,6 +92,10 @@
 
         }
 
+        /// <summary>
+        ///     Determines whether the application is already running.
+        /// </summary>
+        /// <returns><c>true</c> if the application is running; otherwise, <c>false</c>.</returns>
         private static bool IsApplicationAlreadyRunning()
         {
 

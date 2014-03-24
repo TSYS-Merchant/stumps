@@ -17,6 +17,10 @@
         /// </returns>
         ConfigurationEntity LoadConfiguration();
 
+        /// <summary>
+        ///     Ensures the configuration is correctly initialized.
+        /// </summary>
+        /// <param name="configureDefaultsAction">The action to execute after preparing the data access.</param>
         void EnsureConfigurationIsInitialized(Action configureDefaultsAction);
 
         /// <summary>

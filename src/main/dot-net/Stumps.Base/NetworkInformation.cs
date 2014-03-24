@@ -12,7 +12,14 @@
     public static class NetworkInformation
     {
 
+        /// <summary>
+        /// The minimum value used when trying to find an open TCP port.
+        /// </summary>
         public const int MinimumPort = 7000;
+
+        /// <summary>
+        /// The maximum value used when trying to find an open TCP port.
+        /// </summary>
         public const int MaximumPort = 10000;
 
         /// <summary>
