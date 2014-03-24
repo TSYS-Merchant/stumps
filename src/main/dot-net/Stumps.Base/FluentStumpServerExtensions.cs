@@ -74,7 +74,7 @@ namespace Stumps
         /// </summary>
         /// <param name="server">The <see cref="T:Stumps.IStumpsServer" /> that is processing incomming HTTP requests.</param>
         /// <returns>The calling <see cref="T:Stumps.IStumpsServer"/>.</returns>
-        public static IStumpsServer ReturnsHttp404(this IStumpsServer server)
+        public static IStumpsServer RespondsWithHttp404(this IStumpsServer server)
         {
             server.DefaultResponse = FallbackResponse.Http404NotFound;
             return server;
@@ -85,7 +85,7 @@ namespace Stumps
         /// </summary>
         /// <param name="server">The <see cref="T:Stumps.IStumpsServer" /> that is processing incomming HTTP requests.</param>
         /// <returns>The calling <see cref="T:Stumps.IStumpsServer"/>.</returns>
-        public static IStumpsServer ReturnsHttp503(this IStumpsServer server)
+        public static IStumpsServer RespondsWithHttp503(this IStumpsServer server)
         {
             server.DefaultResponse = FallbackResponse.Http503ServiceUnavailable;
             return server;

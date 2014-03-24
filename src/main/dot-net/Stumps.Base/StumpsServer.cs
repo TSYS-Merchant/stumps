@@ -90,6 +90,7 @@
                 _defaultResponse = value;
             }
         }
+
         /// <summary>
         ///     Gets a value indicating whether the server is running.
         /// </summary>

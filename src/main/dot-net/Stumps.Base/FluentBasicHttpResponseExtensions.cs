@@ -27,9 +27,22 @@ namespace Stumps
         ///     Specifies the body returned as part of the HTTP response. 
         /// </summary>
         /// <param name="response">The <see cref="T:Stumps.BasicHttpResponse"/> that returns in response to an HTTP request.</param>
+        /// <param name="body">The value returned as body of the HTTP response.</param>
+        /// <returns>The calling <see cref="T:Stumps.BasicHttpResponse"/>.</returns>
+        public static BasicHttpResponse WithBody(this BasicHttpResponse response, string body)
+        {
+            response.ClearBody();
+            response.AppendToBody(body);
+            return response;
+        }
+
+        /// <summary>
+        ///     Specifies the body returned as part of the HTTP response. 
+        /// </summary>
+        /// <param name="response">The <see cref="T:Stumps.BasicHttpResponse"/> that returns in response to an HTTP request.</param>
         /// <param name="path">The path to the file that contains the HTTP response.</param>
         /// <returns>The calling <see cref="T:Stumps.BasicHttpResponse"/>.</returns>
-        public static BasicHttpResponse WithBodyFromFile(this BasicHttpResponse response, string path)
+        public static BasicHttpResponse WithFile(this BasicHttpResponse response, string path)
         {
 
             var buffer = File.ReadAllBytes(path);
@@ -42,19 +55,6 @@ namespace Stumps
 
             return response;
 
-        }
-
-        /// <summary>
-        ///     Specifies the body returned as part of the HTTP response. 
-        /// </summary>
-        /// <param name="response">The <see cref="T:Stumps.BasicHttpResponse"/> that returns in response to an HTTP request.</param>
-        /// <param name="body">The value returned as body of the HTTP response.</param>
-        /// <returns>The calling <see cref="T:Stumps.BasicHttpResponse"/>.</returns>
-        public static BasicHttpResponse WithBody(this BasicHttpResponse response, string body)
-        {
-            response.ClearBody();
-            response.AppendToBody(body);
-            return response;
         }
 
         /// <summary>

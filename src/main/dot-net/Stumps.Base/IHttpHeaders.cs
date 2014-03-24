@@ -25,7 +25,6 @@ namespace Stumps
         /// </value>
         ICollection<string> HeaderNames { get; }
 
-
         /// <summary>
         ///     Gets a value indicating whether the <see cref="T:Stumps.IHttpHeaders"/> is read-only.
         /// </summary>
