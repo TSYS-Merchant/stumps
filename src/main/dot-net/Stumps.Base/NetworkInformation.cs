@@ -8,6 +8,7 @@
     /// <summary>
     ///     A class that represents a set of Network related functions.
     /// </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1724:TypeNamesShouldNotMatchNamespaces", Justification = "The name is preferred and should not cause any real conflicts when being used.")]
     public static class NetworkInformation
     {
 
