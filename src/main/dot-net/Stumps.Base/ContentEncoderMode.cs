@@ -4,7 +4,7 @@
     /// <summary>
     ///     Provides a list of possible content encoder modes.
     /// </summary>
-    public enum ContentEncoderMode
+    internal enum ContentEncoderMode
     {
 
         /// <summary>

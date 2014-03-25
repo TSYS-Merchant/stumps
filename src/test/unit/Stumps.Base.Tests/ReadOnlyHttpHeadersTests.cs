@@ -39,7 +39,6 @@ namespace Stumps
             Assert.AreEqual(0, headers.Count);
         }
 
-
         [Test]
         public void IndexerGet_WithValidHeaderName_ReturnsValue()
         {
@@ -70,7 +69,6 @@ namespace Stumps
             var headers = new ReadOnlyHttpHeaders();
             Assert.That(() => headers["abc"] = "123", Throws.Exception.TypeOf<NotSupportedException>());
         }
-
 
         [Test]
         public void IsReadOnly_WithGet_ReturnsTrue()

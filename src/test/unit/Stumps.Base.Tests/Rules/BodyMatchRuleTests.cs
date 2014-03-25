@@ -9,7 +9,7 @@
     public class BodyMatchRuleTests
     {
 
-    	[Test]
+        [Test]
         public void Constructor_WithNullBytes_ThrowsException()
         {
 
@@ -18,7 +18,7 @@
                 Throws.Exception.TypeOf<ArgumentNullException>().With.Property("ParamName").EqualTo("value"));
 
         }
-    	        
+
         [Test]
         public void IsMatch_WithNullRequest_ReturnsFalse()
         {

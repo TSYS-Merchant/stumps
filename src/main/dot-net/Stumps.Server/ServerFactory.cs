@@ -18,7 +18,7 @@ namespace Stumps.Server
         {
             var server = new StumpsServer()
             {
-                ListensOnPort = listeningPort,
+                ListeningPort = listeningPort,
                 DefaultResponse = fallbackResponse
             };
 
@@ -37,7 +37,7 @@ namespace Stumps.Server
         {
             var server = new StumpsServer()
             {
-                ListensOnPort = listeningPort,
+                ListeningPort = listeningPort,
                 RemoteHttpServer = proxyHostUri
             };
 

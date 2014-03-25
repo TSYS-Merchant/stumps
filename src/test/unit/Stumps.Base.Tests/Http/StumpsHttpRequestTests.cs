@@ -36,11 +36,7 @@
                     Assert.AreEqual("1.1", request.ProtocolVersion);
                     Assert.AreEqual("/", request.RawUrl);
                     Assert.AreEqual(3, request.BodyLength);
-                    CollectionAssert.AreEqual(
-                        new byte[]
-                        {
-                            1, 2, 3
-                        }, request.GetBody());
+                    CollectionAssert.AreEqual(new byte[] { 1, 2, 3 }, request.GetBody());
 
                 };
 
@@ -55,11 +51,7 @@
                 webRequest.Method = "POST";
                 webRequest.ContentLength = 3;
                 var stream = webRequest.GetRequestStream();
-                stream.Write(
-                    new byte[]
-                    {
-                        1, 2, 3
-                    }, 0, 3);
+                stream.Write(new byte[] { 1, 2, 3 }, 0, 3);
 
                 stream.Close();
                 using (var response = (HttpWebResponse)webRequest.GetResponse())

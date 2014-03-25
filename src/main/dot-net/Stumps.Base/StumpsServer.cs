@@ -35,7 +35,7 @@
         /// </summary>
         public StumpsServer()
         {
-            this.ListensOnPort = NetworkInformation.FindRandomOpenPort();
+            this.ListeningPort = NetworkInformation.FindRandomOpenPort();
             _remoteHttpServer = null;
 
             _syncRoot = new object();
@@ -116,7 +116,7 @@
         /// </value>
         /// <exception cref="System.InvalidOperationException">The value cannot be changed while the server is running.</exception>
         /// <exception cref="System.ArgumentOutOfRangeException">The value is not a valid TCP port.</exception>
-        public int ListensOnPort
+        public int ListeningPort
         {
             get
             {

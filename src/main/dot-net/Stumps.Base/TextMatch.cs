@@ -7,15 +7,9 @@
     /// <summary>
     ///     A class that provides text matching for various rules.
     /// </summary>
-    internal sealed class TextMatch
+    internal class TextMatch
     {
-
-        private readonly bool _ignoreCase;
-        private readonly Regex _matchRegexValue;
-        private readonly string _matchStringValue;
-        private readonly bool _matchUsesRegex;
-        private readonly bool _not;
-
+        
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:Stumps.TextMatch"/> class.
         /// </summary>
@@ -26,32 +20,85 @@
 
             if (value.StartsWith(BaseResources.NotPattern, StringComparison.OrdinalIgnoreCase))
             {
-                _not = true;
+                this.InverseEvaluation = true;
                 value = value.Remove(0, BaseResources.NotPattern.Length);
             }
 
             if (value.StartsWith(BaseResources.RegExPattern, StringComparison.OrdinalIgnoreCase))
             {
-                _matchUsesRegex = true;
+                this.UseRegexEvaluation = true;
                 value = value.Remove(0, BaseResources.RegExPattern.Length);
 
-                if (ignoreCase)
-                {
-                    _matchRegexValue = new Regex(value, RegexOptions.IgnoreCase);
-                }
-                else
-                {
-                    _matchRegexValue = new Regex(value);
-                }
+                this.RegexValue = ignoreCase ? new Regex(value, RegexOptions.IgnoreCase) : new Regex(value);
 
             }
             else
             {
-                _matchStringValue = value;
+                this.StringValue = value;
             }
 
-            _ignoreCase = ignoreCase;
+            this.ComparisonMethod = ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
 
+        }
+
+        /// <summary>
+        ///     Gets the comparison method to use when evaluating strings.
+        /// </summary>
+        /// <value>
+        ///   The comparison method to use when evaluating strings.
+        /// </value>
+        protected StringComparison ComparisonMethod
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        ///     Gets a value indicating whether to inverse the result of the match.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if to inverse the result of the match; otherwise, <c>false</c>.
+        /// </value>
+        protected bool InverseEvaluation
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        ///     Gets the regular expression required to match a specified value.
+        /// </summary>
+        /// <value>
+        ///     The regular expression required to match a specified value.
+        /// </value>
+        protected Regex RegexValue
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        ///     Gets the string required to match a specified value.
+        /// </summary>
+        /// <value>
+        ///     The string required to match a specified value.
+        /// </value>
+        protected string StringValue
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        ///     Gets a value indicating whether to match using regular expressions.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if the matching should use regular expressions; otherwise, <c>false</c>.
+        /// </value>
+        protected bool UseRegexEvaluation
+        {
+            get;
+            private set;
         }
 
         /// <summary>
@@ -59,13 +106,11 @@
         /// </summary>
         /// <param name="value">The value to evaluate.</param>
         /// <returns><c>true</c> if the text matches; otherwise, <c>false</c>.</returns>
-        public bool IsMatch(string value)
+        public virtual bool IsMatch(string value)
         {
 
-            var comparison = _ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
-
-            var match = _matchUsesRegex ? _matchRegexValue.IsMatch(value) : _matchStringValue.Equals(value, comparison);
-            match = match ^ _not;
+            var match = this.UseRegexEvaluation ? this.RegexValue.IsMatch(value) : this.StringValue.Equals(value, this.ComparisonMethod);
+            match = match ^ this.InverseEvaluation;
 
             return match;
 

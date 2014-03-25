@@ -52,7 +52,7 @@ namespace Stumps
         /// </value>
         /// <exception cref="System.InvalidOperationException">The value cannot be changed while the server is running.</exception>
         /// <exception cref="System.ArgumentOutOfRangeException">The value is not a valid TCP port.</exception>
-        int ListensOnPort { get; }
+        int ListeningPort { get; }
 
         /// <summary>
         ///     Gets or sets the remote HTTP that is contacted when a <see cref="T:Stumps.Stump" /> is unavailable to handle the incomming request.
