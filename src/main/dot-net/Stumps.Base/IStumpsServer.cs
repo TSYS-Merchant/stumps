@@ -10,7 +10,13 @@ namespace Stumps
     {
 
         /// <summary>
-        ///     Occurs when the server finishes processing an HTTP request.
+        ///     Occurs when the server processed an incomming HTTP request and returned the response to the client.
+        /// </summary>
+        event EventHandler<StumpsContextEventArgs> RequestFinished;
+
+        /// <summary>
+        ///     Occurs after the server has finished processing the HTTP request, 
+        ///     and has constructed a response, but before it returned to the client.
         /// </summary>
         event EventHandler<StumpsContextEventArgs> RequestProcessed;
 

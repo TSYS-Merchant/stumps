@@ -25,7 +25,7 @@
             using (var server = HttpHelper.CreateHttpServer(mockHandler))
             {
 
-                server.RequestStarting += (o, i) =>
+                server.RequestReceived += (o, i) =>
                 {
                     var request = i.Context.Request;
 

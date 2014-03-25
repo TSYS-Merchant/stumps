@@ -55,14 +55,20 @@
         }
 
         /// <summary>
-        /// Occurs when an incomming HTTP request is finishing the processing.
+        ///     Occurs when the server processed an incomming HTTP request and returned the response to the client.
         /// </summary>
-        public event EventHandler<StumpsContextEventArgs> RequestFinishing;
+        public event EventHandler<StumpsContextEventArgs> RequestFinished;
 
         /// <summary>
-        /// Occurs when an incomming HTTP request begins processing.
+        ///     Occurs after the server has finished processing the HTTP request, 
+        ///     and has constructed a response, but before it returned to the client.
         /// </summary>
-        public event EventHandler<StumpsContextEventArgs> RequestStarting;
+        public event EventHandler<StumpsContextEventArgs> RequestProcessed;
+
+        /// <summary>
+        ///     Occurs when the server receives an incomming HTTP request.
+        /// </summary>
+        public event EventHandler<StumpsContextEventArgs> RequestReceived;
 
         /// <summary>
         ///     Gets TCP port used by the instance to listen for HTTP requests.
@@ -176,21 +182,26 @@
                 // Create a new StumpsHttpContext
                 stumpsContext = new StumpsHttpContext(context);
 
-                if (this.RequestStarting != null)
+                if (this.RequestReceived != null)
                 {
-                    this.RequestStarting(this, new StumpsContextEventArgs(stumpsContext));
+                    this.RequestReceived(this, new StumpsContextEventArgs(stumpsContext));
                 }
 
                 // Process the request through the HTTP handler
                 _handler.ProcessRequest(stumpsContext);
 
-                if (this.RequestFinishing != null)
+                if (this.RequestProcessed != null)
                 {
-                    this.RequestFinishing(this, new StumpsContextEventArgs(stumpsContext));
+                    this.RequestProcessed(this, new StumpsContextEventArgs(stumpsContext));
                 }
 
                 // End the request
                 stumpsContext.EndResponse();
+
+                if (this.RequestFinished != null)
+                {
+                    this.RequestFinished(this, new StumpsContextEventArgs(stumpsContext));
+                }
 
                 //// TODO: Throw Event
                 //// _logger.LogInfo(

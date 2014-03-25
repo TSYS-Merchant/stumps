@@ -97,7 +97,7 @@
             using (var server = HttpHelper.CreateHttpServer(mockHandler))
             {
 
-                server.RequestStarting += (o, i) =>
+                server.RequestReceived += (o, i) =>
                 {
                     startingEventCount++;
                     Assert.IsNotNull(o);
@@ -107,7 +107,7 @@
                     Assert.IsNotNull(i.Context.Response);
                 };
 
-                server.RequestFinishing += (o, i) =>
+                server.RequestFinished += (o, i) =>
                 {
                     finishingEventCount++;
                     Assert.IsNotNull(o);

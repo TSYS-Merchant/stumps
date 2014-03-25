@@ -711,7 +711,7 @@
                 _server = _serverFactory.CreateServer(this.ListeningPort, FallbackResponse.Http503ServiceUnavailable);
             }
 
-            _server.RequestProcessed += (o, e) =>
+            _server.RequestFinished += (o, e) =>
             {
                 if (this.RecordTraffic)
                 {

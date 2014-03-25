@@ -57,6 +57,12 @@
         /// <summary>
         ///     Occurs when the server finishes processing an HTTP request.
         /// </summary>
+        public event EventHandler<StumpsContextEventArgs> RequestFinished;
+
+        /// <summary>
+        ///     Occurs after the server has finished processing the HTTP request, 
+        ///     and has constructed a response, but before it returned to the client.
+        /// </summary>
         public event EventHandler<StumpsContextEventArgs> RequestProcessed;
 
         /// <summary>
@@ -383,8 +389,9 @@
 
                 _server = new HttpServer(_port, pipeline);
 
-                _server.RequestStarting += Server_RequestStarting;
-                _server.RequestFinishing += Server_RequestFinishing;
+                _server.RequestFinished += ServerRequestFinished;
+                _server.RequestProcessed += ServerRequestProcessed;
+                _server.RequestReceived += ServerRequestStarted;
 
                 _server.StartListening();
 
@@ -397,7 +404,7 @@
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="T:Stumps.StumpsContextEventArgs"/> instance containing the event data.</param>
-        private void Server_RequestFinishing(object sender, StumpsContextEventArgs e)
+        private void ServerRequestFinished(object sender, StumpsContextEventArgs e)
         {
 
             // Increment the request counter
@@ -415,6 +422,22 @@
             }
 
             // Raise the processed event
+            if (this.RequestFinished != null)
+            {
+                this.RequestFinished(this, e);
+            }
+
+        }
+
+        /// <summary>
+        /// Handles the RequestProcessed event of the server instance.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="StumpsContextEventArgs"/> instance containing the event data.</param>
+        private void ServerRequestProcessed(object sender, StumpsContextEventArgs e)
+        {
+
+            // Raise the request processed event
             if (this.RequestProcessed != null)
             {
                 this.RequestProcessed(this, e);
@@ -423,11 +446,11 @@
         }
 
         /// <summary>
-        ///     Handles the RequestStarting event of the server instance.
+        ///     Handles the RequestStarted event of the server instance.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="T:Stumps.StumpsContextEventArgs"/> instance containing the event data.</param>
-        private void Server_RequestStarting(object sender, StumpsContextEventArgs e)
+        private void ServerRequestStarted(object sender, StumpsContextEventArgs e)
         {
 
             // Raise the request received event
