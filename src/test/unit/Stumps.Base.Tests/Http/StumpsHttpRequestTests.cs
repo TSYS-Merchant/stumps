@@ -22,7 +22,7 @@
 
             var startingEventCount = 0;
 
-            using (var server = HttpHelper.CreateHttpServer(mockHandler))
+            using (var server = HttpHelper.CreateServer(mockHandler))
             {
 
                 server.RequestStarting += (o, i) =>
@@ -42,7 +42,7 @@
 
                 var uri = new Uri("http://localhost:" + server.Port.ToString(CultureInfo.InvariantCulture) + "/");
 
-                var webRequest = WebRequest.CreateHttp(uri);
+                var webRequest = WebRequest.Create(uri) as System.Net.HttpWebRequest;
                 webRequest.ContentType = "Bobs.Content";
                 webRequest.Referer = "http://stumps-project.com/";
                 webRequest.UserAgent = "StumpsTestAgent";

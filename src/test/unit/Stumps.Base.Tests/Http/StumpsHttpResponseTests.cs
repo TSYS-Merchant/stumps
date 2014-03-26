@@ -22,7 +22,7 @@
 
             var finishingEventCount = 0;
 
-            using (var server = HttpHelper.CreateHttpServer(mockHandler))
+            using (var server = HttpHelper.CreateServer(mockHandler))
             {
 
                 server.RequestFinishing += (o, i) =>
@@ -40,7 +40,7 @@
 
                 var uri = new Uri("http://localhost:" + server.Port.ToString(CultureInfo.InvariantCulture) + "/");
 
-                var request = WebRequest.CreateHttp(uri);
+                var request = WebRequest.Create(uri);
 
                 using (var response = (HttpWebResponse)request.GetResponse())
                 {
