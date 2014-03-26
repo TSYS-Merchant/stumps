@@ -374,6 +374,19 @@
         }
 
         /// <summary>
+        ///     Stops this instance of the Stumps server.
+        /// </summary>
+        public void Shutdown()
+        {
+
+            if (_server != null)
+            {
+                _server.Shutdown();
+            }
+
+        }
+
+        /// <summary>
         ///     Starts this instance of the Stumps server.
         /// </summary>
         public void Start()
@@ -382,19 +395,6 @@
             if (_server != null)
             {
                 _server.Start();
-            }
-
-        }
-
-        /// <summary>
-        ///     Stops this instance of the Stumps server.
-        /// </summary>
-        public void Stop()
-        {
-
-            if (_server != null)
-            {
-                _server.Stop();
             }
 
         }
@@ -413,7 +413,7 @@
 
                 if (this.IsRunning)
                 {
-                    this.Stop();
+                    this.Shutdown();
                 }
 
                 if (_server != null)
@@ -474,7 +474,7 @@
 
             foreach (var header in entity.ResponseHeaders)
             {
-                response.Headers.AddOrUpdate(header.Name, header.Value);
+                response.Headers[header.Name] = header.Value;
             }
 
             contract.Response = response;
@@ -555,7 +555,7 @@
         /// <returns>
         ///     An array of <see cref="T:Stumps.Server.Data.HeaderEntity"/> objects.
         /// </returns>
-        private HeaderEntity[] CreateHeaderEntity(IHeaderDictionary headers)
+        private HeaderEntity[] CreateHeaderEntity(IHttpHeaders headers)
         {
 
             var headerList = new List<HeaderEntity>();
@@ -711,7 +711,7 @@
                 _server = _serverFactory.CreateServer(this.ListeningPort, FallbackResponse.Http503ServiceUnavailable);
             }
 
-            _server.RequestProcessed += (o, e) =>
+            _server.RequestFinished += (o, e) =>
             {
                 if (this.RecordTraffic)
                 {

@@ -67,11 +67,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContractHttpResponse.cs" />
+    <Compile Include="HttpBodyClassification.cs" />
     <Compile Include="HttpHeader.cs" />
-    <Compile Include="IRecordedContextPart.cs" />
     <Compile Include="IServerFactory.cs" />
     <Compile Include="IStumpsHost.cs" />
     <Compile Include="RecordedContext.cs" />
+    <Compile Include="RecordedContextPartBase.cs" />
     <Compile Include="RecordedRequest.cs" />
     <Compile Include="RecordedResponse.cs" />
     <Compile Include="RecordingBehavior.cs" />

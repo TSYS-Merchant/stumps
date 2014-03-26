@@ -1,8 +1,7 @@
-﻿namespace Stumps.Utility
+﻿namespace Stumps.Server.Utility
 {
 
     using NUnit.Framework;
-    using Stumps.Server.Utility;
 
     [TestFixture]
     public class RandomGeneratorTests

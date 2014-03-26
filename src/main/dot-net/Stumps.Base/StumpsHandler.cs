@@ -116,10 +116,7 @@
             // Write the headers
             incommingHttpContext.Response.Headers.Clear();
 
-            foreach (var headerName in stump.Response.Headers.HeaderNames)
-            {
-                incommingHttpContext.Response.Headers.AddOrUpdate(headerName, stump.Response.Headers[headerName]);
-            }
+            stump.Response.Headers.CopyTo(incommingHttpContext.Response.Headers);
 
             // Write the body
             incommingHttpContext.Response.ClearBody();

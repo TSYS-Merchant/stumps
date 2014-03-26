@@ -25,7 +25,7 @@
             using (var server = HttpHelper.CreateHttpServer(mockHandler))
             {
 
-                server.RequestFinishing += (o, i) =>
+                server.RequestFinished += (o, i) =>
                 {
                     var response = i.Context.Response;
 

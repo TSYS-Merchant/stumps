@@ -1,6 +1,7 @@
 ﻿namespace Stumps.Rules
 {
 
+    using System;
     using System.Security.Cryptography;
 
     /// <summary>
@@ -18,6 +19,11 @@
         /// <param name="value">The array of bytes matched against the HTTP requests's body.</param>
         public BodyMatchRule(byte[] value)
         {
+
+            if (value == null)
+            {
+                throw new ArgumentNullException("value");
+            }
 
             _bodyLength = value.Length;
 

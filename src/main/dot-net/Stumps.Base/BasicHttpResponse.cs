@@ -19,7 +19,7 @@ namespace Stumps
         public BasicHttpResponse()
         {
 
-            this.Headers = new HeaderDictionary();
+            this.Headers = new HttpHeaders();
             this.StatusCode = HttpStatusCodes.HttpOk;
             this.StatusDescription = HttpStatusCodes.GetStatusDescription(this.StatusCode);
             _bodyBuffer = new byte[0];
@@ -27,10 +27,10 @@ namespace Stumps
         }
 
         /// <summary>
-        ///     Gets the length of the HTTP request body.
+        ///     Gets the length of the HTTP body.
         /// </summary>
         /// <value>
-        ///     The length of the HTTP request body.
+        ///     The length of the HTTP body.
         /// </value>
         public int BodyLength
         {
@@ -43,7 +43,7 @@ namespace Stumps
         /// <value>
         ///     The collection of HTTP headers returned with the response.
         /// </value>
-        public IHeaderDictionary Headers
+        public IHttpHeaders Headers
         {
             get;
             private set;
@@ -88,21 +88,23 @@ namespace Stumps
         /// <summary>
         ///     Appends a byte array to the body of the HTTP response.
         /// </summary>
-        /// <param name="bytes">The bytes to append to the body of the response.</param>
-        public virtual void AppendToBody(byte[] bytes)
+        /// <param name="buffer">The bytes to append to the body of the response.</param>
+        public virtual void AppendToBody(byte[] buffer)
         {
-            if (bytes == null)
+
+            if (buffer == null)
             {
                 return;
             }
 
-            var newBodyLength = _bodyBuffer.Length + bytes.Length;
+            var newBodyLength = _bodyBuffer.Length + buffer.Length;
             var newBuffer = new byte[newBodyLength];
 
             Buffer.BlockCopy(_bodyBuffer, 0, newBuffer, 0, _bodyBuffer.Length);
-            Buffer.BlockCopy(bytes, 0, newBuffer, _bodyBuffer.Length, bytes.Length);
+            Buffer.BlockCopy(buffer, 0, newBuffer, _bodyBuffer.Length, buffer.Length);
 
             _bodyBuffer = newBuffer;
+
         }
 
         /// <summary>

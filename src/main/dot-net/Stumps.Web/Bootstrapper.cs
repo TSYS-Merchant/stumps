@@ -4,7 +4,6 @@
     using System;
     using Nancy;
     using Stumps.Server;
-    using Stumps.Utility;
     using Stumps.Web.Responses;
 
     /// <summary>

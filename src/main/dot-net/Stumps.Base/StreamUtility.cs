@@ -1,4 +1,4 @@
-﻿namespace Stumps.Utility
+﻿namespace Stumps
 {
 
     using System;
@@ -8,7 +8,7 @@
     /// <summary>
     ///     A class that represents a set of Stream based functions.
     /// </summary>
-    internal static class StreamUtility
+    public static class StreamUtility
     {
 
         public const int BufferSize = 4096;

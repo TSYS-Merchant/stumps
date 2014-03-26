@@ -154,13 +154,13 @@
         /// </summary>
         /// <param name="models">The source header models.</param>
         /// <param name="dict">The target header dictionary.</param>
-        private void CopyHeaderModelToDictionary(IEnumerable<HeaderModel> models, IHeaderDictionary dict)
+        private void CopyHeaderModelToDictionary(IEnumerable<HeaderModel> models, IHttpHeaders dict)
         {
             dict.Clear();
 
             foreach (var model in models)
             {
-                dict.AddOrUpdate(model.Name, model.Value);
+                dict[model.Name] = model.Value;
             }
 
         }
@@ -197,17 +197,17 @@
             {
                 case BodyMatch.ContainsText:
                     contract.MatchBodyText = model.RequestBodyMatchValues;
-                    contract.MatchBody = record.Request.Body;
-                    contract.MatchBodyContentType = record.Request.BodyContentType;
-                    contract.MatchBodyIsImage = record.Request.BodyIsImage;
-                    contract.MatchBodyIsText = record.Request.BodyIsText;
+                    contract.MatchBody = record.Request.GetBody();
+                    contract.MatchBodyContentType = record.Request.Headers["Content-Type"];
+                    contract.MatchBodyIsImage = record.Request.BodyType == HttpBodyClassification.Image;
+                    contract.MatchBodyIsText = record.Request.BodyType == HttpBodyClassification.Text;
                     break;
 
                 case BodyMatch.ExactMatch:
-                    contract.MatchBody = record.Request.Body;
-                    contract.MatchBodyContentType = record.Request.BodyContentType;
-                    contract.MatchBodyIsImage = record.Request.BodyIsImage;
-                    contract.MatchBodyIsText = record.Request.BodyIsText;
+                    contract.MatchBody = record.Request.GetBody();
+                    contract.MatchBodyContentType = record.Request.Headers["Content-Type"];
+                    contract.MatchBodyIsImage = record.Request.BodyType == HttpBodyClassification.Image;
+                    contract.MatchBodyIsText = record.Request.BodyType == HttpBodyClassification.Text;
                     break;
 
                 case BodyMatch.IsBlank:
@@ -240,9 +240,9 @@
 
                 case BodySource.Origin:
                     contract.Response.ClearBody();
-                    contract.Response.AppendToBody(record.Response.Body);
-                    contract.Response.BodyIsImage = record.Response.BodyIsImage;
-                    contract.Response.BodyIsText = record.Response.BodyIsText;
+                    contract.Response.AppendToBody(record.Response.GetBody());
+                    contract.Response.BodyIsImage = record.Response.BodyType == HttpBodyClassification.Image;
+                    contract.Response.BodyIsText = record.Response.BodyType == HttpBodyClassification.Text;
                     break;
 
             }
@@ -406,7 +406,7 @@
         /// </summary>
         /// <param name="dictionary">The source <see cref="T:Stumps.IHeaderDictionary"/> dictionary.</param>
         /// <returns>An array of <see cref="T:Stumps.Web.Models.HeaderModel"/> objects.</returns>
-        private HeaderModel[] CreateHeaderModel(IHeaderDictionary dictionary)
+        private HeaderModel[] CreateHeaderModel(IHttpHeaders dictionary)
         {
             var headerList = new List<HeaderModel>();
 

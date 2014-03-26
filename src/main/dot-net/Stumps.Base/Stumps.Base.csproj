@@ -22,6 +22,10 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>..\CodeQuality.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -34,6 +38,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -51,9 +56,12 @@
     <Compile Include="ContentEncoderMode.cs" />
     <Compile Include="FallbackResponse.cs" />
     <Compile Include="FallbackResponseHandler.cs" />
+    <Compile Include="FluentBasicHttpResponseExtensions.cs" />
+    <Compile Include="FluentStumpExtensions.cs" />
+    <Compile Include="FluentStumpServerExtensions.cs" />
+    <Compile Include="HttpHeaders.cs" />
     <Compile Include="HttpResponseOrigin.cs" />
     <Compile Include="HttpPipelineHandler.cs" />
-    <Compile Include="Http\HeaderDictionary.cs" />
     <Compile Include="Http\HttpServer.cs" />
     <Compile Include="Http\HttpServer_Threaded.cs">
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
@@ -66,7 +74,7 @@
     <Compile Include="Http\StumpsHttpContext.cs" />
     <Compile Include="Http\StumpsHttpRequest.cs" />
     <Compile Include="Http\StumpsHttpResponse.cs" />
-    <Compile Include="IHeaderDictionary.cs" />
+    <Compile Include="IHttpHeaders.cs" />
     <Compile Include="IStumpRule.cs" />
     <Compile Include="IStumpsHttpContextPart.cs" />
     <Compile Include="IStumpsHttpContext.cs" />
@@ -83,12 +91,14 @@
       <Link>Properties\VersionAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="ProxyHandler.cs" />
+    <Compile Include="ReadOnlyHttpHeaders.cs" />
     <Compile Include="Rules\BodyContentRule.cs" />
     <Compile Include="Rules\BodyLengthRule.cs" />
     <Compile Include="Rules\BodyMatchRule.cs" />
     <Compile Include="Rules\HeaderRule.cs" />
     <Compile Include="Rules\HttpMethodRule.cs" />
     <Compile Include="Rules\UrlRule.cs" />
+    <Compile Include="StreamUtility.cs" />
     <Compile Include="Stump.cs" />
     <Compile Include="StumpsContextEventArgs.cs" />
     <Compile Include="StumpsHandler.cs" />
@@ -97,7 +107,6 @@
     <Compile Include="TextAnalyzer.cs" />
     <Compile Include="TextContainsMatch.cs" />
     <Compile Include="TextMatch.cs" />
-    <Compile Include="Utility\StreamUtility.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="BaseResources.resx">
@@ -107,13 +116,6 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
-  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

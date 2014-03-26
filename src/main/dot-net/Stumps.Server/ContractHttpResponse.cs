@@ -1,6 +1,9 @@
 namespace Stumps.Server
 {
 
+    /// <summary>
+    ///     A class that represents an HTTP response in the context of a <see cref="T:Stumps.Server.StumpContract"/>.
+    /// </summary>
     public class ContractHttpResponse : BasicHttpResponse
     {
 

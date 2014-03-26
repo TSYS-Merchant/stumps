@@ -1,4 +1,4 @@
-﻿namespace Stumps.Utility
+﻿namespace Stumps
 {
 
     using System;

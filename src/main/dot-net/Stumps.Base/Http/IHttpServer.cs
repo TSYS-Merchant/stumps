@@ -10,14 +10,20 @@ namespace Stumps.Http
     {
 
         /// <summary>
-        ///     Occurs when an incomming HTTP request is finishing the processing.
+        ///     Occurs when the server processed an incomming HTTP request and returned the response to the client.
         /// </summary>
-        event EventHandler<StumpsContextEventArgs> RequestFinishing;
+        event EventHandler<StumpsContextEventArgs> RequestFinished;
 
         /// <summary>
-        ///     Occurs when an incomming HTTP request begins processing.
+        ///     Occurs after the server has finished processing the HTTP request, 
+        ///     and has constructed a response, but before it returned to the client.
         /// </summary>
-        event EventHandler<StumpsContextEventArgs> RequestStarting;
+        event EventHandler<StumpsContextEventArgs> RequestProcessed;
+
+        /// <summary>
+        ///     Occurs when the server receives an incomming HTTP request.
+        /// </summary>
+        event EventHandler<StumpsContextEventArgs> RequestReceived;
 
         /// <summary>
         ///     Gets TCP port used by the instance to listen for HTTP requests.

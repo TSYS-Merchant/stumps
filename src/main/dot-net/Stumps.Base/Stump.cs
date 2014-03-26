@@ -58,6 +58,17 @@
         }
 
         /// <summary>
+        ///     Gets the number of rules for the Stump.
+        /// </summary>
+        /// <value>
+        ///     The number of rules for the Stump.
+        /// </value>
+        public int Count
+        {
+            get { return _ruleList.Count; }
+        }
+
+        /// <summary>
         ///     Gets the unique identifier for the instance.
         /// </summary>
         /// <value>
@@ -67,6 +78,22 @@
         {
             get;
             private set;
+        }
+        
+        /// <summary>
+        ///     Adds the rule to the Stump.
+        /// </summary>
+        /// <param name="rule">The rule to add to the Stump.</param>
+        public void AddRule(IStumpRule rule)
+        {
+
+            if (rule == null)
+            {
+                throw new ArgumentNullException("rule");
+            }
+
+            _ruleList.Add(rule);
+
         }
 
         /// <summary>
@@ -79,7 +106,7 @@
         public bool IsMatch(IStumpsHttpContext context)
         {
 
-            if (context == null)
+            if (context == null || _response == null || _ruleList.Count == 0)
             {
                 return false;
             }
@@ -98,15 +125,6 @@
 
             return match;
 
-        }
-
-        /// <summary>
-        ///     Adds the rule to the Stump.
-        /// </summary>
-        /// <param name="rule">The rule to add to the Stump.</param>
-        public void AddRule(IStumpRule rule)
-        {
-            _ruleList.Add(rule);
         }
 
     }

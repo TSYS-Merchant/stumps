@@ -70,6 +70,15 @@ namespace Stumps {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The URI for the remote HTTP server is invalid..
+        /// </summary>
+        internal static string InvalidUri {
+            get {
+                return ResourceManager.GetString("InvalidUri", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to not:.
         /// </summary>
         internal static string NotPattern {
@@ -84,6 +93,15 @@ namespace Stumps {
         internal static string RegExPattern {
             get {
                 return ResourceManager.GetString("RegExPattern", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The value cannot be changed while the server is running..
+        /// </summary>
+        internal static string ServerIsRunning {
+            get {
+                return ResourceManager.GetString("ServerIsRunning", resourceCulture);
             }
         }
         

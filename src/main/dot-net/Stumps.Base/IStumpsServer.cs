@@ -10,7 +10,13 @@ namespace Stumps
     {
 
         /// <summary>
-        ///     Occurs when the server finishes processing an HTTP request.
+        ///     Occurs when the server processed an incomming HTTP request and returned the response to the client.
+        /// </summary>
+        event EventHandler<StumpsContextEventArgs> RequestFinished;
+
+        /// <summary>
+        ///     Occurs after the server has finished processing the HTTP request, 
+        ///     and has constructed a response, but before it returned to the client.
         /// </summary>
         event EventHandler<StumpsContextEventArgs> RequestProcessed;
 
@@ -19,6 +25,17 @@ namespace Stumps
         /// </summary>
         event EventHandler<StumpsContextEventArgs> RequestReceived;
 
+        /// <summary>
+        ///     Gets or sets the default response when a <see cref="T:Stumps.Stump"/> is not found, 
+        ///     and a remote HTTP server is not available.
+        /// </summary>
+        /// <value>
+        ///     The default response when a <see cref="T:Stumps.Stump"/> is not found, and a remote HTTP 
+        ///     server is not available.
+        /// </value>
+        /// <exception cref="System.InvalidOperationException">The value cannot be changed while the server is running.</exception>
+        FallbackResponse DefaultResponse { get; set; }
+        
         /// <summary>
         ///     Gets a value indicating whether the server is running.
         /// </summary>
@@ -33,15 +50,19 @@ namespace Stumps
         /// <value>
         ///     The port the HTTP server is using to listen for traffic.
         /// </value>
+        /// <exception cref="System.InvalidOperationException">The value cannot be changed while the server is running.</exception>
+        /// <exception cref="System.ArgumentOutOfRangeException">The value is not a valid TCP port.</exception>
         int ListeningPort { get; }
 
         /// <summary>
-        ///     Gets the external host that is contacted when a <see cref="T:Stumps.Stump"/> is unavailable to handle the incomming request.
+        ///     Gets or sets the remote HTTP that is contacted when a <see cref="T:Stumps.Stump" /> is unavailable to handle the incomming request.
         /// </summary>
         /// <value>
-        ///     The external host that is contacted when a <see cref="T:Stumps.Stump"/> is unavailable to handle the incomming request.
+        ///     The remote HTTP that is contacted when a <see cref="T:Stumps.Stump" /> is unavailable to handle the incomming request.
         /// </value>
-        Uri ProxyHostUri { get; }
+        /// <exception cref="System.InvalidOperationException">The value cannot be changed while the server is running.</exception>
+        /// <exception cref="System.ArgumentOutOfRangeException">The URI for the remote HTTP server is invalid.</exception>
+        Uri RemoteHttpServer { get; set; }
 
         /// <summary>
         ///     Gets the number of requests served with the proxy.
@@ -84,6 +105,15 @@ namespace Stumps
         int TotalRequestsServed { get; }
 
         /// <summary>
+        ///     Adds a new <see cref="T:Stumps.Stump" /> with a specified identifier to the collection.
+        /// </summary>
+        /// <param name="stumpId">The unique identifier for the <see cref="T:Stumps.Stump" />.</param>
+        /// <returns>A new <see cref="T:Stumps.Stump"/> with the specified <paramref name="stumpId"/>.</returns>
+        /// <exception cref="System.ArgumentNullException"><paramref name="stumpId"/> is <c>null</c>.</exception>
+        /// <exception cref="System.ArgumentException">A <see cref="T:Stumps.Stump" /> with the same identifier already exists.</exception>
+        Stump AddNewStump(string stumpId);
+
+        /// <summary>
         ///     Adds a new <see cref="T:Stumps.Stump" /> to the collection.
         /// </summary>
         /// <param name="stump">The <see cref="T:Stumps.Stump" /> to add to the collection.</param>
@@ -110,14 +140,14 @@ namespace Stumps
         Stump FindStump(string stumpId);
 
         /// <summary>
+        ///     Stops this instance of the Stumps server.
+        /// </summary>
+        void Shutdown();
+
+        /// <summary>
         ///     Starts this instance of the Stumps server.
         /// </summary>
         void Start();
-
-        /// <summary>
-        ///     Stops this instance of the Stumps server.
-        /// </summary>
-        void Stop();
 
     }
 

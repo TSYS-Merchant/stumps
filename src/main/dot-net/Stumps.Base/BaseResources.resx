@@ -120,11 +120,17 @@
   <data name="HttpServerPattern" xml:space="preserve">
     <value>http://*:{0}/</value>
   </data>
+  <data name="InvalidUri" xml:space="preserve">
+    <value>The URI for the remote HTTP server is invalid.</value>
+  </data>
   <data name="NotPattern" xml:space="preserve">
     <value>not:</value>
   </data>
   <data name="RegExPattern" xml:space="preserve">
     <value>regex:</value>
+  </data>
+  <data name="ServerIsRunning" xml:space="preserve">
+    <value>The value cannot be changed while the server is running.</value>
   </data>
   <data name="StumpAlreadyExistsError" xml:space="preserve">
     <value>A stump with the specified identifier already exists.</value>

@@ -5,7 +5,6 @@
     using System.Collections.Generic;
     using System.Net;
     using Stumps.Http;
-    using Stumps.Utility;
 
     /// <summary>
     ///     A class implementing the <see cref="T:Stumps.Http.IHttpHandler"/> interface that proxies requests to an external host.
@@ -326,7 +325,7 @@
 
             foreach (var headerName in remoteWebResponse.Headers.AllKeys)
             {
-                incommingHttpContext.Response.Headers.AddOrUpdate(headerName, remoteWebResponse.Headers[headerName]);
+                incommingHttpContext.Response.Headers[headerName] = remoteWebResponse.Headers[headerName];
             }
 
         }

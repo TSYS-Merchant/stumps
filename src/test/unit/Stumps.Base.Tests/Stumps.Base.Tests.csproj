@@ -58,8 +58,8 @@
     <Compile Include="BasicHttpResponseTests.cs" />
     <Compile Include="ContentEncoderTests.cs" />
     <Compile Include="FallbackResponseHandlerTests.cs" />
+    <Compile Include="HttpHeadersTests.cs" />
     <Compile Include="HttpPipelineHandlerTests.cs" />
-    <Compile Include="Http\HeaderDictionaryTests.cs" />
     <Compile Include="Http\HttpHelper.cs" />
     <Compile Include="Http\HttpServerTests.cs" />
     <Compile Include="Http\StumpsHttpContextTests.cs" />
@@ -78,19 +78,21 @@
       <Link>Properties\VersionAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="ProxyHandlerTests.cs" />
+    <Compile Include="ReadOnlyHttpHeadersTests.cs" />
     <Compile Include="Rules\BodyContentRuleTests.cs" />
     <Compile Include="Rules\BodyLengthRuleTests.cs" />
     <Compile Include="Rules\BodyMatchRuleTests.cs" />
     <Compile Include="Rules\HeaderRuleTests.cs" />
     <Compile Include="Rules\HttpMethodRuleTests.cs" />
     <Compile Include="Rules\UrlRuleTests.cs" />
+    <Compile Include="StreamUtilityTests.cs" />
+    <Compile Include="StumpTests.cs" />
     <Compile Include="TestData.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>TestData.resx</DependentUpon>
     </Compile>
     <Compile Include="TextAnalyzerTests.cs" />
-    <Compile Include="Utility\StreamUtilityTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\main\dot-net\Stumps.Base\Stumps.Base.csproj">

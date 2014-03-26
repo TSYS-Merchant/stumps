@@ -16,7 +16,12 @@ namespace Stumps.Server
         /// <returns>An instance of a class inherting from the <see cref="T:Stumps.IStumpsServer"/> interface.</returns>
         public IStumpsServer CreateServer(int listeningPort, FallbackResponse fallbackResponse)
         {
-            var server = new StumpsServer(listeningPort, fallbackResponse);
+            var server = new StumpsServer()
+            {
+                ListeningPort = listeningPort,
+                DefaultResponse = fallbackResponse
+            };
+
             return server;
         }
 
@@ -26,10 +31,16 @@ namespace Stumps.Server
         /// <param name="listeningPort">The port the HTTP server is using to listen for traffic.</param>
         /// <param name="proxyHostUri">The external host that is contacted when a <see cref="T:Stumps.Stump"/> is unavailable to handle the incomming request.</param>
         /// <exception cref="System.ArgumentOutOfRangeException"><paramref name="listeningPort" /> exceeds the allowed TCP port range.</exception>
+        /// <exception cref="System.ArgumentOutOfRangeException">The URI for the remote HTTP server is invalid.</exception>
         /// <returns>An instance of a class inherting from the <see cref="T:Stumps.IStumpsServer"/> interface.</returns>
         public IStumpsServer CreateServer(int listeningPort, System.Uri proxyHostUri)
         {
-            var server = new StumpsServer(listeningPort, proxyHostUri);
+            var server = new StumpsServer()
+            {
+                ListeningPort = listeningPort,
+                RemoteHttpServer = proxyHostUri
+            };
+
             return server;
         }
 

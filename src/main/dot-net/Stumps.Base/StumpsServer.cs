@@ -14,56 +14,38 @@
 
         private readonly object _syncRoot;
         private readonly IStumpsManager _stumpsManager;
-        private readonly Uri _proxyHost;
-        private readonly FallbackResponse _defaultResponse;
-        private readonly int _port;
 
-        private volatile bool _stumpsEnabled;
-
-        private bool _disposed;
         private HttpServer _server;
         private StumpsHandler _stumpsHandler;
 
-        private bool _started;
+        private FallbackResponse _defaultResponse;
+        private Uri _remoteHttpServer;
+        private int _port;
+        private volatile bool _stumpsEnabled;
 
         private int _requestCounter;
         private int _proxyCounter;
         private int _stumpsCounter;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="T:Stumps.StumpsServer" /> class.
-        /// </summary>
-        /// <param name="listeningPort">The port the HTTP server is using to listen for traffic.</param>
-        /// <param name="defaultResponse">The default response returned to a client when a matching <see cref="T:Stumps.Stump"/> is not found.</param>
-        /// <exception cref="System.ArgumentOutOfRangeException"><paramref name="listeningPort" /> exceeds the allowed TCP port range.</exception>
-        public StumpsServer(int listeningPort, FallbackResponse defaultResponse)
-            : this(listeningPort, null)
-        {
-            _defaultResponse = defaultResponse;
-        }
+        private bool _disposed;
+        private bool _started;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Stumps.StumpsServer" /> class.
+        /// Initializes a new instance of the <see cref="T:Stumps.StumpsServer"/> class.
         /// </summary>
-        /// <param name="listeningPort">The port the HTTP server is using to listen for traffic.</param>
-        /// <param name="proxyHostUri">The external host that is contacted when a <see cref="T:Stumps.Stump"/> is unavailable to handle the incomming request.</param>
-        /// <exception cref="System.ArgumentOutOfRangeException"><paramref name="listeningPort" /> exceeds the allowed TCP port range.</exception>
-        public StumpsServer(int listeningPort, Uri proxyHostUri)
+        public StumpsServer()
         {
-            if (listeningPort < IPEndPoint.MinPort || listeningPort > IPEndPoint.MaxPort)
-            {
-                throw new ArgumentOutOfRangeException("listeningPort");
-            }
+            this.ListeningPort = NetworkInformation.FindRandomOpenPort();
+            _remoteHttpServer = null;
 
             _syncRoot = new object();
             _stumpsManager = new StumpsManager();
 
-            _port = listeningPort;
-
-            _proxyHost = proxyHostUri;
+            this.DefaultResponse = FallbackResponse.Http503ServiceUnavailable;
             this.StumpsEnabled = true;
-        }
 
+        }
+        
         /// <summary>
         ///     Finalizes an instance of the <see cref="T:Stumps.StumpsServer"/> class.
         /// </summary>
@@ -75,12 +57,45 @@
         /// <summary>
         ///     Occurs when the server finishes processing an HTTP request.
         /// </summary>
+        public event EventHandler<StumpsContextEventArgs> RequestFinished;
+
+        /// <summary>
+        ///     Occurs after the server has finished processing the HTTP request, 
+        ///     and has constructed a response, but before it returned to the client.
+        /// </summary>
         public event EventHandler<StumpsContextEventArgs> RequestProcessed;
 
         /// <summary>
         ///     Occurs when the server receives an incomming HTTP request.
         /// </summary>
         public event EventHandler<StumpsContextEventArgs> RequestReceived;
+
+        /// <summary>
+        ///     Gets or sets the default response when a <see cref="T:Stumps.Stump"/> is not found, 
+        ///     and a remote HTTP server is not available.
+        /// </summary>
+        /// <value>
+        ///     The default response when a <see cref="T:Stumps.Stump"/> is not found, and a remote HTTP 
+        ///     server is not available.
+        /// </value>
+        /// <exception cref="System.InvalidOperationException">The value cannot be changed while the server is running.</exception>
+        public FallbackResponse DefaultResponse
+        {
+            get
+            {
+                return _defaultResponse;
+            }
+
+            set
+            {
+                if (this.IsRunning)
+                {
+                    throw new InvalidOperationException(BaseResources.ServerIsRunning);
+                }
+
+                _defaultResponse = value;
+            }
+        }
 
         /// <summary>
         ///     Gets a value indicating whether the server is running.
@@ -99,20 +114,76 @@
         /// <value>
         ///     The port the HTTP server is using to listen for traffic.
         /// </value>
+        /// <exception cref="System.InvalidOperationException">The value cannot be changed while the server is running.</exception>
+        /// <exception cref="System.ArgumentOutOfRangeException">The value is not a valid TCP port.</exception>
         public int ListeningPort
         {
-            get { return _port; }
+            get
+            {
+                return _port;
+            }
+
+            set
+            {
+                if (this.IsRunning)
+                {
+                    throw new InvalidOperationException(BaseResources.ServerIsRunning);
+                }
+
+                if (value < IPEndPoint.MinPort || value > IPEndPoint.MaxPort)
+                {
+                    throw new ArgumentOutOfRangeException("value");
+                }
+
+                _port = value;
+            }
         }
 
         /// <summary>
-        ///     Gets the external host that is contacted when a <see cref="T:Stumps.Stump"/> is unavailable to handle the incomming request.
+        ///     Gets the remote HTTP that is contacted when a <see cref="T:Stumps.Stump" /> is unavailable to handle the incomming request.
         /// </summary>
         /// <value>
-        ///     The external host that is contacted when a <see cref="T:Stumps.Stump"/> is unavailable to handle the incomming request.
+        ///     The remote HTTP that is contacted when a <see cref="T:Stumps.Stump" /> is unavailable to handle the incomming request.
         /// </value>
-        public Uri ProxyHostUri
+        /// <exception cref="System.InvalidOperationException">The value cannot be changed while the server is running.</exception>
+        /// <exception cref="System.ArgumentOutOfRangeException">The URI for the remote HTTP server is invalid.</exception>
+        public Uri RemoteHttpServer
         {
-            get { return _proxyHost; }
+            get
+            {
+                return _remoteHttpServer;
+            }
+
+            set
+            {
+
+                if (this.IsRunning)
+                {
+                    throw new InvalidOperationException(BaseResources.ServerIsRunning);
+                }
+
+                if (value == null)
+                {
+                    _remoteHttpServer = null;
+                    return;
+                }
+
+                var isValid = value.AbsolutePath.Equals("/", StringComparison.Ordinal) &&
+                              !string.IsNullOrEmpty(value.Authority) &&
+                              (value.Scheme.Equals("http", StringComparison.OrdinalIgnoreCase) ||
+                               value.Scheme.Equals("https", StringComparison.OrdinalIgnoreCase)) &&
+                              string.IsNullOrEmpty(value.UserInfo) && value.Port >= IPEndPoint.MinPort &&
+                              value.Port <= IPEndPoint.MaxPort;
+
+                if (!isValid)
+                {
+                    throw new ArgumentOutOfRangeException(BaseResources.InvalidUri);
+                }
+
+                _remoteHttpServer = value;
+
+            }
+
         }
 
         /// <summary>
@@ -180,6 +251,20 @@
         }
 
         /// <summary>
+        ///     Adds a new <see cref="T:Stumps.Stump" /> with a specified identifier to the collection.
+        /// </summary>
+        /// <param name="stumpId">The unique identifier for the <see cref="T:Stumps.Stump" />.</param>
+        /// <returns>A new <see cref="T:Stumps.Stump"/> with the specified <paramref name="stumpId"/>.</returns>
+        /// <exception cref="System.ArgumentNullException"><paramref name="stumpId"/> is <c>null</c>.</exception>
+        /// <exception cref="System.ArgumentException">A <see cref="T:Stumps.Stump" /> with the same identifier already exists.</exception>
+        public Stump AddNewStump(string stumpId)
+        {
+            var stump = new Stump(stumpId);
+            _stumpsManager.AddStump(stump);
+            return stump;
+        }
+
+        /// <summary>
         ///     Adds a new <see cref="T:Stumps.Stump" /> to the collection.
         /// </summary>
         /// <param name="stump">The <see cref="T:Stumps.Stump" /> to add to the collection.</param>
@@ -200,6 +285,32 @@
         }
 
         /// <summary>
+        ///     Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
+
+            if (!_disposed)
+            {
+
+                _disposed = true;
+
+                if (_started)
+                {
+                    this.Shutdown();
+                }
+
+                if (_stumpsManager != null)
+                {
+                    _stumpsManager.Dispose();
+                }
+            }
+
+            GC.SuppressFinalize(this);
+
+        }
+
+        /// <summary>
         ///     Finds an existing stump.
         /// </summary>
         /// <param name="stumpId">The unique identifier for the Stump.</param>
@@ -213,30 +324,28 @@
         {
             return _stumpsManager.FindStump(stumpId);
         }
-
+        
         /// <summary>
-        ///     Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        ///     Stops this instance of the Stumps server.
         /// </summary>
-        public void Dispose()
+        public void Shutdown()
         {
 
-            if (!_disposed)
+            lock (_syncRoot)
             {
 
-                _disposed = true;
-
-                if (_started)
+                if (!_started)
                 {
-                    this.Stop();
+                    return;
                 }
 
-                if (_stumpsManager != null)
-                {
-                    _stumpsManager.Dispose();
-                }
+                _started = false;
+                _server.StopListening();
+
+                _server.Dispose();
+                _server = null;
+
             }
-
-            GC.SuppressFinalize(this);
 
         }
 
@@ -266,9 +375,9 @@
                 pipeline.Add(_stumpsHandler);
 
                 // Setup the Proxy HTTP handler
-                if (_proxyHost != null)
+                if (_remoteHttpServer != null)
                 {
-                    var proxyHandler = new ProxyHandler(_proxyHost);
+                    var proxyHandler = new ProxyHandler(_remoteHttpServer);
                     pipeline.Add(proxyHandler);
                 }
                 else
@@ -280,34 +389,11 @@
 
                 _server = new HttpServer(_port, pipeline);
 
-                _server.RequestStarting += Server_RequestStarting;
-                _server.RequestFinishing += Server_RequestFinishing;
+                _server.RequestFinished += ServerRequestFinished;
+                _server.RequestProcessed += ServerRequestProcessed;
+                _server.RequestReceived += ServerRequestStarted;
 
                 _server.StartListening();
-
-            }
-
-        }
-
-        /// <summary>
-        ///     Stops this instance of the Stumps server.
-        /// </summary>
-        public void Stop()
-        {
-
-            lock (_syncRoot)
-            {
-
-                if (!_started)
-                {
-                    return;
-                }
-
-                _started = false;
-                _server.StopListening();
-
-                _server.Dispose();
-                _server = null;
 
             }
 
@@ -318,7 +404,7 @@
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="T:Stumps.StumpsContextEventArgs"/> instance containing the event data.</param>
-        private void Server_RequestFinishing(object sender, StumpsContextEventArgs e)
+        private void ServerRequestFinished(object sender, StumpsContextEventArgs e)
         {
 
             // Increment the request counter
@@ -336,6 +422,22 @@
             }
 
             // Raise the processed event
+            if (this.RequestFinished != null)
+            {
+                this.RequestFinished(this, e);
+            }
+
+        }
+
+        /// <summary>
+        /// Handles the RequestProcessed event of the server instance.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="StumpsContextEventArgs"/> instance containing the event data.</param>
+        private void ServerRequestProcessed(object sender, StumpsContextEventArgs e)
+        {
+
+            // Raise the request processed event
             if (this.RequestProcessed != null)
             {
                 this.RequestProcessed(this, e);
@@ -344,11 +446,11 @@
         }
 
         /// <summary>
-        ///     Handles the RequestStarting event of the server instance.
+        ///     Handles the RequestStarted event of the server instance.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="T:Stumps.StumpsContextEventArgs"/> instance containing the event data.</param>
-        private void Server_RequestStarting(object sender, StumpsContextEventArgs e)
+        private void ServerRequestStarted(object sender, StumpsContextEventArgs e)
         {
 
             // Raise the request received event

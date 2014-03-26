@@ -10,6 +10,16 @@
     {
 
         [Test]
+        public void Constructor_WithNullBytes_ThrowsException()
+        {
+
+            Assert.That(
+                () => new BodyMatchRule(null),
+                Throws.Exception.TypeOf<ArgumentNullException>().With.Property("ParamName").EqualTo("value"));
+
+        }
+
+        [Test]
         public void IsMatch_WithNullRequest_ReturnsFalse()
         {
 
