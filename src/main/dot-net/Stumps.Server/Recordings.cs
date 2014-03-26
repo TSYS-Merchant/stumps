@@ -33,54 +33,6 @@
         }
 
         /// <summary>
-        ///     Adds the specified <see cref="T:Stumps.IStumpsHttpContext"/> to the collection.
-        /// </summary>
-        /// <param name="context">The <see cref="T:Stumps.IStumpsHttpContext"/> to add to the collection.</param>
-        /// <exception cref="System.ArgumentNullException"><paramref name="context"/> is <c>null</c>.</exception>
-        public void Add(IStumpsHttpContext context)
-        {
-
-            if (context == null)
-            {
-                throw new ArgumentNullException("context");
-            }
-
-            var recordedContext = new RecordedContext();
-            
-            recordedContext.Request.Body = context.Request.GetBody();
-            recordedContext.Request.BodyContentType = context.Request.Headers["Content-Type"] ?? string.Empty;
-            recordedContext.Request.HttpMethod = context.Request.HttpMethod;
-            recordedContext.Request.RawUrl = context.Request.RawUrl;
-            CopyHeaders(context.Request.Headers, recordedContext.Request);
-            DecodeBody(recordedContext.Request);
-            DetermineBodyIsImage(recordedContext.Request);
-
-            if (!recordedContext.Request.BodyIsImage)
-            {
-                DetermineBodyIsText(recordedContext.Request);
-            }
-
-            recordedContext.Response.Body = context.Response.GetBody();
-            recordedContext.Response.BodyContentType = context.Response.Headers["Content-Type"] ?? string.Empty;
-            recordedContext.Response.StatusCode = context.Response.StatusCode;
-            recordedContext.Response.StatusDescription = context.Response.StatusDescription;
-            CopyHeaders(context.Response.Headers, recordedContext.Response);
-            DecodeBody(recordedContext.Response);
-            DetermineBodyIsImage(recordedContext.Response);
-
-            if (!recordedContext.Response.BodyIsImage)
-            {
-                DetermineBodyIsText(recordedContext.Response);
-            }
-
-            lock (_syncRoot)
-            {
-                _recordings.Add(recordedContext);
-            }
-
-        }
-
-        /// <summary>
         ///     Clears all recorded contexts from the instance.
         /// </summary>
         public void Clear()
@@ -152,68 +104,24 @@
         }
 
         /// <summary>
-        ///     Copies the headers from a <see cref="T:Stumps.IHeaderDictionary"/> to the specified <see cref="T:Stumps.Server.IRecordedContextPart"/>.
+        ///     Adds the specified <see cref="T:Stumps.IStumpsHttpContext"/> to the collection.
         /// </summary>
-        /// <param name="headerDictionary">The header dictionary used as the source of the headers.</param>
-        /// <param name="contextPart">The recorded context part used as the target for the headers.</param>
-        private void CopyHeaders(IHttpHeaders headerDictionary, IRecordedContextPart contextPart)
+        /// <param name="context">The <see cref="T:Stumps.IStumpsHttpContext"/> to add to the collection.</param>
+        /// <exception cref="System.ArgumentNullException"><paramref name="context"/> is <c>null</c>.</exception>
+        internal void Add(IStumpsHttpContext context)
         {
 
-            foreach (var headerName in headerDictionary.HeaderNames)
+            if (context == null)
             {
-                var header = new HttpHeader
-                {
-                    Name = headerName,
-                    Value = headerDictionary[headerName]
-                };
-
-                contextPart.Headers.Add(header);
+                throw new ArgumentNullException("context");
             }
 
-        }
+            var recordedContext = new RecordedContext(context);
 
-        /// <summary>
-        ///     Decodes the body of a based on the content encoding.
-        /// </summary>
-        /// <param name="part">The <see cref="T:Stumps.Server.IRecordedContextPart"/> part containing the body to decode.</param>
-        private void DecodeBody(IRecordedContextPart part)
-        {
-
-            var buffer = part.Body;
-            var header = part.FindHeader("Content-Encoding");
-
-            if (header != null)
+            lock (_syncRoot)
             {
-                var encoder = new ContentEncoder(header.Value);
-                buffer = encoder.Decode(buffer);
+                _recordings.Add(recordedContext);
             }
-
-            part.Body = buffer;
-
-        }
-
-        /// <summary>
-        ///     Determines if the body of the recorded context part is an image.
-        /// </summary>
-        /// <param name="part">The part of the recorded context to analyze.</param>
-        private void DetermineBodyIsImage(IRecordedContextPart part)
-        {
-
-            if (part.BodyContentType.StartsWith("image", StringComparison.OrdinalIgnoreCase))
-            {
-                part.BodyIsImage = true;
-            }
-
-        }
-
-        /// <summary>
-        ///     Determines if the body of the recorded context part is text.
-        /// </summary>
-        /// <param name="part">The part of the recorded context to analyze.</param>
-        private void DetermineBodyIsText(IRecordedContextPart part)
-        {
-
-            part.BodyIsText = TextAnalyzer.IsText(part.Body);
 
         }
 

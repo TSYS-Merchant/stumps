@@ -26,10 +26,10 @@
         IStumpsHttpRequest Request { get; }
 
         /// <summary>
-        ///     Gets the <see cref="T:Stumps.IStumpsHttpResponse"/> object for the current HTTP request.
+        ///     Gets the <see cref="T:Stumps.IStumpsHttpResponse"/> object for the current HTTP response.
         /// </summary>
         /// <value>
-        ///     The <see cref="T:Stumps.IStumpsHttpResponse"/> object for the current HTTP request.
+        ///     The <see cref="T:Stumps.IStumpsHttpResponse"/> object for the current HTTP response.
         /// </value>
         IStumpsHttpResponse Response { get; }
 

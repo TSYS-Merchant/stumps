@@ -27,10 +27,10 @@ namespace Stumps
         }
 
         /// <summary>
-        ///     Gets the length of the HTTP request body.
+        ///     Gets the length of the HTTP body.
         /// </summary>
         /// <value>
-        ///     The length of the HTTP request body.
+        ///     The length of the HTTP body.
         /// </value>
         public int BodyLength
         {

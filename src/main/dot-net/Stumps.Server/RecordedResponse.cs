@@ -2,69 +2,53 @@
 {
 
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
     ///     A class that represents a recorded HTTP response.
     /// </summary>
-    public sealed class RecordedResponse : IRecordedContextPart
+    public sealed class RecordedResponse : RecordedContextPartBase, IStumpsHttpResponse
     {
 
+        private readonly string _redirectAddress;
+        private readonly int _statusCode;
+        private readonly string _statusDescription;
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:Stumps.Server.RecordedResponse"/> class.
+        ///     Initializes a new instance of the <see cref="T:Stumps.Server.RecordedResponse" /> class.
         /// </summary>
-        public RecordedResponse()
+        /// <param name="response">The <see cref="T:Stumps.IStumpsHttpResponse"/> used to initialize the instance.</param>
+        public RecordedResponse(IStumpsHttpResponse response) : base(response)
         {
-            this.Headers = new List<HttpHeader>();
+            _redirectAddress = response.RedirectAddress;
+            _statusCode = response.StatusCode;
+            _statusDescription = response.StatusDescription;
         }
 
         /// <summary>
-        ///     Gets or sets the byte array representing the body of the context part.
+        ///     Gets or sets the redirect address.
         /// </summary>
         /// <value>
-        ///     The byte array representing the body of the context part.
+        ///     The redirect address.
         /// </value>
-        public byte[] Body { get; set; }
+        /// <exception cref="System.NotSupportedException">Thrown when altering the value of the redirect address.</exception>
+        public string RedirectAddress
+        {
+            get { return _redirectAddress; }
+            set { throw new NotSupportedException(); }
+        }
 
         /// <summary>
-        ///     Gets or sets the content type of the body.
+        ///     Gets or sets the HTTP status code for the response.
         /// </summary>
         /// <value>
-        ///     The content type of the body.
+        ///     The HTTP status code for the response.
         /// </value>
-        public string BodyContentType { get; set; }
-
-        /// <summary>
-        ///     Gets or sets a value indicating whether the <see cref="P:Stumps.Server.IRecordedContextPart.Body" /> of the current instance is an image.
-        /// </summary>
-        /// <value>
-        ///     <c>true</c> if the <see cref="P:Stumps.Server.IRecordedContextPart.Body" /> of the current instance is an image; otherwise, <c>false</c>.
-        /// </value>
-        public bool BodyIsImage { get; set; }
-
-        /// <summary>
-        ///     Gets or sets a value indicating whether the <see cref="P:Stumps.Server.IRecordedContextPart.Body" /> of the current instance is text.
-        /// </summary>
-        /// <value>
-        ///     <c>true</c> if the <see cref="P:Stumps.Server.IRecordedContextPart.Body" /> of the current instance is text; otherwise, <c>false</c>.
-        /// </value>
-        public bool BodyIsText { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the headers in the context part.
-        /// </summary>
-        /// <value>
-        ///     The headers in the context part.
-        /// </value>
-        public IList<HttpHeader> Headers { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the HTTP status code.
-        /// </summary>
-        /// <value>
-        ///     The HTTP status code.
-        /// </value>
-        public int StatusCode { get; set; }
+        /// <exception cref="System.NotSupportedException">Thrown when altering the value of the status code.</exception>
+        public int StatusCode
+        {
+            get { return _statusCode; }
+            set { throw new NotSupportedException(); }
+        }
 
         /// <summary>
         ///     Gets or sets the description of the HTTP status code.
@@ -72,31 +56,30 @@
         /// <value>
         ///     The description of the HTTP status code.
         /// </value>
-        public string StatusDescription { get; set; }
+        /// <exception cref="System.NotSupportedException">Thrown when altering the value of the status description.</exception>
+        public string StatusDescription
+        {
+            get { return _statusDescription; }
+            set { throw new NotSupportedException(); }
+        }
 
         /// <summary>
-        ///     Finds the header with the specified name.
+        ///     Appends a byte array to the body of the HTTP response.
         /// </summary>
-        /// <param name="name">The name of the specified header.</param>
-        /// <returns>
-        ///     A <see cref="T:Stumps.Server.HttpHeader" /> with the specified <paramref name="name" />.
-        /// </returns>
-        /// <remarks>
-        ///     A <c>null</c> value is returned if an <see cref="T:Stumps.Server.HttpHeader" /> is not found.
-        /// </remarks>
-        public HttpHeader FindHeader(string name)
+        /// <param name="buffer">The bytes to append to the body of the response.</param>
+        /// <exception cref="System.NotSupportedException">Always thrown.</exception>
+        public void AppendToBody(byte[] buffer)
         {
+            throw new NotSupportedException();
+        }
 
-            for (int i = 0; i < this.Headers.Count; i++)
-            {
-                if (this.Headers[i].Name.Equals(name, StringComparison.OrdinalIgnoreCase))
-                {
-                    return this.Headers[i];
-                }
-            }
-
-            return null;
-
+        /// <summary>
+        ///     Clears the existing body of the HTTP response.
+        /// </summary>
+        /// <exception cref="System.NotSupportedException">Always thrown.</exception>
+        public void ClearBody()
+        {
+            throw new NotSupportedException();
         }
 
     }

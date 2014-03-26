@@ -197,17 +197,17 @@
             {
                 case BodyMatch.ContainsText:
                     contract.MatchBodyText = model.RequestBodyMatchValues;
-                    contract.MatchBody = record.Request.Body;
-                    contract.MatchBodyContentType = record.Request.BodyContentType;
-                    contract.MatchBodyIsImage = record.Request.BodyIsImage;
-                    contract.MatchBodyIsText = record.Request.BodyIsText;
+                    contract.MatchBody = record.Request.GetBody();
+                    contract.MatchBodyContentType = record.Request.Headers["Content-Type"];
+                    contract.MatchBodyIsImage = record.Request.BodyType == HttpBodyClassification.Image;
+                    contract.MatchBodyIsText = record.Request.BodyType == HttpBodyClassification.Text;
                     break;
 
                 case BodyMatch.ExactMatch:
-                    contract.MatchBody = record.Request.Body;
-                    contract.MatchBodyContentType = record.Request.BodyContentType;
-                    contract.MatchBodyIsImage = record.Request.BodyIsImage;
-                    contract.MatchBodyIsText = record.Request.BodyIsText;
+                    contract.MatchBody = record.Request.GetBody();
+                    contract.MatchBodyContentType = record.Request.Headers["Content-Type"];
+                    contract.MatchBodyIsImage = record.Request.BodyType == HttpBodyClassification.Image;
+                    contract.MatchBodyIsText = record.Request.BodyType == HttpBodyClassification.Text;
                     break;
 
                 case BodyMatch.IsBlank:
@@ -240,9 +240,9 @@
 
                 case BodySource.Origin:
                     contract.Response.ClearBody();
-                    contract.Response.AppendToBody(record.Response.Body);
-                    contract.Response.BodyIsImage = record.Response.BodyIsImage;
-                    contract.Response.BodyIsText = record.Response.BodyIsText;
+                    contract.Response.AppendToBody(record.Response.GetBody());
+                    contract.Response.BodyIsImage = record.Response.BodyType == HttpBodyClassification.Image;
+                    contract.Response.BodyIsText = record.Response.BodyType == HttpBodyClassification.Text;
                     break;
 
             }

@@ -2,6 +2,7 @@ namespace Stumps.Launcher
 {
 
     using System;
+    using System.Globalization;
     using System.Diagnostics;
     using System.IO;
     using Stumps.Server;
@@ -29,7 +30,7 @@ namespace Stumps.Launcher
 
             configuration.LoadConfiguration();
 
-            var urlString = string.Format("http://localhost:{0}/", configuration.WebApiPort);
+            var urlString = string.Format(CultureInfo.InvariantCulture, "http://localhost:{0}/", configuration.WebApiPort);
 
             Process.Start(urlString);
 

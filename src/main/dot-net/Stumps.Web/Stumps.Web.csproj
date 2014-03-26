@@ -63,7 +63,6 @@
     <Compile Include="Models\RunningStatusModel.cs" />
     <Compile Include="Models\StumpModel.cs" />
     <Compile Include="Models\StumpOrigin.cs" />
-    <Compile Include="NancyModuleHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="..\CommonAssembly\ProductAssemblyInfo.cs">
       <Link>Properties\ProductAssemblyInfo.cs</Link>

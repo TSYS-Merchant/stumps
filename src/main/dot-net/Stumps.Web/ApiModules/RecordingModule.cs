@@ -50,11 +50,11 @@
                     var model = new RecordingModel
                     {
                         Index = afterIndex,
-                        Date = recording.RequestDate,
+                        Date = recording.ReceivedDate,
                         Method = recording.Request.HttpMethod,
                         RawUrl = recording.Request.RawUrl,
-                        RequestSize = recording.Request.Body == null ? 0 : recording.Request.Body.Length,
-                        ResponseSize = recording.Response.Body == null ? 0 : recording.Response.Body.Length,
+                        RequestSize = recording.Request.BodyLength,
+                        ResponseSize = recording.Response.BodyLength,
                         StatusCode = recording.Response.StatusCode,
                         StatusDescription = recording.Response.StatusDescription
                     };
@@ -77,31 +77,32 @@
                 {
                     Index = recordIndex,
                     RequestBody = string.Empty,
-                    RequestBodyIsImage = record.Request.BodyIsImage,
-                    RequestBodyIsText = record.Request.BodyIsText,
-                    RequestBodyLength = record.Request.Body != null ? record.Request.Body.Length : 0,
+                    RequestBodyIsImage = record.Request.BodyType == HttpBodyClassification.Image,
+                    RequestBodyIsText = record.Request.BodyType == HttpBodyClassification.Text,
+                    RequestBodyLength = record.Request.BodyLength,
                     RequestBodyUrl = "/api/proxy/" + serverId + "/recording/" + recordIndex + "/request",
                     RequestHttpMethod = record.Request.HttpMethod,
                     RequestRawUrl = record.Request.RawUrl,
-                    RequestDate = record.RequestDate,
+                    RequestDate = record.ReceivedDate,
                     ResponseBody = string.Empty,
-                    ResponseBodyIsImage = record.Response.BodyIsImage,
-                    ResponseBodyIsText = record.Response.BodyIsText,
-                    ResponseBodyLength = record.Response.Body != null ? record.Response.Body.Length : 0,
+                    ResponseBodyIsImage = record.Response.BodyType == HttpBodyClassification.Image,
+                    ResponseBodyIsText = record.Response.BodyType == HttpBodyClassification.Text,
+                    ResponseBodyLength = record.Response.BodyLength,
                     ResponseBodyUrl = "/api/proxy/" + serverId + "/recording/" + recordIndex + "/response",
                     ResponseStatusCode = record.Response.StatusCode,
                     ResponseStatusDescription = record.Response.StatusDescription
                 };
 
-                model.RequestBody = record.Request.BodyIsText
-                                         ? NancyModuleHelper.GenerateBodyText(record.Request)
+                model.RequestBody = record.Request.BodyType == HttpBodyClassification.Text
+                                         ? record.Request.GetBodyAsString()
                                          : string.Empty;
-                model.ResponseBody = record.Response.BodyIsText
-                                          ? NancyModuleHelper.GenerateBodyText(record.Response)
+
+                model.ResponseBody = record.Response.BodyType == HttpBodyClassification.Text
+                                          ? record.Response.GetBodyAsString()
                                           : string.Empty;
 
-                model.RequestHeaders = GenerateHeaders(record.Request);
-                model.ResponseHeaders = GenerateHeaders(record.Response);
+                model.RequestHeaders = GenerateHeaderModels(record.Request);
+                model.ResponseHeaders = GenerateHeaderModels(record.Response);
 
                 return Response.AsJson(model);
             };
@@ -114,9 +115,9 @@
 
                 var record = environment.Recordings.FindAt(recordIndex);
 
-                var ms = new System.IO.MemoryStream(record.Request.Body);
+                var ms = new System.IO.MemoryStream(record.Request.GetBody());
 
-                return Response.FromStream(ms, record.Request.BodyContentType);
+                return Response.FromStream(ms, record.Request.Headers["Content-Type"]);
             };
 
             Get["/api/proxy/{serverId}/recording/{recordIndex}/response"] = _ =>
@@ -127,9 +128,9 @@
 
                 var record = server.Recordings.FindAt(recordIndex);
 
-                var ms = new System.IO.MemoryStream(record.Response.Body);
+                var ms = new System.IO.MemoryStream(record.Response.GetBody());
 
-                return Response.FromStream(ms, record.Response.BodyContentType);
+                return Response.FromStream(ms, record.Response.Headers["Content-Type"]);
             };
 
             Get["/api/proxy/{serverId}/recording/status"] = _ =>
@@ -165,21 +166,21 @@
         }
 
         /// <summary>
-        ///     Generates the HTTP headers used by a <see cref="T:Stumps.Server.IRecordedContextPart"/>.
+        ///     Generates the HTTP headers used by a <see cref="T:Stumps.IStumpsHttpContextPart"/>.
         /// </summary>
-        /// <param name="part">The <see cref="T:Stumps.Server.IRecordedContextPart"/> used to generate headers.</param>
+        /// <param name="part">The <see cref="T:Stumps.IStumpsHttpContextPart"/> used to generate headers.</param>
         /// <returns>An array of <see cref="Stumps.Web.Models.HeaderModel"/> objects.</returns>
-        private HeaderModel[] GenerateHeaders(IRecordedContextPart part)
+        private HeaderModel[] GenerateHeaderModels(IStumpsHttpContextPart part)
         {
 
             var modelList = new List<HeaderModel>();
 
-            foreach (var header in part.Headers)
+            foreach (var headerName in part.Headers.HeaderNames)
             {
                 var modelHeader = new HeaderModel
                 {
-                    Name = header.Name,
-                    Value = header.Value
+                    Name = headerName,
+                    Value = part.Headers[headerName]
                 };
 
                 modelList.Add(modelHeader);
