@@ -50,7 +50,7 @@
             Assert.DoesNotThrow(
                 () =>
                 {
-                    using (var server = HttpHelper.CreateHttpServer())
+                    using (var server = HttpHelper.CreateServer())
                     {
 
                         server.StartListening();
@@ -65,7 +65,7 @@
         public void HttpServer_StartStop_UpdatesProperty()
         {
 
-            using (var server = HttpHelper.CreateHttpServer())
+            using (var server = HttpHelper.CreateServer())
             {
 
                 Assert.IsFalse(server.Started);
@@ -94,7 +94,7 @@
             var startingEventCount = 0;
             var finishingEventCount = 0;
 
-            using (var server = HttpHelper.CreateHttpServer(mockHandler))
+            using (var server = HttpHelper.CreateServer(mockHandler))
             {
 
                 server.RequestReceived += (o, i) =>
@@ -121,7 +121,7 @@
 
                 var uri = new Uri("http://localhost:" + server.Port.ToString(CultureInfo.InvariantCulture) + "/");
 
-                var request = WebRequest.CreateHttp(uri);
+                var request = WebRequest.Create(uri);
 
                 using (var response = (HttpWebResponse)request.GetResponse())
                 {
@@ -144,14 +144,14 @@
             mockHandler.StatusDescription = "Bob";
             mockHandler.UpdateBody(TestData.SampleTextResponse);
 
-            using (var server = HttpHelper.CreateHttpServer(mockHandler))
+            using (var server = HttpHelper.CreateServer(mockHandler))
             {
 
                 server.StartListening();
 
                 var uri = new Uri("http://localhost:" + server.Port.ToString(CultureInfo.InvariantCulture) + "/");
 
-                var request = WebRequest.CreateHttp(uri);
+                var request = WebRequest.Create(uri);
 
                 using (var response = (HttpWebResponse)request.GetResponse())
                 {
@@ -181,7 +181,7 @@
             Assert.DoesNotThrow(
                 () =>
                 {
-                    using (var server = HttpHelper.CreateHttpServer())
+                    using (var server = HttpHelper.CreateServer())
                     {
 
                         server.StartListening();
@@ -200,7 +200,7 @@
             Assert.DoesNotThrow(
                 () =>
                 {
-                    using (var server = HttpHelper.CreateHttpServer())
+                    using (var server = HttpHelper.CreateServer())
                     {
 
                         server.StartListening();

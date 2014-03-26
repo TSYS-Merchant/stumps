@@ -6,15 +6,15 @@
     internal static class HttpHelper
     {
 
-        public static HttpServer CreateHttpServer()
+        public static HttpServer CreateServer()
         {
 
             var handler = Substitute.For<IHttpHandler>();
-            return HttpHelper.CreateHttpServer(handler);
+            return HttpHelper.CreateServer(handler);
 
         }
 
-        public static HttpServer CreateHttpServer(IHttpHandler handler)
+        public static HttpServer CreateServer(IHttpHandler handler)
         {
 
             var openPort = NetworkInformation.FindRandomOpenPort();
