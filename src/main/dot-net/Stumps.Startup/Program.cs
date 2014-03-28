@@ -21,7 +21,7 @@
         public static void Main(string[] args)
         {
 
-			var isRunningAsConsole = true; // Environment.UserInteractive;
+            var isRunningAsConsole = IsApplicationRunningAsConsole(args);
 
             var writer = isRunningAsConsole
                               ? (IMessageWriter)new ConsoleWriter()
@@ -78,17 +78,63 @@
         private static string DetermineConfigurationFileFromArgs(string[] args)
         {
 
-            if (!args[0].Equals("-c", StringComparison.OrdinalIgnoreCase) || args.Length != 2)
+            string configurationFile;
+            FindSwitchAndValue("-c", args, out configurationFile);
+
+            if (configurationFile != null && !File.Exists(configurationFile))
             {
                 return null;
             }
 
-            if (!File.Exists(args[1]))
+            return configurationFile;
+
+        }
+
+        /// <summary>
+        ///     Finds the switch passed into the command-line arguments.
+        /// </summary>
+        /// <param name="switchName">Name of the switch.</param>
+        /// <param name="args">The command-line arguments.</param>
+        /// <returns><c>true</c> if the switch was found; otherwise, <c>false</c>.</returns>
+        private static bool FindSwitch(string switchName, string[] args)
+        {
+
+            string valueAfter;
+            return FindSwitchAndValue(switchName, args, out valueAfter);
+
+        }
+
+        /// <summary>
+        ///     Finds the switch passed into the command-line arguments.
+        /// </summary>
+        /// <param name="switchName">Name of the switch.</param>
+        /// <param name="args">The command-line arguments.</param>
+        /// <param name="value">The value that was found immediately after the switch.</param>
+        /// <returns><c>true</c> if the switch was found; otherwise, <c>false</c>.</returns>
+        private static bool FindSwitchAndValue(string switchName, string[] args, out string value)
+        {
+
+            var hasSwitch = false;
+
+            value = null;
+
+            for (var i = 0; i < args.Length; i++)
             {
-                return null;
+                var argument = args[0];
+
+                if (argument.Equals(switchName, StringComparison.OrdinalIgnoreCase))
+                {
+                    hasSwitch = true;
+
+                    // Find the value after the switch if one is available
+                    if (i < args.Length - 2)
+                    {
+                        value = args[i + 1];
+                    }
+                }
             }
 
-            return args[1];
+            return hasSwitch;
 
         }
 
@@ -110,6 +156,33 @@
             var isAlreadyRunning = processes.Length > 1;
 
             return isAlreadyRunning;
+
+        }
+
+
+        /// <summary>
+        ///     Determines whether the current application is running as a console.
+        /// </summary>
+        /// <param name="args">The command-line arguments passed into the application.</param>
+        /// <returns><c>true</c> if the application is running as a console; otherwise, <c>false</c>.</returns>
+        private static bool IsApplicationRunningAsConsole(string[] args)
+        {
+
+            // This works on Windows platforms
+            if (Environment.UserInteractive)
+            {
+                return true;
+            }
+
+            bool isRunningAsConsole = Environment.UserInteractive;
+
+            // Detect if mono is running
+            if (Type.GetType("Mono.Runtime") != null)
+            {
+                isRunningAsConsole = !FindSwitch("-s", args);
+            }
+
+            return isRunningAsConsole;
 
         }
 
