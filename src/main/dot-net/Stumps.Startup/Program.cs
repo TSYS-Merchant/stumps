@@ -21,7 +21,7 @@
         public static void Main(string[] args)
         {
 
-            var isRunningAsConsole = Environment.UserInteractive;
+			var isRunningAsConsole = true; // Environment.UserInteractive;
 
             var writer = isRunningAsConsole
                               ? (IMessageWriter)new ConsoleWriter()
