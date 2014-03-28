@@ -136,9 +136,9 @@
     <PostBuildEvent Condition=" '$(OS)' == 'Windows_NT' ">XCOPY "$(ProjectDir)..\Stumps.Web\Content" "$(TargetDir)\Content" /E /I /F /Y
 XCOPY "$(ProjectDir)..\Stumps.Web\Views" "$(TargetDir)" /E /I /F /Y
     </PostBuildEvent>
-    <PostBuildEvent Condition=" '$(OS)' != 'Windows_NT' ">mkdir "$(TargetDir)\Content"
-cp "$(ProjectDir)..\Stumps.Web\Content" "$(TargetDir)\Content"
-cp "$(ProjectDir)..\Stumps.Web\Views" "$(TargetDir)"
+    <PostBuildEvent Condition=" '$(OS)' != 'Windows_NT' ">mkdir "$(TargetDir)/Content"
+cp "$(ProjectDir)../Stumps.Web/Content/*" "$(TargetDir)/Content"
+cp "$(ProjectDir)../Stumps.Web/Views/*" "$(TargetDir)"
     </PostBuildEvent>
   </PropertyGroup>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
