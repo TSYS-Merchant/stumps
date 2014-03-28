@@ -55,10 +55,11 @@
             dataAccess.ProxyServerFind (Arg.Any<string>()).Returns(proxyEntity);
 
             // create a TcpListener already listening on the port
-            var tcpListener = new TcpListener (port);
+            var tcpListener = new TcpListener(IPAddress.Loopback, port);
+
             try 
             {
-                tcpListener.Start ();
+                tcpListener.Start();
 
                 StumpsHost proxy = new StumpsHost(Substitute.For<IServerFactory>(), Substitute.For<ILogger>(), dataAccess);
                 Assert.That(
@@ -67,7 +68,7 @@
             } 
             finally 
             {
-                tcpListener.Stop ();
+                tcpListener.Stop();
             }
 
         }
