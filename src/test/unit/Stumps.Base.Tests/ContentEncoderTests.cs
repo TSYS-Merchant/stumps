@@ -101,12 +101,12 @@
             var encoding = new ContentEncoder("deflate");
             var actual = encoding.Encode(_helloWorldUtf8);
 
-			// assert that we got back something different
-			CollectionAssert.AreNotEqual(_helloWorldUtf8, actual);
+            // assert that we got back something different
+            CollectionAssert.AreNotEqual(_helloWorldUtf8, actual);
 
-			var roundTrip = encoding.Decode(actual);
+            var roundTrip = encoding.Decode(actual);
 
-			CollectionAssert.AreEqual(_helloWorldUtf8, roundTrip);
+            CollectionAssert.AreEqual(_helloWorldUtf8, roundTrip);
 
         }
 
@@ -115,17 +115,17 @@
         {
 
             var encoding = new ContentEncoder("GZIP");
-			var actual = encoding.Encode(_helloWorldUtf8);
+            var actual = encoding.Encode(_helloWorldUtf8);
 
-			// assert that we got back something different
-			CollectionAssert.AreNotEqual(_helloWorldUtf8, actual);
+            // assert that we got back something different
+            CollectionAssert.AreNotEqual(_helloWorldUtf8, actual);
 
-			// assert that the gzip header is present
-			Assert.AreEqual(actual [0], 31);
-			Assert.AreEqual(actual [1], 139);
+            // assert that the gzip header is present
+            Assert.AreEqual(actual [0], 31);
+            Assert.AreEqual(actual [1], 139);
 
-			var roundTrip = encoding.Decode(actual);
-			CollectionAssert.AreEqual(_helloWorldUtf8, roundTrip);
+            var roundTrip = encoding.Decode(actual);
+            CollectionAssert.AreEqual(_helloWorldUtf8, roundTrip);
 
         }
 
@@ -136,14 +136,14 @@
             var encoding = new ContentEncoder("gzip");
             var actual = encoding.Encode(_helloWorldUtf8);
 
-			CollectionAssert.AreNotEqual(_helloWorldUtf8, actual);
+            CollectionAssert.AreNotEqual(_helloWorldUtf8, actual);
 
-			// assert that the gzip header is present
-			Assert.AreEqual(actual [0], 31);
-			Assert.AreEqual(actual [1], 139);
+            // assert that the gzip header is present
+            Assert.AreEqual(actual [0], 31);
+            Assert.AreEqual(actual [1], 139);
 
-			var roundTrip = encoding.Decode(actual);
-			CollectionAssert.AreEqual(_helloWorldUtf8, roundTrip);
+            var roundTrip = encoding.Decode(actual);
+            CollectionAssert.AreEqual(_helloWorldUtf8, roundTrip);
 
         }
 

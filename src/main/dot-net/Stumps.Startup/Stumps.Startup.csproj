@@ -130,30 +130,23 @@
     <None Include="packages.config" />
     <None Include="Resources\HelpInformation.txt" />
   </ItemGroup>
-    <ItemGroup>
-        <StumpsWebContentFiles Include="$(ProjectDir)..\Stumps.Web\Content\*.*"/>
-    </ItemGroup>
-    <ItemGroup>
-        <StumpsWebViewsFiles Include="$(ProjectDir)..\Stumps.Web\Views\*.*"/>
-    </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.targets" />
   <PropertyGroup>
-    <PostBuildEvent>
-</PostBuildEvent>
+    <PostBuildEvent Condition=" '$(OS)' == 'Windows_NT' ">XCOPY "$(ProjectDir)..\Stumps.Web\Content" "$(TargetDir)\Content" /E /I /F /Y
+XCOPY "$(ProjectDir)..\Stumps.Web\Views" "$(TargetDir)" /E /I /F /Y
+    </PostBuildEvent>
+    <PostBuildEvent Condition=" '$(OS)' != 'Windows_NT' ">mkdir "$(TargetDir)\Content"
+cp "$(ProjectDir)..\Stumps.Web\Content" "$(TargetDir)\Content"
+cp "$(ProjectDir)..\Stumps.Web\Views" "$(TargetDir)"
+    </PostBuildEvent>
   </PropertyGroup>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   -->
   <Target Name="BeforeBuild">
-    <ItemGroup>
-      <AssemblyInfoFiles Include="..\CommonAssembly\VersionAssemblyInfo.cs" />
-    </ItemGroup>
-<!--  <MSBuild.Community.Tasks.FileUpdate Files="@(AssemblyInfoFiles)" Regex="\[assembly: Assembly(File)?Version\(&quot;\d+\.\d+\.\d+\.\d+&quot;\)\]" ReplacementText="[assembly: Assembly$1Version(&quot;$(VersionString)&quot;)]" /> -->
   </Target>
   <Target Name="AfterBuild">
-	<Copy SourceFiles="@(StumpsWebContentFiles)" DestinationFolder="$(TargetDir)\Content" />
-	<Copy SourceFiles="@(StumpsWebViewsFiles)" DestinationFolder="$(TargetDir)" />
   </Target>
 </Project>

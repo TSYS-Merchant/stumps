@@ -138,10 +138,6 @@
        Other similar extension points exist, see Microsoft.Common.targets.
   -->
   <Target Name="BeforeBuild">
-    <ItemGroup>
-      <AssemblyInfoFiles Include="..\CommonAssembly\VersionAssemblyInfo.cs" />
-    </ItemGroup>
-<!--  <MSBuild.Community.Tasks.FileUpdate Files="@(AssemblyInfoFiles)" Regex="\[assembly: Assembly(File)?Version\(&quot;\d+\.\d+\.\d+\.\d+&quot;\)\]" ReplacementText="[assembly: Assembly$1Version(&quot;$(VersionString)&quot;)]" /> -->
   </Target>
   <Target Name="AfterBuild">
   </Target>
