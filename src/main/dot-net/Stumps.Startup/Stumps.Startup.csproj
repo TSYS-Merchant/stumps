@@ -150,4 +150,9 @@ cp -rf "$(ProjectDir)../Stumps.Web/Views/" "$(TargetDir)"
   </Target>
   <Target Name="AfterBuild">
   </Target>
+  <PropertyGroup>
+    <PostBuildEvent Condition=" '$(OS)' == 'Windows_NT' ">XCOPY "$(ProjectDir)..\Stumps.Web\Content" "$(TargetDir)\Content" /E /I /F /Y
+XCOPY "$(ProjectDir)..\Stumps.Web\Views" "$(TargetDir)\Views" /E /I /F /Y
+    </PostBuildEvent>
+  </PropertyGroup>
 </Project>
