@@ -1,8 +1,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stumps.Server", "Stumps.Server\Stumps.Server.csproj", "{0E8D3356-1F8C-49BB-8576-DF2A494F0DC9}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stumps.Startup", "Stumps.Startup\Stumps.Startup.csproj", "{D18BEACA-6092-4B3D-9CEA-F8CFE927CE58}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stumps.Server", "Stumps.Server\Stumps.Server.csproj", "{0E8D3356-1F8C-49BB-8576-DF2A494F0DC9}"
 EndProject
 Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "StumpsInstaller", "StumpsInstaller\StumpsInstaller.wixproj", "{0CA5331D-1EC2-4C92-AB2A-C3E2C133D0BF}"
 	ProjectSection(ProjectDependencies) = postProject
