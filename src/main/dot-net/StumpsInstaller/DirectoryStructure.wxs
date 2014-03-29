@@ -6,6 +6,7 @@
       <Directory Id="ProgramFilesFolder">
         <Directory Id="INSTALLFOLDER" Name="Stumps">
           <Directory Id="ContentFolder" Name="Content" />
+          <Directory Id="ViewsFolder" Name="Views" />
         </Directory>
       </Directory>
       <Directory Id="ProgramMenuFolder">
