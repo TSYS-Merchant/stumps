@@ -120,14 +120,14 @@
 
             for (var i = 0; i < args.Length; i++)
             {
-                var argument = args[0];
+                var argument = args[i];
 
                 if (argument.Equals(switchName, StringComparison.OrdinalIgnoreCase))
                 {
                     hasSwitch = true;
 
                     // Find the value after the switch if one is available
-                    if (i < args.Length - 2)
+                    if (i <= args.Length - 2)
                     {
                         value = args[i + 1];
                     }
