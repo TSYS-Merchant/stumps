@@ -63,9 +63,6 @@
     <Compile Include="HttpResponseOrigin.cs" />
     <Compile Include="HttpPipelineHandler.cs" />
     <Compile Include="Http\HttpServer.cs" />
-    <Compile Include="Http\HttpServer_Threaded.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
-    </Compile>
     <Compile Include="Http\HttpStatusCodes.cs" />
     <Compile Include="Http\IgnoredHeaders.cs" />
     <Compile Include="Http\IHttpHandler.cs" />
