@@ -10,6 +10,9 @@
     internal static class RandomGenerator
     {
 
+        /// <summary>
+        ///     The default key size used by the random generator.
+        /// </summary>
         public const int KeySize = 7;
 
         private static readonly char[] RandomCharacters = new char[]

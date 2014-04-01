@@ -11,7 +11,10 @@
     public static class StreamUtility
     {
 
-        public const int BufferSize = 4096;
+        /// <summary>
+        ///     The default buffer size used by the stream utility.
+        /// </summary>
+        private const int BufferSize = 4096;
 
         /// <summary>
         ///     Converts a stream to a byte array.
