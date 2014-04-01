@@ -2,8 +2,8 @@ namespace Stumps.Launcher
 {
 
     using System;
-    using System.Globalization;
     using System.Diagnostics;
+    using System.Globalization;
     using System.IO;
     using Stumps.Server;
     using Stumps.Server.Data;

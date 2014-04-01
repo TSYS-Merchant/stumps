@@ -159,7 +159,6 @@
 
         }
 
-
         /// <summary>
         ///     Determines whether the current application is running as a console.
         /// </summary>

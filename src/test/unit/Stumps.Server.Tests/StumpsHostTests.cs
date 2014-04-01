@@ -52,7 +52,7 @@
             };
 
             var dataAccess = Substitute.For<IDataAccess>();
-            dataAccess.ProxyServerFind (Arg.Any<string>()).Returns(proxyEntity);
+            dataAccess.ProxyServerFind(Arg.Any<string>()).Returns(proxyEntity);
 
             // create a TcpListener already listening on the port
             var tcpListener = new TcpListener(IPAddress.Loopback, port);

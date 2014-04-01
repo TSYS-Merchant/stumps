@@ -121,8 +121,8 @@
             CollectionAssert.AreNotEqual(_helloWorldUtf8, actual);
 
             // assert that the gzip header is present
-            Assert.AreEqual(actual [0], 31);
-            Assert.AreEqual(actual [1], 139);
+            Assert.AreEqual(actual[0], 31);
+            Assert.AreEqual(actual[1], 139);
 
             var roundTrip = encoding.Decode(actual);
             CollectionAssert.AreEqual(_helloWorldUtf8, roundTrip);
@@ -139,8 +139,8 @@
             CollectionAssert.AreNotEqual(_helloWorldUtf8, actual);
 
             // assert that the gzip header is present
-            Assert.AreEqual(actual [0], 31);
-            Assert.AreEqual(actual [1], 139);
+            Assert.AreEqual(actual[0], 31);
+            Assert.AreEqual(actual[1], 139);
 
             var roundTrip = encoding.Decode(actual);
             CollectionAssert.AreEqual(_helloWorldUtf8, roundTrip);
