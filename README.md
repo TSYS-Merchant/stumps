@@ -1,6 +1,6 @@
 #stumps
 
-Stumps is a HTTP/s proxy server that's useful when testing web services (eg: REST or SOAP services) as well as traditional browser-based applications. Stumps allows you to quickly create mocks for all your HTTP/s based services using an intuitive record & replay mechanism. This allows you to write meaningful acceptance and performance tests that aren't tightly coupled to your partners' services.
+Stumps is a [HTTP/s proxy server](http://en.wikipedia.org/wiki/Proxy_server) that's useful when testing [web services](http://en.wikipedia.org/wiki/Web_service) (eg: REST or SOAP services) as well as traditional browser-based applications. Stumps allows you to quickly create mocks for all your HTTP/s based services using an intuitive record & replay mechanism. This allows you to write meaningful acceptance and performance tests that aren't tightly coupled to your partners' services.
 
 #Background
 
@@ -69,11 +69,11 @@ Please see the [Usage Guide](https://github.com/merchantwarehouse/stumps/wiki/Us
 
 # Source code, issues, and feature enhancements
 
-Stumps' source code is hosted on GitHub @ https://github.com/merchantwarehouse/stumps. All issues and feature enhancements are being tracked in the Stumps GitHub Issue Tracker.
+[Stumps' source code](https://github.com/merchantwarehouse/stumps) is hosted on GitHub, along with all of our other Open Source projects. All issues and feature enhancements are being tracked in the [Stumps GitHub Issue Tracker](https://github.com/merchantwarehouse/stumps/issues?state=open).
 
 # Competitors
 
-Below are a number of tools playing in a similar space. Many of them are interesting, mature products, but for various reasons, we felt that they weren't fit for purpose.
+Below are a number of tools playing in a similar space. Many of them are interesting, mature products, but for various reasons, we felt that they weren't fit for our purposes.
 
 * [Web Page Replay](https://code.google.com/p/web-page-replay/)
 * [stubby4j](https://github.com/azagniotov/stubby4j) and its clones
