@@ -23,7 +23,7 @@
             this.Contents = stream =>
             {
 
-                var page = string.Empty;
+                string page;
 
                 switch (this.StatusCode)
                 {
@@ -34,6 +34,10 @@
 
                     case HttpStatusCode.InternalServerError:
                         page = WebResources.PageInternalServerError;
+                        break;
+
+                    default:
+                        page = string.Empty;
                         break;
 
                 }
