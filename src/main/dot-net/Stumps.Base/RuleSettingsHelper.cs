@@ -218,6 +218,7 @@ namespace Stumps
         /// <param name="settingName">The name of the setting.</param>
         /// <param name="defaultValue">The default value of the setting if it is not found.</param>
         /// <returns>A <see cref="T:System.Int32"/> containing the value for the specified <paramref name="settingName"/>.</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1720:IdentifiersShouldNotContainTypeNames", MessageId = "integer", Justification = "The identifier is appropriate in this context.")]
         public int FindInteger(string settingName, int defaultValue)
         {
 

@@ -5,7 +5,7 @@ namespace Stumps.Server
     using System.Text;
 
     /// <summary>
-    ///     A class that wraps the HTTP response.
+    ///     A class that provides the foundation for recorded HTTP requests and responses. 
     /// </summary>
     public abstract class RecordedContextPartBase : IStumpsHttpContextPart
     {
@@ -56,10 +56,10 @@ namespace Stumps.Server
         /// <value>
         /// The collection of HTTP headers.
         /// </value>
-        public HttpHeaders Headers
+        public IHttpHeaders Headers
         {
             get;
-            private set;
+            set;
         }
 
         /// <summary>
@@ -73,23 +73,12 @@ namespace Stumps.Server
             get; 
             private set;
         }
-
-        /// <summary>
-        /// Gets the collection of HTTP headers.
-        /// </summary>
-        /// <value>
-        /// The collection of HTTP headers.
-        /// </value>
-        IHttpHeaders IStumpsHttpContextPart.Headers
-        {
-            get { return this.Headers; }
-        }
         
         /// <summary>
         ///     Gets the bytes for the HTTP body.
         /// </summary>
         /// <returns>
-        ///     The bytes for the HTTP body.
+        ///     An array of <see cref="T:System.Byte"/> values representing the HTTP body.
         /// </returns>
         public byte[] GetBody()
         {

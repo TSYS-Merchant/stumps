@@ -40,6 +40,11 @@
 
         }
 
+        public byte[] Body
+        {
+            get { return _bodyValue; }
+        }
+
         /// <summary>
         ///     Gets the length of the body.
         /// </summary>
@@ -50,7 +55,7 @@
         {
             get { return _bodyLength; }
         }
-
+        
         /// <summary>
         ///     Gets a value indicating whether the rule is initialized.
         /// </summary>

@@ -2,6 +2,7 @@
 {
 
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using NUnit.Framework;
 
@@ -27,33 +28,36 @@
                 UseSsl = false
             };
 
-            _sampleStump = new StumpEntity
+            var request = new HttpRequestEntity()
             {
                 HttpMethod = "GET",
-                MatchBodyContentType = null,
-                MatchBodyFileName = null,
-                MatchBodyIsImage = false,
-                MatchBodyIsText = true,
-                MatchBodyMaximumLength = -1,
-                MatchBodyMinimumLength = -1,
-                MatchBodyText = new string[]
+                BodyFileName = null,
+                Headers = new List<NameValuePairEntity>(),
+                ProtocolVersion = "1.1",
+                RawUrl = "/"
+            };
+
+            var response = new HttpResponseEntity()
+            {
+                BodyFileName = null,
+                Headers = new List<NameValuePairEntity>()
                 {
+                    new NameValuePairEntity
+                    {
+                        Name = "Content-Type",
+                        Value = "text/plain"
+                    }
                 },
-                MatchHeaders = new HeaderEntity[]
-                {
-                },
-                MatchHttpMethod = false,
-                MatchRawUrl = true,
-                RawUrl = "/",
-                ResponseBodyContentType = "text/plain",
-                ResponseBodyFileName = null,
-                ResponseBodyIsImage = false,
-                ResponseBodyIsText = true,
-                ResponseHeaders = new HeaderEntity[]
-                {
-                },
-                ResponseStatusCode = 200,
-                ResponseStatusDescription = "OK",
+                RedirectAddress = null,
+                StatusCode = 200,
+                StatusDescription = "OK"
+            };
+
+            _sampleStump = new StumpEntity
+            {
+                Request = request,
+                Response = response,
+                Rules = new List<RuleEntity>(),
                 StumpCategory = "Uncategorized",
                 StumpId = "ABCD",
                 StumpName = "MyStump"
@@ -222,8 +226,8 @@
                 var stump = dal.StumpCreate(_sampleProxyServer.ProxyId, _sampleStump, _sampleBytes, _sampleBytes);
 
                 Assert.IsNotNull(stump);
-                Assert.IsNotNull(stump.MatchBodyFileName);
-                Assert.IsNotNull(stump.ResponseBodyFileName);
+                Assert.IsNotNull(stump.Request.BodyFileName);
+                Assert.IsNotNull(stump.Response.BodyFileName);
 
                 var stumpsFile = Path.Combine(
                     dal.StoragePath, 
@@ -265,8 +269,8 @@
                 var stump = dal.StumpCreate(_sampleProxyServer.ProxyId, _sampleStump, null, null);
 
                 Assert.IsNotNull(stump);
-                Assert.IsTrue(string.IsNullOrWhiteSpace(stump.MatchBodyFileName));
-                Assert.IsTrue(string.IsNullOrWhiteSpace(stump.ResponseBodyFileName));
+                Assert.IsTrue(string.IsNullOrWhiteSpace(stump.Request.BodyFileName));
+                Assert.IsTrue(string.IsNullOrWhiteSpace(stump.Response.BodyFileName));
 
                 var stumpsFile = Path.Combine(
                     dal.StoragePath, 

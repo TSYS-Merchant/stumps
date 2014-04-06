@@ -48,6 +48,10 @@
             private set;
         }
 
+        public string[] TextEvaluators
+        {
+            get { return _textMatches; }
+        }
         /// <summary>
         ///     Gets an enumerable list of <see cref="T:Stumps.RuleSetting" /> objects used to represent the current instance.
         /// </summary>

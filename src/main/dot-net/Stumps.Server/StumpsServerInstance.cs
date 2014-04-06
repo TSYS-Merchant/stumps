@@ -3,10 +3,8 @@
 
     using System;
     using System.Collections.Generic;
-    using System.IO;
     using System.Linq;
     using System.Threading;
-    using Stumps.Rules;
     using Stumps.Server.Data;
     using Stumps.Server.Utility;
 
@@ -274,9 +272,9 @@
                 throw new ArgumentException(Resources.StumpNameUsedError);
             }
 
-            var entity = CreateEntityFromContract(contract);
+            var entity = ContractEntityBinding.CreateEntityFromContract(contract);
 
-            _dataAccess.StumpCreate(this.ServerId, entity, contract.MatchBody, contract.Response.GetBody());
+            _dataAccess.StumpCreate(this.ServerId, entity, contract.Request.GetBody(), contract.Response.GetBody());
 
             UnwrapAndAddStump(contract);
 
@@ -433,251 +431,6 @@
         }
         
         /// <summary>
-        ///     Creates a Stump contract from a Stump data entity.
-        /// </summary>
-        /// <param name="entity">The <see cref="T:Stumps.Server.Data.StumpEntity"/> used to create the contract.</param>
-        /// <returns>
-        ///     A <see cref="T:Stumps.Server.StumpContract"/> created from the specified <paramref name="entity"/>.
-        /// </returns>
-        private StumpContract CreateContractFromEntity(StumpEntity entity)
-        {
-
-            var contract = new StumpContract
-            {
-                HttpMethod = entity.HttpMethod,
-                MatchBody = LoadFile(entity.MatchBodyFileName),
-                MatchBodyContentType = entity.MatchBodyContentType ?? string.Empty,
-                MatchBodyIsImage = entity.MatchBodyIsImage,
-                MatchBodyIsText = entity.MatchBodyIsText,
-                MatchBodyMaximumLength = entity.MatchBodyMaximumLength,
-                MatchBodyMinimumLength = entity.MatchBodyMinimumLength,
-                MatchBodyText = entity.MatchBodyText,
-                MatchHeaders = CreateHttpHeader(entity.MatchHeaders),
-                MatchHttpMethod = entity.MatchHttpMethod,
-                MatchRawUrl = entity.MatchRawUrl,
-                RawUrl = entity.RawUrl,
-                StumpId = entity.StumpId,
-                StumpCategory = entity.StumpCategory,
-                StumpName = entity.StumpName
-            };
-
-            // Setup the response for the contract
-            var response = new ContractHttpResponse
-            {
-                StatusCode = entity.ResponseStatusCode,
-                StatusDescription = entity.ResponseStatusDescription,
-                BodyIsImage = entity.ResponseBodyIsImage,
-                BodyIsText = entity.ResponseBodyIsText
-            };
-
-            response.AppendToBody(LoadFile(entity.ResponseBodyFileName));
-
-            foreach (var header in entity.ResponseHeaders)
-            {
-                response.Headers[header.Name] = header.Value;
-            }
-
-            contract.Response = response;
-
-            return contract;
-
-        }
-
-        /// <summary>
-        ///     Creates a Stump data entity from a Stump contract.
-        /// </summary>
-        /// <param name="contract">The <see cref="T:Stumps.Server.StumpContract"/> used to create the entity.</param>
-        /// <returns>
-        ///     A <see cref="T:Stumps.Server.Data.StumpEntity"/> created from the specified <paramref name="contract"/>.
-        /// </returns>
-        private StumpEntity CreateEntityFromContract(StumpContract contract)
-        {
-
-            var entity = new StumpEntity();
-            entity.HttpMethod = contract.HttpMethod;
-            entity.MatchBodyFileName = string.Empty;
-            entity.MatchBodyContentType = contract.MatchBodyContentType ?? string.Empty;
-            entity.MatchBodyIsImage = contract.MatchBodyIsImage;
-            entity.MatchBodyIsText = contract.MatchBodyIsText;
-            entity.MatchBodyMaximumLength = contract.MatchBodyMaximumLength;
-            entity.MatchBodyMinimumLength = contract.MatchBodyMinimumLength;
-            entity.MatchBodyText = contract.MatchBodyText;
-            entity.MatchHeaders = CreateHeaderEntity(contract.MatchHeaders);
-            entity.MatchHttpMethod = contract.MatchHttpMethod;
-            entity.MatchRawUrl = contract.MatchRawUrl;
-            entity.RawUrl = contract.RawUrl;
-            entity.ResponseBodyContentType = contract.Response.Headers["content-type"] ?? string.Empty;
-            entity.ResponseBodyFileName = string.Empty;
-            entity.ResponseBodyIsImage = contract.Response.BodyIsImage;
-            entity.ResponseBodyIsText = contract.Response.BodyIsText;
-            entity.ResponseHeaders = CreateHeaderEntity(contract.Response.Headers);
-            entity.ResponseStatusCode = contract.Response.StatusCode;
-            entity.ResponseStatusDescription = contract.Response.StatusDescription;
-            entity.StumpId = contract.StumpId;
-            entity.StumpCategory = contract.StumpCategory;
-            entity.StumpName = contract.StumpName;
-
-            return entity;
-
-        }
-
-        /// <summary>
-        ///     Creates an array of header entities from an enumerable list of <see cref="T:Stumps.Server.HttpHeader"/> objects.
-        /// </summary>
-        /// <param name="headers">The headers used to create the <see cref="T:Stumps.Server.Data.HeaderEntity"/> objects.</param>
-        /// <returns>
-        ///     An array of <see cref="T:Stumps.Server.Data.HeaderEntity"/> objects.
-        /// </returns>
-        private HeaderEntity[] CreateHeaderEntity(IEnumerable<HttpHeader> headers)
-        {
-
-            var headerList = new List<HeaderEntity>();
-
-            foreach (var httpHeader in headers)
-            {
-                var header = new HeaderEntity
-                {
-                    Name = httpHeader.Name,
-                    Value = httpHeader.Value
-                };
-
-                headerList.Add(header);
-            }
-
-            return headerList.ToArray();
-
-        }
-
-        /// <summary>
-        ///     Creates an array of header entities from an enumerable list of <see cref="T:Stumps.Server.HttpHeader"/> objects.
-        /// </summary>
-        /// <param name="headers">The headers used to create the <see cref="T:Stumps.Server.Data.HeaderEntity"/> objects.</param>
-        /// <returns>
-        ///     An array of <see cref="T:Stumps.Server.Data.HeaderEntity"/> objects.
-        /// </returns>
-        private HeaderEntity[] CreateHeaderEntity(IHttpHeaders headers)
-        {
-
-            var headerList = new List<HeaderEntity>();
-
-            foreach (var headerName in headers.HeaderNames)
-            {
-                var header = new HeaderEntity
-                {
-                    Name = headerName,
-                    Value = headers[headerName]
-                };
-
-                headerList.Add(header);
-            }
-
-            return headerList.ToArray();
-
-        }
-
-        /// <summary>
-        ///     Creates an array of HTTP headers from an enumerable list of <see cref="T:Stumps.Server.Data.HeaderEntity"/> objects.
-        /// </summary>
-        /// <param name="headers">The headers used to create the <see cref="T:Stumps.Server.HttpHeader"/> objects.</param>
-        /// <returns>
-        ///     An array of <see cref="T:Stumps.Server.HttpHeader"/> objects.
-        /// </returns>
-        private HttpHeader[] CreateHttpHeader(IEnumerable<HeaderEntity> headers)
-        {
-
-            var headerList = new List<HttpHeader>();
-
-            foreach (var entityHeader in headers)
-            {
-                var header = new HttpHeader
-                {
-                    Name = entityHeader.Name,
-                    Value = entityHeader.Value
-                };
-
-                headerList.Add(header);
-            }
-
-            return headerList.ToArray();
-
-        }
-
-        /// <summary>
-        ///     Creates a Stump from a contract.
-        /// </summary>
-        /// <param name="contract">The <see cref="T:Stumps.Server.StumpContract"/> used to create the Stump.</param>
-        /// <returns>
-        ///     A <see cref="T:Stumps.Stump"/> created from the specified <paramref name="contract"/>.
-        /// </returns>
-        private Stump CreateStumpFromContract(StumpContract contract)
-        {
-
-            var stump = new Stump(contract.StumpId);
-
-            if (contract.MatchRawUrl && !string.IsNullOrWhiteSpace(contract.RawUrl))
-            {
-                stump.AddRule(new UrlRule(contract.RawUrl));
-            }
-
-            if (contract.MatchHttpMethod && !string.IsNullOrWhiteSpace(contract.HttpMethod))
-            {
-                stump.AddRule(new HttpMethodRule(contract.HttpMethod));
-            }
-
-            foreach (var header in contract.MatchHeaders)
-            {
-                if (!string.IsNullOrWhiteSpace(header.Name) && !string.IsNullOrWhiteSpace(header.Value))
-                {
-                    stump.AddRule(new HeaderRule(header.Name, header.Value));
-                }
-            }
-
-            if (contract.MatchBodyMaximumLength != -1)
-            {
-                stump.AddRule(new BodyLengthRule(contract.MatchBodyMinimumLength, contract.MatchBodyMaximumLength));
-            }
-            else if (contract.MatchBodyText != null && contract.MatchBodyText.Length > 0)
-            {
-                stump.AddRule(new BodyContentRule(contract.MatchBodyText));
-            }
-            else if (contract.MatchBody.Length > 0)
-            {
-                stump.AddRule(new BodyMatchRule(contract.MatchBody));
-            }
-
-            stump.Response = contract.Response;
-
-            return stump;
-
-        }
-
-        /// <summary>
-        ///     Loads all bytes from a specified file.
-        /// </summary>
-        /// <param name="fileName">The name of the file.</param>
-        /// <returns>
-        ///     An array of bytes read from the file.
-        /// </returns>
-        /// <remarks>
-        ///     If the file is not found, or cannot be loaded, an empty array is returned.
-        /// </remarks>
-        private byte[] LoadFile(string fileName)
-        {
-
-            var response = new byte[]
-            {
-            };
-
-            if (!string.IsNullOrWhiteSpace(fileName))
-            {
-                response = File.ReadAllBytes(fileName);
-            }
-
-            return response;
-
-        }
-
-        /// <summary>
         ///     Initializes the Stumps server controlled by this instance.
         /// </summary>
         private void InitializeServer()
@@ -730,7 +483,7 @@
 
             foreach (var entity in entities)
             {
-                var contract = CreateContractFromEntity(entity);
+                var contract = ContractEntityBinding.CreateContractFromEntity(entity);
                 UnwrapAndAddStump(contract);
             }
 
@@ -745,7 +498,7 @@
 
             _lock.EnterWriteLock();
 
-            var stump = CreateStumpFromContract(contract);
+            var stump = ContractBindings.CreateStumpFromContract(contract);
 
             _stumpList.Add(contract);
             _stumpReference.Add(stump.StumpId, contract);

@@ -108,7 +108,7 @@
         ///     Gets the body for the HTTP request.
         /// </summary>
         /// <returns>
-        ///     The body for the HTTP request.
+        ///     An array of <see cref="T:System.Byte"/> values representing the HTTP body.
         /// </returns>
         public byte[] GetBody()
         {

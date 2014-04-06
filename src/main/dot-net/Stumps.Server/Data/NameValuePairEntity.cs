@@ -1,10 +1,10 @@
-﻿namespace Stumps.Server.Data
+namespace Stumps.Server.Data
 {
 
     /// <summary>
-    ///     A class that represents the persisted form of an HTTP header.
+    ///     A class that represents the persisted form of an object representing a name and value pair.
     /// </summary>
-    public sealed class HeaderEntity
+    public class NameValuePairEntity
     {
 
         /// <summary>

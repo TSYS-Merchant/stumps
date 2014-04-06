@@ -149,10 +149,10 @@ namespace Stumps
         }
 
         /// <summary>
-        ///     Gets the body of the HTTP response.
+        ///     Gets the bytes for the HTTP body.
         /// </summary>
         /// <returns>
-        ///     An array of <see cref="T:System.Byte" /> that represent the HTTP response.
+        ///     An array of <see cref="T:System.Byte"/> values representing the HTTP body.
         /// </returns>
         public virtual byte[] GetBody()
         {

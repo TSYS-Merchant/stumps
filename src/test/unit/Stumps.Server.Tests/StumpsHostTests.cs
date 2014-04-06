@@ -9,6 +9,7 @@
     using Stumps;
     using Stumps.Server.Data;
     using Stumps.Server.Logging;
+    using Stumps.Server.Utility;
 
     [TestFixture]
     public class StumpsHostTests
@@ -48,7 +49,7 @@
                 ExternalHostName = externalHostName,
                 Port = port,
                 UseSsl = useSsl,
-                ProxyId = Stumps.Server.Utility.RandomGenerator.GenerateIdentifier()
+                ProxyId = RandomGenerator.GenerateIdentifier()
             };
 
             var dataAccess = Substitute.For<IDataAccess>();
