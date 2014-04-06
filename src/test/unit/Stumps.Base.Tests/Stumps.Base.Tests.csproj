@@ -56,6 +56,7 @@
     <Compile Include="BasicHttpResponseTests.cs" />
     <Compile Include="ContentEncoderTests.cs" />
     <Compile Include="FallbackResponseHandlerTests.cs" />
+    <Compile Include="HexExtensionMethodsTests.cs" />
     <Compile Include="HttpHeadersTests.cs" />
     <Compile Include="HttpPipelineHandlerTests.cs" />
     <Compile Include="Http\HttpHelper.cs" />

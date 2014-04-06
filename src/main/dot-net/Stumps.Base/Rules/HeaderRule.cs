@@ -10,8 +10,8 @@
     public class HeaderRule : IStumpRule
     {
 
-        public const string HeaderNameSetting = "header.name";
-        public const string HeaderValueSetting = "header.value";
+        private const string HeaderNameSetting = "header.name";
+        private const string HeaderValueSetting = "header.value";
 
         private string _headerNameValue;
         private string _headerValueValue;

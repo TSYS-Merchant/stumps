@@ -3,6 +3,7 @@
 
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Security.Cryptography;
 
     /// <summary>
@@ -11,10 +12,11 @@
     public class BodyMatchRule : IStumpRule
     {
 
-        public const string BodySettingName = "body.base64";
+        private const string BodyLengthSetting = "body.length";
+        private const string BodyMd5HashSetting = "body.md5";
 
-        private byte[] _bodyValue;
         private byte[] _bodyHash;
+        private string _bodyHashString;
         private int _bodyLength;
 
         /// <summary>
@@ -25,31 +27,34 @@
         }
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Stumps.Rules.BodyMatchRule"/> class.
+        ///     Initializes a new instance of the <see cref="T:Stumps.Rules.BodyMatchRule" /> class.
         /// </summary>
-        /// <param name="value">The array of bytes matched against the HTTP requests's body.</param>
-        public BodyMatchRule(byte[] value)
+        /// <param name="length">The expected length of the body.</param>
+        /// <param name="md5Hash">The MD5 hash of the body.</param>
+        /// <exception cref="System.ArgumentOutOfRangeException"><paramref name="length"/> must be equal or greater than 0.</exception>
+        /// <exception cref="System.ArgumentNullException"><paramref name="md5Hash" /> is <c>null</c>.</exception>
+        public BodyMatchRule(int length, string md5Hash)
         {
 
-            if (value == null)
+            if (length < 0)
             {
-                throw new ArgumentNullException("value");
+                throw new ArgumentOutOfRangeException("length");
             }
 
-            InitializeRule(value);
+            if (md5Hash == null)
+            {
+                throw new ArgumentNullException("md5Hash");
+            }
 
-        }
+            InitializeRule(length, md5Hash);
 
-        public byte[] Body
-        {
-            get { return _bodyValue; }
         }
 
         /// <summary>
-        ///     Gets the length of the body.
+        ///     Gets the expected length of the body.
         /// </summary>
         /// <value>
-        ///     The length of the body.
+        ///     The expected length of the body.
         /// </value>
         public int BodyLength
         {
@@ -69,6 +74,17 @@
         }
 
         /// <summary>
+        ///     Gets the expected MD5 hash of the body.
+        /// </summary>
+        /// <value>
+        ///     The expected MD5 hash of the body.
+        /// </value>
+        public string Md5Hash
+        {
+            get { return _bodyHashString; }
+        }
+
+        /// <summary>
         ///     Gets an enumerable list of <see cref="T:Stumps.RuleSetting" /> objects used to represent the current instance.
         /// </summary>
         /// <returns>
@@ -79,7 +95,8 @@
 
             var settings = new[]
             {
-                new RuleSetting { Name = BodyMatchRule.BodySettingName, Value = Convert.ToBase64String(_bodyValue, Base64FormattingOptions.None) }
+                new RuleSetting { Name = BodyMatchRule.BodyLengthSetting, Value = _bodyLength.ToString(CultureInfo.InvariantCulture) },
+                new RuleSetting { Name = BodyMatchRule.BodyMd5HashSetting, Value = _bodyHashString }
             };
 
             return settings;
@@ -104,8 +121,10 @@
             }
 
             var helper = new RuleSettingsHelper(settings);
-            var bytes = helper.FindByteArray(BodyMatchRule.BodySettingName, new byte[0]);
-            InitializeRule(bytes);
+            var length = helper.FindInteger(BodyMatchRule.BodyLengthSetting, 0);
+            var md5Hash = helper.FindString(BodyMatchRule.BodyMd5HashSetting, "000000");
+
+            InitializeRule(length, md5Hash);
 
         }
 
@@ -144,17 +163,14 @@
         /// <summary>
         ///     Initializes the rule.
         /// </summary>
-        /// <param name="value">The value used to initialize the rule.</param>
-        private void InitializeRule(byte[] value)
+        /// <param name="length">The expected length of the body.</param>
+        /// <param name="md5Hash">The MD5 hash of the body.</param>
+        private void InitializeRule(int length, string md5Hash)
         {
 
-            _bodyLength = value.Length;
-            _bodyValue = value;
-
-            using (var hash = MD5.Create())
-            {
-                _bodyHash = hash.ComputeHash(value);
-            }
+            _bodyLength = length;
+            _bodyHashString = md5Hash;
+            _bodyHash = md5Hash.ToByteArray();
 
             this.IsInitialized = true;
 

@@ -2,6 +2,7 @@ namespace Stumps
 {
 
     using System;
+    using System.Security.Cryptography;
     using Stumps.Rules;
 
     /// <summary>
@@ -25,7 +26,7 @@ namespace Stumps
                 throw new ArgumentNullException("stump");
             }
 
-            stump.AddRule(new BodyMatchRule(buffer));
+            stump.AddRule(new BodyMatchRule(buffer.Length, CreateMd5Hash(buffer)));
             return stump;
 
         }
@@ -174,6 +175,25 @@ namespace Stumps
 
         }
 
+        /// <summary>
+        ///     Creates an MD5 hash for the specified bytes.
+        /// </summary>
+        /// <param name="buffer">The buffer.</param>
+        /// <returns>The MD5 hash of the specified <paramref name="buffer"/>.</returns>
+        private static string CreateMd5Hash(byte[] buffer)
+        {
+
+            string result;
+
+            using (var hash = MD5.Create())
+            {
+                var bytes = hash.ComputeHash(buffer);
+                result = bytes.ToHexString();
+            }
+
+            return result;
+
+        }
     }
 
 }

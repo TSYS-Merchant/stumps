@@ -59,6 +59,7 @@
     <Compile Include="FluentBasicHttpResponseExtensions.cs" />
     <Compile Include="FluentStumpExtensions.cs" />
     <Compile Include="FluentStumpServerExtensions.cs" />
+    <Compile Include="HexExtensionMethods.cs" />
     <Compile Include="HttpHeaders.cs" />
     <Compile Include="HttpResponseOrigin.cs" />
     <Compile Include="HttpPipelineHandler.cs" />
