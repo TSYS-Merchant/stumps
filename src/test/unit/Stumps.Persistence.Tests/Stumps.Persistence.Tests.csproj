@@ -61,6 +61,8 @@
     </Compile>
     <Compile Include="StumpPersistenceExtensionsTests.cs" />
     <Compile Include="StumpsServerPersistenceExtensionsTests.cs" />
+    <Compile Include="TemporaryDirectory.cs" />
+    <Compile Include="TemporaryFile.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\main\dot-net\Stumps.Base\Stumps.Base.csproj">

@@ -1,6 +1,8 @@
 namespace Stumps
 {
 
+    using System;
+
     /// <summary>
     ///     A class that provides a set of extension methods to the <see cref="T:Stumps.StumpsServer"/> used 
     ///     to preserve and retrieve the state of <see cref="T:Stumps.Stump"/> objects.
@@ -31,7 +33,7 @@ namespace Stumps
         public static Stump AddStumpFromArchive(this StumpsServer server, string fileName, string newStumpId)
         {
 
-            return null;
+            throw new NotImplementedException();
 
         }
 
@@ -60,7 +62,7 @@ namespace Stumps
         public static Stump AddStumpFromDirectory(this StumpsServer server, string path, string stumpId, string newStumpId)
         {
 
-            return null;
+            throw new NotImplementedException();
 
         }
 

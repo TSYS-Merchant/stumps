@@ -120,10 +120,6 @@
       <Project>{eb4d58da-2b6c-4a51-b648-7d4fb6d8dc80}</Project>
       <Name>Stumps.Base</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Stumps.Persistence\Stumps.Persistence.csproj">
-      <Project>{f6aaeac7-ce4e-4755-a503-b7d09e4eb305}</Project>
-      <Name>Stumps.Persistence</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
