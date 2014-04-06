@@ -1,6 +1,8 @@
 ﻿namespace Stumps.Rules
 {
 
+    using System;
+    using System.Collections.Generic;
     using System.Text;
     using NSubstitute;
     using NUnit.Framework;
@@ -10,15 +12,20 @@
     {
 
         [Test]
-        public void Constructor_ListOfStrings_Accepted()
+        public void Constructor_Default_NotInitialized()
         {
 
-            Assert.DoesNotThrow(
-                () => new BodyContentRule(
-                          new string[]
-                          {
-                              "test1", "test2"
-                          }));
+            var rule = new BodyContentRule();
+            Assert.IsFalse(rule.IsInitialized);
+
+        }
+
+        [Test]
+        public void Constructor_ListOfStrings_Initialized()
+        {
+
+            var rule = new BodyContentRule(new string[] { "Test1", "Test2" });
+            Assert.True(rule.IsInitialized);
 
         }
 
@@ -27,6 +34,61 @@
         {
 
             Assert.DoesNotThrow(() => new BodyContentRule(null));
+
+        }
+
+        [Test]
+        public void GetRuleSettings_WhenCalled_ReturnsList()
+        {
+            var rule = new BodyContentRule(new string[] { "Hello" });
+            var list = new List<RuleSetting>(rule.GetRuleSettings());
+            Assert.AreEqual(1, list.Count);
+        }
+
+        [Test]
+        public void InitializeFromSettings_WhenInitialized_ThrowsException()
+        {
+
+            var rule = new BodyContentRule(new string[] { "ABCD" });
+            var settings = new[] { new RuleSetting { Name = "text.evaluation", Value = "passed" } };
+
+            Assert.That(
+                () => rule.InitializeFromSettings(settings),
+                Throws.Exception.TypeOf<InvalidOperationException>());
+
+        }
+
+        [Test]
+        public void InitializeFromSettings_WithNullSettings_ThrowsException()
+        {
+
+            var rule = new BodyContentRule();
+
+            Assert.That(
+                () => rule.InitializeFromSettings(null),
+                Throws.Exception.TypeOf<ArgumentNullException>().With.Property("ParamName").EqualTo("settings"));
+
+        }
+
+        [Test]
+        public void InitializeFromSettings_WithValidSettings_MatchesCorrectly()
+        {
+
+            var settings = new[]
+            {
+                new RuleSetting { Name = "text.evaluation", Value = "passed" },
+                new RuleSetting { Name = string.Empty, Value = string.Empty },
+                new RuleSetting { Name = null, Value = string.Empty },
+                new RuleSetting { Name = "text.evaluation", Value = string.Empty }
+            };
+
+            var rule = new BodyContentRule();
+            rule.InitializeFromSettings(settings);
+
+            Assert.IsTrue(rule.IsInitialized);
+
+            var request = CreateTextRequest("passed");
+            Assert.IsTrue(rule.IsMatch(request));
 
         }
 

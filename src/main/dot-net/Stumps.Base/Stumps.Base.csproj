@@ -89,6 +89,8 @@
     </Compile>
     <Compile Include="ProxyHandler.cs" />
     <Compile Include="ReadOnlyHttpHeaders.cs" />
+    <Compile Include="RuleSetting.cs" />
+    <Compile Include="RuleSettingsHelper.cs" />
     <Compile Include="Rules\BodyContentRule.cs" />
     <Compile Include="Rules\BodyLengthRule.cs" />
     <Compile Include="Rules\BodyMatchRule.cs" />

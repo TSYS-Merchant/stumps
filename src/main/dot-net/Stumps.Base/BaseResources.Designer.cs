@@ -61,6 +61,15 @@ namespace Stumps {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The rule is already initialized..
+        /// </summary>
+        internal static string BodyRuleAlreadyInitializedError {
+            get {
+                return ResourceManager.GetString("BodyRuleAlreadyInitializedError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to http://*:{0}/.
         /// </summary>
         internal static string HttpServerPattern {

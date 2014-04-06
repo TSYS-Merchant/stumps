@@ -1,12 +1,82 @@
 ﻿namespace Stumps.Rules
 {
 
+    using System;
+    using System.Collections.Generic;
     using NSubstitute;
     using NUnit.Framework;
 
     [TestFixture]
     public class HeaderRuleTests
     {
+
+        [Test]
+        public void Constructor_Default_NotInitialized()
+        {
+
+            var rule = new HeaderRule();
+            Assert.IsFalse(rule.IsInitialized);
+
+        }
+
+        [Test]
+        public void Constructor_ValuesAreNull_Accepted()
+        {
+
+            Assert.DoesNotThrow(() => new HeaderRule(null, null));
+
+        }
+
+        [Test]
+        public void Constructor_ValuesIsEmptyString_Accepted()
+        {
+
+            Assert.DoesNotThrow(() => new HeaderRule(string.Empty, string.Empty));
+
+        }
+
+        [Test]
+        public void GetRuleSettings_WhenCalled_ReturnsList()
+        {
+            var rule = new HeaderRule("a", "b");
+            var list = new List<RuleSetting>(rule.GetRuleSettings());
+            Assert.AreEqual(2, list.Count);
+        }
+
+        [Test]
+        public void InitializeFromSettings_WithNullSettings_ThrowsException()
+        {
+
+            var rule = new HeaderRule();
+
+            Assert.That(
+                () => rule.InitializeFromSettings(null),
+                Throws.Exception.TypeOf<ArgumentNullException>().With.Property("ParamName").EqualTo("settings"));
+
+        }
+
+        [TestCase("a", "b", "a", "b")]
+        [TestCase("", "", "", "")]
+        [TestCase(null, null, "", "")]
+        [TestCase("a", null, "a", "")]
+        [TestCase(null, "b", "", "b")]
+        public void InitializeFromSettings_WithValidSettings_InitializesCorrectly(string headerName, string headerValue, string expectedName, string expectedValue)
+        {
+
+            var settings = new[]
+            {
+                new RuleSetting { Name = "header.name", Value = headerName },
+                new RuleSetting { Name = "header.value", Value = headerValue }
+            };
+
+            var rule = new HeaderRule();
+            rule.InitializeFromSettings(settings);
+
+            Assert.IsTrue(rule.IsInitialized);
+            Assert.AreEqual(expectedName, rule.HeaderNameTextMatch);
+            Assert.AreEqual(expectedValue, rule.HeaderValueTextMatch);
+
+        }
 
         [TestCase("headername", "headervalue", true)]
         [TestCase("HEADERNAME", "headervalue", true)]
@@ -137,34 +207,7 @@
             Assert.AreEqual(expectedResult, rule.IsMatch(request));
 
         }
-
-        public IStumpsHttpRequest CreateWithHeaders(string headerName, string headerValue)
-        {
-
-            var request = Substitute.For<IStumpsHttpRequest>();
-            request.Headers.Returns(new HttpHeaders());
-            request.Headers[headerName] = headerValue;
-
-            return request;
-
-        }
-
-        [Test]
-        public void Constructor_ValuesAreNull_Accepted()
-        {
-
-            Assert.DoesNotThrow(() => new HeaderRule(null, null));
-
-        }
-
-        [Test]
-        public void Constructor_ValuesIsEmptyString_Accepted()
-        {
-
-            Assert.DoesNotThrow(() => new HeaderRule(string.Empty, string.Empty));
-
-        }
-
+        
         [Test]
         public void IsMatch_HeadersAreNull_ReturnsFalse()
         {
@@ -189,6 +232,17 @@
 
         }
 
+        public IStumpsHttpRequest CreateWithHeaders(string headerName, string headerValue)
+        {
+
+            var request = Substitute.For<IStumpsHttpRequest>();
+            request.Headers.Returns(new HttpHeaders());
+            request.Headers[headerName] = headerValue;
+
+            return request;
+
+        }
+        
     }
 
 }

@@ -2,6 +2,7 @@
 {
 
     using System;
+    using System.Collections.Generic;
     using NSubstitute;
     using NUnit.Framework;
 
@@ -10,12 +11,58 @@
     {
 
         [Test]
+        public void Constructor_Default_NotInitialized()
+        {
+
+            var rule = new BodyMatchRule();
+            Assert.IsFalse(rule.IsInitialized);
+
+        }
+
+        [Test]
         public void Constructor_WithNullBytes_ThrowsException()
         {
 
             Assert.That(
                 () => new BodyMatchRule(null),
                 Throws.Exception.TypeOf<ArgumentNullException>().With.Property("ParamName").EqualTo("value"));
+
+        }
+
+        [Test]
+        public void GetRuleSettings_WhenCalled_ReturnsList()
+        {
+            var rule = new BodyMatchRule(new byte[] { 1, 2, 3 });
+            var list = new List<RuleSetting>(rule.GetRuleSettings());
+            Assert.AreEqual(1, list.Count);
+        }
+
+        [Test]
+        public void InitializeFromSettings_WithNullSettings_ThrowsException()
+        {
+
+            var rule = new BodyMatchRule();
+
+            Assert.That(
+                () => rule.InitializeFromSettings(null),
+                Throws.Exception.TypeOf<ArgumentNullException>().With.Property("ParamName").EqualTo("settings"));
+
+        }
+
+        [Test]
+        public void InitializeFromSettings_WithValidSettings_InitializesCorrectly()
+        {
+
+            var settings = new[]
+            {
+                new RuleSetting { Name = "body.base64", Value = "AQIDBAU=" }
+            };
+
+            var rule = new BodyMatchRule();
+            rule.InitializeFromSettings(settings);
+
+            Assert.IsTrue(rule.IsInitialized);
+            Assert.AreEqual(5, rule.BodyLength);
 
         }
 

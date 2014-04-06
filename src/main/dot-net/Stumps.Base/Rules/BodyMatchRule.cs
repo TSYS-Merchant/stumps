@@ -2,6 +2,7 @@
 {
 
     using System;
+    using System.Collections.Generic;
     using System.Security.Cryptography;
 
     /// <summary>
@@ -10,8 +11,18 @@
     public class BodyMatchRule : IStumpRule
     {
 
-        private readonly byte[] _bodyHash;
-        private readonly int _bodyLength;
+        public const string BodySettingName = "body.base64";
+
+        private byte[] _bodyValue;
+        private byte[] _bodyHash;
+        private int _bodyLength;
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="T:Stumps.Rules.BodyMatchRule"/> class.
+        /// </summary>
+        public BodyMatchRule()
+        {
+        }
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:Stumps.Rules.BodyMatchRule"/> class.
@@ -25,12 +36,71 @@
                 throw new ArgumentNullException("value");
             }
 
-            _bodyLength = value.Length;
+            InitializeRule(value);
 
-            using (var hash = MD5.Create())
+        }
+
+        /// <summary>
+        ///     Gets the length of the body.
+        /// </summary>
+        /// <value>
+        ///     The length of the body.
+        /// </value>
+        public int BodyLength
+        {
+            get { return _bodyLength; }
+        }
+
+        /// <summary>
+        ///     Gets a value indicating whether the rule is initialized.
+        /// </summary>
+        /// <value>
+        ///     <c>true</c> if the rule is initialized; otherwise, <c>false</c>.
+        /// </value>
+        public bool IsInitialized
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        ///     Gets an enumerable list of <see cref="T:Stumps.RuleSetting" /> objects used to represent the current instance.
+        /// </summary>
+        /// <returns>
+        ///     An enumerable list of <see cref="T:Stumps.RuleSetting" /> objects used to represent the current instance.
+        /// </returns>
+        public IEnumerable<RuleSetting> GetRuleSettings()
+        {
+
+            var settings = new[]
             {
-                _bodyHash = hash.ComputeHash(value);
+                new RuleSetting { Name = BodyMatchRule.BodySettingName, Value = Convert.ToBase64String(_bodyValue, Base64FormattingOptions.None) }
+            };
+
+            return settings;
+
+        }
+
+        /// <summary>
+        ///     Initializes a rule from an enumerable list of <see cref="T:Stumps.RuleSetting" /> objects.
+        /// </summary>
+        /// <param name="settings">The enumerable list of <see cref="T:Stumps.RuleSetting" /> objects.</param>
+        public void InitializeFromSettings(IEnumerable<RuleSetting> settings)
+        {
+
+            if (this.IsInitialized)
+            {
+                throw new InvalidOperationException(BaseResources.BodyRuleAlreadyInitializedError);
             }
+
+            if (settings == null)
+            {
+                throw new ArgumentNullException("settings");
+            }
+
+            var helper = new RuleSettingsHelper(settings);
+            var bytes = helper.FindByteArray(BodyMatchRule.BodySettingName, new byte[0]);
+            InitializeRule(bytes);
 
         }
 
@@ -63,6 +133,25 @@
             }
 
             return match;
+
+        }
+
+        /// <summary>
+        ///     Initializes the rule.
+        /// </summary>
+        /// <param name="value">The value used to initialize the rule.</param>
+        private void InitializeRule(byte[] value)
+        {
+
+            _bodyLength = value.Length;
+            _bodyValue = value;
+
+            using (var hash = MD5.Create())
+            {
+                _bodyHash = hash.ComputeHash(value);
+            }
+
+            this.IsInitialized = true;
 
         }
 
