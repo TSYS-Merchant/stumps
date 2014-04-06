@@ -77,6 +77,8 @@
     <Compile Include="RecordedResponse.cs" />
     <Compile Include="RecordingBehavior.cs" />
     <Compile Include="Recordings.cs" />
+    <Compile Include="RuleContract.cs" />
+    <Compile Include="RuleContractCollection.cs" />
     <Compile Include="StumpContract.cs" />
     <Compile Include="StumpsConfiguration.cs" />
     <Compile Include="Data\ConfigurationDataAccess.cs" />
