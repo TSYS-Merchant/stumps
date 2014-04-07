@@ -23,7 +23,7 @@ namespace Stumps.Server.Data
         /// <value>
         ///     The collection of HTTP headers.
         /// </value>
-        public List<NameValuePairEntity> Headers { get; set; }
+        public IList<NameValuePairEntity> Headers { get; set; }
 
     }
 

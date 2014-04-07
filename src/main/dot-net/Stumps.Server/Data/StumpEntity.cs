@@ -31,7 +31,7 @@
         /// <value>
         ///     The rules associated with the Stump.
         /// </value>
-        public List<RuleEntity> Rules { get; set; }
+        public IList<RuleEntity> Rules { get; set; }
 
         /// <summary>
         ///     Gets or sets the organizational category the stump belongs to.

@@ -4,7 +4,6 @@
     using System;
     using Stumps.Server;
     using Stumps.Server.Data;
-    using Stumps.Server.Logging;
     using Stumps.Web;
 
     /// <summary>
@@ -98,19 +97,17 @@
 
                 _started = true;
 
-                var logger = new DebugLogger();
-
                 // Initialize a new instance of the data access layer.
                 var dataAccess = new DataAccess(this.Configuration.StoragePath);
 
                 var factory = new ServerFactory();
 
                 // Initialize and load a new instance of the proxy host.
-                _host = new StumpsHost(factory, logger, dataAccess);
+                _host = new StumpsHost(factory, dataAccess);
                 _host.Load();
 
                 // Initialize the Nancy web server module.
-                _webServer = new StumpsWebServer(logger, _host, this.Configuration.WebApiPort);
+                _webServer = new StumpsWebServer(_host, this.Configuration.WebApiPort);
 
                 // Start the host and the web server
                 _host.Start();

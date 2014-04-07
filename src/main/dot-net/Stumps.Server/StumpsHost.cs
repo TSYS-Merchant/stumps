@@ -7,7 +7,6 @@
     using System.Linq;
     using System.Net;
     using Stumps.Server.Data;
-    using Stumps.Server.Logging;
     using Stumps.Server.Utility;
 
     /// <summary>
@@ -18,7 +17,6 @@
 
         private readonly IServerFactory _serverFactory;
         private readonly IDataAccess _dataAccess;
-        private readonly ILogger _logger;
         private readonly ConcurrentDictionary<string, StumpsServerInstance> _serverInstances;
         private bool _disposed;
 
@@ -26,26 +24,18 @@
         ///     Initializes a new instance of the <see cref="T:Stumps.Server.StumpsHost"/> class.
         /// </summary>
         /// <param name="serverFactory">The factory used to initialize new server instances.</param>
-        /// <param name="logger">The logger used by the instance.</param>
         /// <param name="dataAccess">The data access provider used by the instance.</param>
         /// <exception cref="System.ArgumentNullException">
         /// <paramref name="serverFactory"/> is <c>null</c>.
         /// or
-        /// <paramref name="logger"/> is <c>null</c>.
-        /// or
         /// <paramref name="dataAccess"/> is <c>null</c>.
         /// </exception>
-        public StumpsHost(IServerFactory serverFactory, ILogger logger, IDataAccess dataAccess)
+        public StumpsHost(IServerFactory serverFactory, IDataAccess dataAccess)
         {
 
             if (serverFactory == null)
             {
                 throw new ArgumentNullException("serverFactory");
-            }
-
-            if (logger == null)
-            {
-                throw new ArgumentNullException("logger");
             }
 
             if (dataAccess == null)
@@ -54,7 +44,6 @@
             }
 
             _serverFactory = serverFactory;
-            _logger = logger;
             _dataAccess = dataAccess;
 
             _serverInstances = new ConcurrentDictionary<string, StumpsServerInstance>(StringComparer.OrdinalIgnoreCase);

@@ -102,8 +102,6 @@
     <Compile Include="ServerFactory.cs" />
     <Compile Include="StumpsServerInstance.cs" />
     <Compile Include="Utility\RandomGenerator.cs" />
-    <Compile Include="Logging\DebugLogger.cs" />
-    <Compile Include="Logging\ILogger.cs" />
     <Compile Include="Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

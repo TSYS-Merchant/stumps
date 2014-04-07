@@ -27,7 +27,7 @@ namespace Stumps.Server.Data
         /// <value>
         ///     The settings used by the rule.
         /// </value>
-        public List<NameValuePairEntity> Settings
+        public IList<NameValuePairEntity> Settings
         {
             get;
             set;

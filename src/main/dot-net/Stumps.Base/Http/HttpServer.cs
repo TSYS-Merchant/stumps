@@ -172,11 +172,6 @@
                 // Gets the HTTP context for the request
                 var context = _listener.EndGetContext(asyncResult);
 
-                //// TODO: The Throw message 
-                //// _logger.LogInfo(
-                ////    "=> " + Thread.CurrentThread.ManagedThreadId.ToString(CultureInfo.InvariantCulture) + " => " +
-                ////    context.Request.RawUrl);
-
                 StumpsHttpContext stumpsContext = null;
 
                 // Create a new StumpsHttpContext
@@ -202,11 +197,6 @@
                 {
                     this.RequestFinished(this, new StumpsContextEventArgs(stumpsContext));
                 }
-
-                //// TODO: Throw Event
-                //// _logger.LogInfo(
-                ////    "<= " + Thread.CurrentThread.ManagedThreadId.ToString(CultureInfo.InvariantCulture) + " <= " +
-                ////    context.Request.RawUrl);
 
             }
             catch (HttpListenerException)
