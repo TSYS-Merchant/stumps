@@ -6,6 +6,7 @@
     using System.Text;
     using Nancy;
     using Nancy.ModelBinding;
+    using Stumps.Rules;
     using Stumps.Server;
     using Stumps.Web.Models;
 
@@ -50,9 +51,9 @@
                 var server = serverHost.FindServer(serverId);
                 var stump = server.FindStump(stumpId);
 
-                var ms = new System.IO.MemoryStream(stump.MatchBody);
+                var ms = new System.IO.MemoryStream(stump.Request.GetBody());
 
-                return Response.FromStream(ms, stump.MatchBodyContentType);
+                return Response.FromStream(ms, stump.Request.Headers["Content-Type"]);
             };
 
             Get["/api/proxy/{serverId}/stumps/{stumpId}/response"] = _ =>
@@ -178,46 +179,45 @@
 
             var contract = new StumpContract
             {
-                HttpMethod = model.RequestHttpMethod,
-                RawUrl = model.RequestUrl,
+                Request = record.Request,
+                Response = record.Response,
                 StumpId = string.Empty,
                 StumpName = model.Name,
                 StumpCategory = "Uncategorized"
             };
 
-            contract.MatchRawUrl = model.RequestUrlMatch;
-            contract.MatchHttpMethod = model.RequestHttpMethodMatch;
+            if (model.RequestUrlMatch)
+            {
+                contract.Rules.Add(new RuleContract(new UrlRule(model.RequestUrl)));
+            }
 
-            contract.MatchHeaders = CreateHeader(model.RequestHeaderMatch);
+            if (model.RequestHttpMethodMatch)
+            {
+                contract.Rules.Add(new RuleContract(new HttpMethodRule(model.RequestHttpMethod)));
+            }
 
-            contract.MatchBodyMaximumLength = -1;
-            contract.MatchBodyMinimumLength = -1;
+            foreach (var h in model.RequestHeaderMatch)
+            {
+                contract.Rules.Add(new RuleContract(new HeaderRule(h.Name, h.Value)));
+            }
 
             switch (model.RequestBodyMatch)
             {
                 case BodyMatch.ContainsText:
-                    contract.MatchBodyText = model.RequestBodyMatchValues;
-                    contract.MatchBody = record.Request.GetBody();
-                    contract.MatchBodyContentType = record.Request.Headers["Content-Type"];
-                    contract.MatchBodyIsImage = record.Request.BodyType == HttpBodyClassification.Image;
-                    contract.MatchBodyIsText = record.Request.BodyType == HttpBodyClassification.Text;
+                    contract.Rules.Add(new RuleContract(new BodyContentRule(model.RequestBodyMatchValues)));
                     break;
 
                 case BodyMatch.ExactMatch:
-                    contract.MatchBody = record.Request.GetBody();
-                    contract.MatchBodyContentType = record.Request.Headers["Content-Type"];
-                    contract.MatchBodyIsImage = record.Request.BodyType == HttpBodyClassification.Image;
-                    contract.MatchBodyIsText = record.Request.BodyType == HttpBodyClassification.Text;
+                    contract.Rules.Add(
+                        new RuleContract(new BodyMatchRule(record.Request.BodyLength, record.Request.BodyMd5Hash)));
                     break;
 
                 case BodyMatch.IsBlank:
-                    contract.MatchBodyMaximumLength = 0;
-                    contract.MatchBodyMinimumLength = 0;
+                    contract.Rules.Add(new RuleContract(new BodyLengthRule(0, 0)));
                     break;
 
                 case BodyMatch.IsNotBlank:
-                    contract.MatchBodyMaximumLength = int.MaxValue;
-                    contract.MatchBodyMinimumLength = 1;
+                    contract.Rules.Add(new RuleContract(new BodyLengthRule(1, int.MaxValue)));
                     break;
 
             }
@@ -228,21 +228,15 @@
                 case BodySource.Modified:
                     contract.Response.ClearBody();
                     contract.Response.AppendToBody(Encoding.UTF8.GetBytes(model.ResponseBodyModification));
-                    contract.Response.BodyIsImage = false;
-                    contract.Response.BodyIsText = true;
                     break;
 
                 case BodySource.NoBody:
                     contract.Response.ClearBody();
-                    contract.Response.BodyIsImage = false;
-                    contract.Response.BodyIsText = false;
                     break;
 
                 case BodySource.Origin:
                     contract.Response.ClearBody();
                     contract.Response.AppendToBody(record.Response.GetBody());
-                    contract.Response.BodyIsImage = record.Response.BodyType == HttpBodyClassification.Image;
-                    contract.Response.BodyIsText = record.Response.BodyType == HttpBodyClassification.Text;
                     break;
 
             }
@@ -250,6 +244,8 @@
             CopyHeaderModelToDictionary(model.ResponseHeaders, contract.Response.Headers);
             contract.Response.StatusCode = model.ResponseStatusCode;
             contract.Response.StatusDescription = model.ResponseStatusDescription;
+
+            contract.Response.ExamineBody();
 
             return contract;
 
@@ -268,44 +264,45 @@
 
             var contract = new StumpContract
             {
-                HttpMethod = model.RequestHttpMethod,
-                MatchBodyMaximumLength = -1,
-                MatchBodyMinimumLength = -1,
-                MatchHttpMethod = model.RequestHttpMethodMatch,
-                MatchRawUrl = model.RequestUrlMatch,
-                RawUrl = model.RequestUrl,
+                Request = originalContract.Request,
+                Response = originalContract.Response,
                 StumpId = model.StumpId,
                 StumpName = model.Name,
                 StumpCategory = "Uncategorized"
             };
 
-            contract.MatchHeaders = CreateHeader(model.RequestHeaderMatch);
+            if (model.RequestUrlMatch)
+            {
+                contract.Rules.Add(new RuleContract(new UrlRule(model.RequestUrl)));
+            }
+
+            if (model.RequestHttpMethodMatch)
+            {
+                contract.Rules.Add(new RuleContract(new HttpMethodRule(model.RequestHttpMethod)));
+            }
+
+            foreach (var h in model.RequestHeaderMatch)
+            {
+                contract.Rules.Add(new RuleContract(new HeaderRule(h.Name, h.Value)));
+            }
 
             switch (model.RequestBodyMatch)
             {
                 case BodyMatch.ContainsText:
-                    contract.MatchBodyText = model.RequestBodyMatchValues;
-                    contract.MatchBody = originalContract.MatchBody;
-                    contract.MatchBodyContentType = originalContract.MatchBodyContentType;
-                    contract.MatchBodyIsImage = originalContract.MatchBodyIsImage;
-                    contract.MatchBodyIsText = originalContract.MatchBodyIsText;
+                    contract.Rules.Add(new RuleContract(new BodyContentRule(model.RequestBodyMatchValues)));
                     break;
 
                 case BodyMatch.ExactMatch:
-                    contract.MatchBody = originalContract.MatchBody;
-                    contract.MatchBodyContentType = originalContract.MatchBodyContentType;
-                    contract.MatchBodyIsImage = originalContract.MatchBodyIsImage;
-                    contract.MatchBodyIsText = originalContract.MatchBodyIsText;
+                    contract.Rules.Add(
+                        new RuleContract(new BodyMatchRule(contract.Request.BodyLength, contract.Request.BodyMd5Hash)));
                     break;
 
                 case BodyMatch.IsBlank:
-                    contract.MatchBodyMaximumLength = 0;
-                    contract.MatchBodyMinimumLength = 0;
+                    contract.Rules.Add(new RuleContract(new BodyLengthRule(0, 0)));
                     break;
 
                 case BodyMatch.IsNotBlank:
-                    contract.MatchBodyMaximumLength = int.MaxValue;
-                    contract.MatchBodyMinimumLength = 1;
+                    contract.Rules.Add(new RuleContract(new BodyLengthRule(1, int.MaxValue)));
                     break;
 
             }
@@ -316,21 +313,15 @@
                 case BodySource.Modified:
                     contract.Response.ClearBody();
                     contract.Response.AppendToBody(Encoding.UTF8.GetBytes(model.ResponseBodyModification));
-                    contract.Response.BodyIsImage = false;
-                    contract.Response.BodyIsText = true;
                     break;
 
                 case BodySource.NoBody:
                     contract.Response.ClearBody();
-                    contract.Response.BodyIsImage = false;
-                    contract.Response.BodyIsText = false;
                     break;
 
                 case BodySource.Origin:
                     contract.Response.ClearBody();
                     contract.Response.AppendToBody(originalContract.Response.GetBody());
-                    contract.Response.BodyIsImage = originalContract.Response.BodyIsImage;
-                    contract.Response.BodyIsText = originalContract.Response.BodyIsText;
                     break;
 
             }
@@ -339,91 +330,38 @@
             contract.Response.StatusCode = model.ResponseStatusCode;
             contract.Response.StatusDescription = model.ResponseStatusDescription;
 
+            contract.Response.ExamineBody();
+
             return contract;
 
         }
-
-        /// <summary>
-        ///     Converts an enumerable list of <see cref="T:Stumps.Web.Models.HeaderModel"/> objects into an 
-        ///     array of <see cref="T:Stumps.Server.HttpHeader"/> objects.
-        /// </summary>
-        /// <param name="headers">The enumerable list of <see cref="T:Stumps.Web.Models.HeaderModel"/> objects.</param>
-        /// <returns>An array of <see cref="T:Stumps.Server.HttpHeader"/> objects.</returns>
-        private HttpHeader[] CreateHeader(IEnumerable<HeaderModel> headers)
-        {
-
-            var headerList = new List<HttpHeader>();
-
-            if (headers != null)
-            {
-                foreach (var header in headers)
-                {
-                    var httpHeader = new HttpHeader
-                    {
-                        Name = header.Name,
-                        Value = header.Value
-                    };
-
-                    headerList.Add(httpHeader);
-                }
-            }
-
-            return headerList.ToArray();
-
-        }
-
+        
         /// <summary>
         ///     Converts an enumerable list of <see cref="T:Stumps.Server.HttpHeader"/> objects into an 
         ///     array of <see cref="T:Stumps.Web.Models.HeaderModel"/> objects.
         /// </summary>
         /// <param name="headers">The enumerable list of <see cref="T:Stumps.Server.HttpHeader"/> objects.</param>
         /// <returns>An array of <see cref="T:Stumps.Web.Models.HeaderModel"/> objects.</returns>
-        private HeaderModel[] CreateHeaderModel(IEnumerable<HttpHeader> headers)
+        private HeaderModel[] CreateHeaderModel(IHttpHeaders headers)
         {
 
             var headerList = new List<HeaderModel>();
 
-            if (headers != null)
+            foreach (var header in headers.HeaderNames)
             {
-                foreach (var header in headers)
+                var headerModel = new HeaderModel
                 {
-                    var headerModel = new HeaderModel
-                    {
-                        Name = header.Name,
-                        Value = header.Value
-                    };
-
-                    headerList.Add(headerModel);
-                }
-            }
-
-            return headerList.ToArray();
-
-        }
-
-        /// <summary>
-        ///     Converts a header dictionary into an array of <see cref="T:Stumps.Web.Models.HeaderModel"/> objects.
-        /// </summary>
-        /// <param name="dictionary">The source <see cref="T:Stumps.IHeaderDictionary"/> dictionary.</param>
-        /// <returns>An array of <see cref="T:Stumps.Web.Models.HeaderModel"/> objects.</returns>
-        private HeaderModel[] CreateHeaderModel(IHttpHeaders dictionary)
-        {
-            var headerList = new List<HeaderModel>();
-
-            foreach (var name in dictionary.HeaderNames)
-            {
-                var model = new HeaderModel()
-                {
-                    Name = name,
-                    Value = dictionary[name]
+                    Name = header,
+                    Value = headers[header]
                 };
 
-                headerList.Add(model);
+                headerList.Add(headerModel);
             }
 
             return headerList.ToArray();
-        }
 
+        }
+        
         /// <summary>
         ///     Creates a <see cref="T:Stumps.Web.Models.StumpModel"/> from an existing Stump.
         /// </summary>
@@ -436,25 +374,7 @@
         private StumpModel CreateStumpModel(StumpContract stump, string serverId, string stumpId)
         {
 
-            var bodyMatch = BodyMatch.IsAnything;
-
-            if (stump.MatchBodyMaximumLength == 0 && stump.MatchBodyMinimumLength == 0)
-            {
-                bodyMatch = BodyMatch.IsBlank;
-            }
-            else if (stump.MatchBodyMaximumLength == int.MaxValue && stump.MatchBodyMinimumLength == 0)
-            {
-                bodyMatch = BodyMatch.IsNotBlank;
-            }
-            else if (stump.MatchBodyText != null && stump.MatchBodyText.Length > 0 &&
-                     stump.MatchBody != null && stump.MatchBody.Length > 0)
-            {
-                bodyMatch = BodyMatch.ContainsText;
-            }
-            else if (stump.MatchBody != null && stump.MatchBody.Length > 0)
-            {
-                bodyMatch = BodyMatch.ExactMatch;
-            }
+            var bodyMatch = DetrmineBodyMatch(stump);
 
             var model = new StumpModel
             {
@@ -462,24 +382,27 @@
                 Origin = StumpOrigin.ExistingStump,
                 RecordId = -1,
                 RequestBody =
-                    stump.MatchBodyIsText ? Encoding.UTF8.GetString(stump.MatchBody) : string.Empty,
-                RequestBodyIsImage = stump.MatchBodyIsImage,
-                RequestBodyIsText = stump.MatchBodyIsText,
-                RequestBodyLength = stump.MatchBody != null ? stump.MatchBody.Length : 0,
+                    stump.Request.BodyType == HttpBodyClassification.Text ? stump.Request.GetBodyAsString() : string.Empty,
+                RequestBodyIsImage = stump.Request.BodyType == HttpBodyClassification.Image,
+                RequestBodyIsText = stump.Request.BodyType == HttpBodyClassification.Text,
+                RequestBodyLength = stump.Request.BodyLength,
                 RequestBodyMatch = bodyMatch,
-                RequestBodyMatchValues = stump.MatchBodyText,
+                RequestBodyMatchValues = 
+                    stump.Rules.FindRuleContractByName(typeof(BodyContentRule).Name).Count > 0 ?
+                        ContractBindings.CreateRuleFromContract<BodyContentRule>(stump.Rules.FindRuleContractByName(typeof(BodyContentRule).Name)[0]).TextEvaluators :
+                        new string[0],
                 RequestBodyUrl = "/api/proxy/" + serverId + "/stumps/" + stumpId + "/request",
-                RequestHeaderMatch = CreateHeaderModel(stump.MatchHeaders),
-                RequestHttpMethod = stump.HttpMethod,
-                RequestHttpMethodMatch = stump.MatchHttpMethod,
-                RequestUrl = stump.RawUrl,
-                RequestUrlMatch = stump.MatchRawUrl,
+                RequestHeaderMatch = CreateHeadersFromRules(stump),
+                RequestHttpMethod = stump.Request.HttpMethod,
+                RequestHttpMethodMatch = stump.Rules.FindRuleContractByName(typeof(HttpMethodRule).Name).Count > 0,
+                RequestUrl = stump.Request.RawUrl,
+                RequestUrlMatch = stump.Rules.FindRuleContractByName(typeof(UrlRule).Name).Count > 0,
                 ResponseBody =
-                    stump.Response.BodyIsText
-                        ? Encoding.UTF8.GetString(stump.Response.GetBody())
+                    stump.Response.BodyType == HttpBodyClassification.Text
+                        ? stump.Response.GetBodyAsString()
                         : string.Empty,
-                ResponseBodyIsImage = stump.Response.BodyIsImage,
-                ResponseBodyIsText = stump.Response.BodyIsText,
+                ResponseBodyIsImage = stump.Response.BodyType == HttpBodyClassification.Image,
+                ResponseBodyIsText = stump.Response.BodyType == HttpBodyClassification.Text,
                 ResponseBodyLength = stump.Response.BodyLength,
                 ResponseBodyModification = string.Empty,
                 ResponseBodySource = BodySource.Origin,
@@ -491,6 +414,70 @@
             };
 
             return model;
+
+        }
+
+        private HeaderModel[] CreateHeadersFromRules(StumpContract contract)
+        {
+
+            var models = new List<HeaderModel>();
+
+            var rules = contract.Rules.FindRuleContractByName(typeof(HeaderRule).Name);
+
+            foreach (var rule in rules)
+            {
+                var headerRule = ContractBindings.CreateRuleFromContract<HeaderRule>(rule);
+
+                var model = new HeaderModel
+                {
+                    Name = headerRule.HeaderNameTextMatch,
+                    Value = headerRule.HeaderValueTextMatch
+                };
+
+                models.Add(model);
+            }
+
+            return models.ToArray();
+
+        }
+
+        /// <summary>
+        ///     Detrmines the body match based on the rules in the contract.
+        /// </summary>
+        /// <param name="contract">The contract.</param>
+        /// <returns>A member of the <see cref="T:Stumps.Web.Models.BodyMatch"/> enumeration.</returns>
+        private BodyMatch DetrmineBodyMatch(StumpContract contract)
+        {
+
+            var rules = contract.Rules.FindRuleContractByName(typeof(BodyLengthRule).Name);
+
+            if (rules.Count > 0)
+            {
+                var blr = ContractBindings.CreateRuleFromContract<BodyLengthRule>(rules[0]);
+
+                if (blr.MinimumBodyLength == 0 && blr.MaximumBodyLength == 0)
+                {
+                    return BodyMatch.IsBlank;
+                }
+                
+                if (blr.MinimumBodyLength == 1 && blr.MaximumBodyLength == int.MaxValue)
+                {
+                    return BodyMatch.IsNotBlank;
+                }
+
+            }
+
+            if (contract.Rules.FindRuleContractByName(typeof(BodyContentRule).Name).Count > 0)
+            {
+                return BodyMatch.ContainsText;
+            }
+
+            if (contract.Rules.FindRuleContractByName(typeof(BodyMatch).Name).Count > 0)
+            {
+                return BodyMatch.ExactMatch;
+            }
+
+            return BodyMatch.IsAnything;
 
         }
 

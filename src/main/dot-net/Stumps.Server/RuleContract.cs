@@ -3,6 +3,9 @@ namespace Stumps.Server
 
     using System.Collections.Generic;
 
+    /// <summary>
+    ///     A class that represents a contract for a rule.
+    /// </summary>
     public class RuleContract
     {
 
@@ -14,6 +17,21 @@ namespace Stumps.Server
         public RuleContract()
         {
             _ruleSettings = new List<RuleSetting>();
+        }
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="T:Stumps.Server.RuleContract"/> class.
+        /// </summary>
+        /// <param name="rule">The <see cref="T:Stumps.IStumpRule"/> used to create the instance.</param>
+        public RuleContract(IStumpRule rule) : this()
+        {
+            this.RuleName = rule.GetType().Name;
+            var settings = rule.GetRuleSettings();
+
+            foreach (var setting in settings)
+            {
+                _ruleSettings.Add(setting);
+            }
         }
 
         /// <summary>

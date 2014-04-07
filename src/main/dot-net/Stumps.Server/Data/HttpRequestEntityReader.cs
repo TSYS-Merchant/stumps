@@ -85,7 +85,7 @@ namespace Stumps.Server.Data
         /// </value>
         public IPEndPoint LocalEndPoint
         {
-            get { return _entity.LocalEndPoint; }
+            get { return new IPEndPoint(0, 0); }
         }
 
         /// <summary>
@@ -118,7 +118,7 @@ namespace Stumps.Server.Data
         /// </value>
         public IPEndPoint RemoteEndPoint
         {
-            get { return _entity.RemoteEndPoint; }
+            get { return new IPEndPoint(0, 0); }
         }
 
         /// <summary>

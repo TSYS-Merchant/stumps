@@ -2,6 +2,7 @@ namespace Stumps.Server
 {
 
     using System;
+    using System.Security.Cryptography;
     using System.Text;
 
     /// <summary>
@@ -34,8 +35,7 @@ namespace Stumps.Server
             // Decode the body
             DecodeBody();
 
-            // Determine the body type
-            DetermineBodyClassification();
+            this.ExamineBody();
 
         }
 
@@ -48,6 +48,18 @@ namespace Stumps.Server
         public int BodyLength
         {
             get { return _bodyBuffer.Length; }
+        }
+
+        /// <summary>
+        ///     Gets the MD5 hash of the HTTP body.
+        /// </summary>
+        /// <value>
+        ///     The MD5 hash of the HTTP body.
+        /// </value>
+        public string BodyMd5Hash
+        {
+            get;
+            private set;
         }
 
         /// <summary>
@@ -113,6 +125,50 @@ namespace Stumps.Server
         }
 
         /// <summary>
+        ///     Appends a byte array to the body of the HTTP response.
+        /// </summary>
+        /// <param name="buffer">The bytes to append to the body of the response.</param>
+        protected void AppendToBody(byte[] buffer)
+        {
+
+            if (buffer == null)
+            {
+                return;
+            }
+
+            var newBodyLength = _bodyBuffer.Length + buffer.Length;
+            var newBuffer = new byte[newBodyLength];
+
+            Buffer.BlockCopy(_bodyBuffer, 0, newBuffer, 0, _bodyBuffer.Length);
+            Buffer.BlockCopy(buffer, 0, newBuffer, _bodyBuffer.Length, buffer.Length);
+
+            _bodyBuffer = newBuffer;
+
+        }
+
+        /// <summary>
+        ///     Clears the existing body of the HTTP response.
+        /// </summary>
+        protected void ClearBody()
+        {
+            _bodyBuffer = new byte[0];
+        }
+
+        /// <summary>
+        ///     Examines the body for the classification, and the MD5 hash.
+        /// </summary>
+        protected void ExamineBody()
+        {
+
+            // Determine the body type
+            DetermineBodyClassification();
+
+            // Generate the MD5 hash of the body
+            GenerateMd5Hash();
+
+        }
+
+        /// <summary>
         ///     Decodes the body of a based on the content encoding.
         /// </summary>
         private void DecodeBody()
@@ -152,7 +208,27 @@ namespace Stumps.Server
             }
 
         }
+
+        /// <summary>
+        /// Generates the MD5 hash for the HTTP body.
+        /// </summary>
+        private void GenerateMd5Hash()
+        {
         
+            if (_bodyBuffer == null || _bodyBuffer.Length == 0)
+            {
+                this.BodyMd5Hash = string.Empty;
+                return;
+            }
+
+            using (var hash = MD5.Create())
+            {
+                var bytes = hash.ComputeHash(_bodyBuffer);
+                this.BodyMd5Hash = bytes.ToHexString();
+            }
+
+        }
+
     }
 
 }

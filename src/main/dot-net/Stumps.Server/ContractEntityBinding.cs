@@ -69,10 +69,10 @@ namespace Stumps.Server
                 BodyFileName = string.Empty,
                 Headers = CreateNameValuePairFromHeaders(contract.Request.Headers),
                 HttpMethod = contract.Request.HttpMethod,
-                LocalEndPoint = contract.Request.LocalEndPoint,
+                LocalEndPoint = contract.Request.LocalEndPoint.ToString(),
                 ProtocolVersion = contract.Request.ProtocolVersion,
                 RawUrl = contract.Request.RawUrl,
-                RemoteEndPoint = contract.Request.RemoteEndPoint
+                RemoteEndPoint = contract.Request.RemoteEndPoint.ToString()
             };
 
             var response = new HttpResponseEntity
@@ -93,6 +93,8 @@ namespace Stumps.Server
                 StumpName = contract.StumpName
             };
 
+            entity.Rules = new List<RuleEntity>();
+
             foreach (var rule in contract.Rules)
             {
                 var ruleEntity = new RuleEntity
@@ -111,6 +113,9 @@ namespace Stumps.Server
                             Value = setting.Value
                         });
                 }
+
+                entity.Rules.Add(ruleEntity);
+
             }
 
             return entity;

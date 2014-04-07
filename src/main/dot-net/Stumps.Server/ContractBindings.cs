@@ -2,12 +2,16 @@ namespace Stumps.Server
 {
 
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     ///     A helper class that provides a translation between contracts and Stump objects.
     /// </summary>
     internal static class ContractBindings
     {
+
+        private static Dictionary<string, Type> _knownRules = FindRulesForAssembly();
 
         /// <summary>
         ///     Creates a Stump from a contract.
@@ -41,9 +45,9 @@ namespace Stumps.Server
         public static IStumpRule CreateRuleFromContract(RuleContract contract)
         {
 
-            var assembly = typeof(StumpsServer).Assembly;
-            var type = assembly.GetType(contract.RuleName);
+            var type = _knownRules[contract.RuleName];
             var rule = Activator.CreateInstance(type) as IStumpRule;
+            rule.InitializeFromSettings(contract.GetRuleSettings());
             return rule;
 
         }
@@ -57,8 +61,7 @@ namespace Stumps.Server
         public static T CreateRuleFromContract<T>(RuleContract contract) where T : IStumpRule, new()
         {
 
-            var assembly = typeof(StumpsServer).Assembly;
-            var type = assembly.GetType(contract.RuleName);
+            var type = _knownRules[contract.RuleName];
             var rule = Activator.CreateInstance(type) as IStumpRule;
 
             if (rule is T)
@@ -72,6 +75,27 @@ namespace Stumps.Server
 
             return (T)rule;
 
+        }
+
+        /// <summary>
+        /// Finds the rules for the current assembly.
+        /// </summary>
+        /// <returns>A dictionary of rules for the current assembly.</returns>
+        private static Dictionary<string, Type> FindRulesForAssembly()
+        {
+
+            var dict = new Dictionary<string, Type>(StringComparer.OrdinalIgnoreCase);
+            var baseType = typeof(IStumpRule);
+
+            var assembly = typeof(StumpsServer).Assembly;
+            var types = assembly.GetTypes().Where(t => t != baseType && baseType.IsAssignableFrom(t));
+            
+            foreach (var t in types)
+            {
+                dict.Add(t.Name, t);
+            }
+
+            return dict;
         }
 
     }

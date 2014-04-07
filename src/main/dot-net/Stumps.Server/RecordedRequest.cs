@@ -16,10 +16,10 @@
         public RecordedRequest(IStumpsHttpRequest request) : base(request)
         {
             this.HttpMethod = request.HttpMethod;
-            this.LocalEndPoint = request.LocalEndPoint;
+            this.LocalEndPoint = request.LocalEndPoint ?? new IPEndPoint(0, 0);
             this.ProtocolVersion = request.ProtocolVersion;
             this.RawUrl = request.RawUrl;
-            this.RemoteEndPoint = request.RemoteEndPoint;
+            this.RemoteEndPoint = request.RemoteEndPoint ?? new IPEndPoint(0, 0);
         }
 
         /// <summary>

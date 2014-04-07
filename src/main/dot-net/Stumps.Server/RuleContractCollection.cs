@@ -83,10 +83,10 @@ namespace Stumps.Server
         /// </summary>
         /// <param name="name">The name of the rule.</param>
         /// <returns>A collection of <see cref="T:Stumps.Server.RuleContract"/> objects.</returns>
-        public IEnumerable<RuleContract> FindRuleContractByName(string name)
+        public IList<RuleContract> FindRuleContractByName(string name)
         {
 
-            return _contracts.Where(rule => rule.RuleName.Equals(name, System.StringComparison.OrdinalIgnoreCase));
+            return _contracts.Where(rule => rule.RuleName.Equals(name, System.StringComparison.OrdinalIgnoreCase)).ToList();
 
         }
 

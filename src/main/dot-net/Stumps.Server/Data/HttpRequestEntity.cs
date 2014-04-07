@@ -27,7 +27,7 @@ namespace Stumps.Server.Data
         /// <value>
         ///     The local end point where the HTTP request was received on.
         /// </value>
-        public IPEndPoint LocalEndPoint
+        public string LocalEndPoint
         {
             get;
             set;
@@ -63,7 +63,7 @@ namespace Stumps.Server.Data
         /// <value>
         ///     The remote end point where the HTTP request came from.
         /// </value>
-        public IPEndPoint RemoteEndPoint
+        public string RemoteEndPoint
         {
             get;
             set;
