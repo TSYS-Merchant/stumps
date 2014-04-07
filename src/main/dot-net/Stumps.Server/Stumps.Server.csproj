@@ -66,9 +66,17 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ContractHttpResponse.cs" />
+    <Compile Include="ContentDecoderHandling.cs" />
+    <Compile Include="ContractBindings.cs" />
+    <Compile Include="ContractEntityBinding.cs" />
+    <Compile Include="Data\HttpContextPartEntity.cs" />
+    <Compile Include="Data\HttpRequestEntity.cs" />
+    <Compile Include="Data\HttpRequestEntityReader.cs" />
+    <Compile Include="Data\HttpResponseEntity.cs" />
+    <Compile Include="Data\HttpResponseEntityReader.cs" />
+    <Compile Include="Data\NameValuePairEntity.cs" />
+    <Compile Include="Data\RuleEntity.cs" />
     <Compile Include="HttpBodyClassification.cs" />
-    <Compile Include="HttpHeader.cs" />
     <Compile Include="IServerFactory.cs" />
     <Compile Include="IStumpsHost.cs" />
     <Compile Include="RecordedContext.cs" />
@@ -77,12 +85,13 @@
     <Compile Include="RecordedResponse.cs" />
     <Compile Include="RecordingBehavior.cs" />
     <Compile Include="Recordings.cs" />
+    <Compile Include="RuleContract.cs" />
+    <Compile Include="RuleContractCollection.cs" />
     <Compile Include="StumpContract.cs" />
     <Compile Include="StumpsConfiguration.cs" />
     <Compile Include="Data\ConfigurationDataAccess.cs" />
     <Compile Include="Data\ConfigurationEntity.cs" />
     <Compile Include="Data\DataAccess.cs" />
-    <Compile Include="Data\HeaderEntity.cs" />
     <Compile Include="Data\IConfigurationDataAccess.cs" />
     <Compile Include="Data\IDataAccess.cs" />
     <Compile Include="Data\ProxyServerEntity.cs" />
@@ -93,8 +102,6 @@
     <Compile Include="ServerFactory.cs" />
     <Compile Include="StumpsServerInstance.cs" />
     <Compile Include="Utility\RandomGenerator.cs" />
-    <Compile Include="Logging\DebugLogger.cs" />
-    <Compile Include="Logging\ILogger.cs" />
     <Compile Include="Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

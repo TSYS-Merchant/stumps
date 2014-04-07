@@ -9,19 +9,24 @@
     public sealed class RecordedResponse : RecordedContextPartBase, IStumpsHttpResponse
     {
 
-        private readonly string _redirectAddress;
-        private readonly int _statusCode;
-        private readonly string _statusDescription;
-
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:Stumps.Server.RecordedResponse" /> class.
         /// </summary>
-        /// <param name="response">The <see cref="T:Stumps.IStumpsHttpResponse"/> used to initialize the instance.</param>
-        public RecordedResponse(IStumpsHttpResponse response) : base(response)
+        /// <param name="response">The <see cref="T:Stumps.IStumpsHttpResponse" /> used to initialize the instance.</param>
+        /// <param name="decoderHandling">The <see cref="T:Stumps.Server.ContentDecoderHandling" /> requirements for the HTTP body.</param>
+        /// <exception cref="System.ArgumentNullException"><paramref name="response"/> is <c>null</c>.</exception>
+        public RecordedResponse(IStumpsHttpResponse response, ContentDecoderHandling decoderHandling)
+            : base(response, decoderHandling)
         {
-            _redirectAddress = response.RedirectAddress;
-            _statusCode = response.StatusCode;
-            _statusDescription = response.StatusDescription;
+
+            if (response == null)
+            {
+                throw new ArgumentNullException("response");
+            }
+
+            this.RedirectAddress = response.RedirectAddress;
+            this.StatusCode = response.StatusCode;
+            this.StatusDescription = response.StatusDescription;
         }
 
         /// <summary>
@@ -33,8 +38,8 @@
         /// <exception cref="System.NotSupportedException">Thrown when altering the value of the redirect address.</exception>
         public string RedirectAddress
         {
-            get { return _redirectAddress; }
-            set { throw new NotSupportedException(); }
+            get;
+            set;
         }
 
         /// <summary>
@@ -46,8 +51,8 @@
         /// <exception cref="System.NotSupportedException">Thrown when altering the value of the status code.</exception>
         public int StatusCode
         {
-            get { return _statusCode; }
-            set { throw new NotSupportedException(); }
+            get;
+            set;
         }
 
         /// <summary>
@@ -59,27 +64,34 @@
         /// <exception cref="System.NotSupportedException">Thrown when altering the value of the status description.</exception>
         public string StatusDescription
         {
-            get { return _statusDescription; }
-            set { throw new NotSupportedException(); }
+            get;
+            set;
         }
 
         /// <summary>
         ///     Appends a byte array to the body of the HTTP response.
         /// </summary>
         /// <param name="buffer">The bytes to append to the body of the response.</param>
-        /// <exception cref="System.NotSupportedException">Always thrown.</exception>
-        public void AppendToBody(byte[] buffer)
+        public new void AppendToBody(byte[] buffer)
         {
-            throw new NotSupportedException();
+            base.AppendToBody(buffer);
         }
 
         /// <summary>
         ///     Clears the existing body of the HTTP response.
         /// </summary>
         /// <exception cref="System.NotSupportedException">Always thrown.</exception>
-        public void ClearBody()
+        public new void ClearBody()
         {
-            throw new NotSupportedException();
+            base.ClearBody();
+        }
+
+        /// <summary>
+        ///     Examines the body for the classification, and the MD5 hash.
+        /// </summary>
+        public new void ExamineBody()
+        {
+            base.ExamineBody();
         }
 
     }

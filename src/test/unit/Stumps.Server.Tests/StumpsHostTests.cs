@@ -8,7 +8,7 @@
     using NUnit.Framework;
     using Stumps;
     using Stumps.Server.Data;
-    using Stumps.Server.Logging;
+    using Stumps.Server.Utility;
 
     [TestFixture]
     public class StumpsHostTests
@@ -27,7 +27,7 @@
         [Test]
         public void Constructor_NullHostName_ThrowsException()
         {
-            StumpsHost proxy = new StumpsHost(Substitute.For<IServerFactory>(), Substitute.For<ILogger>(), Substitute.For<IDataAccess>());
+            StumpsHost proxy = new StumpsHost(Substitute.For<IServerFactory>(), Substitute.For<IDataAccess>());
             Assert.That(
                 () => proxy.CreateServerInstance(null, _defaultPort, true, false),
                 Throws.Exception.TypeOf<ArgumentNullException>().With.Property("ParamName").EqualTo("externalHostName"));
@@ -48,7 +48,7 @@
                 ExternalHostName = externalHostName,
                 Port = port,
                 UseSsl = useSsl,
-                ProxyId = Stumps.Server.Utility.RandomGenerator.GenerateIdentifier()
+                ProxyId = RandomGenerator.GenerateIdentifier()
             };
 
             var dataAccess = Substitute.For<IDataAccess>();
@@ -61,7 +61,7 @@
             {
                 tcpListener.Start();
 
-                StumpsHost proxy = new StumpsHost(Substitute.For<IServerFactory>(), Substitute.For<ILogger>(), dataAccess);
+                StumpsHost proxy = new StumpsHost(Substitute.For<IServerFactory>(), dataAccess);
                 Assert.That(
                     () => proxy.CreateServerInstance(externalHostName, port, useSsl, autoStart),
                     Throws.Exception.TypeOf<StumpsNetworkException>().With.Property("Message").EqualTo("The port is already in use."));
@@ -76,7 +76,7 @@
         [Test]
         public void Constructor_PortNumberRange_ThrowsException()
         {
-            StumpsHost proxy = new StumpsHost(Substitute.For<IServerFactory>(), Substitute.For<ILogger>(), Substitute.For<IDataAccess>());
+            StumpsHost proxy = new StumpsHost(Substitute.For<IServerFactory>(), Substitute.For<IDataAccess>());
             Assert.That(
                 () => proxy.CreateServerInstance("www.foo.com", IPEndPoint.MaxPort + 1, true, false),
                 Throws.Exception.TypeOf<ArgumentOutOfRangeException>().With.Property("ParamName").EqualTo("port"));

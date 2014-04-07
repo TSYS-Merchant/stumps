@@ -24,9 +24,11 @@ namespace Stumps
         IHttpHeaders Headers { get; }
 
         /// <summary>
-        /// Gets the bytes for the HTTP body.
+        ///     Gets the bytes for the HTTP body.
         /// </summary>
-        /// <returns>The bytes for the HTTP body.</returns>
+        /// <returns>
+        ///     An array of <see cref="T:System.Byte"/> values representing the HTTP body.
+        /// </returns>
         byte[] GetBody();
 
     }

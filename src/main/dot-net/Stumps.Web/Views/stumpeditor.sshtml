@@ -133,7 +133,7 @@ var StumpOrigin = {
 };
 
 var BodySource = {
-	NoBody: 0,
+	EmptyBody: 0,
 	Origin: 1,
 	Modified: 2
 };
@@ -516,7 +516,7 @@ function updateResponseBodyOptions() {
 
 	switch ( value ) {
 
-		case BodySource.NoBody:
+		case BodySource.EmptyBody:
 			showContent = false;
 			showModified = false;
 			break;

@@ -59,6 +59,7 @@
     <Compile Include="FluentBasicHttpResponseExtensions.cs" />
     <Compile Include="FluentStumpExtensions.cs" />
     <Compile Include="FluentStumpServerExtensions.cs" />
+    <Compile Include="HexExtensionMethods.cs" />
     <Compile Include="HttpHeaders.cs" />
     <Compile Include="HttpResponseOrigin.cs" />
     <Compile Include="HttpPipelineHandler.cs" />
@@ -89,6 +90,8 @@
     </Compile>
     <Compile Include="ProxyHandler.cs" />
     <Compile Include="ReadOnlyHttpHeaders.cs" />
+    <Compile Include="RuleSetting.cs" />
+    <Compile Include="RuleSettingsHelper.cs" />
     <Compile Include="Rules\BodyContentRule.cs" />
     <Compile Include="Rules\BodyLengthRule.cs" />
     <Compile Include="Rules\BodyMatchRule.cs" />
@@ -111,7 +114,9 @@
       <LastGenOutput>BaseResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <CodeAnalysisDictionary Include="CustomDictionary.xml" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

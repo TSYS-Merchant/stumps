@@ -1,6 +1,7 @@
 ﻿namespace Stumps.Server
 {
 
+    using System;
     using System.Net;
 
     /// <summary>
@@ -13,13 +14,23 @@
         ///     Initializes a new instance of the <see cref="T:Stumps.Server.RecordedRequest" /> class.
         /// </summary>
         /// <param name="request">The <see cref="T:Stumps.IStumpsHttpRequest"/> used to initialize the instance.</param>
-        public RecordedRequest(IStumpsHttpRequest request) : base(request)
+        /// <param name="decoderHandling">The <see cref="T:Stumps.Server.ContentDecoderHandling"/> requirements for the HTTP body.</param>
+        /// <exception cref="System.ArgumentNullException"><paramref name="request"/> is <c>null</c>.</exception>
+        public RecordedRequest(IStumpsHttpRequest request, ContentDecoderHandling decoderHandling)
+            : base(request, decoderHandling)
         {
+
+            if (request == null)
+            {
+                throw new ArgumentNullException("request");
+            }
+
             this.HttpMethod = request.HttpMethod;
-            this.LocalEndPoint = request.LocalEndPoint;
+            this.LocalEndPoint = request.LocalEndPoint ?? new IPEndPoint(0, 0);
             this.ProtocolVersion = request.ProtocolVersion;
             this.RawUrl = request.RawUrl;
-            this.RemoteEndPoint = request.RemoteEndPoint;
+            this.RemoteEndPoint = request.RemoteEndPoint ?? new IPEndPoint(0, 0);
+
         }
 
         /// <summary>

@@ -2,10 +2,11 @@ namespace Stumps.Server
 {
 
     using System;
+    using System.Security.Cryptography;
     using System.Text;
 
     /// <summary>
-    ///     A class that wraps the HTTP response.
+    ///     A class that provides the foundation for recorded HTTP requests and responses. 
     /// </summary>
     public abstract class RecordedContextPartBase : IStumpsHttpContextPart
     {
@@ -13,11 +14,18 @@ namespace Stumps.Server
         private byte[] _bodyBuffer;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Stumps.Server.RecordedContextPartBase"/> class.
+        ///     Initializes a new instance of the <see cref="T:Stumps.Server.RecordedContextPartBase" /> class.
         /// </summary>
         /// <param name="contextPart">The context part.</param>
-        protected RecordedContextPartBase(IStumpsHttpContextPart contextPart)
+        /// <param name="decoderHandling">The <see cref="T:Stumps.Server.ContentDecoderHandling"/> requirements for the HTTP body.</param>
+        /// <exception cref="System.ArgumentNullException"><paramref name="contextPart"/> is <c>null</c>.</exception>
+        protected RecordedContextPartBase(IStumpsHttpContextPart contextPart, ContentDecoderHandling decoderHandling)
         {
+
+            if (contextPart == null)
+            {
+                throw new ArgumentNullException("contextPart");
+            }
 
             // Copy in the headers
             this.Headers = new HttpHeaders();
@@ -31,11 +39,13 @@ namespace Stumps.Server
                 Buffer.BlockCopy(contextPart.GetBody(), 0, _bodyBuffer, 0, _bodyBuffer.Length);
             }
 
-            // Decode the body
-            DecodeBody();
+            // Decode the body if necessary
+            if (decoderHandling == ContentDecoderHandling.DecodeRequired)
+            {
+                DecodeBody();
+            }
 
-            // Determine the body type
-            DetermineBodyClassification();
+            this.ExamineBody();
 
         }
 
@@ -51,15 +61,27 @@ namespace Stumps.Server
         }
 
         /// <summary>
+        ///     Gets the MD5 hash of the HTTP body.
+        /// </summary>
+        /// <value>
+        ///     The MD5 hash of the HTTP body.
+        /// </value>
+        public string BodyMd5Hash
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
         /// Gets the collection of HTTP headers.
         /// </summary>
         /// <value>
         /// The collection of HTTP headers.
         /// </value>
-        public HttpHeaders Headers
+        public IHttpHeaders Headers
         {
             get;
-            private set;
+            set;
         }
 
         /// <summary>
@@ -73,23 +95,12 @@ namespace Stumps.Server
             get; 
             private set;
         }
-
-        /// <summary>
-        /// Gets the collection of HTTP headers.
-        /// </summary>
-        /// <value>
-        /// The collection of HTTP headers.
-        /// </value>
-        IHttpHeaders IStumpsHttpContextPart.Headers
-        {
-            get { return this.Headers; }
-        }
         
         /// <summary>
         ///     Gets the bytes for the HTTP body.
         /// </summary>
         /// <returns>
-        ///     The bytes for the HTTP body.
+        ///     An array of <see cref="T:System.Byte"/> values representing the HTTP body.
         /// </returns>
         public byte[] GetBody()
         {
@@ -120,6 +131,50 @@ namespace Stumps.Server
             }
 
             return encoding.GetString(_bodyBuffer);
+
+        }
+
+        /// <summary>
+        ///     Appends a byte array to the body of the HTTP response.
+        /// </summary>
+        /// <param name="buffer">The bytes to append to the body of the response.</param>
+        protected void AppendToBody(byte[] buffer)
+        {
+
+            if (buffer == null)
+            {
+                return;
+            }
+
+            var newBodyLength = _bodyBuffer.Length + buffer.Length;
+            var newBuffer = new byte[newBodyLength];
+
+            Buffer.BlockCopy(_bodyBuffer, 0, newBuffer, 0, _bodyBuffer.Length);
+            Buffer.BlockCopy(buffer, 0, newBuffer, _bodyBuffer.Length, buffer.Length);
+
+            _bodyBuffer = newBuffer;
+
+        }
+
+        /// <summary>
+        ///     Clears the existing body of the HTTP response.
+        /// </summary>
+        protected void ClearBody()
+        {
+            _bodyBuffer = new byte[0];
+        }
+
+        /// <summary>
+        ///     Examines the body for the classification, and the MD5 hash.
+        /// </summary>
+        protected void ExamineBody()
+        {
+
+            // Determine the body type
+            DetermineBodyClassification();
+
+            // Generate the MD5 hash of the body
+            GenerateMd5Hash();
 
         }
 
@@ -163,7 +218,27 @@ namespace Stumps.Server
             }
 
         }
+
+        /// <summary>
+        /// Generates the MD5 hash for the HTTP body.
+        /// </summary>
+        private void GenerateMd5Hash()
+        {
         
+            if (_bodyBuffer == null || _bodyBuffer.Length == 0)
+            {
+                this.BodyMd5Hash = string.Empty;
+                return;
+            }
+
+            using (var hash = MD5.Create())
+            {
+                var bytes = hash.ComputeHash(_bodyBuffer);
+                this.BodyMd5Hash = bytes.ToHexString();
+            }
+
+        }
+
     }
 
 }

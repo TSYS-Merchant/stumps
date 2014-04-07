@@ -55,14 +55,14 @@
 
             var returnList = new List<RecordedContext>();
 
-            afterIndex = afterIndex == int.MaxValue ? afterIndex - 1 : afterIndex;
+            var startingIndex = afterIndex == int.MaxValue ? afterIndex - 1 : afterIndex;
 
-            afterIndex++;
+            startingIndex++;
 
             lock (_syncRoot)
             {
 
-                for (var i = afterIndex; i < _recordings.Count; i++)
+                for (var i = startingIndex; i < _recordings.Count; i++)
                 {
                     returnList.Add(_recordings[i]);
                 }
@@ -116,7 +116,7 @@
                 throw new ArgumentNullException("context");
             }
 
-            var recordedContext = new RecordedContext(context);
+            var recordedContext = new RecordedContext(context, ContentDecoderHandling.DecodeRequired);
 
             lock (_syncRoot)
             {

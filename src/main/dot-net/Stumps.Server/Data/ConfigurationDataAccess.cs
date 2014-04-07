@@ -53,7 +53,10 @@
                 Directory.CreateDirectory(configurationFileDirectory);
             }
 
-            configureDefaultsAction();
+            if (configureDefaultsAction != null)
+            {
+                configureDefaultsAction();
+            }
 
         }
 

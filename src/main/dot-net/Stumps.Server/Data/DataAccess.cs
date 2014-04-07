@@ -182,13 +182,13 @@
 
             if (matchBody != null && matchBody.Length > 0)
             {
-                entity.MatchBodyFileName = matchFileName;
+                entity.Request.BodyFileName = matchFileName;
                 File.WriteAllBytes(matchFileName, matchBody);
             }
 
             if (responseBody != null && responseBody.Length > 0)
             {
-                entity.ResponseBodyFileName = responseFileName;
+                entity.Response.BodyFileName = responseFileName;
                 File.WriteAllBytes(responseFileName, responseBody);
             }
 
