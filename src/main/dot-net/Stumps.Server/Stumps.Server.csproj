@@ -66,6 +66,7 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ContentDecoderHandling.cs" />
     <Compile Include="ContractBindings.cs" />
     <Compile Include="ContractEntityBinding.cs" />
     <Compile Include="Data\HttpContextPartEntity.cs" />

@@ -10,13 +10,15 @@
     {
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Stumps.Server.RecordedContext"/> class.
+        ///     Initializes a new instance of the <see cref="T:Stumps.Server.RecordedContext" /> class.
         /// </summary>
-        public RecordedContext(IStumpsHttpContext context)
+        /// <param name="context">The <see cref="T:Stumps.IStumpsHttpContext"/> used to initialize the instance.</param>
+        /// <param name="decoderHandling">The <see cref="T:Stumps.Server.ContentDecoderHandling" /> requirements for the HTTP body.</param>
+        public RecordedContext(IStumpsHttpContext context, ContentDecoderHandling decoderHandling)
         {
 
-            this.Request = new RecordedRequest(context.Request);
-            this.Response = new RecordedResponse(context.Response);
+            this.Request = new RecordedRequest(context.Request, decoderHandling);
+            this.Response = new RecordedResponse(context.Response, decoderHandling);
 
             this.ReceivedDate = context.ReceivedDate;
             this.UniqueIdentifier = context.UniqueIdentifier;

@@ -22,8 +22,8 @@ namespace Stumps.Server
 
             var contract = new StumpContract
             {
-                Request = new RecordedRequest(new HttpRequestEntityReader(entity.Request)),
-                Response = new RecordedResponse(new HttpResponseEntityReader(entity.Response)),
+                Request = new RecordedRequest(new HttpRequestEntityReader(entity.Request), ContentDecoderHandling.DecodeNotRequired),
+                Response = new RecordedResponse(new HttpResponseEntityReader(entity.Response), ContentDecoderHandling.DecodeNotRequired),
                 Rules = new RuleContractCollection(),
                 StumpCategory = entity.StumpName,
                 StumpId = entity.StumpId,

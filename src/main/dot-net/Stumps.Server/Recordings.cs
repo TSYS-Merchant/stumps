@@ -116,7 +116,7 @@
                 throw new ArgumentNullException("context");
             }
 
-            var recordedContext = new RecordedContext(context);
+            var recordedContext = new RecordedContext(context, ContentDecoderHandling.DecodeRequired);
 
             lock (_syncRoot)
             {

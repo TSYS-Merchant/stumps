@@ -14,10 +14,11 @@ namespace Stumps.Server
         private byte[] _bodyBuffer;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Stumps.Server.RecordedContextPartBase"/> class.
+        ///     Initializes a new instance of the <see cref="T:Stumps.Server.RecordedContextPartBase" /> class.
         /// </summary>
         /// <param name="contextPart">The context part.</param>
-        protected RecordedContextPartBase(IStumpsHttpContextPart contextPart)
+        /// <param name="decoderHandling">The <see cref="T:Stumps.Server.ContentDecoderHandling"/> requirements for the HTTP body.</param>
+        protected RecordedContextPartBase(IStumpsHttpContextPart contextPart, ContentDecoderHandling decoderHandling)
         {
 
             // Copy in the headers
@@ -32,8 +33,11 @@ namespace Stumps.Server
                 Buffer.BlockCopy(contextPart.GetBody(), 0, _bodyBuffer, 0, _bodyBuffer.Length);
             }
 
-            // Decode the body
-            DecodeBody();
+            // Decode the body if necessary
+            if (decoderHandling == ContentDecoderHandling.DecodeRequired)
+            {
+                DecodeBody();
+            }
 
             this.ExamineBody();
 

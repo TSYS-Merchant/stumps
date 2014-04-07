@@ -13,7 +13,9 @@
         ///     Initializes a new instance of the <see cref="T:Stumps.Server.RecordedResponse" /> class.
         /// </summary>
         /// <param name="response">The <see cref="T:Stumps.IStumpsHttpResponse"/> used to initialize the instance.</param>
-        public RecordedResponse(IStumpsHttpResponse response) : base(response)
+        /// <param name="decoderHandling">The <see cref="T:Stumps.Server.ContentDecoderHandling"/> requirements for the HTTP body.</param>
+        public RecordedResponse(IStumpsHttpResponse response, ContentDecoderHandling decoderHandling)
+            : base(response, decoderHandling)
         {
             this.RedirectAddress = response.RedirectAddress;
             this.StatusCode = response.StatusCode;

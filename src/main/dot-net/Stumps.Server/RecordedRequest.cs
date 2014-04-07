@@ -13,7 +13,9 @@
         ///     Initializes a new instance of the <see cref="T:Stumps.Server.RecordedRequest" /> class.
         /// </summary>
         /// <param name="request">The <see cref="T:Stumps.IStumpsHttpRequest"/> used to initialize the instance.</param>
-        public RecordedRequest(IStumpsHttpRequest request) : base(request)
+        /// <param name="decoderHandling">The <see cref="T:Stumps.Server.ContentDecoderHandling"/> requirements for the HTTP body.</param>
+        public RecordedRequest(IStumpsHttpRequest request, ContentDecoderHandling decoderHandling)
+            : base(request, decoderHandling)
         {
             this.HttpMethod = request.HttpMethod;
             this.LocalEndPoint = request.LocalEndPoint ?? new IPEndPoint(0, 0);

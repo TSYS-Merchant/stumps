@@ -179,8 +179,8 @@
 
             var contract = new StumpContract
             {
-                Request = record.Request,
-                Response = record.Response,
+                Request = new RecordedRequest(record.Request, ContentDecoderHandling.DecodeNotRequired),
+                Response = new RecordedResponse(record.Response, ContentDecoderHandling.DecodeNotRequired),
                 StumpId = string.Empty,
                 StumpName = model.Name,
                 StumpCategory = "Uncategorized"
@@ -264,8 +264,8 @@
 
             var contract = new StumpContract
             {
-                Request = originalContract.Request,
-                Response = originalContract.Response,
+                Request = new RecordedRequest(originalContract.Request, ContentDecoderHandling.DecodeNotRequired),
+                Response = new RecordedResponse(originalContract.Response, ContentDecoderHandling.DecodeNotRequired),
                 StumpId = model.StumpId,
                 StumpName = model.Name,
                 StumpCategory = "Uncategorized"
