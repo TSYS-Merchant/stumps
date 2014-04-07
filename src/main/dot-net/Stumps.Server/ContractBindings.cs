@@ -8,10 +8,10 @@ namespace Stumps.Server
     /// <summary>
     ///     A helper class that provides a translation between contracts and Stump objects.
     /// </summary>
-    internal static class ContractBindings
+    public static class ContractBindings
     {
 
-        private static Dictionary<string, Type> _knownRules = FindRulesForAssembly();
+        private readonly static Dictionary<string, Type> KnownRules = FindRulesForAssembly();
 
         /// <summary>
         ///     Creates a Stump from a contract.
@@ -45,7 +45,7 @@ namespace Stumps.Server
         public static IStumpRule CreateRuleFromContract(RuleContract contract)
         {
 
-            var type = _knownRules[contract.RuleName];
+            var type = KnownRules[contract.RuleName];
             var rule = Activator.CreateInstance(type) as IStumpRule;
             rule.InitializeFromSettings(contract.GetRuleSettings());
             return rule;
@@ -61,7 +61,7 @@ namespace Stumps.Server
         public static T CreateRuleFromContract<T>(RuleContract contract) where T : IStumpRule, new()
         {
 
-            var type = _knownRules[contract.RuleName];
+            var type = KnownRules[contract.RuleName];
             var rule = Activator.CreateInstance(type) as IStumpRule;
 
             if (rule is T)
