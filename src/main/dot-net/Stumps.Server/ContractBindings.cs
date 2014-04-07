@@ -11,7 +11,7 @@ namespace Stumps.Server
     public static class ContractBindings
     {
 
-        private readonly static Dictionary<string, Type> KnownRules = FindRulesForAssembly();
+        private static readonly Dictionary<string, Type> KnownRules = FindRulesForAssembly();
 
         /// <summary>
         ///     Creates a Stump from a contract.
