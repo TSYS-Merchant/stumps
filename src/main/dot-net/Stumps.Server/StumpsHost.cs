@@ -314,6 +314,7 @@
         ///     Creates a new proxy server from a <see cref="T:Stumps.Server.Data.ProxyServerEntity"/>.
         /// </summary>
         /// <param name="entity">The <see cref="T:Stumps.Server.Data.ProxyServerEntity"/> used to create the Stumps server.</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Object is disposed later.")]
         private void UnwrapAndRegisterServer(ProxyServerEntity entity)
         {
 

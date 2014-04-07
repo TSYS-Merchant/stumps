@@ -26,7 +26,11 @@ namespace Stumps
                 throw new ArgumentNullException("stump");
             }
 
-            stump.AddRule(new BodyMatchRule(buffer.Length, CreateMd5Hash(buffer)));
+            if (buffer != null)
+            {
+                stump.AddRule(new BodyMatchRule(buffer.Length, CreateMd5Hash(buffer)));
+            }
+
             return stump;
 
         }

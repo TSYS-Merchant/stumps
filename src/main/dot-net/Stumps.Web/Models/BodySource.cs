@@ -10,7 +10,7 @@
         /// <summary>
         ///     There is no HTTP body.
         /// </summary>
-        NoBody = 0,
+        EmptyBody = 0,
 
         /// <summary>
         ///     The HTTP body is the same as the originating source.

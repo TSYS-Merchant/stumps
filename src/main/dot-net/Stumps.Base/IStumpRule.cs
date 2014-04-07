@@ -21,6 +21,7 @@
         ///     Gets an enumerable list of <see cref="T:Stumps.RuleSetting"/> objects used to represent the current instance.
         /// </summary>
         /// <returns>An enumerable list of <see cref="T:Stumps.RuleSetting"/> objects used to represent the current instance.</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate", Justification = "Property is not appropriate.")]
         IEnumerable<RuleSetting> GetRuleSettings();
 
         /// <summary>

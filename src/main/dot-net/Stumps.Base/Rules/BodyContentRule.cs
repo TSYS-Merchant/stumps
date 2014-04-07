@@ -49,17 +49,6 @@
         }
 
         /// <summary>
-        ///     Gets the text evaluators.
-        /// </summary>
-        /// <value>
-        ///     The text evaluators used for the body content rule.
-        /// </value>
-        public string[] TextEvaluators
-        {
-            get { return _textMatches; }
-        }
-
-        /// <summary>
         ///     Gets an enumerable list of <see cref="T:Stumps.RuleSetting" /> objects used to represent the current instance.
         /// </summary>
         /// <returns>
@@ -81,6 +70,17 @@
 
             return settings;
 
+        }
+
+        /// <summary>
+        ///     Gets the text evaluators.
+        /// </summary>
+        /// <value>
+        ///     The text evaluators used for the body content rule.
+        /// </value>
+        public string[] GetTextEvaluators()
+        {
+            return _textMatches;
         }
 
         /// <summary>

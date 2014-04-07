@@ -33,22 +33,22 @@ namespace Stumps
         /// <summary>
         ///     Converts a hex-encoded string into a byte array.
         /// </summary>
-        /// <param name="hexString">The hex-encoded string.</param>
-        /// <returns>An array of <see cref="T:System.Byte"/> values decoded from <paramref name="hexString"/>.</returns>
-        public static byte[] ToByteArray(this string hexString)
+        /// <param name="hexValue">The hex-encoded string.</param>
+        /// <returns>An array of <see cref="T:System.Byte"/> values decoded from <paramref name="hexValue"/>.</returns>
+        public static byte[] ToByteArray(this string hexValue)
         {
 
-            if (hexString == null)
+            if (hexValue == null)
             {
                 return null;
             }
 
             var bytes = new List<byte>();
 
-            for (var i = 0; i < hexString.Length; i += 2)
+            for (var i = 0; i < hexValue.Length; i += 2)
             {
-                var s = hexString.Substring(i, 2);
-                var b = byte.Parse(s, NumberStyles.HexNumber);
+                var s = hexValue.Substring(i, 2);
+                var b = byte.Parse(s, NumberStyles.HexNumber, CultureInfo.InvariantCulture);
                 bytes.Add(b);
             }
 

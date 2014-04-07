@@ -12,11 +12,18 @@
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:Stumps.Server.RecordedResponse" /> class.
         /// </summary>
-        /// <param name="response">The <see cref="T:Stumps.IStumpsHttpResponse"/> used to initialize the instance.</param>
-        /// <param name="decoderHandling">The <see cref="T:Stumps.Server.ContentDecoderHandling"/> requirements for the HTTP body.</param>
+        /// <param name="response">The <see cref="T:Stumps.IStumpsHttpResponse" /> used to initialize the instance.</param>
+        /// <param name="decoderHandling">The <see cref="T:Stumps.Server.ContentDecoderHandling" /> requirements for the HTTP body.</param>
+        /// <exception cref="System.ArgumentNullException"><paramref name="response"/> is <c>null</c>.</exception>
         public RecordedResponse(IStumpsHttpResponse response, ContentDecoderHandling decoderHandling)
             : base(response, decoderHandling)
         {
+
+            if (response == null)
+            {
+                throw new ArgumentNullException("response");
+            }
+
             this.RedirectAddress = response.RedirectAddress;
             this.StatusCode = response.StatusCode;
             this.StatusDescription = response.StatusDescription;

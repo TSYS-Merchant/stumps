@@ -25,6 +25,12 @@ namespace Stumps.Server
         /// <param name="rule">The <see cref="T:Stumps.IStumpRule"/> used to create the instance.</param>
         public RuleContract(IStumpRule rule) : this()
         {
+
+            if (rule == null)
+            {
+                return;
+            }
+
             this.RuleName = rule.GetType().Name;
             var settings = rule.GetRuleSettings();
 

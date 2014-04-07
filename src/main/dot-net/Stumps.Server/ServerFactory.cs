@@ -14,6 +14,7 @@ namespace Stumps.Server
         /// <param name="fallbackResponse">The default response returned to a client when a matching <see cref="T:Stumps.Stump"/> is not found.</param>
         /// <exception cref="System.ArgumentOutOfRangeException"><paramref name="listeningPort" /> exceeds the allowed TCP port range.</exception>
         /// <returns>An instance of a class inherting from the <see cref="T:Stumps.IStumpsServer"/> interface.</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Dispose is taken care of later.")]
         public IStumpsServer CreateServer(int listeningPort, FallbackResponse fallbackResponse)
         {
             var server = new StumpsServer()
@@ -33,6 +34,7 @@ namespace Stumps.Server
         /// <exception cref="System.ArgumentOutOfRangeException"><paramref name="listeningPort" /> exceeds the allowed TCP port range.</exception>
         /// <exception cref="System.ArgumentOutOfRangeException">The URI for the remote HTTP server is invalid.</exception>
         /// <returns>An instance of a class inherting from the <see cref="T:Stumps.IStumpsServer"/> interface.</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Dispose is taken care of later.")]
         public IStumpsServer CreateServer(int listeningPort, System.Uri proxyHostUri)
         {
             var server = new StumpsServer()

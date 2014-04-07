@@ -230,7 +230,7 @@
                     contract.Response.AppendToBody(Encoding.UTF8.GetBytes(model.ResponseBodyModification));
                     break;
 
-                case BodySource.NoBody:
+                case BodySource.EmptyBody:
                     contract.Response.ClearBody();
                     break;
 
@@ -315,7 +315,7 @@
                     contract.Response.AppendToBody(Encoding.UTF8.GetBytes(model.ResponseBodyModification));
                     break;
 
-                case BodySource.NoBody:
+                case BodySource.EmptyBody:
                     contract.Response.ClearBody();
                     break;
 
@@ -389,7 +389,7 @@
                 RequestBodyMatch = bodyMatch,
                 RequestBodyMatchValues = 
                     stump.Rules.FindRuleContractByName(typeof(BodyContentRule).Name).Count > 0 ?
-                        ContractBindings.CreateRuleFromContract<BodyContentRule>(stump.Rules.FindRuleContractByName(typeof(BodyContentRule).Name)[0]).TextEvaluators :
+                        ContractBindings.CreateRuleFromContract<BodyContentRule>(stump.Rules.FindRuleContractByName(typeof(BodyContentRule).Name)[0]).GetTextEvaluators() :
                         new string[0],
                 RequestBodyUrl = "/api/proxy/" + serverId + "/stumps/" + stumpId + "/request",
                 RequestHeaderMatch = CreateHeadersFromRules(stump),

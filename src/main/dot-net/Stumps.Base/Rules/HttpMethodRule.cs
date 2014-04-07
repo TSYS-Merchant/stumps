@@ -120,11 +120,11 @@
         /// <param name="httpMethod">The HTTP method for the rule.</param>
         public void InitializeRule(string httpMethod)
         {
-            httpMethod = httpMethod ?? string.Empty;
 
-            _textMatch = new TextMatch(httpMethod, true);
-            _textMatchValue = httpMethod;
+            _textMatchValue = httpMethod ?? string.Empty;
+            _textMatch = new TextMatch(_textMatchValue, true);
             this.IsInitialized = true;
+
         }
 
     }

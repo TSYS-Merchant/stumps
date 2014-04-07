@@ -25,7 +25,7 @@ namespace Stumps
         }
 
         [Test]
-        public void Constructor_Default_NoBody()
+        public void Constructor_Default_EmptyBody()
         {
             var response = new BasicHttpResponse();
             Assert.AreEqual(0, response.BodyLength);

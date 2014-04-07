@@ -122,10 +122,9 @@
         /// <param name="value">The value used for the URL rule.</param>
         public void InitializeRule(string value)
         {
-            value = value ?? string.Empty;
-            _textMatchValue = value;
+            _textMatchValue = value ?? string.Empty;
 
-            _textMatch = new TextMatch(value, true);
+            _textMatch = new TextMatch(_textMatchValue, true);
             this.IsInitialized = true;
 
         }

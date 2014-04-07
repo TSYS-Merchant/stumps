@@ -3,6 +3,7 @@
 
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using System.Threading;
     using Stumps.Server.Data;
@@ -452,7 +453,7 @@
                                   ? StumpsServerInstance.SecureUriFormat
                                   : StumpsServerInstance.InsecureUriFormat;
 
-                var uriString = string.Format(pattern, this.ExternalHostName);
+                var uriString = string.Format(CultureInfo.InvariantCulture, pattern, this.ExternalHostName);
 
                 var uri = new Uri(uriString);
 

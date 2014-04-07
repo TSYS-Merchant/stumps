@@ -14,8 +14,14 @@
         /// </summary>
         /// <param name="context">The <see cref="T:Stumps.IStumpsHttpContext"/> used to initialize the instance.</param>
         /// <param name="decoderHandling">The <see cref="T:Stumps.Server.ContentDecoderHandling" /> requirements for the HTTP body.</param>
+        /// <exception cref="System.ArgumentNullException"><paramref name="context"/> is <c>null</c>.</exception>
         public RecordedContext(IStumpsHttpContext context, ContentDecoderHandling decoderHandling)
         {
+
+            if (context == null)
+            {
+                throw new ArgumentNullException("context");
+            }
 
             this.Request = new RecordedRequest(context.Request, decoderHandling);
             this.Response = new RecordedResponse(context.Response, decoderHandling);

@@ -106,7 +106,10 @@ namespace Stumps.Server
         /// </summary>
         /// <param name="item">The object to remove from the <see cref="T:Stumps.Server.RuleContractCollection" />.</param>
         /// <returns>
-        ///     <c>true</c> if <paramref name="item" /> was successfully removed from the <see cref="T:Stumps.Server.RuleContractCollection" />; otherwise, <c>false</c>. This method also returns <c>false</c> if <paramref name="item" /> is not found in the original <see cref="T:Stumps.Server.RuleContractCollection" />.
+        ///     <c>true</c> if <paramref name="item" /> was successfully removed from the 
+        ///     <see cref="T:Stumps.Server.RuleContractCollection" />; otherwise, <c>false</c>. 
+        ///     This method also returns <c>false</c> if <paramref name="item" /> is not found in the original 
+        ///     <see cref="T:Stumps.Server.RuleContractCollection" />.
         /// </returns>
         public bool Remove(RuleContract item)
         {

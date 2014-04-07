@@ -166,14 +166,12 @@
         /// <param name="value">The value of the HTTP header.</param>
         private void InitializeRule(string name, string value)
         {
-            name = name ?? string.Empty;
-            value = value ?? string.Empty;
 
-            _headerNameValue = name;
-            _headerValueValue = value;
+            _headerNameValue = name ?? string.Empty;
+            _headerValueValue = value ?? string.Empty;
 
-            _nameTextMatch = new TextMatch(name, true);
-            _valueTextMatch = new TextMatch(value, true);
+            _nameTextMatch = new TextMatch(_headerNameValue, true);
+            _valueTextMatch = new TextMatch(_headerValueValue, true);
 
             this.IsInitialized = true;
         }

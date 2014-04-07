@@ -18,8 +18,14 @@ namespace Stumps.Server
         /// </summary>
         /// <param name="contextPart">The context part.</param>
         /// <param name="decoderHandling">The <see cref="T:Stumps.Server.ContentDecoderHandling"/> requirements for the HTTP body.</param>
+        /// <exception cref="System.ArgumentNullException"><paramref name="contextPart"/> is <c>null</c>.</exception>
         protected RecordedContextPartBase(IStumpsHttpContextPart contextPart, ContentDecoderHandling decoderHandling)
         {
+
+            if (contextPart == null)
+            {
+                throw new ArgumentNullException("contextPart");
+            }
 
             // Copy in the headers
             this.Headers = new HttpHeaders();
