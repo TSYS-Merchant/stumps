@@ -95,6 +95,17 @@
                     System.Threading.Thread.Sleep(delay);
                 }
 
+            }
+
+            if (stump != null && stump.TerminateConnection)
+            {
+
+                result = ProcessHandlerResult.DropConnection;
+
+            }
+            else if (stump != null && !stump.TerminateConnection)
+            {
+
                 PopulateResponse(context, stump);
 
                 var stumpsResponse = context.Response as StumpsHttpResponse;

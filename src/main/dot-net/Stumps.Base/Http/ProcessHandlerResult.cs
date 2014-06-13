@@ -16,7 +16,12 @@
         /// <summary>
         ///     The HTTP request should not be processed any more.
         /// </summary>
-        Terminate = 1
+        Terminate = 1,
+
+        /// <summary>
+        ///     The HTTP request should not be processed any more and the connection should be immediately terminated.
+        /// </summary>
+        DropConnection = 2
 
     }
 

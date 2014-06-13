@@ -34,16 +34,14 @@
         }
 
         /// <summary>
-        ///     Gets or sets the amount of time (in milliseconds) the response is delayed.
+        ///     Gets the number of rules for the Stump.
         /// </summary>
         /// <value>
-        ///     The amount of time (in milliseconds) the response is delayed.
+        ///     The number of rules for the Stump.
         /// </value>
-        /// <remarks>A value of <c>0</c> or less will not cause a delay.</remarks>
-        public int ResponseDelay
+        public int Count
         {
-            get; 
-            set;
+            get { return _ruleList.Count; }
         }
 
         /// <summary>
@@ -71,14 +69,16 @@
         }
 
         /// <summary>
-        ///     Gets the number of rules for the Stump.
+        ///     Gets or sets the amount of time (in milliseconds) the response is delayed.
         /// </summary>
         /// <value>
-        ///     The number of rules for the Stump.
+        ///     The amount of time (in milliseconds) the response is delayed.
         /// </value>
-        public int Count
+        /// <remarks>A value of <c>0</c> or less will not cause a delay.</remarks>
+        public int ResponseDelay
         {
-            get { return _ruleList.Count; }
+            get;
+            set;
         }
 
         /// <summary>
@@ -92,7 +92,19 @@
             get;
             private set;
         }
-        
+
+        /// <summary>
+        ///     Gets or sets a flag indicating whether to forceably terminate the connection.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if the connection should be forceably terminated; otherwise, <c>false</c>.
+        /// </value>
+        public bool TerminateConnection
+        {
+            get;
+            set;
+        }
+
         /// <summary>
         ///     Adds the rule to the Stump.
         /// </summary>

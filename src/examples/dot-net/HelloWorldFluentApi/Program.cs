@@ -38,7 +38,12 @@ namespace Stumps.Examples.HelloWorldFluentApi
                                                .MatchingUrl("/HelloWorld.htm")
                                                .DelayedBy(2000)
                                                .Responds().WithFile("HelloWorld.htm");
-            
+
+            // Showing off the ability to drop a connection for an incomming URL
+            server.HandlesRequest("HelloDrop").MatchingMethod("GET")
+                                              .MatchingUrl("/HelloDrop.htm")
+                                              .DropsConnection();
+
             // Showing off a stump
             // Show the requests that are incomming
             server.RequestProcessed += (o, e) => ConsoleHelper.ShowHttpResponse(server, e);

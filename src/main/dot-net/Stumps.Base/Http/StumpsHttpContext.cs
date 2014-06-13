@@ -90,8 +90,16 @@
         /// <summary>
         ///     Closes the HTTP context and responds to the calling client.
         /// </summary>
-        public void EndResponse()
+        /// <param name="abort">if set to <c>true</c>, the connection is aborted without responding.</param>
+        public void EndResponse(bool abort)
         {
+
+            // Forceably abort the connection
+            if (abort)
+            {
+                _context.Response.Abort();
+                return;
+            }
 
             // Set the status codes
             _context.Response.StatusCode = _response.StatusCode;

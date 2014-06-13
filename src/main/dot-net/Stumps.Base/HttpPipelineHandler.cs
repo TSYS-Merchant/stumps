@@ -74,7 +74,7 @@
 
                 result = handler.ProcessRequest(context);
 
-                if (result == ProcessHandlerResult.Terminate)
+                if (result != ProcessHandlerResult.Continue)
                 {
                     break;
                 }

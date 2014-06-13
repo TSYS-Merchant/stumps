@@ -32,6 +32,29 @@ namespace Stumps
         }
 
         /// <summary>
+        ///     Asserts that the <see cref="T:Stumps.Stump"/> will drop the connection immediately.
+        /// </summary>
+        /// <param name="stump">The <see cref="T:Stumps.Stump"/> intercepting incomming HTTP requests.</param>
+        /// <returns>The calling <see cref="T:Stumps.Stump"/>.</returns>
+        /// <exception cref="System.ArgumentNullException"><paramref name="stump"/> is <c>null</c>.</exception>
+        public static Stump DropsConnection(this Stump stump)
+        {
+
+            if (stump == null)
+            {
+                throw new ArgumentNullException("stump");
+            }
+
+            stump.TerminateConnection = true;
+
+            var response = new BasicHttpResponse();
+            stump.Response = response;
+
+            return stump;
+
+        }
+
+        /// <summary>
         ///     Requires the incoming HTTP request to match the specified body.
         /// </summary>
         /// <param name="stump">The <see cref="T:Stumps.Stump"/> intercepting incomming HTTP requests.</param>

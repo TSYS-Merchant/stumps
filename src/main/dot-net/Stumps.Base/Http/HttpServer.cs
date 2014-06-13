@@ -183,15 +183,17 @@
                 }
 
                 // Process the request through the HTTP handler
-                _handler.ProcessRequest(stumpsContext);
+                var processResult = _handler.ProcessRequest(stumpsContext);
 
                 if (this.RequestProcessed != null)
                 {
                     this.RequestProcessed(this, new StumpsContextEventArgs(stumpsContext));
                 }
 
+                var abortConnection = processResult == ProcessHandlerResult.DropConnection;
+
                 // End the request
-                stumpsContext.EndResponse();
+                stumpsContext.EndResponse(abortConnection);
 
                 if (this.RequestFinished != null)
                 {
