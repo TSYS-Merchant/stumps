@@ -60,7 +60,7 @@ namespace Stumps.Examples.HelloWorldApi
             server.Start();
 
             // Show the URL to the user
-            Console.WriteLine("Browse to http://localhost:{0}/HelloWorld.htm", server.ListensOnPort);
+            Console.WriteLine("Browse to http://localhost:{0}/HelloWorld.htm", server.ListeningPort);
             Console.WriteLine();
 
             // Wait to exit

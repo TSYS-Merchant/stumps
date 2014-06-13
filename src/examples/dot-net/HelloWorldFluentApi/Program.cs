@@ -32,12 +32,14 @@ namespace Stumps.Examples.HelloWorldFluentApi
 
             // Showing off some chaining: Make the server return an HTTP 404 for all unknown
             // and then when the URL /HelloWorld.htm is requested, return back an HTML page
-            // that was loaded from a file.
+            // that was loaded from a file, but the response is delayed by 2000 milliseconds.
             server.RespondsWithHttp404()
                   .HandlesRequest("HelloWorld").MatchingMethod("GET")
                                                .MatchingUrl("/HelloWorld.htm")
+                                               .DelayedBy(2000)
                                                .Responds().WithFile("HelloWorld.htm");
             
+            // Showing off a stump
             // Show the requests that are incomming
             server.RequestProcessed += (o, e) => ConsoleHelper.ShowHttpResponse(server, e);
 
@@ -45,7 +47,7 @@ namespace Stumps.Examples.HelloWorldFluentApi
             server.Start();
 
             // Show the URL to the user
-            Console.WriteLine("Browse to http://localhost:{0}/HelloWorld.htm", server.ListensOnPort);
+            Console.WriteLine("Browse to http://localhost:{0}/HelloWorld.htm", server.ListeningPort);
             Console.WriteLine();
 
             // Wait to exit

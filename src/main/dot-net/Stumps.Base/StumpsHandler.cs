@@ -11,6 +11,16 @@
     internal class StumpsHandler : IHttpHandler
     {
 
+        /// <summary>
+        ///     The minimum amount of time allowed for a delayed response.
+        /// </summary>
+        private const int MinimumResponseDelay = 0;
+
+        /// <summary>
+        ///     The maximum amount of time allowed for a delayed response.
+        /// </summary>
+        private const int MaximumResponseDelay = 120000;
+
         private readonly IStumpsManager _stumpsManager;
         private volatile bool _handlerEnabled;
 
@@ -77,6 +87,13 @@
 
             if (stump != null)
             {
+
+                if (stump.ResponseDelay > StumpsHandler.MinimumResponseDelay)
+                {
+                    var delay = stump.ResponseDelay;
+                    delay = delay < StumpsHandler.MaximumResponseDelay ? delay : StumpsHandler.MaximumResponseDelay;
+                    System.Threading.Thread.Sleep(delay);
+                }
 
                 PopulateResponse(context, stump);
 

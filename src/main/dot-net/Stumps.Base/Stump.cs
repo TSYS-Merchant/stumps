@@ -34,6 +34,19 @@
         }
 
         /// <summary>
+        ///     Gets or sets the amount of time (in milliseconds) the response is delayed.
+        /// </summary>
+        /// <value>
+        ///     The amount of time (in milliseconds) the response is delayed.
+        /// </value>
+        /// <remarks>A value of <c>0</c> or less will not cause a delay.</remarks>
+        public int ResponseDelay
+        {
+            get; 
+            set;
+        }
+
+        /// <summary>
         ///     Gets or sets the response for the Stump.
         /// </summary>
         /// <value>
