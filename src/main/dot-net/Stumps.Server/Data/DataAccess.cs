@@ -26,7 +26,7 @@
         /// <summary>
         ///     The file extension used for proxy server configuration files. 
         /// </summary>
-        public const string ProxyFileExtension = ".proxy";
+        public const string ProxyFileExtension = ".server";
 
         /// <summary>
         ///     The path used to persist recordings for a proxy server.
@@ -147,6 +147,38 @@
         }
 
         /// <summary>
+        ///     Loads the contents of a resource for a proxy server.
+        /// </summary>
+        /// <param name="proxyId">The proxy unique identifier.</param>
+        /// <param name="resourceFileName">Name of the file.</param>
+        /// <returns>A byte array containing the contents of the resource file.</returns>
+        /// <remarks>A <c>null</c> value is returned if the resource file cannot be found.</remarks>
+        /// <exception cref="System.ArgumentNullException">
+        /// <paramref name="proxyId"/> is <c>null</c>.
+        /// </exception>
+        public byte[] ProxyServerReadResource(string proxyId, string resourceFileName)
+        {
+
+            if (string.IsNullOrWhiteSpace(proxyId))
+            {
+                throw new ArgumentNullException("proxyId");
+            }
+
+            resourceFileName = resourceFileName ?? string.Empty;
+
+            byte[] fileBytes = null;
+
+            var path = Path.Combine(_storagePath, proxyId, DataAccess.StumpsPathName, resourceFileName);
+            if (File.Exists(path))
+            {
+                fileBytes = File.ReadAllBytes(path);
+            }
+
+            return fileBytes;
+
+        }
+
+        /// <summary>
         ///     Creates a new <see cref="T:Stumps.Server.Data.StumpEntity" /> for an existing proxy server.
         /// </summary>
         /// <param name="proxyId">The unique identifier for the proxy server.</param>
@@ -177,19 +209,23 @@
             var stumpsPath = Path.Combine(_storagePath, proxyId, DataAccess.StumpsPathName);
 
             var stumpFileName = Path.Combine(stumpsPath, entity.StumpId + DataAccess.StumpFileExtension);
-            var matchFileName = Path.Combine(stumpsPath, entity.StumpId + DataAccess.BodyMatchFileExtension);
-            var responseFileName = Path.Combine(stumpsPath, entity.StumpId + DataAccess.BodyResponseFileExtension);
+            var matchFileName = entity.StumpId + DataAccess.BodyMatchFileExtension;
+            var responseFileName = entity.StumpId + DataAccess.BodyResponseFileExtension;
 
             if (matchBody != null && matchBody.Length > 0)
             {
                 entity.Request.BodyFileName = matchFileName;
-                File.WriteAllBytes(matchFileName, matchBody);
+
+                var file = Path.Combine(stumpsPath, matchFileName);
+                File.WriteAllBytes(file, matchBody);
             }
 
             if (responseBody != null && responseBody.Length > 0)
             {
                 entity.Response.BodyFileName = responseFileName;
-                File.WriteAllBytes(responseFileName, responseBody);
+
+                var file = Path.Combine(stumpsPath, responseFileName);
+                File.WriteAllBytes(file, responseBody);
             }
 
             JsonUtility.SerializeToFile(entity, stumpFileName);

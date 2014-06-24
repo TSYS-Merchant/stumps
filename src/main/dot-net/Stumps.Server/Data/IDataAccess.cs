@@ -35,6 +35,15 @@
         IList<ProxyServerEntity> ProxyServerFindAll();
 
         /// <summary>
+        ///     Loads the contents of a resource for a proxy server.
+        /// </summary>
+        /// <param name="proxyId">The proxy unique identifier.</param>
+        /// <param name="resourceFileName">Name of the file.</param>
+        /// <returns>A byte array containing the contents of the resource file.</returns>
+        /// <remarks>A <c>null</c> value is returned if the resource file cannot be found.</remarks>
+        byte[] ProxyServerReadResource(string proxyId, string resourceFileName);
+ 
+        /// <summary>
         ///     Creates a new <see cref="T:Stumps.Server.Data.StumpEntity"/> for an existing proxy server.
         /// </summary>
         /// <param name="proxyId">The unique identifier for the proxy server.</param>

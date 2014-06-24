@@ -484,7 +484,7 @@
 
             foreach (var entity in entities)
             {
-                var contract = ContractEntityBinding.CreateContractFromEntity(entity);
+                var contract = ContractEntityBinding.CreateContractFromEntity(this.ServerId, entity, _dataAccess);
                 UnwrapAndAddStump(contract);
             }
 

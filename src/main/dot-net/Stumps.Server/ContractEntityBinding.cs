@@ -13,21 +13,25 @@ namespace Stumps.Server
         /// <summary>
         ///     Creates a Stump contract from a Stump data entity.
         /// </summary>
+        /// <param name="serverId">The unique identifier for the server.</param>
         /// <param name="entity">The <see cref="T:Stumps.Server.Data.StumpEntity"/> used to create the contract.</param>
+        /// <param name="dataAccess">The data access provider used by the instance.</param>
         /// <returns>
         ///     A <see cref="T:Stumps.Server.StumpContract"/> created from the specified <paramref name="entity"/>.
         /// </returns>
-        public static StumpContract CreateContractFromEntity(StumpEntity entity)
+        public static StumpContract CreateContractFromEntity(string serverId, StumpEntity entity, IDataAccess dataAccess)
         {
 
             var contract = new StumpContract
             {
-                Request = new RecordedRequest(new HttpRequestEntityReader(entity.Request), ContentDecoderHandling.DecodeNotRequired),
-                Response = new RecordedResponse(new HttpResponseEntityReader(entity.Response), ContentDecoderHandling.DecodeNotRequired),
+                Request = new RecordedRequest(new HttpRequestEntityReader(serverId, entity.Request, dataAccess), ContentDecoderHandling.DecodeNotRequired),
+                Response = new RecordedResponse(new HttpResponseEntityReader(serverId, entity.Response, dataAccess), ContentDecoderHandling.DecodeNotRequired),
+                ResponseDelay = entity.ResponseDelay,
                 Rules = new RuleContractCollection(),
                 StumpCategory = entity.StumpName,
                 StumpId = entity.StumpId,
-                StumpName = entity.StumpName
+                StumpName = entity.StumpName,
+                TerminateConnection = entity.TerminateConnection
             };
 
             foreach (var ruleEntity in entity.Rules)
@@ -88,12 +92,13 @@ namespace Stumps.Server
             {
                 Request = request,
                 Response = response,
+                ResponseDelay = contract.ResponseDelay,
+                Rules = new List<RuleEntity>(),
                 StumpCategory = contract.StumpCategory,
                 StumpId = contract.StumpId,
-                StumpName = contract.StumpName
+                StumpName = contract.StumpName,
+                TerminateConnection = contract.TerminateConnection
             };
-
-            entity.Rules = new List<RuleEntity>();
 
             foreach (var rule in contract.Rules)
             {

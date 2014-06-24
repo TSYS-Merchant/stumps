@@ -18,15 +18,33 @@ namespace Stumps.Server.Data
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:Stumps.Server.Data.HttpRequestEntityReader"/> class.
         /// </summary>
+        /// <param name="serverId">The unique identifier for the server.</param>
         /// <param name="requestEntity">The request entity.</param>
-        /// <exception cref="System.ArgumentNullException"><paramref name="requestEntity"/> is <c>null</c>.</exception>
-        public HttpRequestEntityReader(HttpRequestEntity requestEntity)
+        /// <param name="dataAccess">The data access provider used by the instance.</param>
+        /// <exception cref="System.ArgumentNullException">
+        /// <paramref name="serverId"/> is <c>null</c>.
+        /// or
+        /// <paramref name="requestEntity"/> is <c>null</c>.
+        /// or 
+        /// <paramref name="dataAccess"/> is <c>null</c>.
+        /// </exception>
+        public HttpRequestEntityReader(string serverId, HttpRequestEntity requestEntity, IDataAccess dataAccess)
         {
+
+            if (string.IsNullOrWhiteSpace(serverId))
+            {
+                throw new ArgumentNullException("serverId");
+            }
 
             if (requestEntity == null)
             {
                 throw new ArgumentNullException("requestEntity");
 
+            }
+
+            if (dataAccess == null)
+            {
+                throw new ArgumentNullException("dataAccess");
             }
 
             _entity = requestEntity;
@@ -37,9 +55,7 @@ namespace Stumps.Server.Data
                 this.Headers[pair.Name] = pair.Value;
             }
 
-            _body = File.Exists(_entity.BodyFileName)
-                        ? File.ReadAllBytes(_entity.BodyFileName)
-                        : new byte[0];
+            _body = dataAccess.ProxyServerReadResource(serverId, requestEntity.BodyFileName) ?? new byte[0];
 
         }
 

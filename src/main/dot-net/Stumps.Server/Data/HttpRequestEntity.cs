@@ -1,8 +1,6 @@
 namespace Stumps.Server.Data
 {
 
-    using System.Net;
-
     /// <summary>
     ///     A class that represents the persisted form of an HTTP request.
     /// </summary>
