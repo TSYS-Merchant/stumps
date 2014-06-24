@@ -61,7 +61,7 @@
 
             if (_textMatches != null)
             {
-                settings.AddRange(this._textMatches.Select(s => new RuleSetting()
+                settings.AddRange(this._textMatches.Select(s => new RuleSetting
                 {
                     Name = BodyContentRule.TextEvaluationSettingName,
                     Value = s

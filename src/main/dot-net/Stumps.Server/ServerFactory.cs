@@ -17,7 +17,7 @@ namespace Stumps.Server
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Dispose is taken care of later.")]
         public IStumpsServer CreateServer(int listeningPort, FallbackResponse fallbackResponse)
         {
-            var server = new StumpsServer()
+            var server = new StumpsServer
             {
                 ListeningPort = listeningPort,
                 DefaultResponse = fallbackResponse
@@ -37,7 +37,7 @@ namespace Stumps.Server
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Dispose is taken care of later.")]
         public IStumpsServer CreateServer(int listeningPort, System.Uri proxyHostUri)
         {
-            var server = new StumpsServer()
+            var server = new StumpsServer
             {
                 ListeningPort = listeningPort,
                 RemoteHttpServer = proxyHostUri

@@ -1,8 +1,6 @@
 namespace Stumps
 {
 
-    using System;
-
     /// <summary>
     ///     A class that defines a setting for a <see cref="T:Stumps.IStumpRule"/>.
     /// </summary>

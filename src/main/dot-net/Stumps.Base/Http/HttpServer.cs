@@ -172,10 +172,8 @@
                 // Gets the HTTP context for the request
                 var context = _listener.EndGetContext(asyncResult);
 
-                StumpsHttpContext stumpsContext = null;
-
                 // Create a new StumpsHttpContext
-                stumpsContext = new StumpsHttpContext(context);
+                var stumpsContext = new StumpsHttpContext(context);
 
                 if (this.RequestReceived != null)
                 {

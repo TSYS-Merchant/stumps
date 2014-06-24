@@ -1,8 +1,6 @@
 ﻿namespace Stumps
 {
 
-    using System;
-
     /// <summary>
     ///     A class that determins if a block of text contains a specified value.
     /// </summary>
@@ -29,6 +27,7 @@
             var match = this.UseRegexEvaluation
                             ? this.RegexValue.IsMatch(value)
                             : (value.IndexOf(this.StringValue, 0, this.ComparisonMethod) > -1);
+
             match = match ^ this.InverseEvaluation;
 
             return match;
