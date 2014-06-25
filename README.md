@@ -1,20 +1,20 @@
 #stumps
 
-Stumps is a HTTP/s proxy server that's useful when testing web services (eg: REST or SOAP services) as well as traditional browser-based applications. Stumps allows you to quickly create mocks for all your HTTP/s based services using an intuitive record & replay mechanism. This allows you to write meaningful acceptance and performance tests that aren't tightly coupled to your partners' services.
+Stumps is a [HTTP/s proxy server](http://en.wikipedia.org/wiki/Proxy_server) that's useful when testing [web services](http://en.wikipedia.org/wiki/Web_service) (eg: REST or SOAP services) as well as traditional browser-based applications. Stumps allows you to quickly create mocks for all your HTTP/s based services using an intuitive record & replay mechanism. This allows you to write meaningful acceptance and performance tests that aren't tightly coupled to your partners' services.
 
 #Background
 
-Some examples of where [Merchant Warehouse](http://www.merchantwarehouse.com/) makes a SOA call to a third party include (but are not limited to):
+Some examples of where [Merchant Warehouse](http://www.merchantwarehouse.com/) makes a web service call to a third party include:
 
-* Sending encrypted card data to [Magtek](http://www.magtek.com/) or [Idtech](http://www.idtechproducts.com/) to decrypt
+* Sending encrypted card data to [Magtek](http://www.magtek.com/) or [Idtech](http://www.idtechproducts.com/) in order to decrypt it
 * Running a sale/void/refund through [Google Wallet](http://www.google.com/wallet/), [ISIS](https://www.paywithisis.com/), [Level Up](https://www.thelevelup.com/), or any of our other platform partners
-* Running a sale/void/refund through [FirstData](https://www.firstdata.com/en_us/home.html), or many of our other payment processors
+* Running a sale/void/refund through [FirstData](https://www.firstdata.com/en_us/home.html), or any of our other payment processors
 * Integrating with the [STS gift card](http://smarttransactions.com/) solution, or any of our other gift solutions
-* Ditto for [ACH](http://en.wikipedia.org/wiki/Automated_Clearing_House) (check clearing houses)
+* Integrating with [ACH](http://en.wikipedia.org/wiki/Automated_Clearing_House) automated check clearing houses
 
-Stumps allows us to clearly demarkate what the System Under Test is, and allows us to test our products without also testing our partners' services. We'll cover that in separate integration tests. 
+Stumps allows us to clearly deliniate what the [System Under Test](http://en.wikipedia.org/wiki/System_under_test) is, and allows us to test our products without also testing our partners' services. We cover that in separate integration tests. 
 
-Stumps also plays a big role in helping Merchant Warehouse test our internal services. Our products are built using a Service Oriented Architecture design, all layered atop our Core Payment Gateway. Stumps allows us to introduce mocks in between these SOA hops, so that we can clearly isolate our system under test.
+Stumps also plays a big role in helping Merchant Warehouse test our internal services. Our products are built using a [Service Oriented Architecture](http://en.wikipedia.org/wiki/Service-oriented_architecture) design, all layered atop our Core Payment Gateway. Stumps allows us to introduce mocks in between these SOA hops, so that we can clearly isolate our system under test.
 
 #Motivation
 
@@ -29,7 +29,7 @@ In many circumstances, it is advantageous to be able to test your core offerings
 * You want to run a performance test
  * You'll seldom want to peg a partner's servers with a stress test. But you still need to know how well your components perform under load.
 
-Importantly, none of this obviates the need for full integration tests with your partners' systems.
+Importantly, none of this obviates the need for full integration tests with your partners' systems as part of your [CI](http://en.wikipedia.org/wiki/Continuous_integration)/[CD](http://en.wikipedia.org/wiki/Continuous_delivery) process.
 
 # Use cases
 
@@ -69,11 +69,11 @@ Please see the [Usage Guide](https://github.com/merchantwarehouse/stumps/wiki/Us
 
 # Source code, issues, and feature enhancements
 
-Stumps' source code is hosted on GitHub @ https://github.com/merchantwarehouse/stumps. All issues and feature enhancements are being tracked in the Stumps GitHub Issue Tracker.
+[Stumps' source code](https://github.com/merchantwarehouse/stumps) is hosted on GitHub, along with all of our other Open Source projects. All issues and feature enhancements are being tracked in the [Stumps GitHub Issue Tracker](https://github.com/merchantwarehouse/stumps/issues?state=open).
 
 # Competitors
 
-Below are a number of tools playing in a similar space. Many of them are interesting, mature products, but for various reasons, we felt that they weren't fit for purpose.
+Below are a number of tools playing in a similar space. Many of them are interesting, mature products, but for various reasons, we felt that they weren't fit for our purposes.
 
 * [Web Page Replay](https://code.google.com/p/web-page-replay/)
 * [stubby4j](https://github.com/azagniotov/stubby4j) and its clones
