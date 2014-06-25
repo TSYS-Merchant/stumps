@@ -4,6 +4,7 @@
     using System;
     using System.Collections;
     using System.Globalization;
+    using System.Linq;
     using Nancy;
     using Stumps.Server;
 
@@ -34,6 +35,8 @@
                 var stumpModelArray = new ArrayList();
 
                 var stumpContractList = server.FindAllContracts();
+                stumpContractList = stumpContractList.OrderBy(x => x.StumpName).ToList();
+
                 foreach (var contract in stumpContractList)
                 {
                     var stumpModel = new

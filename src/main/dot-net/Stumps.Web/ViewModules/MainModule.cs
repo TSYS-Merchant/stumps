@@ -4,6 +4,7 @@
     using System;
     using System.Collections;
     using System.Globalization;
+    using System.Linq;
     using Nancy;
     using Stumps.Server;
 
@@ -30,6 +31,8 @@
             {
 
                 var servers = stumpsHost.FindAll();
+                servers = servers.OrderBy(x => x.RemoteServerHostName).ToList();
+
                 var list = new ArrayList();
 
                 foreach (var server in servers)
