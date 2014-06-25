@@ -474,7 +474,7 @@
                 return BodyMatch.ContainsText;
             }
 
-            if (contract.Rules.FindRuleContractByName(typeof(BodyMatch).Name).Count > 0)
+            if (contract.Rules.FindRuleContractByName(typeof(BodyMatchRule).Name).Count > 0)
             {
                 return BodyMatch.ExactMatch;
             }
