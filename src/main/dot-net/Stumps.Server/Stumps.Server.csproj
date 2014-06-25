@@ -1,0 +1,151 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <MSBuildCommunityTasksPath>$(MSBuildProjectDirectory)\..\.build</MSBuildCommunityTasksPath>
+    <VersionString>0.1.0.0</VersionString>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(versionString)' != '' ">
+    <VersionString>$(versionString)</VersionString>
+  </PropertyGroup>
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0E8D3356-1F8C-49BB-8576-DF2A494F0DC9}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Stumps.Server</RootNamespace>
+    <AssemblyName>Stumps.Server</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>..\CodeQuality.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+    <DocumentationFile>
+    </DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Nancy, Version=0.21.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Nancy.0.21.1\lib\net40\Nancy.dll</HintPath>
+    </Reference>
+    <Reference Include="Nancy.Hosting.Self, Version=0.21.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Nancy.Hosting.Self.0.21.1\lib\net40\Nancy.Hosting.Self.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.5.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ContentDecoderHandling.cs" />
+    <Compile Include="ContractBindings.cs" />
+    <Compile Include="ContractEntityBinding.cs" />
+    <Compile Include="Data\HttpContextPartEntity.cs" />
+    <Compile Include="Data\HttpRequestEntity.cs" />
+    <Compile Include="Data\HttpRequestEntityReader.cs" />
+    <Compile Include="Data\HttpResponseEntity.cs" />
+    <Compile Include="Data\HttpResponseEntityReader.cs" />
+    <Compile Include="Data\NameValuePairEntity.cs" />
+    <Compile Include="Data\RuleEntity.cs" />
+    <Compile Include="Data\ServerEntity.cs" />
+    <Compile Include="HttpBodyClassification.cs" />
+    <Compile Include="IServerFactory.cs" />
+    <Compile Include="IStumpsHost.cs" />
+    <Compile Include="RecordedContext.cs" />
+    <Compile Include="RecordedContextPartBase.cs" />
+    <Compile Include="RecordedRequest.cs" />
+    <Compile Include="RecordedResponse.cs" />
+    <Compile Include="RecordingBehavior.cs" />
+    <Compile Include="Recordings.cs" />
+    <Compile Include="RuleContract.cs" />
+    <Compile Include="RuleContractCollection.cs" />
+    <Compile Include="StumpContract.cs" />
+    <Compile Include="StumpsConfiguration.cs" />
+    <Compile Include="Data\ConfigurationDataAccess.cs" />
+    <Compile Include="Data\ConfigurationEntity.cs" />
+    <Compile Include="Data\DataAccess.cs" />
+    <Compile Include="Data\IConfigurationDataAccess.cs" />
+    <Compile Include="Data\IDataAccess.cs" />
+    <Compile Include="Data\StumpEntity.cs" />
+    <Compile Include="DefaultConfigurationSettings.cs" />
+    <Compile Include="StumpsHost.cs" />
+    <Compile Include="StumpsNetworkException.cs" />
+    <Compile Include="ServerFactory.cs" />
+    <Compile Include="StumpsServerInstance.cs" />
+    <Compile Include="Utility\RandomGenerator.cs" />
+    <Compile Include="Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Utility\JsonUtility.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="..\CommonAssembly\ProductAssemblyInfo.cs">
+      <Link>Properties\ProductAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\CommonAssembly\VersionAssemblyInfo.cs">
+      <Link>Properties\VersionAssemblyInfo.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Stumps.Base\Stumps.Base.csproj">
+      <Project>{eb4d58da-2b6c-4a51-b648-7d4fb6d8dc80}</Project>
+      <Name>Stumps.Base</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <CodeAnalysisDictionary Include="CustomDictionary.xml" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  -->
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+</Project>

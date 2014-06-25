@@ -12,7 +12,7 @@
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
     <DefineSolutionProperties>false</DefineSolutionProperties>
-    </PropertyGroup>
+  </PropertyGroup>
   <PropertyGroup Condition=" '$(outputName)' != '' ">
     <OutputName>$(outputName)</OutputName>
   </PropertyGroup>
@@ -33,6 +33,7 @@
     <Compile Include="Features.wxs" />
     <Compile Include="InstallerUI.wxs" />
     <Compile Include="Product.wxs" />
+    <Compile Include="StartMenu.wxs" />
     <Compile Include="StumpsService.wxs" />
   </ItemGroup>
   <ItemGroup>

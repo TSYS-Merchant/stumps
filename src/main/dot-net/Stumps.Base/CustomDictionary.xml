@@ -1,0 +1,11 @@
+﻿<Dictionary>
+  <Words>
+    <Recognized>
+      <Word>Api</Word>
+      <Word>Referer</Word>
+      <Word>Md</Word>
+    </Recognized>
+    <DiscreteExceptions>
+    </DiscreteExceptions>
+  </Words>
+</Dictionary>

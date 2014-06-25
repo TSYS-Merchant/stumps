@@ -1,0 +1,177 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A21EE917-498E-4E06-9AE5-2E23380E8306}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Stumps.Web</RootNamespace>
+    <AssemblyName>Stumps.Web</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>
+    </DocumentationFile>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Nancy">
+      <HintPath>..\packages\Nancy.0.21.1\lib\net40\Nancy.dll</HintPath>
+    </Reference>
+    <Reference Include="Nancy.Hosting.Self">
+      <HintPath>..\packages\Nancy.Hosting.Self.0.21.1\lib\net40\Nancy.Hosting.Self.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ApiModules\PortAvailableModule.cs" />
+    <Compile Include="ApiModules\ProxyServerModule.cs" />
+    <Compile Include="ApiModules\ProxyServerStatusModule.cs" />
+    <Compile Include="ApiModules\RecordingModule.cs" />
+    <Compile Include="ApiModules\StumpsModule.cs" />
+    <Compile Include="Bootstrapper.cs" />
+    <Compile Include="ErrorStatusCodeHandler.cs" />
+    <Compile Include="Models\BodyMatch.cs" />
+    <Compile Include="Models\BodySource.cs" />
+    <Compile Include="Models\ErrorModel.cs" />
+    <Compile Include="Models\HeaderModel.cs" />
+    <Compile Include="Models\PortAvailableModel.cs" />
+    <Compile Include="Models\ProxyServerDetailsModel.cs" />
+    <Compile Include="Models\ProxyServerModel.cs" />
+    <Compile Include="Models\RecordingDetailsModel.cs" />
+    <Compile Include="Models\RecordingModel.cs" />
+    <Compile Include="Models\RecordStatusModel.cs" />
+    <Compile Include="Models\RunningStatusModel.cs" />
+    <Compile Include="Models\StumpModel.cs" />
+    <Compile Include="Models\StumpOrigin.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="..\CommonAssembly\ProductAssemblyInfo.cs">
+      <Link>Properties\ProductAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\CommonAssembly\VersionAssemblyInfo.cs">
+      <Link>Properties\VersionAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="Responses\ErrorHtmlResponse.cs" />
+    <Compile Include="Responses\ErrorJsonResponse.cs" />
+    <Compile Include="StumpsWebServer.cs" />
+    <Compile Include="ViewModules\AddWebsiteModule.cs" />
+    <Compile Include="ViewModules\DeleteStumpModule.cs" />
+    <Compile Include="ViewModules\DeleteWebsiteModule.cs" />
+    <Compile Include="ViewModules\MainModule.cs" />
+    <Compile Include="ViewModules\ModuleHelper.cs" />
+    <Compile Include="ViewModules\RecordingsModule.cs" />
+    <Compile Include="ViewModules\StumpEditorModule.cs" />
+    <Compile Include="ViewModules\StumpsOverviewModule.cs" />
+    <Compile Include="WebResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WebResources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="Views\addwebsite.sshtml" />
+    <None Include="Views\deletestump.sshtml" />
+    <None Include="Views\deletewebsite.sshtml" />
+    <None Include="Views\main.sshtml" />
+    <None Include="Views\master.sshtml" />
+    <None Include="Views\recordings.sshtml" />
+    <None Include="Views\stumpeditor.sshtml" />
+    <None Include="Views\stumpsoverview.sshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\exclamation-error-30.png" />
+    <Content Include="Content\exclamation-error-40.png" />
+    <Content Include="Content\exclamation-error-b.png" />
+    <Content Include="Content\exclamation-error.png" />
+    <Content Include="Content\forms.css" />
+    <Content Include="Content\frm_checkoff.png" />
+    <Content Include="Content\frm_checkon.png" />
+    <Content Include="Content\ico_cfg.png" />
+    <Content Include="Content\ico_del.png" />
+    <Content Include="Content\ico_pwr_off.png" />
+    <Content Include="Content\ico_pwr_on.png" />
+    <Content Include="Content\ico_rec_off.png" />
+    <Content Include="Content\ico_rec_on.png" />
+    <Content Include="Content\jquery-1.10.2.min.js" />
+    <Content Include="Content\logo.png" />
+    <Content Include="Content\main.css" />
+    <Content Include="Content\multipanel.css" />
+    <Content Include="Content\ph.png" />
+    <Content Include="Content\recordings.css" />
+    <Content Include="Content\servercard.css" />
+    <Content Include="Content\stumpeditor.css" />
+    <Content Include="Content\stumps.css" />
+    <Content Include="Content\svr_new.png" />
+    <Content Include="Content\svr_rec.png" />
+    <Content Include="Content\svr_run.png" />
+    <Content Include="Content\svr_stp.png" />
+    <Content Include="Content\tb_back.png" />
+    <Content Include="Content\tb_cstump.png" />
+    <Content Include="Content\tb_delete.png" />
+    <Content Include="Content\tb_estump.png" />
+    <Content Include="Content\tb_recstart.png" />
+    <Content Include="Content\tb_recstop.png" />
+    <Content Include="Content\tb_save.png" />
+    <Content Include="Content\toolbar.css" />
+    <Content Include="Content\url.min.js" />
+    <EmbeddedResource Include="Resources\favicon.ico" />
+    <None Include="Resources\PageNotFound.html" />
+    <None Include="Resources\PageInternalServerError.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="WebResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>WebResources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Stumps.Base\Stumps.Base.csproj">
+      <Project>{eb4d58da-2b6c-4a51-b648-7d4fb6d8dc80}</Project>
+      <Name>Stumps.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Stumps.Server\Stumps.Server.csproj">
+      <Project>{0e8d3356-1f8c-49bb-8576-df2a494f0dc9}</Project>
+      <Name>Stumps.Server</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+  <PropertyGroup>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets. -->
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+</Project>

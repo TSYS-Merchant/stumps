@@ -39,6 +39,13 @@
   </Target>
 
   <!-- Projects to Build -->
+  <Target Name="BeforeBuild">
+    <ItemGroup>
+      <AssemblyInfoFiles Include="$(MSBuildProjectDirectory)\CommonAssembly\VersionAssemblyInfo.cs" />
+    </ItemGroup>
+    <MSBuild.Community.Tasks.FileUpdate Files="@(AssemblyInfoFiles)" Regex="\[assembly: Assembly(File)?Version\(&quot;\d+\.\d+\.\d+\.\d+&quot;\)\]" ReplacementText="[assembly: Assembly$1Version(&quot;$(VersionString)&quot;)]" />
+  </Target>
+  
   <ItemGroup>
     <ProjectFiles Include="$(MSBuildProjectDirectory)\**\*.sln">
       <Properties>Configuration=$(BuildConfiguration);GenerateAssemblyInfo=true</Properties>

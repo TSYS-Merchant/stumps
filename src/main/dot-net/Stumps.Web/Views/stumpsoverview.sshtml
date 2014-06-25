@@ -1,0 +1,363 @@
+﻿@Master['master']
+
+@Section['HeaderStylesheets']
+	<link href="/content/toolbar.css" rel="stylesheet" />
+	<link href="/content/multipanel.css" rel="stylesheet" />
+	<link href="/content/stumps.css" rel="stylesheet" />
+@EndSection
+
+@Section['Content']
+	
+	<div class="toolbar blueBackground" id="tb_main">
+		<a href="/" class="left"><img src="/content/tb_back.png" />back</a>
+		<label class="left pointer" id="tb_viewrec"><img src="/content/tb_recstart.png">view recordings</label>
+		<a href="@Model.LocalWebsite" rel="noreferrer" target="_blank" class="right">@Model.ExternalHostName</a>
+	</div>
+	<div class="panel">
+		<div class="fill whiteBackground">
+			@If.HasStumps
+			<table class="stumpTable" id="tbl_stump">
+				<tbody>
+				@Each.Stumps
+				<tr id="stmpid_@Current.StumpId" class="stumpRow"><td>@Current.StumpName</td></tr>
+				@EndEach
+				</tbody>
+			</table>
+			@EndIf
+			@IfNot.HasStumps
+			<p class="notice" id="norecords">There doesn't seem to be anything here yet...</p>
+			@EndIf
+		</div>
+	</div>
+	<div class="panel">
+		<div class="toolbar" id="view_toolbar">
+			<a id="view_edit" href="" class="left hide"><img src="/content/tb_estump.png" class="tb">Edit Stump</a>
+			<a id="view_delete" href="" class="left hide"><img src="/content/tb_delete.png" class="tb">Delete Stump</a>
+			<label id="" class="left">&nbsp;</label>
+		</div>
+		<div class="fillToolbar lightGreyBackground">
+			<div id="view_stump" class="stumpView hide">
+				<div id="reqPartReq">
+					<h2>When the request is ...</h2>
+					<table>
+						<tr id="trReqUrl"><td class="setKey">URL</td><td id="tdReqUrl"></td></tr>
+						<tr id="trReqMethod"><td class="setKey">Method</td><td id="tdReqMethod"></td></tr>
+					</table>
+				</div>
+				<div id="reqPartHdr">
+					<h2>When the headers are ...</h2>
+					<table id="reqHeaders">
+						<tbody>
+						</tbody>
+					</table>
+				</div>
+				<h2>When the body ... </h2>
+				<table>
+					<tbody><tr><td id="bodyMatchType"></td></tr></tbody>
+				</table>
+				<table id="resBodyMatchValues" class="hide">
+					<tbody>
+					</tbody>
+				</table>
+				<div id="reqBody" class="bodyView hide">
+<pre id="reqBodyPre">
+</pre>
+<img src="" id="reqBodyImg" class="hide" />
+				</div>
+				<div id="reqBodyLinkDiv" class="bodyLinkDiv hide"><a href="" id="reqBodyLink" class="bodyLink" target="_blank" rel="noreferrer">+ Download Body</a></div>
+				<h2>Then respond with ...</h2>
+				<table>
+					<tr><td class="setKey">Status Code</td><td id="tdResStatusCode"></td></tr>
+					<tr><td class="setKey">Status Description</td><td id="tdResStatusDescription"></td></tr>
+				</table>
+				<h2>Using the headers ...</h2>
+					<table id="resHeaders">
+					<tbody>
+					</tbody>
+				</table>
+				<h2>Using a body that is ...</h2>
+				<table>
+					<tbody><tr><td id="bodyResponseType"></td></tr></tbody>
+				</table>
+				<div id="resBody" class="bodyView hide">
+<pre id="resBodyPre">
+</pre>
+<img src="" id="resBodyImg" />
+				</div>
+				<div id="resBodyLinkDiv" class="bodyLinkDiv hide"><a href="" id="resBodyLink" class="bodyLink" target="_blank" rel="noreferrer">+ Download Body</a></div>
+
+			</div>
+		</div>
+	</div>
+@EndSection
+
+@Section['Scripts']
+
+var lockViewStump = false;
+
+$(document).ready(function() {
+
+	var row = $("#tbl_stump").find("tbody tr:first");
+
+	if ( row.length == 1 ) {
+		selectStumpRow(row);
+	}
+
+	$(document).on('click', '.stumpRow', function() {
+
+		selectStumpRow($(this));	
+
+	});
+
+	$('#tb_viewrec').click(function (e) {
+
+		location.href = '/proxy/@Model.ProxyId/Recordings';
+
+	});
+
+});
+
+// --------------------------------------------
+// Request Selection
+// --------------------------------------------
+
+function selectStumpRow(row) {
+
+	$('.selected').removeClass('selected');	
+	row.addClass('selected');
+	var stumpId = row.attr('id').replace('stmpid_', '');
+
+	viewStump(stumpId);
+
+}
+
+// --------------------------------------------
+// View Request
+// --------------------------------------------
+
+function viewStump(stumpId) {
+
+	if ( lockViewStump ) {
+		return;
+	}
+
+	lockViewStump = true;
+
+    $.ajax({
+        type: 'GET',
+        contentType: 'application/json; charset-utf-8',
+		url: '/api/proxy/@Model.ProxyId/stumps/' + stumpId,
+        cache: false,
+        success: viewStump_success,
+		complete: viewStump_complete
+    });
+
+}
+
+function viewStump_complete() {
+	lockViewStump = false;
+}
+
+function viewStump_success(msg) {
+
+	$('#reqPartReq').addClass('hide');
+	$('#trReqUrl').addClass('hide');
+	$('#trReqMethod').addClass('hide');
+
+	$('#reqPartHdr').addClass('hide');
+
+	$('#reqBody').addClass('hide');
+	$('#reqBodyImg').addClass('hide');
+	$('#reqBodyPre').addClass('hide');
+	$('#reqBodyLinkDiv').addClass('hide');
+	
+	$('#resBodyMatchValues').addClass('hide');
+
+	$('#resBody').addClass('hide');
+	$('#resBodyPre').addClass('hide');
+	$('#resBodyImg').addClass('hide');
+	$('#resBodyLinkDiv').addClass('hide');
+
+	// Update Request - URL / HTTP Method Part	
+		
+	if ( msg.RequestUrlMatch ) {
+		$('#reqPartReq').removeClass('hide');
+		$('#trReqUrl').removeClass('hide');
+		$('#tdReqUrl').text(msg.RequestUrl);
+	}
+
+	if ( msg.RequestHttpMethodMatch ) {
+		$('#reqPartReq').removeClass('hide');
+		$('#trReqMethod').removeClass('hide');
+		$('#tdReqMethod').text(msg.RequestHttpMethod);
+	}
+
+	// Update Request - Headers
+	if ( msg.RequestHeaderMatch.length > 0 ) {
+		$('#reqPartHdr').removeClass('hide');
+		viewStump_UpdateHeaders('#reqHeaders tbody', 'reqHeaderstd_', msg.RequestHeaderMatch);
+	}
+
+	// Update Request - Body
+	switch ( msg.RequestBodyMatch ) {
+		case 0:
+			$('#bodyMatchType').text('Is anything at all.');
+			break;
+
+		case 1:
+			$('#bodyMatchType').text('Is completely blank.');
+			break;
+
+		case 2:
+			$('#bodyMatchType').text('Is anything but blank.');
+			break;
+
+		case 3:
+			$('#bodyMatchType').text('Contains matching text values.');
+			viewStump_updateTextMatch(msg.RequestBodyMatchValues);
+			break;
+
+		case 4:
+			$('#bodyMatchType').text('Is an exact binary match.');
+			break;
+
+	}
+
+	// Update Response - Status
+	$('#tdResStatusCode').text(msg.ResponseStatusCode);
+	$('#tdResStatusDescription').text(msg.ResponseStatusDescription);
+
+	// Update Response - Headers
+	viewStump_UpdateHeaders('#resHeaders tbody', 'resHeadersstd_', msg.ResponseHeaders);
+
+	// Update Response - Body
+	switch ( msg.ResponseBodySource ) {
+
+		case 0:
+			$('#bodyResponseType').text('Completely blank.');
+			break;
+
+		case 1:
+			$('#bodyResponseType').text('Defined as a binary stream.');
+			break;
+
+	}
+
+	viewRequest_UpdateBody(msg);
+
+	// Update toolbar buttons
+	$('#view_edit').removeClass('hide');
+	$('#view_delete').removeClass('hide');
+	$('#view_edit').attr('href', '/proxy/@Model.ProxyId/stumps/' + msg.StumpId);
+	$('#view_delete').attr('href', '/proxy/@Model.ProxyId/stumps/' + msg.StumpId + '/Delete');
+
+	// Show stump
+	$('#view_stump').removeClass('hide');
+	
+}
+
+function viewRequest_UpdateBody(msg) {
+
+	responseBody = msg.ResponseBody;
+	responseBodyLength = msg.ResponseBodyLength;
+	responseBodyIsImage = msg.ResponseBodyIsImage;
+	responseBodyIsText = msg.ResponseBodyIsText;
+	responseBodyIsBinary = ( responseBodyLength > 0 && !responseBodyIsImage && !responseBodyIsText );
+	responseBodyViewable = ( responseBodyLength > 0 );
+
+	if ( msg.ResponseBodySource = 1 ) {
+
+		if ( responseBodyIsText ) {
+			var pre = document.getElementById("resBodyPre");
+			pre.textContent = responseBody;
+
+			$('#resBody').removeClass('hide');
+			$('#resBodyPre').removeClass('hide');
+		}
+		else if ( responseBodyIsImage ) {
+			$('#resBodyImg').attr('src', msg.ResponseBodyUrl);
+
+			$('#resBody').removeClass('hide');
+			$('#resBodyImg').removeClass('hide');
+		}
+		else {
+			$('#resBodyLink').attr('href', msg.ResponseBodyUrl);
+
+			$('#resBodyLinkDiv').removeClass('hide');
+		}
+		
+	}
+
+	requestBody = msg.RequestBody;
+	requestBodyLength = msg.RequestBodyLength;
+	requestBodyIsImage = msg.RequestBodyIsImage;
+	requestBodyIsText = msg.RequestBodyIsText;
+	requestBodyIsBinary = ( responseBodyLength > 0 && !responseBodyIsImage && !responseBodyIsText );
+	requestBodyViewable = ( responseBodyLength > 0 );
+
+	if ( msg.RequestBodyMatch == 3 || msg.RequestBodyMatch == 4 ) {
+
+		if ( requestBodyIsText ) {
+			var preq = document.getElementById("reqBodyPre");
+			preq.textContent = requestBody;
+
+			$('#reqBody').removeClass('hide');
+			$('#reqBodyPre').removeClass('hide');
+		}
+		else if ( requestBodyIsImage ) {
+			$('#reqBodyImg').attr('src', msg.RequestBodyUrl);
+
+			$('#reqBody').removeClass('hide');
+			$('#reqBodyImg').removeClass('hide');
+		}
+		else {
+			$('#reqBodyLink').attr('href', msg.RequestBodyUrl);
+
+			$('#reqBodyLinkDiv').removeClass('hide');
+		}
+
+	}
+}
+
+function viewStump_UpdateHeaders(element, cellElement, headers) {
+
+	$(element).empty();
+	
+	for ( var i = 0; i < headers.length; i++ ) {
+		
+		var row = 
+			'<tr>' +
+			'<td class="key" id="' + cellElement + '_key_' + i + '"></td>' +
+			'<td id="' + cellElement + '_val_' + i + '"></td>' +
+			'</tr>';
+	
+		$(element).append(row);
+	
+		$('#' + cellElement + '_key_' + i).text(headers[i].Name);
+		$('#' + cellElement + '_val_' + i).text(headers[i].Value);
+
+	}
+
+}
+
+function viewStump_updateTextMatch(textMatches) {
+	
+	$('#resBodyMatchValues').empty();
+
+	for ( var i = 0; i < textMatches.length; i++ ) {
+
+		var row = 
+			'<tr>' +
+			'<td id="resBodyMatchValues_' + i + '"></td>' +
+			'</tr>';
+
+		$('#resBodyMatchValues').append(row);
+		$('#resBodyMatchValues_' + i).text(textMatches[i]);
+
+	}
+
+	$('#resBodyMatchValues').removeClass('hide');
+
+}
+
+@EndSection

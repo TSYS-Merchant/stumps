@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 	<Fragment>
+    
     <DirectoryRef Id="INSTALLFOLDER">
+
+      <Component Id="StumpsServer" Guid="{6B78169B-555B-4B73-8723-B2F83C319881}">
+        <File Id="Stumps_Base_dll" Source="..\Stumps.Startup\bin\Release\Stumps.Base.dll" />
+        <File Id="Stumps_Server_dll" Source="..\Stumps.Startup\bin\Release\Stumps.Server.dll" />
+        <File Id="Stumps_Web_dll" Source="..\Stumps.Startup\bin\Release\Stumps.Web.dll" />
+        <File Id="Nancy_dll" Source="..\Stumps.Startup\bin\Release\Nancy.dll" />
+        <File Id="Nancy_Hosting_Self_dll" Source="..\Stumps.Startup\bin\Release\Nancy.Hosting.Self.dll" />
+        <File Id="Newtonsoft_Json_dll" Source="..\Stumps.Startup\bin\Release\Newtonsoft.Json.dll" />
+      </Component>
 
       <Component Id="StumpsService" Guid="{A3679ACA-A094-4410-BF68-9DE53D69B01D}">
         <File Id="Stumps_exe" Source="..\Stumps.Startup\bin\Release\Stumps.exe" />
@@ -10,24 +20,10 @@
         <ServiceControl Id="StumpsInstall_Control" Name="Stumps" Start="install" Remove="uninstall" Stop="both" Wait="yes" />
       </Component>
 
-      <Component Id="StumpsEngine" Guid="{6B78169B-555B-4B73-8723-B2F83C319881}">
-        <File Id="Stumps_Engine_dll" Source="..\Stumps.Startup\bin\Release\Stumps.Engine.dll" />
-        <File Id="Nancy_dll" Source="..\Stumps.Startup\bin\Release\Nancy.dll" />
-        <File Id="Nancy_Hosting_Self_dll" Source="..\Stumps.Startup\bin\Release\Nancy.Hosting.Self.dll" />
-        <File Id="Newtonsoft_Json_dll" Source="..\Stumps.Startup\bin\Release\Newtonsoft.Json.dll" />
+      <Component Id="StumpsLauncher" Guid="{B8465662-E9DE-4831-ACCE-B3887B2E9001}">
+        <File Id="StumpsLauncher_exe" Source="..\Stumps.Launcher\bin\Release\StumpsLauncher.exe" />
       </Component>
-
-      <Component Id="StumpsWebsite" Guid="{371FCA76-AD54-469E-B00A-77C21949E2F9}">
-        <File Id="addwebsite_sshtml" Source="..\Stumps.Startup\bin\Release\addwebsite.sshtml" />
-        <File Id="deletestump_sshtml" Source="..\Stumps.Startup\bin\Release\deletestump.sshtml" />
-        <File Id="deletewebsite_sshtml" Source="..\Stumps.Startup\bin\Release\deletewebsite.sshtml" />
-        <File Id="main_sshtml" Source="..\Stumps.Startup\bin\Release\main.sshtml" />
-        <File Id="master_sshtml" Source="..\Stumps.Startup\bin\Release\master.sshtml" />
-        <File Id="recordings_sshtml" Source="..\Stumps.Startup\bin\Release\recordings.sshtml" />
-        <File Id="stumpeditor_sshtml" Source="..\Stumps.Startup\bin\Release\stumpeditor.sshtml" />
-        <File Id="stumpsoverview_sshtml" Source="..\Stumps.Startup\bin\Release\stumpsoverview.sshtml" />
-      </Component>
-
+      
     </DirectoryRef>
 
     <DirectoryRef Id="ContentFolder">
@@ -66,18 +62,35 @@
         <File Id="exclamation_error_png" Source="..\Stumps.Startup\bin\Release\Content\exclamation-error.png" />
         <File Id="exclamation_error_b_png" Source="..\Stumps.Startup\bin\Release\Content\exclamation-error-b.png" />
         <File Id="toolbar_css" Source="..\Stumps.Startup\bin\Release\Content\toolbar.css" />
-
       </Component>
+      
     </DirectoryRef>
 
+    <DirectoryRef Id="ViewsFolder">
+
+      <Component Id="StumpsViews" Guid="{C0E4E101-CC1B-440E-8D45-2B0A560003AD}">
+        <File Id="addwebsite_sshtml" Source="..\Stumps.Startup\bin\Release\Views\addwebsite.sshtml" />
+        <File Id="deletestump_sshtml" Source="..\Stumps.Startup\bin\Release\Views\deletestump.sshtml" />
+        <File Id="deletewebsite_sshtml" Source="..\Stumps.Startup\bin\Release\Views\deletewebsite.sshtml" />
+        <File Id="main_sshtml" Source="..\Stumps.Startup\bin\Release\Views\main.sshtml" />
+        <File Id="master_sshtml" Source="..\Stumps.Startup\bin\Release\Views\master.sshtml" />
+        <File Id="recordings_sshtml" Source="..\Stumps.Startup\bin\Release\Views\recordings.sshtml" />
+        <File Id="stumpeditor_sshtml" Source="..\Stumps.Startup\bin\Release\Views\stumpeditor.sshtml" />
+        <File Id="stumpsoverview_sshtml" Source="..\Stumps.Startup\bin\Release\Views\stumpsoverview.sshtml" />
+      </Component>
+
+    </DirectoryRef>
+    
 	</Fragment>
 
   <Fragment>
     <ComponentGroup Id="StumpsComponents">
       <ComponentRef Id="StumpsService" />
-      <ComponentRef Id="StumpsEngine" />
-      <ComponentRef Id="StumpsWebsite" />
+      <ComponentRef Id="StumpsServer" />
       <ComponentRef Id="StumpsContent" />
+      <ComponentRef Id="StumpsViews" />
+      <ComponentRef Id="StumpsLauncher" />
+      <ComponentRef Id="ApplicationShortcuts" />
     </ComponentGroup>
   </Fragment>
 </Wix>
