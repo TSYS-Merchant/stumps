@@ -204,7 +204,7 @@ namespace Stumps.Server
             {
                 this.BodyType = HttpBodyClassification.Empty;
             }
-            else if (this.Headers["Content-Type"].StartsWith("image", StringComparison.Ordinal))
+            else if ((this.Headers["Content-Type"] ?? string.Empty).StartsWith("image", StringComparison.Ordinal))
             {
                 this.BodyType = HttpBodyClassification.Image;
             }
