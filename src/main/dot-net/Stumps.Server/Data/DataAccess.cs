@@ -14,19 +14,19 @@
     {
 
         /// <summary>
-        ///     The file extension used to for files that contain the body matched against an HTTP request.
+        ///     The file extension used to for files that contain the body of the original HTTP request.
         /// </summary>
-        public const string BodyMatchFileExtension = ".body.match";
+        public const string OriginalRequestBodyFileExtension = ".orequest.body";
+
+        /// <summary>
+        ///     The file extension used to for files that contain the body of the original HTTP response.
+        /// </summary>
+        public const string OriginalResponseBodyFileExtension = ".oresponse.body";
 
         /// <summary>
         ///     The file extension used for files that contain the body used to in response to an HTTP request.
         /// </summary>
-        public const string BodyResponseFileExtension = ".body.response";
-
-        /// <summary>
-        ///     The path used to persist recordings for a Stumps server.
-        /// </summary>
-        public const string RecordingPathName = "recordings";
+        public const string ResponseBodyFileExtension = ".response.body";
 
         /// <summary>
         ///     The file extension used for stumps configuration files. 
@@ -90,7 +90,6 @@
             JsonUtility.SerializeToFile(server, serverFile);
 
             Directory.CreateDirectory(Path.Combine(_storagePath, server.ServerId));
-            Directory.CreateDirectory(Path.Combine(_storagePath, server.ServerId, DataAccess.RecordingPathName));
             Directory.CreateDirectory(Path.Combine(_storagePath, server.ServerId, DataAccess.StumpsPathName));
 
         }
@@ -189,7 +188,8 @@
         /// </summary>
         /// <param name="serverId">The unique identifier for the Stumps server.</param>
         /// <param name="entity">The <see cref="T:Stumps.Server.Data.StumpEntity" /> to persist.</param>
-        /// <param name="matchBody">The array of bytes representing the HTTP body matched against in the stump.</param>
+        /// <param name="originalRequestBody">The array of bytes representing the original request's HTTP body.</param>
+        /// <param name="originalResponseBody">The array of bytes representing the original response's HTTP body.</param>
         /// <param name="responseBody">The array of bytes returned as the HTTP body in response to the stump.</param>
         /// <returns>
         ///     The created <see cref="T:Stumps.Server.Data.StumpEntity" /> object.
@@ -199,7 +199,7 @@
         /// or
         /// <paramref name="entity"/> is <c>null</c>.
         /// </exception>
-        public StumpEntity StumpCreate(string serverId, StumpEntity entity, byte[] matchBody, byte[] responseBody)
+        public StumpEntity StumpCreate(string serverId, StumpEntity entity, byte[] originalRequestBody, byte[] originalResponseBody, byte[] responseBody)
         {
 
             if (string.IsNullOrWhiteSpace(serverId))
@@ -215,20 +215,29 @@
             var stumpsPath = Path.Combine(_storagePath, serverId, DataAccess.StumpsPathName);
 
             var stumpFileName = Path.Combine(stumpsPath, entity.StumpId + DataAccess.StumpFileExtension);
-            var matchFileName = entity.StumpId + DataAccess.BodyMatchFileExtension;
-            var responseFileName = entity.StumpId + DataAccess.BodyResponseFileExtension;
+            var originalRequestFileName = entity.StumpId + DataAccess.OriginalRequestBodyFileExtension;
+            var originalResponseFileName = entity.StumpId + DataAccess.OriginalResponseBodyFileExtension;
+            var responseFileName = entity.StumpId + DataAccess.ResponseBodyFileExtension;
 
-            if (matchBody != null && matchBody.Length > 0)
+            if (originalRequestBody != null && originalRequestBody.Length > 0)
             {
-                entity.Request.BodyFileName = matchFileName;
+                entity.OriginalRequest.BodyResourceName = originalRequestFileName;
 
-                var file = Path.Combine(stumpsPath, matchFileName);
-                File.WriteAllBytes(file, matchBody);
+                var file = Path.Combine(stumpsPath, originalRequestFileName);
+                File.WriteAllBytes(file, originalRequestBody);
+            }
+
+            if (originalResponseBody != null && originalResponseBody.Length > 0)
+            {
+                entity.OriginalResponse.BodyResourceName = originalResponseFileName;
+
+                var file = Path.Combine(stumpsPath, originalResponseFileName);
+                File.WriteAllBytes(file, originalResponseBody);
             }
 
             if (responseBody != null && responseBody.Length > 0)
             {
-                entity.Response.BodyFileName = responseFileName;
+                entity.Response.BodyResourceName = responseFileName;
 
                 var file = Path.Combine(stumpsPath, responseFileName);
                 File.WriteAllBytes(file, responseBody);
@@ -250,8 +259,8 @@
             var stumpsPath = Path.Combine(_storagePath, serverId, DataAccess.StumpsPathName);
 
             var stumpFileName = Path.Combine(stumpsPath, stumpId + DataAccess.StumpFileExtension);
-            var matchFileName = Path.Combine(stumpsPath, stumpId + DataAccess.BodyMatchFileExtension);
-            var responseFileName = Path.Combine(stumpsPath, stumpId + DataAccess.BodyResponseFileExtension);
+            var matchFileName = Path.Combine(stumpsPath, stumpId + DataAccess.OriginalRequestBodyFileExtension);
+            var responseFileName = Path.Combine(stumpsPath, stumpId + DataAccess.ResponseBodyFileExtension);
 
             if (File.Exists(stumpFileName))
             {

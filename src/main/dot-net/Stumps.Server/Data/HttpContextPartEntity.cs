@@ -10,12 +10,12 @@ namespace Stumps.Server.Data
     {
 
         /// <summary>
-        ///     Gets or sets the name of the file containing the body.
+        ///     Gets or sets the name of the resource containing the body.
         /// </summary>
         /// <value>
-        ///     The name of the file containing the body.
+        ///     The name of the resource containing the body.
         /// </value>
-        public string BodyFileName { get; set; }
+        public string BodyResourceName { get; set; }
 
         /// <summary>
         ///     Gets or sets the collection of HTTP headers.

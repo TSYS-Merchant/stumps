@@ -24,7 +24,8 @@ namespace Stumps.Server
 
             var contract = new StumpContract
             {
-                Request = new RecordedRequest(new HttpRequestEntityReader(serverId, entity.Request, dataAccess), ContentDecoderHandling.DecodeNotRequired),
+                OriginalRequest = new RecordedRequest(new HttpRequestEntityReader(serverId, entity.OriginalRequest, dataAccess), ContentDecoderHandling.DecodeNotRequired),
+                OriginalResponse = new RecordedResponse(new HttpResponseEntityReader(serverId, entity.OriginalResponse, dataAccess), ContentDecoderHandling.DecodeNotRequired),
                 Response = new RecordedResponse(new HttpResponseEntityReader(serverId, entity.Response, dataAccess), ContentDecoderHandling.DecodeNotRequired),
                 ResponseDelay = entity.ResponseDelay,
                 Rules = new RuleContractCollection(),
@@ -68,20 +69,29 @@ namespace Stumps.Server
         public static StumpEntity CreateEntityFromContract(StumpContract contract)
         {
 
-            var request = new HttpRequestEntity
+            var originalRequest = new HttpRequestEntity
             {
-                BodyFileName = string.Empty,
-                Headers = CreateNameValuePairFromHeaders(contract.Request.Headers),
-                HttpMethod = contract.Request.HttpMethod,
-                LocalEndPoint = contract.Request.LocalEndPoint.ToString(),
-                ProtocolVersion = contract.Request.ProtocolVersion,
-                RawUrl = contract.Request.RawUrl,
-                RemoteEndPoint = contract.Request.RemoteEndPoint.ToString()
+                BodyResourceName = string.Empty,
+                Headers = CreateNameValuePairFromHeaders(contract.OriginalRequest.Headers),
+                HttpMethod = contract.OriginalRequest.HttpMethod,
+                LocalEndPoint = contract.OriginalRequest.LocalEndPoint.ToString(),
+                ProtocolVersion = contract.OriginalRequest.ProtocolVersion,
+                RawUrl = contract.OriginalRequest.RawUrl,
+                RemoteEndPoint = contract.OriginalRequest.RemoteEndPoint.ToString()
+            };
+
+            var originalResponse = new HttpResponseEntity
+            {
+                BodyResourceName = string.Empty,
+                Headers = CreateNameValuePairFromHeaders(contract.OriginalResponse.Headers),
+                RedirectAddress = contract.OriginalResponse.RedirectAddress,
+                StatusCode = contract.OriginalResponse.StatusCode,
+                StatusDescription = contract.OriginalResponse.StatusDescription
             };
 
             var response = new HttpResponseEntity
             {
-                BodyFileName = string.Empty,
+                BodyResourceName = string.Empty,
                 Headers = CreateNameValuePairFromHeaders(contract.Response.Headers),
                 RedirectAddress = contract.Response.RedirectAddress,
                 StatusCode = contract.Response.StatusCode,
@@ -90,7 +100,8 @@ namespace Stumps.Server
 
             var entity = new StumpEntity
             {
-                Request = request,
+                OriginalRequest = originalRequest,
+                OriginalResponse = originalResponse,
                 Response = response,
                 ResponseDelay = contract.ResponseDelay,
                 Rules = new List<RuleEntity>(),

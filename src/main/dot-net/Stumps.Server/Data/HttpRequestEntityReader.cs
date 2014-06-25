@@ -2,7 +2,6 @@ namespace Stumps.Server.Data
 {
 
     using System;
-    using System.IO;
     using System.Net;
 
     /// <summary>
@@ -55,7 +54,7 @@ namespace Stumps.Server.Data
                 this.Headers[pair.Name] = pair.Value;
             }
 
-            _body = dataAccess.ServerReadResource(serverId, requestEntity.BodyFileName) ?? new byte[0];
+            _body = dataAccess.ServerReadResource(serverId, requestEntity.BodyResourceName) ?? new byte[0];
 
         }
 

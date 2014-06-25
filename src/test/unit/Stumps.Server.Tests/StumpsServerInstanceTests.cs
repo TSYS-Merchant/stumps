@@ -38,7 +38,8 @@ namespace Stumps.Server
 
             var contract = new StumpContract()
             {
-                Request = new RecordedRequest(Substitute.For<IStumpsHttpRequest>(), ContentDecoderHandling.DecodeNotRequired),
+                OriginalRequest = new RecordedRequest(Substitute.For<IStumpsHttpRequest>(), ContentDecoderHandling.DecodeNotRequired),
+                OriginalResponse = new RecordedResponse(Substitute.For<IStumpsHttpResponse>(), ContentDecoderHandling.DecodeNotRequired),
                 Response = new RecordedResponse(Substitute.For<IStumpsHttpResponse>(), ContentDecoderHandling.DecodeNotRequired),
                 StumpCategory = "ABC",
                 StumpId = "abc",

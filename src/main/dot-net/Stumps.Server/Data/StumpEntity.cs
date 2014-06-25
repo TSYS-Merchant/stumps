@@ -10,12 +10,20 @@
     {
 
         /// <summary>
-        ///     Gets or sets an HTTP request used as a reference when editing a Stump.
+        ///     Gets or sets the original HTTP request used as a reference when editing a Stump.
         /// </summary>
         /// <value>
-        ///     The HTTP request used as a reference when editing a Stump.
+        ///     The original HTTP request used as a reference when editing a Stump.
         /// </value>
-        public HttpRequestEntity Request { get; set; }
+        public HttpRequestEntity OriginalRequest { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the original HTTP response used as a reference when editing a Stump.
+        /// </summary>
+        /// <value>
+        ///     The original HTTP response used as a reference when editing a Stump.
+        /// </value>
+        public HttpResponseEntity OriginalResponse { get; set; }
 
         /// <summary>
         ///     Gets or sets the response to the Stump.

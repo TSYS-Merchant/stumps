@@ -28,18 +28,34 @@
                 UseSsl = false
             };
 
-            var request = new HttpRequestEntity()
+            var originalRequest = new HttpRequestEntity()
             {
                 HttpMethod = "GET",
-                BodyFileName = null,
+                BodyResourceName = null,
                 Headers = new List<NameValuePairEntity>(),
                 ProtocolVersion = "1.1",
                 RawUrl = "/"
             };
 
+            var originalResponse = new HttpResponseEntity()
+            {
+                BodyResourceName = null,
+                Headers = new List<NameValuePairEntity>()
+                {
+                    new NameValuePairEntity
+                    {
+                        Name = "Content-Type",
+                        Value = "text/plain"
+                    }
+                },
+                RedirectAddress = null,
+                StatusCode = 200,
+                StatusDescription = "OK"
+            };
+
             var response = new HttpResponseEntity()
             {
-                BodyFileName = null,
+                BodyResourceName = null,
                 Headers = new List<NameValuePairEntity>()
                 {
                     new NameValuePairEntity
@@ -55,7 +71,8 @@
 
             _sampleStump = new StumpEntity
             {
-                Request = request,
+                OriginalRequest = originalRequest,
+                OriginalResponse = originalResponse,
                 Response = response,
                 Rules = new List<RuleEntity>(),
                 StumpCategory = "Uncategorized",
@@ -203,7 +220,7 @@
             {
 
                 Assert.That(
-                    () => dal.StumpCreate(SampleHostName, null, null, null),
+                    () => dal.StumpCreate(SampleHostName, null, null, null, null),
                     Throws.Exception.TypeOf<ArgumentNullException>().With.Property("ParamName").EqualTo("entity"));
 
             }
@@ -223,30 +240,37 @@
             try
             {
 
-                var stump = dal.StumpCreate(_sampleProxyServer.ServerId, _sampleStump, _sampleBytes, _sampleBytes);
+                var stump = dal.StumpCreate(_sampleProxyServer.ServerId, _sampleStump, _sampleBytes, _sampleBytes, _sampleBytes);
 
                 Assert.IsNotNull(stump);
-                Assert.IsNotNull(stump.Request.BodyFileName);
-                Assert.IsNotNull(stump.Response.BodyFileName);
+                Assert.IsNotNull(stump.OriginalRequest.BodyResourceName);
+                Assert.IsNotNull(stump.OriginalResponse.BodyResourceName);
+                Assert.IsNotNull(stump.Response.BodyResourceName);
 
                 var stumpsFile = Path.Combine(
                     dal.StoragePath, 
                     _sampleProxyServer.ServerId, 
                     DataAccess.StumpsPathName,
                     "ABCD" + DataAccess.StumpFileExtension);
-                var matchFile = Path.Combine(
+                var orequestFile = Path.Combine(
                     dal.StoragePath, 
                     _sampleProxyServer.ServerId, 
                     DataAccess.StumpsPathName,
-                    "ABCD" + DataAccess.BodyMatchFileExtension);
+                    "ABCD" + DataAccess.OriginalRequestBodyFileExtension);
+                var oresponseFile = Path.Combine(
+                    dal.StoragePath,
+                    _sampleProxyServer.ServerId,
+                    DataAccess.StumpsPathName,
+                    "ABCD" + DataAccess.OriginalResponseBodyFileExtension);
                 var responseFile = Path.Combine(
                     dal.StoragePath, 
                     _sampleProxyServer.ServerId, 
                     DataAccess.StumpsPathName,
-                    "ABCD" + DataAccess.BodyResponseFileExtension);
+                    "ABCD" + DataAccess.ResponseBodyFileExtension);
 
                 Assert.IsTrue(File.Exists(stumpsFile));
-                Assert.IsTrue(File.Exists(matchFile));
+                Assert.IsTrue(File.Exists(orequestFile));
+                Assert.IsTrue(File.Exists(oresponseFile));
                 Assert.IsTrue(File.Exists(responseFile));
 
             }
@@ -266,30 +290,36 @@
             try
             {
 
-                var stump = dal.StumpCreate(_sampleProxyServer.ServerId, _sampleStump, null, null);
+                var stump = dal.StumpCreate(_sampleProxyServer.ServerId, _sampleStump, null, null, null);
 
                 Assert.IsNotNull(stump);
-                Assert.IsTrue(string.IsNullOrWhiteSpace(stump.Request.BodyFileName));
-                Assert.IsTrue(string.IsNullOrWhiteSpace(stump.Response.BodyFileName));
+                Assert.IsTrue(string.IsNullOrWhiteSpace(stump.OriginalRequest.BodyResourceName));
+                Assert.IsTrue(string.IsNullOrWhiteSpace(stump.Response.BodyResourceName));
 
                 var stumpsFile = Path.Combine(
                     dal.StoragePath, 
                     _sampleProxyServer.ServerId, 
                     DataAccess.StumpsPathName,
                     "ABCD" + DataAccess.StumpFileExtension);
-                var matchFile = Path.Combine(
+                var orequestFile = Path.Combine(
                     dal.StoragePath, 
                     _sampleProxyServer.ServerId, 
                     DataAccess.StumpsPathName,
-                    "ABCD" + DataAccess.BodyMatchFileExtension);
+                    "ABCD" + DataAccess.OriginalRequestBodyFileExtension);
+                var oresponseFile = Path.Combine(
+                    dal.StoragePath,
+                    _sampleProxyServer.ServerId,
+                    DataAccess.StumpsPathName,
+                    "ABCD" + DataAccess.OriginalResponseBodyFileExtension);
                 var responseFile = Path.Combine(
                     dal.StoragePath, 
                     _sampleProxyServer.ServerId, 
                     DataAccess.StumpsPathName,
-                    "ABCD" + DataAccess.BodyResponseFileExtension);
+                    "ABCD" + DataAccess.ResponseBodyFileExtension);
 
                 Assert.IsTrue(File.Exists(stumpsFile));
-                Assert.IsFalse(File.Exists(matchFile));
+                Assert.IsFalse(File.Exists(orequestFile));
+                Assert.IsFalse(File.Exists(oresponseFile));
                 Assert.IsFalse(File.Exists(responseFile));
 
             }
@@ -309,18 +339,21 @@
             try
             {
 
-                var stump = dal.StumpCreate(_sampleProxyServer.ServerId, _sampleStump, _sampleBytes, _sampleBytes);
+                var stump = dal.StumpCreate(_sampleProxyServer.ServerId, _sampleStump, _sampleBytes, _sampleBytes, _sampleBytes);
                 dal.StumpDelete(_sampleProxyServer.ServerId, stump.StumpId);
 
                 var stumpsFile = Path.Combine(
                     dal.StoragePath, DataAccess.StumpsPathName, "ABCD" + DataAccess.StumpFileExtension);
-                var matchFile = Path.Combine(
-                    dal.StoragePath, DataAccess.StumpsPathName, "ABCD" + DataAccess.BodyMatchFileExtension);
+                var orequestFile = Path.Combine(
+                    dal.StoragePath, DataAccess.StumpsPathName, "ABCD" + DataAccess.OriginalRequestBodyFileExtension);
+                var oresponseFile = Path.Combine(
+                    dal.StoragePath, DataAccess.StumpsPathName, "ABCD.body" + DataAccess.OriginalResponseBodyFileExtension);
                 var responseFile = Path.Combine(
-                    dal.StoragePath, DataAccess.StumpsPathName, "ABCD.body" + DataAccess.BodyResponseFileExtension);
+                    dal.StoragePath, DataAccess.StumpsPathName, "ABCD.body" + DataAccess.ResponseBodyFileExtension);
 
                 Assert.False(File.Exists(stumpsFile));
-                Assert.False(File.Exists(matchFile));
+                Assert.False(File.Exists(orequestFile));
+                Assert.False(File.Exists(oresponseFile));
                 Assert.False(File.Exists(responseFile));
 
             }
@@ -340,7 +373,7 @@
             try
             {
 
-                var stump = dal.StumpCreate(_sampleProxyServer.ServerId, _sampleStump, _sampleBytes, _sampleBytes);
+                var stump = dal.StumpCreate(_sampleProxyServer.ServerId, _sampleStump, _sampleBytes, _sampleBytes, _sampleBytes);
                 var list = dal.StumpFindAll(_sampleProxyServer.ServerId);
 
                 Assert.IsNotNull(list);

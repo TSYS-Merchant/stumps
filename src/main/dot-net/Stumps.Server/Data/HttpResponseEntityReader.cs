@@ -2,7 +2,6 @@ namespace Stumps.Server.Data
 {
 
     using System;
-    using System.IO;
 
     /// <summary>
     ///     A class that provides an <see cref="T:Stumps.IStumpsHttpResponse"/> implementation using a
@@ -54,7 +53,7 @@ namespace Stumps.Server.Data
                 this.Headers[pair.Name] = pair.Value;
             }
 
-            _body = dataAccess.ServerReadResource(serverId, responseEntity.BodyFileName) ?? new byte[0];
+            _body = dataAccess.ServerReadResource(serverId, responseEntity.BodyResourceName) ?? new byte[0];
 
         }
 

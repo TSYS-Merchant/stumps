@@ -51,9 +51,9 @@
                 var server = serverHost.FindServer(serverId);
                 var stump = server.FindStump(stumpId);
 
-                var ms = new System.IO.MemoryStream(stump.Request.GetBody());
+                var ms = new System.IO.MemoryStream(stump.OriginalRequest.GetBody());
 
-                return Response.FromStream(ms, stump.Request.Headers["Content-Type"]);
+                return Response.FromStream(ms, stump.OriginalRequest.Headers["Content-Type"]);
             };
 
             Get["/api/proxy/{serverId}/stumps/{stumpId}/response"] = _ =>
@@ -179,7 +179,8 @@
 
             var contract = new StumpContract
             {
-                Request = new RecordedRequest(record.Request, ContentDecoderHandling.DecodeNotRequired),
+                OriginalRequest = new RecordedRequest(record.Request, ContentDecoderHandling.DecodeNotRequired),
+                OriginalResponse = new RecordedResponse(record.Response, ContentDecoderHandling.DecodeNotRequired),
                 Response = new RecordedResponse(record.Response, ContentDecoderHandling.DecodeNotRequired),
                 StumpId = string.Empty,
                 StumpName = model.Name,
@@ -264,7 +265,8 @@
 
             var contract = new StumpContract
             {
-                Request = new RecordedRequest(originalContract.Request, ContentDecoderHandling.DecodeNotRequired),
+                OriginalRequest = new RecordedRequest(originalContract.OriginalRequest, ContentDecoderHandling.DecodeNotRequired),
+                OriginalResponse = new RecordedResponse(originalContract.OriginalResponse, ContentDecoderHandling.DecodeNotRequired),
                 Response = new RecordedResponse(originalContract.Response, ContentDecoderHandling.DecodeNotRequired),
                 StumpId = model.StumpId,
                 StumpName = model.Name,
@@ -294,7 +296,7 @@
 
                 case BodyMatch.ExactMatch:
                     contract.Rules.Add(
-                        new RuleContract(new BodyMatchRule(contract.Request.BodyLength, contract.Request.BodyMd5Hash)));
+                        new RuleContract(new BodyMatchRule(contract.OriginalRequest.BodyLength, contract.OriginalRequest.BodyMd5Hash)));
                     break;
 
                 case BodyMatch.IsBlank:
@@ -382,10 +384,10 @@
                 Origin = StumpOrigin.ExistingStump,
                 RecordId = -1,
                 RequestBody =
-                    stump.Request.BodyType == HttpBodyClassification.Text ? stump.Request.GetBodyAsString() : string.Empty,
-                RequestBodyIsImage = stump.Request.BodyType == HttpBodyClassification.Image,
-                RequestBodyIsText = stump.Request.BodyType == HttpBodyClassification.Text,
-                RequestBodyLength = stump.Request.BodyLength,
+                    stump.OriginalRequest.BodyType == HttpBodyClassification.Text ? stump.OriginalRequest.GetBodyAsString() : string.Empty,
+                RequestBodyIsImage = stump.OriginalRequest.BodyType == HttpBodyClassification.Image,
+                RequestBodyIsText = stump.OriginalRequest.BodyType == HttpBodyClassification.Text,
+                RequestBodyLength = stump.OriginalRequest.BodyLength,
                 RequestBodyMatch = bodyMatch,
                 RequestBodyMatchValues = 
                     stump.Rules.FindRuleContractByName(typeof(BodyContentRule).Name).Count > 0 ?
@@ -393,9 +395,9 @@
                         new string[0],
                 RequestBodyUrl = "/api/proxy/" + serverId + "/stumps/" + stumpId + "/request",
                 RequestHeaderMatch = CreateHeadersFromRules(stump),
-                RequestHttpMethod = stump.Request.HttpMethod,
+                RequestHttpMethod = stump.OriginalRequest.HttpMethod,
                 RequestHttpMethodMatch = stump.Rules.FindRuleContractByName(typeof(HttpMethodRule).Name).Count > 0,
-                RequestUrl = stump.Request.RawUrl,
+                RequestUrl = stump.OriginalRequest.RawUrl,
                 RequestUrlMatch = stump.Rules.FindRuleContractByName(typeof(UrlRule).Name).Count > 0,
                 ResponseBody =
                     stump.Response.BodyType == HttpBodyClassification.Text

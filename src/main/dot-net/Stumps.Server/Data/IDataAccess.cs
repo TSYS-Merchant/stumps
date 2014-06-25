@@ -48,10 +48,11 @@
         /// </summary>
         /// <param name="serverId">The unique identifier for the Stumps server.</param>
         /// <param name="entity">The <see cref="T:Stumps.Server.Data.StumpEntity"/> to persist.</param>
-        /// <param name="matchBody">The array of bytes representing the HTTP body matched against in the stump.</param>
+        /// <param name="originalRequestBody">The array of bytes representing the original request's HTTP body.</param>
+        /// <param name="originalResponseBody">The array of bytes representing the original response's HTTP body.</param>
         /// <param name="responseBody">The array of bytes returned as the HTTP body in response to the stump.</param>
         /// <returns>The created <see cref="T:Stumps.Server.Data.StumpEntity"/> object.</returns>
-        StumpEntity StumpCreate(string serverId, StumpEntity entity, byte[] matchBody, byte[] responseBody);
+        StumpEntity StumpCreate(string serverId, StumpEntity entity, byte[] originalRequestBody, byte[] originalResponseBody, byte[] responseBody);
 
         /// <summary>
         ///     Deletes an existing stump from a Stumps server.

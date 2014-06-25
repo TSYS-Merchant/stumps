@@ -275,7 +275,7 @@
 
             var entity = ContractEntityBinding.CreateEntityFromContract(contract);
 
-            _dataAccess.StumpCreate(this.ServerId, entity, contract.Request.GetBody(), contract.Response.GetBody());
+            _dataAccess.StumpCreate(this.ServerId, entity, contract.OriginalRequest.GetBody(), contract.OriginalResponse.GetBody(), contract.Response.GetBody());
 
             UnwrapAndAddStump(contract);
 

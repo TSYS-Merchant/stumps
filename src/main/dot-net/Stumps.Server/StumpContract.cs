@@ -16,12 +16,20 @@
         }
 
         /// <summary>
-        ///     Gets or sets the request used when editing the Stump.
+        ///     Gets or sets the original HTTP request used when editing the Stump.
         /// </summary>
         /// <value>
-        ///     The request used when editing the Stump.
+        ///     The original HTTP request used when editing the Stump.
         /// </value>
-        public RecordedRequest Request { get; set; }
+        public RecordedRequest OriginalRequest { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the original HTTP response to the Stump.
+        /// </summary>
+        /// <value>
+        ///     The original HTTP response to the Stump.
+        /// </value>
+        public RecordedResponse OriginalResponse { get; set; }
 
         /// <summary>
         ///     Gets or sets the response to the Stump.
