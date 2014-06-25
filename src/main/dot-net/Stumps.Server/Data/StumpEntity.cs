@@ -10,6 +10,14 @@
     {
 
         /// <summary>
+        ///     Gets or sets an HTTP request used as a reference when editing a Stump.
+        /// </summary>
+        /// <value>
+        ///     The HTTP request used as a reference when editing a Stump.
+        /// </value>
+        public HttpRequestEntity Request { get; set; }
+
+        /// <summary>
         ///     Gets or sets the response to the Stump.
         /// </summary>
         /// <value>
@@ -25,14 +33,6 @@
         /// </value>
         /// <remarks>A value of <c>0</c> or less will not cause a delay.</remarks>
         public int ResponseDelay { get; set; }
-
-        /// <summary>
-        ///     Gets or sets an HTTP request used as a reference when editing a Stump.
-        /// </summary>
-        /// <value>
-        ///     The HTTP request used as a reference when editing a Stump.
-        /// </value>
-        public HttpRequestEntity Request { get; set; }
 
         /// <summary>
         ///     Gets or sets the rules associated with the Stump.

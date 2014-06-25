@@ -2,7 +2,7 @@ namespace Stumps
 {
 
     /// <summary>
-    ///     Provides the fallback response for a <see cref="T:Stumps.StumpsServer"/> when a proxy 
+    ///     Provides the fallback response for a <see cref="T:Stumps.StumpsServer"/> when a remote host 
     ///     is not defined unavailable, and a <see cref="T:Stumps.Stump"/> was not found matching an
     ///     incomming request. 
     /// </summary>

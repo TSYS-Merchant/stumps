@@ -18,17 +18,17 @@ namespace Stumps.Server
 
             _serverId = "ABCD";
 
-            var proxyEntity = new ProxyServerEntity()
+            var proxyEntity = new ServerEntity()
             {
                 AutoStart = false,
-                ExternalHostName = "stumps-project.com",
+                RemoteServerHostName = "stumps-project.com",
                 Port = 9000,
-                ProxyId = _serverId,
+                ServerId = _serverId,
                 UseSsl = false
             };
 
             _dal = Substitute.For<IDataAccess>();
-            _dal.ProxyServerFind("ABCD").Returns(proxyEntity);
+            _dal.ServerFind("ABCD").Returns(proxyEntity);
 
         }
 

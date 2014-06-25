@@ -76,6 +76,7 @@
     <Compile Include="Data\HttpResponseEntityReader.cs" />
     <Compile Include="Data\NameValuePairEntity.cs" />
     <Compile Include="Data\RuleEntity.cs" />
+    <Compile Include="Data\ServerEntity.cs" />
     <Compile Include="HttpBodyClassification.cs" />
     <Compile Include="IServerFactory.cs" />
     <Compile Include="IStumpsHost.cs" />
@@ -94,7 +95,6 @@
     <Compile Include="Data\DataAccess.cs" />
     <Compile Include="Data\IConfigurationDataAccess.cs" />
     <Compile Include="Data\IDataAccess.cs" />
-    <Compile Include="Data\ProxyServerEntity.cs" />
     <Compile Include="Data\StumpEntity.cs" />
     <Compile Include="DefaultConfigurationSettings.cs" />
     <Compile Include="StumpsHost.cs" />

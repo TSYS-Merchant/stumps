@@ -5,7 +5,7 @@
     using System.Collections.Generic;
 
     /// <summary>
-    ///     A class that represents a collection of recordings from a proxy server.
+    ///     A class that represents a collection of recordings from a Stumps server.
     /// </summary>
     public sealed class Recordings
     {

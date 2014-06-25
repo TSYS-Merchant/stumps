@@ -55,7 +55,7 @@ namespace Stumps.Server.Data
                 this.Headers[pair.Name] = pair.Value;
             }
 
-            _body = dataAccess.ProxyServerReadResource(serverId, requestEntity.BodyFileName) ?? new byte[0];
+            _body = dataAccess.ServerReadResource(serverId, requestEntity.BodyFileName) ?? new byte[0];
 
         }
 

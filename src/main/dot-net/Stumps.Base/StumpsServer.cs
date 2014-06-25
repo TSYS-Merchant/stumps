@@ -24,7 +24,7 @@
         private volatile bool _stumpsEnabled;
 
         private int _requestCounter;
-        private int _proxyCounter;
+        private int _remoteHostCounter;
         private int _stumpsCounter;
 
         private bool _disposed;
@@ -187,14 +187,14 @@
         }
 
         /// <summary>
-        ///     Gets the number of requests served with the proxy.
+        ///     Gets the number of requests served by the remote host.
         /// </summary>
         /// <value>
-        ///     The number of requests served with the proxy.
+        ///     The number of requests served by the remote host.
         /// </value>
-        public int RequestsServedWithProxy
+        public int RequestsServedByRemoteHost
         {
-            get { return _proxyCounter; }
+            get { return _remoteHostCounter; }
         }
 
         /// <summary>
@@ -413,7 +413,7 @@
             if (e.ResponseOrigin == HttpResponseOrigin.RemoteServer)
             {
                 // Increment the proxy counter
-                Interlocked.Increment(ref _proxyCounter);
+                Interlocked.Increment(ref _remoteHostCounter);
             }
             else if (e.ResponseOrigin == HttpResponseOrigin.Stump)
             {

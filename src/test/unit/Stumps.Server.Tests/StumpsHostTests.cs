@@ -30,7 +30,7 @@
             StumpsHost proxy = new StumpsHost(Substitute.For<IServerFactory>(), Substitute.For<IDataAccess>());
             Assert.That(
                 () => proxy.CreateServerInstance(null, _defaultPort, true, false),
-                Throws.Exception.TypeOf<ArgumentNullException>().With.Property("ParamName").EqualTo("externalHostName"));
+                Throws.Exception.TypeOf<ArgumentNullException>().With.Property("ParamName").EqualTo("remoteServerHostName"));
         }
 
         [Test]
@@ -42,17 +42,17 @@
             bool autoStart = false;
             bool useSsl = true;
 
-            var proxyEntity = new ProxyServerEntity
+            var proxyEntity = new ServerEntity
             {
                 AutoStart = autoStart,
-                ExternalHostName = externalHostName,
+                RemoteServerHostName = externalHostName,
                 Port = port,
                 UseSsl = useSsl,
-                ProxyId = RandomGenerator.GenerateIdentifier()
+                ServerId = RandomGenerator.GenerateIdentifier()
             };
 
             var dataAccess = Substitute.For<IDataAccess>();
-            dataAccess.ProxyServerFind(Arg.Any<string>()).Returns(proxyEntity);
+            dataAccess.ServerFind(Arg.Any<string>()).Returns(proxyEntity);
 
             // create a TcpListener already listening on the port
             var tcpListener = new TcpListener(IPAddress.Loopback, port);

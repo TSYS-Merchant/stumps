@@ -38,7 +38,7 @@
                     var model = new ProxyServerDetailsModel
                     {
                         AutoStart = server.AutoStart,
-                        ExternalHostName = server.ExternalHostName,
+                        ExternalHostName = server.RemoteServerHostName,
                         IsRunning = server.IsRunning,
                         Port = server.ListeningPort,
                         RecordCount = server.Recordings.Count,

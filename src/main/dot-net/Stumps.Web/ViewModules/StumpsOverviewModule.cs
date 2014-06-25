@@ -48,7 +48,7 @@
                 var model = new
                 {
                     ProxyId = server.ServerId,
-                    ExternalHostName = server.UseSsl ? server.ExternalHostName + " (SSL)" : server.ExternalHostName,
+                    ExternalHostName = server.UseSsl ? server.RemoteServerHostName + " (SSL)" : server.RemoteServerHostName,
                     LocalWebsite = "http://localhost:" + server.ListeningPort.ToString(CultureInfo.InvariantCulture) + "/",
                     Stumps = stumpModelArray
                 };

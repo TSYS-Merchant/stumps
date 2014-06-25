@@ -65,12 +65,12 @@ namespace Stumps
         Uri RemoteHttpServer { get; set; }
 
         /// <summary>
-        ///     Gets the number of requests served with the proxy.
+        ///     Gets the number of requests served by the remote host.
         /// </summary>
         /// <value>
-        ///     The number of requests served with the proxy.
+        ///     The number of requests served by the remote host.
         /// </value>
-        int RequestsServedWithProxy { get; }
+        int RequestsServedByRemoteHost { get; }
 
         /// <summary>
         ///     Gets the number requests served with a Stump.

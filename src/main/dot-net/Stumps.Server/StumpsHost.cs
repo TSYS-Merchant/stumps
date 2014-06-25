@@ -10,7 +10,7 @@
     using Stumps.Server.Utility;
 
     /// <summary>
-    ///     A class that represents a multitenant host of proxy servers.
+    ///     A class that represents a multitenant host of Stumps servers.
     /// </summary>
     public class StumpsHost : IStumpsHost
     {
@@ -60,22 +60,22 @@
         /// <summary>
         ///     Creates a new instance of a Stumps server.
         /// </summary>
-        /// <param name="externalHostName">The name of the external host served by the proxy.</param>
+        /// <param name="remoteServerHostName">The host name for the remote server by the Stumps server.</param>
         /// <param name="port">The TCP port used to listen for incomming HTTP requests.</param>
-        /// <param name="useSsl"><c>true</c> if the external host requires SSL.</param>
-        /// <param name="autoStart"><c>true</c> to automatically start the proxy server.</param>
+        /// <param name="useSsl"><c>true</c> if the remote server requires SSL.</param>
+        /// <param name="autoStart"><c>true</c> to automatically start the Stumps server.</param>
         /// <returns>
-        ///     A <see cref="T:Stumps.Server.StumpsServerInstance" /> represeting the new proxy server.
+        ///     A <see cref="T:Stumps.Server.StumpsServerInstance" /> represeting the new Stumps server.
         /// </returns>
-        /// <exception cref="System.ArgumentNullException"><paramref name="externalHostName"/> is null.</exception>
+        /// <exception cref="System.ArgumentNullException"><paramref name="remoteServerHostName"/> is null.</exception>
         /// <exception cref="System.ArgumentOutOfRangeException"><paramref name="port"/> exceeds the allowed TCP port range.</exception>
         /// <exception cref="StumpsNetworkException">The port is already in use.</exception>
-        public StumpsServerInstance CreateServerInstance(string externalHostName, int port, bool useSsl, bool autoStart)
+        public StumpsServerInstance CreateServerInstance(string remoteServerHostName, int port, bool useSsl, bool autoStart)
         {
 
-            if (string.IsNullOrWhiteSpace(externalHostName))
+            if (string.IsNullOrWhiteSpace(remoteServerHostName))
             {
-                throw new ArgumentNullException("externalHostName");
+                throw new ArgumentNullException("remoteServerHostName");
             }
 
             if (port < IPEndPoint.MinPort || port > IPEndPoint.MaxPort)
@@ -89,22 +89,22 @@
             }
 
             // Create a new data entity representing the Stumps server
-            var proxyEntity = new ProxyServerEntity
+            var serverEntity = new ServerEntity
             {
                 AutoStart = autoStart,
-                ExternalHostName = externalHostName,
+                RemoteServerHostName = remoteServerHostName,
                 Port = port,
                 UseSsl = useSsl,
-                ProxyId = RandomGenerator.GenerateIdentifier()
+                ServerId = RandomGenerator.GenerateIdentifier()
             };
 
             // Persist the server data entity
-            _dataAccess.ProxyServerCreate(proxyEntity);
+            _dataAccess.ServerCreate(serverEntity);
 
             // Create a new service instance from the entity
-            UnwrapAndRegisterServer(proxyEntity);
+            UnwrapAndRegisterServer(serverEntity);
 
-            var server = _serverInstances[proxyEntity.ProxyId];
+            var server = _serverInstances[serverEntity.ServerId];
 
             if (autoStart)
             {
@@ -136,7 +136,7 @@
                 StumpsServerInstance server;
                 _serverInstances.TryRemove(serverId, out server);
 
-                _dataAccess.ProxyServerDelete(serverId);
+                _dataAccess.ServerDelete(serverId);
             }
 
         }
@@ -173,14 +173,14 @@
         }
 
         /// <summary>
-        ///     Finds the proxy server with the specified identifier.
+        ///     Finds the Stumps server with the specified identifier.
         /// </summary>
         /// <param name="serverId">The unique identifier for the Stumps server.</param>
         /// <returns>
         ///     A <see cref="T:Stumps.Server.StumpsServerInstance" /> with the specified identifier.
         /// </returns>
         /// <remarks>
-        ///     A <c>null</c> value is returned if a proxy with the specified <paramref name="serverId"/>
+        ///     A <c>null</c> value is returned if a Stumps server with the specified <paramref name="serverId"/>
         ///     is not found.
         /// </remarks>
         public StumpsServerInstance FindServer(string serverId)
@@ -200,11 +200,11 @@
         public void Load()
         {
 
-            var proxyEntities = _dataAccess.ProxyServerFindAll();
+            var serverEntities = _dataAccess.ServerFindAll();
 
-            foreach (var proxyEntity in proxyEntities)
+            foreach (var serverEntity in serverEntities)
             {
-                UnwrapAndRegisterServer(proxyEntity);
+                UnwrapAndRegisterServer(serverEntity);
             }
 
         }
@@ -311,19 +311,19 @@
         }
 
         /// <summary>
-        ///     Creates a new proxy server from a <see cref="T:Stumps.Server.Data.ProxyServerEntity"/>.
+        ///     Creates a new Stumps server from a <see cref="T:Stumps.Server.Data.ServerEntity"/>.
         /// </summary>
-        /// <param name="entity">The <see cref="T:Stumps.Server.Data.ProxyServerEntity"/> used to create the Stumps server.</param>
+        /// <param name="entity">The <see cref="T:Stumps.Server.Data.ServerEntity"/> used to create the Stumps server.</param>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Object is disposed later.")]
-        private void UnwrapAndRegisterServer(ProxyServerEntity entity)
+        private void UnwrapAndRegisterServer(ServerEntity entity)
         {
 
-            var server = new StumpsServerInstance(_serverFactory, entity.ProxyId, _dataAccess)
+            var server = new StumpsServerInstance(_serverFactory, entity.ServerId, _dataAccess)
             {
                 ListeningPort = entity.Port,
                 UseSsl = entity.UseSsl,
                 AutoStart = entity.AutoStart,
-                ExternalHostName = entity.ExternalHostName
+                RemoteServerHostName = entity.RemoteServerHostName
             };
 
             _serverInstances.AddOrUpdate(server.ServerId, server, (key, oldServer) => server);

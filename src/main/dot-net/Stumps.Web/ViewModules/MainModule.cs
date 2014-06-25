@@ -39,7 +39,7 @@
                         {
                             State = ModuleHelper.StateValue(server, "running", "stopped", "recording"),
                             StateImage = ModuleHelper.StateValue(server, "svr_run.png", "svr_stp.png", "svr_rec.png"),
-                            ExternalHostName = server.UseSsl ? server.ExternalHostName + " (SSL)" : server.ExternalHostName,
+                            ExternalHostName = server.UseSsl ? server.RemoteServerHostName + " (SSL)" : server.RemoteServerHostName,
                             RequestsServed = PrettyNumber(server.TotalRequestsServed),
                             StumpsServed = PrettyNumber(server.RequestsServedWithStump),
                             LocalWebsite = "http://localhost:" + server.ListeningPort.ToString(CultureInfo.InvariantCulture) + "/",

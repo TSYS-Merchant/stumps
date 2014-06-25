@@ -1,6 +1,8 @@
 namespace Stumps.Server
 {
 
+    using System;
+
     /// <summary>
     ///     A class that represents a factory that creates instances of <see cref="T:Stumps.StumpsServer" /> objects.
     /// </summary>
@@ -30,17 +32,17 @@ namespace Stumps.Server
         ///     Creates a new instance of <see cref="T:Stumps.IStumpsServer" />.
         /// </summary>
         /// <param name="listeningPort">The port the HTTP server is using to listen for traffic.</param>
-        /// <param name="proxyHostUri">The external host that is contacted when a <see cref="T:Stumps.Stump"/> is unavailable to handle the incomming request.</param>
+        /// <param name="remoteServerUri">The URI for the remote server that is contacted when a <see cref="T:Stumps.Stump"/> is unavailable to handle the incomming request.</param>
         /// <exception cref="System.ArgumentOutOfRangeException"><paramref name="listeningPort" /> exceeds the allowed TCP port range.</exception>
         /// <exception cref="System.ArgumentOutOfRangeException">The URI for the remote HTTP server is invalid.</exception>
         /// <returns>An instance of a class inherting from the <see cref="T:Stumps.IStumpsServer"/> interface.</returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Dispose is taken care of later.")]
-        public IStumpsServer CreateServer(int listeningPort, System.Uri proxyHostUri)
+        public IStumpsServer CreateServer(int listeningPort, Uri remoteServerUri)
         {
             var server = new StumpsServer
             {
                 ListeningPort = listeningPort,
-                RemoteHttpServer = proxyHostUri
+                RemoteHttpServer = remoteServerUri
             };
 
             return server;

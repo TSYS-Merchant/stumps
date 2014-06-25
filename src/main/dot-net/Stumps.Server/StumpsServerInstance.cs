@@ -10,7 +10,7 @@
     using Stumps.Server.Utility;
 
     /// <summary>
-    /// A class that represents an the environment and configuration of a proxy server.
+    /// A class that represents an the environment and configuration of a Stumps server.
     /// </summary>
     public class StumpsServerInstance : IDisposable
     {
@@ -42,9 +42,9 @@
         ///     Initializes a new instance of the <see cref="T:Stumps.Server.StumpsServerInstance"/> class.
         /// </summary>
         /// <param name="serverFactory">The factory used to initialize new server instances.</param>
-        /// <param name="proxyId">The unique identifier of the proxy.</param>
+        /// <param name="serverId">The unique identifier of the Stumps server.</param>
         /// <param name="dataAccess">The data access provider used by the instance.</param>
-        public StumpsServerInstance(IServerFactory serverFactory, string proxyId, IDataAccess dataAccess)
+        public StumpsServerInstance(IServerFactory serverFactory, string serverId, IDataAccess dataAccess)
         {
 
             if (serverFactory == null)
@@ -54,7 +54,7 @@
 
             _serverFactory = serverFactory;
 
-            this.ServerId = proxyId;
+            this.ServerId = serverId;
 
             _lock = new ReaderWriterLockSlim(LockRecursionPolicy.NoRecursion);
             _dataAccess = dataAccess;
@@ -91,12 +91,12 @@
         public bool AutoStart { get; set; }
 
         /// <summary>
-        ///     Gets or sets the name of the external host.
+        ///     Gets or sets the host name of the remote server.
         /// </summary>
         /// <value>
-        ///     The name of the external host.
+        ///     The host name of the remote server.
         /// </value>
-        public string ExternalHostName { get; set; }
+        public string RemoteServerHostName { get; set; }
 
         /// <summary>
         ///     Gets or sets a value indicating whether the instance is running.
@@ -187,14 +187,14 @@
         }
 
         /// <summary>
-        ///     Gets the number of requests served with the proxy.
+        ///     Gets the number of requests served by the remote server.
         /// </summary>
         /// <value>
-        ///     The number of requests served with the proxy.
+        ///     The number of requests served by the remote server.
         /// </value>
-        public int RequestsServedWithProxy
+        public int RequestsServedByRemoteServer
         {
-            get { return _server.RequestsServedWithProxy; }
+            get { return _server.RequestsServedByRemoteHost; }
         }
 
         /// <summary>
@@ -239,10 +239,10 @@
         }
 
         /// <summary>
-        ///     Gets or sets a value indicating whether the exernal host requires SSL.
+        ///     Gets or sets a value indicating whether the remote server requires SSL.
         /// </summary>
         /// <value>
-        ///   <c>true</c> if the external host requires SSL; otherwise, <c>false</c>.
+        ///   <c>true</c> if the remote server requires SSL; otherwise, <c>false</c>.
         /// </value>
         public bool UseSsl { get; set; }
 
@@ -438,22 +438,22 @@
         {
 
             // Find the persisted server entity 
-            var entity = _dataAccess.ProxyServerFind(this.ServerId);
+            var entity = _dataAccess.ServerFind(this.ServerId);
             this.AutoStart = entity.AutoStart;
-            this.ExternalHostName = entity.ExternalHostName;
+            this.RemoteServerHostName = entity.RemoteServerHostName;
             this.ListeningPort = entity.Port;
             this.UseSsl = entity.UseSsl;
             this.RecordingBehavior = entity.DisableStumpsWhenRecording
                                          ? RecordingBehavior.DisableStumps
                                          : RecordingBehavior.LeaveStumpsUnchanged;
 
-            if (!string.IsNullOrWhiteSpace(this.ExternalHostName))
+            if (!string.IsNullOrWhiteSpace(this.RemoteServerHostName))
             {
                 var pattern = this.UseSsl
                                   ? StumpsServerInstance.SecureUriFormat
                                   : StumpsServerInstance.InsecureUriFormat;
 
-                var uriString = string.Format(CultureInfo.InvariantCulture, pattern, this.ExternalHostName);
+                var uriString = string.Format(CultureInfo.InvariantCulture, pattern, this.RemoteServerHostName);
 
                 var uri = new Uri(uriString);
 
@@ -461,7 +461,7 @@
             }
             else
             {
-                // TODO: Choose which method to use for the fallback when no proxy is available.
+                // TODO: Choose which method to use for the fallback when no remote server is available.
                 _server = _serverFactory.CreateServer(this.ListeningPort, FallbackResponse.Http503ServiceUnavailable);
             }
 
