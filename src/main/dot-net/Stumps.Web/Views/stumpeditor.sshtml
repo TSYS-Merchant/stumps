@@ -96,7 +96,7 @@
 	<div class="stumpInfo greenBackground">
 		<table>
 			<tr>
-				<td><label for="stmp_name">Name</label><input type="text" id="stmp_name" value="@Model.StumpName" /><label for="stmp_category">Category</label><select id="stmp_category" /><option value="uncategorized">Uncategorized</option></select></td>
+				<td><label for="stmp_name">Name</label><input type="text" id="stmp_name" value="@Model.StumpName" /></td>
 				<td class="right" style="width: 200px;"><label class="button" id="saveButton">@Model.CreateButtonText</label></td>
 			</tr>
 		</table>
