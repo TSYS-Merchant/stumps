@@ -27,7 +27,7 @@
 		</div>
 		<div class="info"><label>Available At:</label><a href="@Current.LocalWebsite" target="_blank">@Current.LocalWebsite</a></div>
 		<div class="toolbar">
-			<img src="/content/ph.png" title="Turn Off / On" alt="Turn Off / On" class="left powerServer pwrico@Current.IsRunning" id="powr_@Current.ProxyId" /><img src="/content/ph.png" alt="Toggle Recording" title="Toggle Recording" class="left recordServer recico@Current.IsRecording" id="reco_@Current.ProxyId" /><a href="/proxy/@Current.ProxyId/Configure"><img src="/content/ico_cfg.png" alt="Configure Website" title="Configure Website" class="left configureServer" /></a><a href="proxy/@Current.ProxyId/Delete"><img src="/content/ico_del.png" alt="Delete Website" title="Delete Website" class="right deleteServer" /></a>
+			<img src="/content/ph.png" title="Turn Off / On" alt="Turn Off / On" class="left powerServer pwrico@Current.IsRunning" id="powr_@Current.ProxyId" /><img src="/content/ph.png" alt="Toggle Recording" title="Toggle Recording" class="left recordServer recico@Current.IsRecording" id="reco_@Current.ProxyId" /><a href="proxy/@Current.ProxyId/Delete"><img src="/content/ico_del.png" alt="Delete Website" title="Delete Website" class="right deleteServer" /></a>
 		</div>
 	</div>
 	@EndEach

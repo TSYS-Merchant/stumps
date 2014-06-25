@@ -49,7 +49,6 @@
 	<div class="panel">
 		<div class="toolbar" id="view_toolbar">
 			<a id="view_create" href="" class="left hide"><img src="/content/tb_cstump.png" class="tb">Create Stump</a>
-			<a id="view_save" href="" class="left hide"><img src="/content/tb_save.png">Save for Later</a>
 			<label id="" class="left">&nbsp;</label>
 		</div>
 		<div class="fillToolbar lightGreyBackground">
