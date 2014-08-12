@@ -739,20 +739,14 @@ function viewStump_updateTextMatches(textMatches) {
 
 	$('#resBodyMatchValues').empty();
 
-	for ( var i = 0; i < textMatches.length; i++ ) {
-
-		var index = nextTextCriteria;
-
-		var row = '<tr id="match_' + index + '">' +
-					'<td class="matchInput"><input type="text" id="match_value_' + index + '" value="" /></td>' +
-					'<td class="matchSelection"><input type="checkbox" id="match_chk_' + index + '" checked="checked"/></td>' +
+	for ( nextTextCriteria = 0; nextTextCriteria < textMatches.length; nextTextCriteria++ ) {
+		var row = '<tr id="match_' + nextTextCriteria + '">' +
+					'<td class="matchInput"><input type="text" id="match_value_' + nextTextCriteria + '" value="" /></td>' +
+					'<td class="matchSelection"><input type="checkbox" id="match_chk_' + nextTextCriteria + '" checked="checked" /></td>' +
 					'</tr>';
 
 		$('#match_tbl tbody').append(row);
-		$('#match_value_' + index).val(textMatches[i]);
-
-		index++;
-
+		$('#match_value_' + nextTextCriteria).val(textMatches[nextTextCriteria]);
 	}
 
 }
