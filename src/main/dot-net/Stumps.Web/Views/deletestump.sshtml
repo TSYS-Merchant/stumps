@@ -27,7 +27,7 @@ function deleteStump() {
 
 	$.ajax({
         type: 'DELETE',
-		url: '/api/proxy/@Model.ProxyId/stumps/@Model.StumpId/delete',
+		url: '/api0/proxy/@Model.ProxyId/stumps/@Model.StumpId/delete',
         success: refreshPage,
         error: refreshPage
     });

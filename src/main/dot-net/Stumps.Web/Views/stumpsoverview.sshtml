@@ -146,7 +146,7 @@ function viewStump(stumpId) {
     $.ajax({
         type: 'GET',
         contentType: 'application/json; charset-utf-8',
-		url: '/api/proxy/@Model.ProxyId/stumps/' + stumpId,
+		url: '/api0/proxy/@Model.ProxyId/stumps/' + stumpId,
         cache: false,
         success: viewStump_success,
 		complete: viewStump_complete

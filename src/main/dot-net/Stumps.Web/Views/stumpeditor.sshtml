@@ -288,7 +288,7 @@ function saveStump() {
     $.ajax({
         type: 'PUT',
         contentType: 'application/json; charset-utf-8',
-		url: '/api/proxy/@Model.ProxyId/stumps/@Model.StumpId',
+		url: '/api0/proxy/@Model.ProxyId/stumps/@Model.StumpId',
         dataType: "json",
 		data: JSON.stringify(value),
         cache: false,
@@ -335,7 +335,7 @@ function saveStump() {
     $.ajax({
         type: 'POST',
         contentType: 'application/json; charset-utf-8',
-		url: '/api/proxy/@Model.ProxyId/stumps',
+		url: '/api0/proxy/@Model.ProxyId/stumps',
         dataType: "json",
 		data: JSON.stringify(value),
         cache: false,
@@ -389,7 +389,7 @@ $('#stmp_name').blur(function() {
 	$.ajax({
         type: 'GET',
         contentType: 'application/json; charset-utf-8',
-        url: '/api/proxy/@Model.ProxyId/stumps/isStumpNameAvailable/' + $(this).val(),
+        url: '/api0/proxy/@Model.ProxyId/stumps/isStumpNameAvailable/' + $(this).val(),
         cache: false,
         async: false,
         success: function(msg) {
@@ -569,7 +569,7 @@ function viewStump(stumpId) {
 	$.ajax({
         type: 'GET',
         contentType: 'application/json; charset-utf-8',
-		url: '/api/proxy/@Model.ProxyId/stumps/' + stumpId,
+		url: '/api0/proxy/@Model.ProxyId/stumps/' + stumpId,
         cache: false,
         success: viewStump_success,
 		complete: viewStump_complete
@@ -816,7 +816,7 @@ function viewRequest(requestIndex) {
 	$.ajax({
         type: 'GET',
         contentType: 'application/json; charset-utf-8',
-		url: '/api/proxy/@Model.ProxyId/recording/' + requestIndex,
+		url: '/api0/proxy/@Model.ProxyId/recording/' + requestIndex,
         cache: false,
         success: viewRequest_success,
 		complete: viewRequest_complete
