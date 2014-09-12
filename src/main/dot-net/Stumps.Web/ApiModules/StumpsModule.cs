@@ -30,7 +30,7 @@
                 throw new ArgumentNullException("serverHost");
             }
 
-            Get["/api/proxy/{serverId}/stumps/{stumpId}"] = _ =>
+            Get["/api0/proxy/{serverId}/stumps/{stumpId}"] = _ =>
             {
 
                 var serverId = (string)_.serverId;
@@ -44,7 +44,7 @@
 
             };
 
-            Get["/api/proxy/{serverId}/stumps/{stumpId}/request"] = _ =>
+            Get["/api0/proxy/{serverId}/stumps/{stumpId}/request"] = _ =>
             {
                 var serverId = (string)_.serverId;
                 var stumpId = (string)_.stumpId;
@@ -56,7 +56,7 @@
                 return Response.FromStream(ms, stump.OriginalRequest.Headers["Content-Type"]);
             };
 
-            Get["/api/proxy/{serverId}/stumps/{stumpId}/response"] = _ =>
+            Get["/api0/proxy/{serverId}/stumps/{stumpId}/response"] = _ =>
             {
                 var serverId = (string)_.serverId;
                 var stumpId = (string)_.stumpId;
@@ -68,7 +68,7 @@
                 return Response.FromStream(ms, stump.Response.Headers["Content-Type"] ?? string.Empty);
             };
 
-            Post["/api/proxy/{serverId}/stumps"] = _ =>
+            Post["/api0/proxy/{serverId}/stumps"] = _ =>
             {
 
                 var serverId = (string)_.serverId;
@@ -83,7 +83,7 @@
 
             };
 
-            Put["/api/proxy/{serverId}/stumps/{stumpId}"] = _ =>
+            Put["/api0/proxy/{serverId}/stumps/{stumpId}"] = _ =>
             {
 
                 var serverId = (string)_.serverId;
@@ -118,7 +118,7 @@
 
             };
 
-            Delete["/api/proxy/{serverId}/stumps/{stumpId}/delete"] = _ =>
+            Delete["/api0/proxy/{serverId}/stumps/{stumpId}/delete"] = _ =>
             {
 
                 var serverId = (string)_.serverId;
@@ -130,7 +130,7 @@
 
             };
 
-            Get["/api/proxy/{serverId}/stumps/isStumpNameAvailable/{stumpName}"] = _ =>
+            Get["/api0/proxy/{serverId}/stumps/isStumpNameAvailable/{stumpName}"] = _ =>
             {
 
                 var serverId = (string)_.serverId;
@@ -393,7 +393,7 @@
                     stump.Rules.FindRuleContractByName(typeof(BodyContentRule).Name).Count > 0 ?
                         ContractBindings.CreateRuleFromContract<BodyContentRule>(stump.Rules.FindRuleContractByName(typeof(BodyContentRule).Name)[0]).GetTextEvaluators() :
                         new string[0],
-                RequestBodyUrl = "/api/proxy/" + serverId + "/stumps/" + stumpId + "/request",
+                RequestBodyUrl = "/api0/proxy/" + serverId + "/stumps/" + stumpId + "/request",
                 RequestHeaderMatch = CreateHeadersFromRules(stump),
                 RequestHttpMethod = stump.OriginalRequest.HttpMethod,
                 RequestHttpMethodMatch = stump.Rules.FindRuleContractByName(typeof(HttpMethodRule).Name).Count > 0,
@@ -408,7 +408,7 @@
                 ResponseBodyLength = stump.Response.BodyLength,
                 ResponseBodyModification = string.Empty,
                 ResponseBodySource = BodySource.Origin,
-                ResponseBodyUrl = "/api/proxy/" + serverId + "/stumps/" + stumpId + "/response",
+                ResponseBodyUrl = "/api0/proxy/" + serverId + "/stumps/" + stumpId + "/response",
                 ResponseHeaders = CreateHeaderModel(stump.Response.Headers),
                 ResponseStatusCode = stump.Response.StatusCode,
                 ResponseStatusDescription = stump.Response.StatusDescription,

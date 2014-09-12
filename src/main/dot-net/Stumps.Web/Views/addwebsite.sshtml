@@ -237,7 +237,7 @@ $('#portBox').blur(function() {
     $.ajax({
         type: 'GET',
         contentType: 'application/json; charset-utf-8',
-        url: '/api/portAvailable/' + port,
+        url: '/api0/portAvailable/' + port,
         cache: false,
         success: function(msg) {
             if ( !msg.PortAvailable ) {

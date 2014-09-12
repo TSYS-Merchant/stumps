@@ -166,7 +166,7 @@ function viewRequest(requestIndex) {
     $.ajax({
         type: 'GET',
         contentType: 'application/json; charset-utf-8',
-		url: '/api/proxy/@Model.ProxyId/recording/' + requestIndex,
+		url: '/api0/proxy/@Model.ProxyId/recording/' + requestIndex,
         cache: false,
         success: viewRequest_success,
 		complete: viewRequest_complete
@@ -287,7 +287,7 @@ function changeRecordStatus(proxyId, recordState) {
     $.ajax({
         type: 'PUT',
         contentType: 'application/json; charset-utf-8',
-		url: '/api/proxy/' + proxyId + '/recording/status',
+		url: '/api0/proxy/' + proxyId + '/recording/status',
         dataType: "json",
 		data: '{"RecordTraffic":' + recordState + '}',
         cache: false,
@@ -351,7 +351,7 @@ function findNewRequests() {
     $.ajax({
         type: 'GET',
         contentType: 'application/json; charset-utf-8',
-		url: '/api/proxy/@Model.ProxyId/recording?after=' + lastRequestIndex,
+		url: '/api0/proxy/@Model.ProxyId/recording?after=' + lastRequestIndex,
         cache: false,
         success: findNewRequests_success,
 		complete: findNewRequests_complete
