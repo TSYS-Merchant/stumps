@@ -28,7 +28,7 @@
                 throw new ArgumentNullException("stumpsHost");
             }
 
-            Get["/api/proxy/{serverId}/recording"] = _ =>
+            Get["/api0/proxy/{serverId}/recording"] = _ =>
             {
                 var serverId = (string)_.serverId;
                 var environment = stumpsHost.FindServer(serverId);
@@ -65,7 +65,7 @@
                 return Response.AsJson(modelList);
             };
 
-            Get["/api/proxy/{serverId}/recording/{recordIndex}"] = _ =>
+            Get["/api0/proxy/{serverId}/recording/{recordIndex}"] = _ =>
             {
                 var serverId = (string)_.serverId;
                 var recordIndex = (int)_.recordIndex;
@@ -80,7 +80,7 @@
                     RequestBodyIsImage = record.Request.BodyType == HttpBodyClassification.Image,
                     RequestBodyIsText = record.Request.BodyType == HttpBodyClassification.Text,
                     RequestBodyLength = record.Request.BodyLength,
-                    RequestBodyUrl = "/api/proxy/" + serverId + "/recording/" + recordIndex + "/request",
+                    RequestBodyUrl = "/api0/proxy/" + serverId + "/recording/" + recordIndex + "/request",
                     RequestHttpMethod = record.Request.HttpMethod,
                     RequestRawUrl = record.Request.RawUrl,
                     RequestDate = record.ReceivedDate,
@@ -88,7 +88,7 @@
                     ResponseBodyIsImage = record.Response.BodyType == HttpBodyClassification.Image,
                     ResponseBodyIsText = record.Response.BodyType == HttpBodyClassification.Text,
                     ResponseBodyLength = record.Response.BodyLength,
-                    ResponseBodyUrl = "/api/proxy/" + serverId + "/recording/" + recordIndex + "/response",
+                    ResponseBodyUrl = "/api0/proxy/" + serverId + "/recording/" + recordIndex + "/response",
                     ResponseStatusCode = record.Response.StatusCode,
                     ResponseStatusDescription = record.Response.StatusDescription
                 };
@@ -107,7 +107,7 @@
                 return Response.AsJson(model);
             };
 
-            Get["/api/proxy/{serverId}/recording/{recordIndex}/request"] = _ =>
+            Get["/api0/proxy/{serverId}/recording/{recordIndex}/request"] = _ =>
             {
                 var serverId = (string)_.serverId;
                 var recordIndex = (int)_.recordIndex;
@@ -120,7 +120,7 @@
                 return Response.FromStream(ms, record.Request.Headers["Content-Type"]);
             };
 
-            Get["/api/proxy/{serverId}/recording/{recordIndex}/response"] = _ =>
+            Get["/api0/proxy/{serverId}/recording/{recordIndex}/response"] = _ =>
             {
                 var serverId = (string)_.serverId;
                 var recordIndex = (int)_.recordIndex;
@@ -133,7 +133,7 @@
                 return Response.FromStream(ms, record.Response.Headers["Content-Type"]);
             };
 
-            Get["/api/proxy/{serverId}/recording/status"] = _ =>
+            Get["/api0/proxy/{serverId}/recording/status"] = _ =>
             {
                 var serverId = (string)_.serverId;
                 var server = stumpsHost.FindServer(serverId);
@@ -146,7 +146,7 @@
                 return Response.AsJson(model);
             };
 
-            Put["/api/proxy/{serverId}/recording/status"] = _ =>
+            Put["/api0/proxy/{serverId}/recording/status"] = _ =>
             {
                 var serverId = (string)_.serverId;
                 var server = stumpsHost.FindServer(serverId);

@@ -74,7 +74,7 @@ $(document).ready(function() {
 		$.ajax({
 			type: 'GET',
 			contentType: 'application/json; charset-utf-8',
-			url: '/api/proxy/' + proxyId + '/status',
+			url: '/api0/proxy/' + proxyId + '/status',
 			cache: false,
 			success: function (msg) {
 				var newRunningState = !msg.IsRunning;
@@ -98,7 +98,7 @@ $(document).ready(function() {
 		$.ajax({
 			type: 'GET',
 			contentType: 'application/json; charset-utf-8',
-			url: '/api/proxy/' + proxyId + '/recording/status',
+			url: '/api0/proxy/' + proxyId + '/recording/status',
 			cache: false,
 			success: function (msg) {
 				var newRecordStatus = !msg.RecordTraffic;
@@ -116,7 +116,7 @@ function changePowerStatus(proxyId, runningState) {
     $.ajax({
         type: 'PUT',
         contentType: 'application/json; charset-utf-8',
-		url: '/api/proxy/' + proxyId + '/status',
+		url: '/api0/proxy/' + proxyId + '/status',
         dataType: "json",
 		data: '{"IsRunning":' + runningState + '}',
         cache: false,
@@ -167,7 +167,7 @@ function changeRecordStatus(proxyId, recordState) {
     $.ajax({
         type: 'PUT',
         contentType: 'application/json; charset-utf-8',
-		url: '/api/proxy/' + proxyId + '/recording/status',
+		url: '/api0/proxy/' + proxyId + '/recording/status',
         dataType: "json",
 		data: '{"RecordTraffic":' + recordState + '}',
         cache: false,
@@ -220,7 +220,7 @@ function getStatusUpdates() {
     $.ajax({
         type: 'GET',
         contentType: 'application/json; charset-utf-8',
-        url: '/api/proxy/',
+        url: '/api0/proxy/',
         dataType: "json",
         cache: false,
         success: statusUpdate_Finished

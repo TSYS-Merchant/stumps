@@ -54,7 +54,7 @@ function deleteWebsite(proxyId) {
 
 	$.ajax({
         type: 'DELETE',
-		url: '/api/proxy/' + proxyId,
+		url: '/api0/proxy/' + proxyId,
         success: refreshPage,
         error: refreshPage
     });

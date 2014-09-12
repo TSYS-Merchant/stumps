@@ -26,7 +26,7 @@
                 throw new ArgumentNullException("stumpsHost");
             }
 
-            Get["/api/proxy/{serverId}/status"] = _ =>
+            Get["/api0/proxy/{serverId}/status"] = _ =>
             {
 
                 var serverId = (string)_.serverId;
@@ -41,7 +41,7 @@
 
             };
 
-            Put["/api/proxy/{serverId}/status"] = _ =>
+            Put["/api0/proxy/{serverId}/status"] = _ =>
             {
 
                 var serverId = (string)_.serverId;
