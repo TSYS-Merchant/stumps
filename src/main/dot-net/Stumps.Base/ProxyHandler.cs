@@ -126,7 +126,7 @@
 
             var urlHost = _externalHostUri.AbsoluteUri;
 
-            urlPath = urlPath.StartsWith("/", StringComparison.Ordinal) ? urlPath : urlPath + "/";
+            urlPath = urlPath.StartsWith("/", StringComparison.Ordinal) ? urlPath.Remove(0, 1) : urlPath;
 
             var url = urlHost + urlPath;
 
