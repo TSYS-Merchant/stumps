@@ -53,6 +53,12 @@
     <Compile Include="ApiModules\ProxyServerStatusModule.cs" />
     <Compile Include="ApiModules\RecordingModule.cs" />
     <Compile Include="ApiModules\StumpsModule.cs" />
+    <Compile Include="Api\NetworkPortModule.cs" />
+    <Compile Include="Api\ServerModel.cs" />
+    <Compile Include="Api\ServerModule.cs" />
+    <Compile Include="Api\ServerRuntimeSettingsModule.cs" />
+    <Compile Include="Api\ServerStatusModel.cs" />
+    <Compile Include="Api\ServerStatusModule.cs" />
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="ErrorStatusCodeHandler.cs" />
     <Compile Include="Models\BodyMatch.cs" />

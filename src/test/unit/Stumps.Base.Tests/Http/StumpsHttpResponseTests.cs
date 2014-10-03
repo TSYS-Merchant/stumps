@@ -49,7 +49,7 @@
 
             }
 
-            Assert.AreEqual(finishingEventCount, 1);
+            Assert.AreEqual(1, finishingEventCount);
 
         }
 
