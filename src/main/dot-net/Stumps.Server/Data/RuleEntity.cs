@@ -27,6 +27,7 @@ namespace Stumps.Server.Data
         /// <value>
         ///     The settings used by the rule.
         /// </value>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly", Justification = "Entity is only for persistence.")]
         public IList<NameValuePairEntity> Settings
         {
             get;

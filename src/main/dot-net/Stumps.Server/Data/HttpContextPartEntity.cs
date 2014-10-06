@@ -23,6 +23,7 @@ namespace Stumps.Server.Data
         /// <value>
         ///     The collection of HTTP headers.
         /// </value>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly", Justification = "Entity is only for persistence.")]
         public IList<NameValuePairEntity> Headers { get; set; }
 
     }

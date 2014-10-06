@@ -48,6 +48,7 @@
         /// <value>
         ///     The rules associated with the Stump.
         /// </value>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly", Justification = "Entity is only for persistence.")]
         public IList<RuleEntity> Rules { get; set; }
 
         /// <summary>
