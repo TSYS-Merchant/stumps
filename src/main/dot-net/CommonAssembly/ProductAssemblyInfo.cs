@@ -3,9 +3,9 @@ using System.Reflection;
 using System.Resources;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyCompany("Merchant Warehouse")]
+[assembly: AssemblyCompany("Cayan, LLC")]
 [assembly: AssemblyProduct("Stumps")]
-[assembly: AssemblyCopyright("Copyright \x00a9 2014 Merchant Warehouse All Rights Reserved.")]
+[assembly: AssemblyCopyright("Copyright \x00a9 2015 Cayan LLC All Rights Reserved.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
