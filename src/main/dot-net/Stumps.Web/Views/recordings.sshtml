@@ -181,27 +181,27 @@ function viewRequest_complete() {
 function viewRequest_success(msg) {
 		
 	// Update request 
-	$('#tdReqUrl').text(msg.RequestRawUrl);
-	$('#tdReqMethod').text(msg.RequestHttpMethod);
-	$('#tdReqBodyLength').text(msg.RequestBodyLength);
-	viewRequest_UpdateHeaders('#reqHeaders tbody', 'reqHeadersVal', msg.RequestHeaders);
-	viewRequest_UpdateBody(msg.Index, msg.RequestBodyLength, msg.RequestBodyIsText, msg.RequestBodyIsImage, 
-						   msg.RequestBodyUrl, msg.RequestBody, '#reqBodyHeader', '#reqBody', 'reqBodyPre',
+	$('#tdReqUrl').text(msg.requestRawUrl);
+	$('#tdReqMethod').text(msg.requestHttpMethod);
+	$('#tdReqBodyLength').text(msg.requestBodyLength);
+	viewRequest_UpdateHeaders('#reqHeaders tbody', 'reqHeadersVal', msg.requestHeaders);
+	viewRequest_UpdateBody(msg.index, msg.requestBodyLength, msg.requestBodyIsText, msg.requestBodyIsImage, 
+						   msg.requestBodyUrl, msg.requestBody, '#reqBodyHeader', '#reqBody', 'reqBodyPre',
 						   '#reqBodyImg', '#reqBodyLink');
 
 	// Update response
-	$('#tdResStatus').text(msg.ResponseStatusCode + ' ' + msg.ResponseStatusDescription);
-	$('#tdResBodyLength').text(msg.ResponseBodyLength);
-	viewRequest_UpdateHeaders('#resHeaders tbody', 'resHeadersVal', msg.ResponseHeaders);
-	viewRequest_UpdateBody(msg.Index, msg.ResponseBodyLength, msg.ResponseBodyIsText, msg.ResponseBodyIsImage, 
-						   msg.ResponseBodyUrl, msg.ResponseBody, '#resBodyHeader', '#resBody', 'resBodyPre',
+	$('#tdResStatus').text(msg.responseStatusCode + ' ' + msg.responseStatusDescription);
+	$('#tdResBodyLength').text(msg.responseBodyLength);
+	viewRequest_UpdateHeaders('#resHeaders tbody', 'resHeadersVal', msg.responseHeaders);
+	viewRequest_UpdateBody(msg.index, msg.responseBodyLength, msg.responseBodyIsText, msg.responseBodyIsImage, 
+						   msg.responseBodyUrl, msg.responseBody, '#resBodyHeader', '#resBody', 'resBodyPre',
 						   '#resBodyImg', '#resBodyLink');
 
 	// Update toolbar buttons
 	$('#view_save').removeClass('hide');
 	$('#view_create').removeClass('hide');
-	$('#view_create').attr('href', '/proxy/@Model.ProxyId/recording/' + msg.Index + '/NewStump');
-	$('#view_save').attr('href', '/proxy/@Model.ProxyId/recording/' + msg.Index + '/Save');
+	$('#view_create').attr('href', '/proxy/@Model.ProxyId/recording/' + msg.index + '/NewStump');
+	$('#view_save').attr('href', '/proxy/@Model.ProxyId/recording/' + msg.index + '/Save');
 
 	// Show request
 	$('#view_record').removeClass('hide');
@@ -265,8 +265,8 @@ function viewRequest_UpdateHeaders(element, cellElement, headers) {
 	
 		$(element).append(row);
 	
-		$('#' + cellElement + '_key_' + i).text(headers[i].Name);
-		$('#' + cellElement + '_val_' + i).text(headers[i].Value);
+		$('#' + cellElement + '_key_' + i).text(headers[i].name);
+		$('#' + cellElement + '_val_' + i).text(headers[i].value);
 
 	}
 
@@ -289,7 +289,7 @@ function changeRecordStatus(proxyId, recordState) {
         contentType: 'application/json; charset-utf-8',
 		url: '/api/proxy/' + proxyId + '/recording/status',
         dataType: "json",
-		data: '{"RecordTraffic":' + recordState + '}',
+		data: '{"recordTraffic":' + recordState + '}',
         cache: false,
         success: changeRecordStatus_success(proxyId, recordState),
 		complete: changeRecordStatus_complete
@@ -369,12 +369,12 @@ function findNewRequests_success(msg) {
 
 	for ( var i = 0; i < msg.length; i++ ) {
 		
-		lastRequestIndex = msg[i].Index;
+		lastRequestIndex = msg[i].index;
 		var row = 
-			'<tr id="reqidx_' + msg[i].Index + '" class="requestRow">' +
-			'<td>' + msg[i].Method + '</td>' +
-			'<td>' + msg[i].RawUrl + '</td>' +
-			'<td class="right">' + msg[i].StatusCode + '</td>' +
+			'<tr id="reqidx_' + msg[i].index + '" class="requestRow">' +
+			'<td>' + msg[i].method + '</td>' +
+			'<td>' + msg[i].rawUrl + '</td>' +
+			'<td class="right">' + msg[i].statusCode + '</td>' +
 			'</tr>';
 
 		$('#tbl_request tbody').append(row);

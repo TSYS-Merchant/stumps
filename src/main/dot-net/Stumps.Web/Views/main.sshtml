@@ -77,7 +77,7 @@ $(document).ready(function() {
 			url: '/api/proxy/' + proxyId + '/status',
 			cache: false,
 			success: function (msg) {
-				var newRunningState = !msg.IsRunning;
+				var newRunningState = !msg.isRunning;
 				changePowerStatus(proxyId, newRunningState);
 			},
 			error: refreshPage
@@ -101,7 +101,7 @@ $(document).ready(function() {
 			url: '/api/proxy/' + proxyId + '/recording/status',
 			cache: false,
 			success: function (msg) {
-				var newRecordStatus = !msg.RecordTraffic;
+				var newRecordStatus = !msg.recordTraffic;
 				changeRecordStatus(proxyId, newRecordStatus);
 			},
 			error: refreshPage
@@ -118,7 +118,7 @@ function changePowerStatus(proxyId, runningState) {
         contentType: 'application/json; charset-utf-8',
 		url: '/api/proxy/' + proxyId + '/status',
         dataType: "json",
-		data: '{"IsRunning":' + runningState + '}',
+		data: '{"isRunning":' + runningState + '}',
         cache: false,
         success: changePowerStatusUi(proxyId, runningState),
 		error: refreshPage
@@ -169,7 +169,7 @@ function changeRecordStatus(proxyId, recordState) {
         contentType: 'application/json; charset-utf-8',
 		url: '/api/proxy/' + proxyId + '/recording/status',
         dataType: "json",
-		data: '{"RecordTraffic":' + recordState + '}',
+		data: '{"recordTraffic":' + recordState + '}',
         cache: false,
         success: changeRecordingStatusUi(proxyId, recordState),
 		error: refreshPage
@@ -234,16 +234,16 @@ function statusUpdate_Finished(msg) {
 
 	for ( var i = 0; i < msg.length; i++ ) {
 
-		var reqServedLabel = "#strq_" + msg[i].ProxyId;
-		var stmpServedLabel = "#stmp_" + msg[i].ProxyId;
-		var recLabel = "#rcct_" + msg[i].ProxyId;
-		var stmpLabel = "#stct" + msg[i].ProxyId;
+		var reqServedLabel = "#strq_" + msg[i].proxyId;
+		var stmpServedLabel = "#stmp_" + msg[i].proxyId;
+		var recLabel = "#rcct_" + msg[i].proxyId;
+		var stmpLabel = "#stct" + msg[i].proxyId;
 
 		if ( $(reqServedLabel) != null ) {
-			$(reqServedLabel).text(numberWithCommas(msg[i].RequestsServed));
-			$(stmpServedLabel).text(numberWithCommas(msg[i].StumpsServed));
-			$(recLabel).text(numberWithCommas(msg[i].RecordCount));
-			$(stmpLabel).text(numberWithCommas(msg[i].StumpsCount));
+			$(reqServedLabel).text(numberWithCommas(msg[i].requestsServed));
+			$(stmpServedLabel).text(numberWithCommas(msg[i].stumpsServed));
+			$(recLabel).text(numberWithCommas(msg[i].recordCount));
+			$(stmpLabel).text(numberWithCommas(msg[i].stumpsCount));
 		}
 		else {
 			refreshNeeded = true;

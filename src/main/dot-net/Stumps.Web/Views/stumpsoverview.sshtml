@@ -180,26 +180,26 @@ function viewStump_success(msg) {
 
 	// Update Request - URL / HTTP Method Part	
 		
-	if ( msg.RequestUrlMatch ) {
+	if ( msg.requestUrlMatch ) {
 		$('#reqPartReq').removeClass('hide');
 		$('#trReqUrl').removeClass('hide');
-		$('#tdReqUrl').text(msg.RequestUrl);
+		$('#tdReqUrl').text(msg.requestUrl);
 	}
 
-	if ( msg.RequestHttpMethodMatch ) {
+	if ( msg.requestHttpMethodMatch ) {
 		$('#reqPartReq').removeClass('hide');
 		$('#trReqMethod').removeClass('hide');
-		$('#tdReqMethod').text(msg.RequestHttpMethod);
+		$('#tdReqMethod').text(msg.requestHttpMethod);
 	}
 
 	// Update Request - Headers
-	if ( msg.RequestHeaderMatch.length > 0 ) {
+	if ( msg.requestHeaderMatch.length > 0 ) {
 		$('#reqPartHdr').removeClass('hide');
-		viewStump_UpdateHeaders('#reqHeaders tbody', 'reqHeaderstd_', msg.RequestHeaderMatch);
+		viewStump_UpdateHeaders('#reqHeaders tbody', 'reqHeaderstd_', msg.requestHeaderMatch);
 	}
 
 	// Update Request - Body
-	switch ( msg.RequestBodyMatch ) {
+	switch ( msg.requestBodyMatch ) {
 		case 0:
 			$('#bodyMatchType').text('Is anything at all.');
 			break;
@@ -214,7 +214,7 @@ function viewStump_success(msg) {
 
 		case 3:
 			$('#bodyMatchType').text('Contains matching text values.');
-			viewStump_updateTextMatch(msg.RequestBodyMatchValues);
+			viewStump_updateTextMatch(msg.requestBodyMatchValues);
 			break;
 
 		case 4:
@@ -224,14 +224,14 @@ function viewStump_success(msg) {
 	}
 
 	// Update Response - Status
-	$('#tdResStatusCode').text(msg.ResponseStatusCode);
-	$('#tdResStatusDescription').text(msg.ResponseStatusDescription);
+	$('#tdResStatusCode').text(msg.responseStatusCode);
+	$('#tdResStatusDescription').text(msg.responseStatusDescription);
 
 	// Update Response - Headers
-	viewStump_UpdateHeaders('#resHeaders tbody', 'resHeadersstd_', msg.ResponseHeaders);
+	viewStump_UpdateHeaders('#resHeaders tbody', 'resHeadersstd_', msg.responseHeaders);
 
 	// Update Response - Body
-	switch ( msg.ResponseBodySource ) {
+	switch ( msg.responseBodySource ) {
 
 		case 0:
 			$('#bodyResponseType').text('Completely blank.');
@@ -248,8 +248,8 @@ function viewStump_success(msg) {
 	// Update toolbar buttons
 	$('#view_edit').removeClass('hide');
 	$('#view_delete').removeClass('hide');
-	$('#view_edit').attr('href', '/proxy/@Model.ProxyId/stumps/' + msg.StumpId);
-	$('#view_delete').attr('href', '/proxy/@Model.ProxyId/stumps/' + msg.StumpId + '/Delete');
+	$('#view_edit').attr('href', '/proxy/@Model.ProxyId/stumps/' + msg.stumpId);
+	$('#view_delete').attr('href', '/proxy/@Model.ProxyId/stumps/' + msg.stumpId + '/Delete');
 
 	// Show stump
 	$('#view_stump').removeClass('hide');
@@ -258,14 +258,14 @@ function viewStump_success(msg) {
 
 function viewRequest_UpdateBody(msg) {
 
-	responseBody = msg.ResponseBody;
-	responseBodyLength = msg.ResponseBodyLength;
-	responseBodyIsImage = msg.ResponseBodyIsImage;
-	responseBodyIsText = msg.ResponseBodyIsText;
+	responseBody = msg.responseBody;
+	responseBodyLength = msg.responseBodyLength;
+	responseBodyIsImage = msg.responseBodyIsImage;
+	responseBodyIsText = msg.responseBodyIsText;
 	responseBodyIsBinary = ( responseBodyLength > 0 && !responseBodyIsImage && !responseBodyIsText );
 	responseBodyViewable = ( responseBodyLength > 0 );
 
-	if ( msg.ResponseBodySource = 1 ) {
+	if ( msg.responseBodySource = 1 ) {
 
 		if ( responseBodyIsText ) {
 			var pre = document.getElementById("resBodyPre");
@@ -275,27 +275,27 @@ function viewRequest_UpdateBody(msg) {
 			$('#resBodyPre').removeClass('hide');
 		}
 		else if ( responseBodyIsImage ) {
-			$('#resBodyImg').attr('src', msg.ResponseBodyUrl);
+			$('#resBodyImg').attr('src', msg.responseBodyUrl);
 
 			$('#resBody').removeClass('hide');
 			$('#resBodyImg').removeClass('hide');
 		}
 		else {
-			$('#resBodyLink').attr('href', msg.ResponseBodyUrl);
+			$('#resBodyLink').attr('href', msg.responseBodyUrl);
 
 			$('#resBodyLinkDiv').removeClass('hide');
 		}
 		
 	}
 
-	requestBody = msg.RequestBody;
-	requestBodyLength = msg.RequestBodyLength;
-	requestBodyIsImage = msg.RequestBodyIsImage;
-	requestBodyIsText = msg.RequestBodyIsText;
+	requestBody = msg.requestBody;
+	requestBodyLength = msg.requestBodyLength;
+	requestBodyIsImage = msg.requestBodyIsImage;
+	requestBodyIsText = msg.requestBodyIsText;
 	requestBodyIsBinary = ( responseBodyLength > 0 && !responseBodyIsImage && !responseBodyIsText );
 	requestBodyViewable = ( responseBodyLength > 0 );
 
-	if ( msg.RequestBodyMatch == 3 || msg.RequestBodyMatch == 4 ) {
+	if ( msg.requestBodyMatch == 3 || msg.requestBodyMatch == 4 ) {
 
 		if ( requestBodyIsText ) {
 			var preq = document.getElementById("reqBodyPre");
@@ -305,13 +305,13 @@ function viewRequest_UpdateBody(msg) {
 			$('#reqBodyPre').removeClass('hide');
 		}
 		else if ( requestBodyIsImage ) {
-			$('#reqBodyImg').attr('src', msg.RequestBodyUrl);
+			$('#reqBodyImg').attr('src', msg.requestBodyUrl);
 
 			$('#reqBody').removeClass('hide');
 			$('#reqBodyImg').removeClass('hide');
 		}
 		else {
-			$('#reqBodyLink').attr('href', msg.RequestBodyUrl);
+			$('#reqBodyLink').attr('href', msg.requestBodyUrl);
 
 			$('#reqBodyLinkDiv').removeClass('hide');
 		}
@@ -333,8 +333,8 @@ function viewStump_UpdateHeaders(element, cellElement, headers) {
 	
 		$(element).append(row);
 	
-		$('#' + cellElement + '_key_' + i).text(headers[i].Name);
-		$('#' + cellElement + '_val_' + i).text(headers[i].Value);
+		$('#' + cellElement + '_key_' + i).text(headers[i].name);
+		$('#' + cellElement + '_val_' + i).text(headers[i].value);
 
 	}
 

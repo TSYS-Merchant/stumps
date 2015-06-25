@@ -267,22 +267,22 @@ function saveStump() {
 	}
 
 	var value = {
-		  "Name" : $('#stmp_name').val(),
-		  "Origin" : @Model.Origin,
-		  "RecordId" : @Model.RecordIndex,
-		  "RequestHeaderMatch" : saveHeaders('reqhdr'),
-		  "RequestBodyMatch" : Number($("input[name='reqHdrBodyOpt']:checked").val()),
-		  "RequestBodyMatchValues" : saveMatchText(),
-		  "RequestHttpMethod" : $('#reqmethod_text').val(),
-		  "RequestHttpMethodMatch" : $('#reqmethod_chk').prop('checked'),
-		  "RequestUrl" : $('#requrl_text').val(),
-		  "RequestUrlMatch" : $('#requrl_chk').prop('checked'),
-		  "ResponseBodyModification" : $('#resBodyTextArea').val(),
-		  "ResponseBodySource" : Number($("input[name='resHdrBodyOpt']:checked").val()),
-		  "ResponseHeaders" : saveHeaders('reshdr'),
-		  "ResponseStatusCode" : $('#resstatuscode_text').val(),
-		  "ResponseStatusDescription" : $('#resstatusdesc_text').val(),
-		  "StumpId" : "@Model.StumpId"
+		  "name" : $('#stmp_name').val(),
+		  "origin" : @Model.Origin,
+		  "recordId" : @Model.RecordIndex,
+		  "requestHeaderMatch" : saveHeaders('reqhdr'),
+		  "requestBodyMatch" : Number($("input[name='reqHdrBodyOpt']:checked").val()),
+		  "requestBodyMatchValues" : saveMatchText(),
+		  "requestHttpMethod" : $('#reqmethod_text').val(),
+		  "requestHttpMethodMatch" : $('#reqmethod_chk').prop('checked'),
+		  "requestUrl" : $('#requrl_text').val(),
+		  "requestUrlMatch" : $('#requrl_chk').prop('checked'),
+		  "responseBodyModification" : $('#resBodyTextArea').val(),
+		  "responseBodySource" : Number($("input[name='resHdrBodyOpt']:checked").val()),
+		  "responseHeaders" : saveHeaders('reshdr'),
+		  "responseStatusCode" : $('#resstatuscode_text').val(),
+		  "responseStatusDescription" : $('#resstatusdesc_text').val(),
+		  "stumpId" : "@Model.StumpId"
 		};
 
     $.ajax({
@@ -314,22 +314,22 @@ function saveStump() {
 	}
 
 	var value = {
-		  "Name" : $('#stmp_name').val(),
-		  "Origin" : @Model.Origin,
-		  "RecordId" : @Model.RecordIndex,
-		  "RequestHeaderMatch" : saveHeaders('reqhdr'),
-		  "RequestBodyMatch" : Number($("input[name='reqHdrBodyOpt']:checked").val()),
-		  "RequestBodyMatchValues" : saveMatchText(),
-		  "RequestHttpMethod" : $('#reqmethod_text').val(),
-		  "RequestHttpMethodMatch" : $('#reqmethod_chk').prop('checked'),
-		  "RequestUrl" : $('#requrl_text').val(),
-		  "RequestUrlMatch" : $('#requrl_chk').prop('checked'),
-		  "ResponseBodyModification" : $('#resBodyTextArea').val(),
-		  "ResponseBodySource" : Number($("input[name='resHdrBodyOpt']:checked").val()),
-		  "ResponseHeaders" : saveHeaders('reshdr'),
-		  "ResponseStatusCode" : $('#resstatuscode_text').val(),
-		  "ResponseStatusDescription" : $('#resstatusdesc_text').val(),
-		  "StumpId" : "@Model.StumpId"
+		  "name" : $('#stmp_name').val(),
+		  "origin" : @Model.Origin,
+		  "recordId" : @Model.RecordIndex,
+		  "requestHeaderMatch" : saveHeaders('reqhdr'),
+		  "requestBodyMatch" : Number($("input[name='reqHdrBodyOpt']:checked").val()),
+		  "requestBodyMatchValues" : saveMatchText(),
+		  "requestHttpMethod" : $('#reqmethod_text').val(),
+		  "requestHttpMethodMatch" : $('#reqmethod_chk').prop('checked'),
+		  "requestUrl" : $('#requrl_text').val(),
+		  "requestUrlMatch" : $('#requrl_chk').prop('checked'),
+		  "responseBodyModification" : $('#resBodyTextArea').val(),
+		  "responseBodySource" : Number($("input[name='resHdrBodyOpt']:checked").val()),
+		  "responseHeaders" : saveHeaders('reshdr'),
+		  "responseStatusCode" : $('#resstatuscode_text').val(),
+		  "responseStatusDescription" : $('#resstatusdesc_text').val(),
+		  "stumpId" : "@Model.StumpId"
 		};
 		 
     $.ajax({
@@ -393,7 +393,7 @@ $('#stmp_name').blur(function() {
         cache: false,
         async: false,
         success: function(msg) {
-            if ( !msg.StumpNameIsAvailable ) {
+            if ( !msg.stumpNameIsAvailable ) {
                 showAdvice('#stmp_name', location, "Stump name already in use.");
             }
         },
@@ -438,8 +438,8 @@ function saveHeaders(prefix) {
 
 		if ( headerName.length > 0 ) {
 			var value = {
-				"Name" : headerName,
-				"Value" : headerValue
+				"name" : headerName,
+				"value" : headerValue
 			};
 
 			values.push(value);
@@ -584,26 +584,26 @@ function viewStump_complete() {
 function viewStump_success(msg) {
 
 	// Request - URL / HTTP Method
-	$('#requrl_text').val(msg.RequestUrl);
-	$('#requrl_chk').prop('checked', msg.RequestUrlMatch);
-	$('#reqmethod_text').val(msg.RequestHttpMethod);
-	$('#reqmethod_chk').prop('checked', msg.RequestHttpMethodMatch);
+	$('#requrl_text').val(msg.requestUrl);
+	$('#requrl_chk').prop('checked', msg.requestUrlMatch);
+	$('#reqmethod_text').val(msg.requestHttpMethod);
+	$('#reqmethod_chk').prop('checked', msg.requestHttpMethodMatch);
 
 	// Request - Headers
-	viewStump_updateRequestHeaders(msg.RequestHeaderMatch);
+	viewStump_updateRequestHeaders(msg.requestHeaderMatch);
 
 	// Request - Match Values
-	viewStump_updateTextMatches(msg.RequestBodyMatchValues);
+	viewStump_updateTextMatches(msg.requestBodyMatchValues);
 
 	// Request - Body
 	viewStump_updateRequestBody(msg);
 
 	// Response - Status
-	$('#resstatuscode_text').val(msg.ResponseStatusCode);
-	$('#resstatusdesc_text').val(msg.ResponseStatusDescription);
+	$('#resstatuscode_text').val(msg.responseStatusCode);
+	$('#resstatusdesc_text').val(msg.responseStatusDescription);
 
 	// Response - Headers
-	viewStump_updateResponseHeaders(msg.ResponseHeaders);
+	viewStump_updateResponseHeaders(msg.responseHeaders);
 
 	// Response - Body
 	viewStump_updateResponseBody(msg);
@@ -612,10 +612,10 @@ function viewStump_success(msg) {
 
 function viewStump_updateResponseBody(msg) {
 
-	responseBody = msg.ResponseBody;
-	responseBodyLength = msg.ResponseBodyLength;
-	responseBodyIsImage = msg.ResponseBodyIsImage;
-	responseBodyIsText = msg.ResponseBodyIsText;
+	responseBody = msg.responseBody;
+	responseBodyLength = msg.responseBodyLength;
+	responseBodyIsImage = msg.responseBodyIsImage;
+	responseBodyIsText = msg.responseBodyIsText;
 	responseBodyIsBinary = ( responseBodyLength > 0 && !responseBodyIsImage && !responseBodyIsText );
 	responseBodyViewable = ( responseBodyLength > 0 );
 
@@ -629,19 +629,19 @@ function viewStump_updateResponseBody(msg) {
 		ta.textContent = responseBody;
 	}
 	else if ( responseBodyIsImage ) {
-		$('#resBodyImg').attr('src', msg.ResponseBodyUrl);
+		$('#resBodyImg').attr('src', msg.responseBodyUrl);
 		$('#resHdrBodyOpt3').attr('disabled', true);
 	}
 	else {
-		$('#resBodyLink').attr('href', msg.ResponseBodyUrl);
+		$('#resBodyLink').attr('href', msg.responseBodyUrl);
 		$('#resHdrBodyOpt3').attr('disabled', true);
 	}
 
 	// Request - Display Options
-	var reqCheckMark = msg.RequestBodyMatch + 1;
+	var reqCheckMark = msg.requestBodyMatch + 1;
 	$('#reqHdrBodyOpt' + reqCheckMark).prop('checked', true);
 
-	var resCheckMark = msg.ResponseBodySource + 1;
+	var resCheckMark = msg.responseBodySource + 1;
 	$('#resHdrBodyOpt' + resCheckMark).prop('checked', true);
 
 	updateResponseBodyOptions();
@@ -650,10 +650,10 @@ function viewStump_updateResponseBody(msg) {
 
 function viewStump_updateRequestBody(msg) {
 
-	requestBody = msg.RequestBody;
-	requestBodyLength = msg.RequestBodyLength;
-	requestBodyIsImage = msg.RequestBodyIsImage;
-	requestBodyIsText = msg.RequestBodyIsText;
+	requestBody = msg.requestBody;
+	requestBodyLength = msg.requestBodyLength;
+	requestBodyIsImage = msg.requestBodyIsImage;
+	requestBodyIsText = msg.requestBodyIsText;
 	requestBodyIsBinary = ( requestBodyLength > 0 && !requestBodyIsImage && !requestBodyIsText );
 	requestBodyViewable = ( requestBodyLength > 0 );
 
@@ -666,14 +666,14 @@ function viewStump_updateRequestBody(msg) {
 		pre.textContent = requestBody;
 	}
 	else if ( requestBodyIsImage ) {
-		$('#reqBodyImg').attr('src', msg.RequestBodyUrl);
+		$('#reqBodyImg').attr('src', msg.requestBodyUrl);
 	}
 	else {
-		$('#reqBodyLink').attr('href', msg.RequestBodyUrl);
+		$('#reqBodyLink').attr('href', msg.requestBodyUrl);
 	}
 
 	// Request - Display Options
-	var checkMark = msg.RequestBodyMatch + 1;
+	var checkMark = msg.requestBodyMatch + 1;
 	$('#reqHdrBodyOpt' + checkMark).prop('checked', true);
 
 	updateRequestBodyOptions();
@@ -705,7 +705,7 @@ function viewStump_updateResponseHeaders(headers) {
 
 		for ( var i = 0; i < headers.length; i++ ) {
 
-			var headerLower = headers[i].Name.toLowerCase();
+			var headerLower = headers[i].name.toLowerCase();
 
 			if ( headerLower != 'host' && headerLower != 'date' && headerLower != 'content-length' ) {
 				var row = '<tr id="reshdr_' + index + '">' +
@@ -716,8 +716,8 @@ function viewStump_updateResponseHeaders(headers) {
 
 				$('#reshdr_tbl tbody').append(row);
 
-				$('#reshdr_name_' + index).val(headers[i].Name);
-				$('#reshdr_value_' + index).val(headers[i].Value);
+				$('#reshdr_name_' + index).val(headers[i].name);
+				$('#reshdr_value_' + index).val(headers[i].value);
 				$('#reshdr_chk_' + index).prop('checked', true);
 
 				index++;
@@ -784,8 +784,8 @@ function viewStump_updateRequestHeaders(headers) {
 
 			$('#reqhdr_tbl tbody').append(row);
 
-			$('#reqhdr_name_' + index).val(headers[i].Name);
-			$('#reqhdr_value_' + index).val(headers[i].Value);
+			$('#reqhdr_name_' + index).val(headers[i].name);
+			$('#reqhdr_value_' + index).val(headers[i].value);
 			$('#reqhdr_chk_' + index).prop('checked', true);
 
 			index++;
@@ -832,21 +832,21 @@ function viewRequest_complete() {
 function viewRequest_success(msg) {
 		
 	// Update request 
-	$('#requrl_text').val(msg.RequestRawUrl);
-	$('#reqmethod_text').val(msg.RequestHttpMethod);
+	$('#requrl_text').val(msg.requestRawUrl);
+	$('#reqmethod_text').val(msg.requestHttpMethod);
 
 	// Update request headers
-	viewRequest_RequestUpdateHeaders(msg.RequestHeaders);
+	viewRequest_RequestUpdateHeaders(msg.requestHeaders);
 
 	// Update request body
 	viewRequest_RequestUpdateBody(msg);
 
 	// Update response
-	$('#resstatuscode_text').val(msg.ResponseStatusCode);
-	$('#resstatusdesc_text').val(msg.ResponseStatusDescription);
+	$('#resstatuscode_text').val(msg.responseStatusCode);
+	$('#resstatusdesc_text').val(msg.responseStatusDescription);
 
 	// Update response headers
-	viewRequest_ResponseUpdateHeaders(msg.ResponseHeaders);
+	viewRequest_ResponseUpdateHeaders(msg.responseHeaders);
 
 	// Update response body
 	viewRequest_ResponseUpdateBody(msg);
@@ -855,10 +855,10 @@ function viewRequest_success(msg) {
 
 function viewRequest_RequestUpdateBody(msg) {
 
-	requestBody = msg.RequestBody;
-	requestBodyLength = msg.RequestBodyLength;
-	requestBodyIsImage = msg.RequestBodyIsImage;
-	requestBodyIsText = msg.RequestBodyIsText;
+	requestBody = msg.requestBody;
+	requestBodyLength = msg.requestBodyLength;
+	requestBodyIsImage = msg.requestBodyIsImage;
+	requestBodyIsText = msg.requestBodyIsText;
 	requestBodyIsBinary = ( requestBodyLength > 0 && !requestBodyIsImage && !requestBodyIsText );
 	requestBodyViewable = ( requestBodyLength > 0 );
 
@@ -874,11 +874,11 @@ function viewRequest_RequestUpdateBody(msg) {
 		$('#reqHdrBodyOpt5').attr('checked', true);
 	}
 	else if ( requestBodyIsImage ) {
-		$('#reqBodyImg').attr('src', msg.RequestBodyUrl);
+		$('#reqBodyImg').attr('src', msg.requestBodyUrl);
 		$('#reqHdrBodyOpt5').attr('checked', true);
 	}
 	else {
-		$('#reqBodyLink').attr('href', msg.RequestBodyUrl);
+		$('#reqBodyLink').attr('href', msg.requestBodyUrl);
 		$('#reqHdrBodyOpt5').attr('checked', true);
 	}
 
@@ -888,10 +888,10 @@ function viewRequest_RequestUpdateBody(msg) {
 
 function viewRequest_ResponseUpdateBody(msg) {
 
-	responseBody = msg.ResponseBody;
-	responseBodyLength = msg.ResponseBodyLength;
-	responseBodyIsImage = msg.ResponseBodyIsImage;
-	responseBodyIsText = msg.ResponseBodyIsText;
+	responseBody = msg.responseBody;
+	responseBodyLength = msg.responseBodyLength;
+	responseBodyIsImage = msg.responseBodyIsImage;
+	responseBodyIsText = msg.responseBodyIsText;
 	responseBodyIsBinary = ( responseBodyLength > 0 && !responseBodyIsImage && !responseBodyIsText );
 	responseBodyViewable = ( responseBodyLength > 0 );
 
@@ -908,12 +908,12 @@ function viewRequest_ResponseUpdateBody(msg) {
 		$('#resHdrBodyOpt2').attr('checked', true);
 	}
 	else if ( responseBodyIsImage ) {
-		$('#resBodyImg').attr('src', msg.ResponseBodyUrl);
+		$('#resBodyImg').attr('src', msg.responseBodyUrl);
 		$('#resHdrBodyOpt3').attr('disabled', true);
 		$('#resHdrBodyOpt2').attr('checked', true);
 	}
 	else {
-		$('#resBodyLink').attr('href', msg.ResponseBodyUrl);
+		$('#resBodyLink').attr('href', msg.responseBodyUrl);
 		$('#resHdrBodyOpt3').attr('disabled', true);
 		$('#resHdrBodyOpt2').attr('checked', true);
 	}
@@ -928,7 +928,7 @@ function viewRequest_RequestUpdateHeaders(headers) {
 
 	for ( var i = 0; i < headers.length; i++ ) {
 
-		var headerLower = headers[i].Name.toLowerCase();
+		var headerLower = headers[i].name.toLowerCase();
 
 		if ( headerLower != 'host' && headerLower != 'date' && headerLower != 'content-length' ) {
 			var row = '<tr id="reqhdr_' + index + '">' +
@@ -939,8 +939,8 @@ function viewRequest_RequestUpdateHeaders(headers) {
 
 			$('#reqhdr_tbl tbody').append(row);
 
-			$('#reqhdr_name_' + index).val(headers[i].Name);
-			$('#reqhdr_value_' + index).val(headers[i].Value);
+			$('#reqhdr_name_' + index).val(headers[i].name);
+			$('#reqhdr_value_' + index).val(headers[i].value);
 
 			index++;
 		}
@@ -957,7 +957,7 @@ function viewRequest_ResponseUpdateHeaders(headers) {
 
 	for ( var i = 0; i < headers.length; i++ ) {
 
-		var headerLower = headers[i].Name.toLowerCase();
+		var headerLower = headers[i].name.toLowerCase();
 
 		if ( headerLower != 'host' && headerLower != 'date' && headerLower != 'content-length' ) {
 			var row = '<tr id="reshdr_' + index + '">' +
@@ -968,8 +968,8 @@ function viewRequest_ResponseUpdateHeaders(headers) {
 
 			$('#reshdr_tbl tbody').append(row);
 
-			$('#reshdr_name_' + index).val(headers[i].Name);
-			$('#reshdr_value_' + index).val(headers[i].Value);
+			$('#reshdr_name_' + index).val(headers[i].name);
+			$('#reshdr_value_' + index).val(headers[i].value);
 
 			index++;
 		}
