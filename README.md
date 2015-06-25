@@ -4,7 +4,7 @@ Stumps is a [HTTP/s proxy server](http://en.wikipedia.org/wiki/Proxy_server) tha
 
 #Background
 
-Some examples of where [Merchant Warehouse](http://www.merchantwarehouse.com/) makes a web service call to a third party include:
+Some examples of where [Cayan](http://www.cayan.com/) makes a web service call to a third party include:
 
 * Sending encrypted card data to [Magtek](http://www.magtek.com/) or [Idtech](http://www.idtechproducts.com/) in order to decrypt it
 * Running a sale/void/refund through [Google Wallet](http://www.google.com/wallet/), [ISIS](https://www.paywithisis.com/), [Level Up](https://www.thelevelup.com/), or any of our other platform partners
@@ -14,7 +14,7 @@ Some examples of where [Merchant Warehouse](http://www.merchantwarehouse.com/) m
 
 Stumps allows us to clearly deliniate what the [System Under Test](http://en.wikipedia.org/wiki/System_under_test) is, and allows us to test our products without also testing our partners' services. We cover that in separate integration tests. 
 
-Stumps also plays a big role in helping Merchant Warehouse test our internal services. Our products are built using a [Service Oriented Architecture](http://en.wikipedia.org/wiki/Service-oriented_architecture) design, all layered atop our Core Payment Gateway. Stumps allows us to introduce mocks in between these SOA hops, so that we can clearly isolate our system under test.
+Stumps also plays a big role in helping Cayan test our internal services. Our products are built using a [Service Oriented Architecture](http://en.wikipedia.org/wiki/Service-oriented_architecture) design, all layered atop our Core Payment Gateway. Stumps allows us to introduce mocks in between these SOA hops, so that we can clearly isolate our system under test.
 
 #Motivation
 
@@ -33,13 +33,13 @@ Importantly, none of this obviates the need for full integration tests with your
 
 # Use cases
 
-At Merchant Warehouse, we use Stumps create Mocks/Sims/Fakes for our acceptance testing initiatives, such as:
+At Cayan, we use Stumps create Mocks/Sims/Fakes for our acceptance testing initiatives, such as:
 
 * Card readers: Magensa/Magtek, IDTech, ...
 * Platform Partners: LevelUp, Google Wallet, ISIS, ...
 * Many of our payment processors (Nashville, Paymentech, Vantiv, ....)
 
-Stumps also plays a role in Merchant Warehouse's performance testing initiatives, allowing us to run meaningful performance tests without having crushing our partners' platforms.
+Stumps also plays a role in Cayan's performance testing initiatives, allowing us to run meaningful performance tests without having crushing our partners' platforms.
 
 # Features & requirements
 
@@ -83,7 +83,7 @@ Below are a number of tools playing in a similar space. Many of them are interes
 * [http-impersonator](https://code.google.com/p/http-impersonator/)
 
 # Downloading / Installation
-Currently, Merchant Warehouse’s Stumps is only available as a source download. If you’d like to provide a MSI package, that'd be very welcome.
+Currently, Cayan’s Stumps is only available as a source download. If you’d like to provide a MSI package, that'd be very welcome.
 
 #Contributing
 We love contributions! Please send [pull requests](https://help.github.com/articles/using-pull-requests) our way. All that we ask is that you please include unit tests with all of your pull requests.
