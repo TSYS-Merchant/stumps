@@ -247,6 +247,14 @@
         public bool UseSsl { get; set; }
 
         /// <summary>
+        ///     Gets or sets a value indicating whether use HTTPS for incomming connections rather than HTTP.
+        /// </summary>
+        /// <value>
+        ///     <c>true</c> to use HTTPS for incomming HTTP connections rather than HTTP.
+        /// </value>
+        public bool UseHttpsForIncommingConnections { get; set; }
+
+        /// <summary>
         ///     Creates a new Stump.
         /// </summary>
         /// <param name="contract">The contract used to create the Stump.</param>
@@ -424,7 +432,6 @@
                 {
                     _lock.Dispose();
                     _lock = null;
-
                 }
 
             }
@@ -443,6 +450,8 @@
             this.RemoteServerHostName = entity.RemoteServerHostName;
             this.ListeningPort = entity.Port;
             this.UseSsl = entity.UseSsl;
+            this.UseHttpsForIncommingConnections = entity.UseHttpsForIncommingConnections;
+
             this.RecordingBehavior = entity.DisableStumpsWhenRecording
                                          ? RecordingBehavior.DisableStumps
                                          : RecordingBehavior.LeaveStumpsUnchanged;
@@ -458,6 +467,7 @@
                 var uri = new Uri(uriString);
 
                 _server = _serverFactory.CreateServer(this.ListeningPort, uri);
+                _server.UseHttpsForIncommingConnections = this.UseHttpsForIncommingConnections;
             }
             else
             {

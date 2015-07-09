@@ -80,6 +80,7 @@
     <Compile Include="IStumpsHttpResponse.cs" />
     <Compile Include="IStumpsManager.cs" />
     <Compile Include="IStumpsServer.cs" />
+    <Compile Include="ServerScheme.cs" />
     <Compile Include="NetworkInformation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="..\CommonAssembly\ProductAssemblyInfo.cs">

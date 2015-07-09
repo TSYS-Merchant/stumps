@@ -320,10 +320,11 @@
 
             var server = new StumpsServerInstance(_serverFactory, entity.ServerId, _dataAccess)
             {
-                ListeningPort = entity.Port,
-                UseSsl = entity.UseSsl,
                 AutoStart = entity.AutoStart,
-                RemoteServerHostName = entity.RemoteServerHostName
+                ListeningPort = entity.Port,
+                RemoteServerHostName = entity.RemoteServerHostName,
+                UseHttpsForIncommingConnections = entity.UseHttpsForIncommingConnections,
+                UseSsl = entity.UseSsl
             };
 
             _serverInstances.AddOrUpdate(server.ServerId, server, (key, oldServer) => server);

@@ -105,6 +105,14 @@ namespace Stumps
         int TotalRequestsServed { get; }
 
         /// <summary>
+        ///     Gets or sets a value indicating whether use HTTPS for incomming connections rather than HTTP.
+        /// </summary>
+        /// <value>
+        ///     <c>true</c> to use HTTPS for incomming HTTP connections rather than HTTP.
+        /// </value>
+        bool UseHttpsForIncommingConnections { get; set; }
+
+        /// <summary>
         ///     Adds a new <see cref="T:Stumps.Stump" /> with a specified identifier to the collection.
         /// </summary>
         /// <param name="stumpId">The unique identifier for the <see cref="T:Stumps.Stump" />.</param>

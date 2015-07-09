@@ -21,6 +21,7 @@
         private FallbackResponse _defaultResponse;
         private Uri _remoteHttpServer;
         private int _port;
+        private bool _useHttpsForIncommingConnections;
         private volatile bool _stumpsEnabled;
 
         private int _requestCounter;
@@ -251,6 +252,30 @@
         }
 
         /// <summary>
+        ///     Gets or sets a value indicating whether use HTTPS for incomming connections rather than HTTP.
+        /// </summary>
+        /// <value>
+        ///     <c>true</c> to use HTTPS for incomming HTTP connections rather than HTTP.
+        /// </value>
+        public bool UseHttpsForIncommingConnections
+        {
+            get
+            {
+                return _useHttpsForIncommingConnections;
+            }
+
+            set
+            {
+                if (this.IsRunning)
+                {
+                    throw new InvalidOperationException(BaseResources.ServerIsRunning);
+                }
+
+                _useHttpsForIncommingConnections = value;
+            }
+        }
+
+        /// <summary>
         ///     Adds a new <see cref="T:Stumps.Stump" /> with a specified identifier to the collection.
         /// </summary>
         /// <param name="stumpId">The unique identifier for the <see cref="T:Stumps.Stump" />.</param>
@@ -387,7 +412,8 @@
                     pipeline.Add(stumpNotFoundHandler);
                 }
 
-                _server = new HttpServer(_port, pipeline);
+                var scheme = _useHttpsForIncommingConnections ? ServerScheme.Https : ServerScheme.Http;
+                _server = new HttpServer(scheme, _port, pipeline);
 
                 _server.RequestFinished += ServerRequestFinished;
                 _server.RequestProcessed += ServerRequestProcessed;

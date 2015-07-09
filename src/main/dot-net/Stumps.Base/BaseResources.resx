@@ -123,6 +123,9 @@
   <data name="HttpServerPattern" xml:space="preserve">
     <value>http://*:{0}/</value>
   </data>
+  <data name="HttpsServerPattern" xml:space="preserve">
+    <value>https://*:{0}/</value>
+  </data>
   <data name="InvalidUri" xml:space="preserve">
     <value>The URI for the remote HTTP server is invalid.</value>
   </data>

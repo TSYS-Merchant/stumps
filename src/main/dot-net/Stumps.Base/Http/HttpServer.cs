@@ -14,6 +14,7 @@
 
         private readonly IHttpHandler _handler;
         private readonly int _port;
+        private readonly ServerScheme _scheme;
         private HttpListener _listener;
         private bool _started;
         private Thread _thread;
@@ -27,7 +28,7 @@
         /// <paramref name="handler"/> is <c>null</c>.
         /// </exception>
         /// <exception cref="System.ArgumentOutOfRangeException"><paramref name="port"/> exceeds the allowed TCP port range.</exception>
-        public HttpServer(int port, IHttpHandler handler)
+        public HttpServer(ServerScheme scheme, int port, IHttpHandler handler)
         {
 
             if (handler == null)
@@ -42,8 +43,22 @@
 
             _listener = new HttpListener();
             _port = port;
+            _scheme = scheme;
             _handler = handler;
 
+        }
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="T:Stumps.Http.HttpServer"/> class.
+        /// </summary>
+        /// <param name="port">The port the HTTP server is using to listen for traffic.</param>
+        /// <param name="handler">The default <see cref="T:Stumps.Http.IHttpHandler"/> executed when receiving traffic.</param>
+        /// <exception cref="System.ArgumentNullException">
+        /// <paramref name="handler"/> is <c>null</c>.
+        /// </exception>
+        /// <exception cref="System.ArgumentOutOfRangeException"><paramref name="port"/> exceeds the allowed TCP port range.</exception>
+        public HttpServer(int port, IHttpHandler handler) : this(ServerScheme.Http, port, handler)
+        {
         }
 
         /// <summary>
@@ -82,7 +97,18 @@
         }
 
         /// <summary>
-        /// Gets a value indicating whether the instance is started.
+        ///     Gets the scheme used to listen for connections by the instance.
+        /// </summary>
+        /// <value>
+        ///     The scheme used to listen for connections by the instance.
+        /// </value>
+        public ServerScheme Scheme
+        {
+            get { return _scheme; }
+        }
+
+        /// <summary>
+        ///     Gets a value indicating whether the instance is started.
         /// </summary>
         /// <value>
         ///   <c>true</c> if the instance is started; otherwise, <c>false</c>.
@@ -128,7 +154,11 @@
 
             _listener = new HttpListener();
 
-            var url = string.Format(CultureInfo.InvariantCulture, BaseResources.HttpServerPattern, _port);
+            var httpPattern = this.Scheme == ServerScheme.Https
+                                  ? BaseResources.HttpsServerPattern
+                                  : BaseResources.HttpServerPattern;
+
+            var url = string.Format(CultureInfo.InvariantCulture, httpPattern, _port);
 
             _listener.Prefixes.Add(url);
             _listener.Start();

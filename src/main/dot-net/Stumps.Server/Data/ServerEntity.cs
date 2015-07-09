@@ -48,10 +48,18 @@
         public string ServerId { get; set; }
 
         /// <summary>
+        ///     Gets or sets a value indicating whether use HTTPS for incomming connections rather than HTTP.
+        /// </summary>
+        /// <value>
+        ///     <c>true</c> to use HTTPS for incomming HTTP connections rather than HTTP.
+        /// </value>
+        public bool UseHttpsForIncommingConnections { get; set; }
+
+        /// <summary>
         ///     Gets or sets a value indicating whether the remote server requires an SSL connection.
         /// </summary>
         /// <value>
-        ///   <c>true</c> if the remote server requires SSL; otherwise, <c>false</c>.
+        ///     <c>true</c> if the remote server requires SSL; otherwise, <c>false</c>.
         /// </value>
         public bool UseSsl { get; set; }
 
