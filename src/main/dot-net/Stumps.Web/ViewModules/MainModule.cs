@@ -5,6 +5,8 @@
     using System.Collections;
     using System.Globalization;
     using System.Linq;
+    using System.Net;
+    using System.Net.NetworkInformation;
     using Nancy;
     using Stumps.Server;
 
@@ -35,8 +37,12 @@
 
                 var list = new ArrayList();
 
+                var hostName = ResolveMachineName();
+
                 foreach (var server in servers)
                 {
+                    var schema = server.UseHttpsForIncommingConnections ? "https" : "http";
+
                     list.Add(
                         new
                         {
@@ -45,7 +51,7 @@
                             ExternalHostName = server.UseSsl ? server.RemoteServerHostName + " (SSL)" : server.RemoteServerHostName,
                             RequestsServed = PrettyNumber(server.TotalRequestsServed),
                             StumpsServed = PrettyNumber(server.RequestsServedWithStump),
-                            LocalWebsite = "http://localhost:" + server.ListeningPort.ToString(CultureInfo.InvariantCulture) + "/",
+                            LocalWebsite = string.Format("{0}://{1}:{2}/", schema, hostName, server.ListeningPort),
                             ProxyId = server.ServerId,
                             IsRunning = server.IsRunning ? "isRunning" : string.Empty,
                             IsRecording = server.RecordTraffic ? "isRecording" : string.Empty,
@@ -82,6 +88,20 @@
 
             return s;
 
+        }
+
+        private static string ResolveMachineName()
+        {
+            var hostName = Dns.GetHostName();
+            var domainName = IPGlobalProperties.GetIPGlobalProperties().DomainName;
+
+            if (!string.IsNullOrWhiteSpace(domainName) &&
+                !hostName.EndsWith(domainName, StringComparison.OrdinalIgnoreCase))
+            {
+                hostName += "." + domainName;
+            }
+
+            return hostName;
         }
 
     }
