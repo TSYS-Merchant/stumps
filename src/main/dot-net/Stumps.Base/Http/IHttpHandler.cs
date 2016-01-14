@@ -2,6 +2,7 @@
 {
 
     using System;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///     An interface that represents an implementation for processing an HTTP request.
@@ -21,7 +22,7 @@
         /// <returns>
         ///     A member of the <see cref="T:Stumps.Http.ProcessHandlerResult"/> enumeration.
         /// </returns>
-        ProcessHandlerResult ProcessRequest(IStumpsHttpContext context);
+        Task<ProcessHandlerResult> ProcessRequest(IStumpsHttpContext context);
 
     }
 

@@ -54,6 +54,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="AsyncWarningHelper.cs" />
     <Compile Include="BasicHttpResponseTests.cs" />
     <Compile Include="ContentEncoderTests.cs" />
     <Compile Include="FallbackResponseHandlerTests.cs" />

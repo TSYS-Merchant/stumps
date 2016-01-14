@@ -2,6 +2,7 @@
 {
 
     using System;
+    using System.Threading.Tasks;
     using Stumps.Http;
 
     /// <summary>
@@ -67,7 +68,7 @@
         ///     A member of the <see cref="T:Stumps.Http.ProcessHandlerResult" /> enumeration.
         /// </returns>
         /// <exception cref="System.ArgumentNullException"><paramref name="context"/> is <c>null</c>.</exception>
-        public ProcessHandlerResult ProcessRequest(IStumpsHttpContext context)
+        public async Task<ProcessHandlerResult> ProcessRequest(IStumpsHttpContext context)
         {
 
             if (context == null)
@@ -92,7 +93,8 @@
                 {
                     var delay = stump.ResponseDelay;
                     delay = delay < StumpsHandler.MaximumResponseDelay ? delay : StumpsHandler.MaximumResponseDelay;
-                    System.Threading.Thread.Sleep(delay);
+                    //TimerWait.Wait(delay);
+                    await Task.Delay(delay);
                 }
 
             }

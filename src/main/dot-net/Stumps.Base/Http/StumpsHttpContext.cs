@@ -3,6 +3,7 @@
 
     using System;
     using System.Net;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///     A class that represents the complete context for an HTTP request.
@@ -118,12 +119,12 @@
         /// <summary>
         ///     Writes the body to the HTTP listener response.
         /// </summary>
-        private void WriteBody()
+        private async void WriteBody()
         {
 
             if (_response.BodyLength > 0)
             {
-                _context.Response.OutputStream.Write(_response.GetBody(), 0, _response.BodyLength);
+                await _context.Response.OutputStream.WriteAsync(_response.GetBody(), 0, _response.BodyLength);
             }
 
         }

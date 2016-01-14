@@ -4,6 +4,7 @@
     using System;
     using System.Collections.Generic;
     using Stumps.Http;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///     A class implementing the <see cref="T:Stumps.Http.IHttpHandler"/> interface that executes multiple child
@@ -59,7 +60,7 @@
         ///     A member of the <see cref="T:Stumps.Http.ProcessHandlerResult" /> enumeration.
         /// </returns>
         /// <exception cref="System.ArgumentNullException"><paramref name="context"/> is <c>null</c>.</exception>
-        public ProcessHandlerResult ProcessRequest(IStumpsHttpContext context)
+        public async Task<ProcessHandlerResult> ProcessRequest(IStumpsHttpContext context)
         {
 
             if (context == null)
@@ -72,7 +73,7 @@
             foreach (var handler in _handlers)
             {
 
-                result = handler.ProcessRequest(context);
+                result = await handler.ProcessRequest(context);
 
                 if (result != ProcessHandlerResult.Continue)
                 {

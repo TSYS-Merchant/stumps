@@ -4,6 +4,7 @@
     using System;
     using System.Collections.Generic;
     using System.Text;
+    using System.Threading.Tasks;
     using Stumps.Http;
 
     internal class MockHandler : IHttpHandler
@@ -34,7 +35,7 @@
 
         public int HandlerId { get; set; }
 
-        public ProcessHandlerResult ProcessRequest(IStumpsHttpContext context)
+        public Task<ProcessHandlerResult> ProcessRequest(IStumpsHttpContext context)
         {
 
             foreach (var value in _headers)
@@ -56,7 +57,7 @@
                 this.ContextProcessed(this, new StumpsContextEventArgs(context));
             }
 
-            return ProcessHandlerResult.Terminate;
+            return new Task<ProcessHandlerResult>(() => ProcessHandlerResult.Terminate);
 
         }
 

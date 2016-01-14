@@ -5,6 +5,7 @@
     using System.Globalization;
     using System.Net;
     using System.Threading;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///     A class that represents a basic HTTP server.
@@ -17,7 +18,6 @@
         private readonly ServerScheme _scheme;
         private HttpListener _listener;
         private bool _started;
-        private Thread _thread;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:Stumps.Http.HttpServer"/> class.
@@ -164,8 +164,7 @@
             _listener.Start();
             _listener.AuthenticationSchemes = AuthenticationSchemes.Anonymous;
 
-            _thread = new Thread(WaitForConnections);
-            _thread.Start();
+            WaitForConnections();
 
         }
 
@@ -189,7 +188,7 @@
         ///     Processes the incoming HTTP request asynchronously.
         /// </summary>
         /// <param name="asyncResult">The asynchronous result.</param>
-        private void ProcessAsyncRequest(IAsyncResult asyncResult)
+        private async void ProcessAsyncRequest()
         {
 
             if (_listener == null)
@@ -200,7 +199,8 @@
             try
             {
                 // Gets the HTTP context for the request
-                var context = _listener.EndGetContext(asyncResult);
+                var context = await _listener.GetContextAsync();
+                WaitForConnections();
 
                 // Create a new StumpsHttpContext
                 var stumpsContext = new StumpsHttpContext(context);
@@ -211,7 +211,7 @@
                 }
 
                 // Process the request through the HTTP handler
-                var processResult = _handler.ProcessRequest(stumpsContext);
+                var processResult = await _handler.ProcessRequest(stumpsContext);
 
                 if (this.RequestProcessed != null)
                 {
@@ -244,10 +244,9 @@
         private void WaitForConnections()
         {
 
-            while (_started && _listener.IsListening)
+            if (_started && _listener.IsListening)
             {
-                var result = _listener.BeginGetContext(ProcessAsyncRequest, null);
-                result.AsyncWaitHandle.WaitOne();
+                Task.Factory.StartNew(new Action(ProcessAsyncRequest));
             }
 
         }

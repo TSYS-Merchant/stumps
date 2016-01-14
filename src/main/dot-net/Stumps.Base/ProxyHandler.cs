@@ -5,6 +5,7 @@
     using System.Collections.Generic;
     using System.Net;
     using Stumps.Http;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///     A class implementing the <see cref="T:Stumps.Http.IHttpHandler"/> interface that proxies requests to an external host.
@@ -43,7 +44,7 @@
         ///     A member of the <see cref="T:Stumps.Http.ProcessHandlerResult" /> enumeration.
         /// </returns>
         /// <exception cref="System.ArgumentNullException"><paramref name="context"/> is <c>null</c>.</exception>
-        public ProcessHandlerResult ProcessRequest(IStumpsHttpContext context)
+        public async Task<ProcessHandlerResult> ProcessRequest(IStumpsHttpContext context)
         {
 
             if (context == null)
