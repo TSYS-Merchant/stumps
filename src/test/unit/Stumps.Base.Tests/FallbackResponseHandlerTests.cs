@@ -54,7 +54,7 @@ namespace Stumps
             var handler = new FallbackResponseHandler(FallbackResponse.Http404NotFound);
 
             Assert.That(
-                () => handler.ProcessRequest(null),
+                async () => await handler.ProcessRequest(null),
                 Throws.Exception.TypeOf<ArgumentNullException>().With.Property("ParamName").EqualTo("context"));
 
         }

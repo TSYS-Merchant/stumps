@@ -54,20 +54,17 @@ namespace Stumps
 
             var context = Substitute.For<IStumpsHttpContext>();
             var pipe = new HttpPipelineHandler();
-            var innerHandler1 = Substitute.For<IHttpHandler>();
-            var innerHandler2 = Substitute.For<IHttpHandler>();
-
-            innerHandler1.ProcessRequest(Arg.Any<IStumpsHttpContext>()).Returns(new Task<ProcessHandlerResult>(() => ProcessHandlerResult.Continue));
-            innerHandler2.ProcessRequest(Arg.Any<IStumpsHttpContext>()).Returns(new Task<ProcessHandlerResult>(() => ProcessHandlerResult.Continue));
+            var innerHandler1 = new NoOpHandler(ProcessHandlerResult.Continue);
+            var innerHandler2 = new NoOpHandler(ProcessHandlerResult.Continue);
 
             pipe.Add(innerHandler1);
             pipe.Add(innerHandler2);
 
-            var result = pipe.ProcessRequest(context);
+            var result = await pipe.ProcessRequest(context);
 
             Assert.AreEqual(ProcessHandlerResult.Continue, result, "The process request returned Continue.");
-            innerHandler1.ReceivedWithAnyArgs(1).ProcessRequest(null).IgnoreAwaitForNSubstitute();
-            innerHandler2.ReceivedWithAnyArgs(1).ProcessRequest(null).IgnoreAwaitForNSubstitute();
+            Assert.AreEqual(1, innerHandler1.ProcessRequestCalls());
+            Assert.AreEqual(1, innerHandler2.ProcessRequestCalls());
 
         }
 
@@ -77,11 +74,8 @@ namespace Stumps
 
             var context = Substitute.For<IStumpsHttpContext>();
             var pipe = new HttpPipelineHandler();
-            var innerHandler1 = Substitute.For<IHttpHandler>();
-            var innerHandler2 = Substitute.For<IHttpHandler>();
-
-            innerHandler1.ProcessRequest(Arg.Any<IStumpsHttpContext>()).Returns(new Task<ProcessHandlerResult>(() => ProcessHandlerResult.Terminate));
-            innerHandler2.ProcessRequest(Arg.Any<IStumpsHttpContext>()).Returns(new Task<ProcessHandlerResult>(() => ProcessHandlerResult.Continue));
+            var innerHandler1 = new NoOpHandler(ProcessHandlerResult.Terminate);
+            var innerHandler2 = new NoOpHandler(ProcessHandlerResult.Continue);
 
             pipe.Add(innerHandler1);
             pipe.Add(innerHandler2);
@@ -89,8 +83,8 @@ namespace Stumps
             var result = await pipe.ProcessRequest(context);
 
             Assert.AreEqual(ProcessHandlerResult.Terminate, result, "The process request returned a Continue.");
-            innerHandler1.ReceivedWithAnyArgs(1).ProcessRequest(null).IgnoreAwaitForNSubstitute();
-            innerHandler2.ReceivedWithAnyArgs(0).ProcessRequest(null).IgnoreAwaitForNSubstitute();
+            Assert.AreEqual(1, innerHandler1.ProcessRequestCalls());
+            Assert.AreEqual(0, innerHandler2.ProcessRequestCalls());
 
         }
 
@@ -101,19 +95,19 @@ namespace Stumps
             var pipe = new HttpPipelineHandler();
 
             Assert.That(
-                () => pipe.ProcessRequest(null),
+                async () => await pipe.ProcessRequest(null),
                 Throws.Exception.TypeOf<ArgumentNullException>().With.Property("ParamName").EqualTo("context"));
 
         }
 
         [Test]
-        public void ProcessRequest_WithoutHandlers_ReturnsContinue()
+        public async void ProcessRequest_WithoutHandlers_ReturnsContinue()
         {
 
             var context = Substitute.For<IStumpsHttpContext>();
             var handler = new HttpPipelineHandler();
 
-            var result = handler.ProcessRequest(context);
+            var result = await handler.ProcessRequest(context);
             Assert.AreEqual(ProcessHandlerResult.Continue, result, "The process request returned a Terminate.");
 
         }

@@ -25,7 +25,7 @@
             var proxy = new ProxyHandler(new Uri("http://localhost/"));
 
             Assert.That(
-                () => proxy.ProcessRequest(null),
+                async () => await proxy.ProcessRequest(null),
                 Throws.Exception.TypeOf<ArgumentNullException>().With.Property("ParamName").EqualTo("context"));
 
         }

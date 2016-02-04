@@ -35,7 +35,7 @@
 
         public int HandlerId { get; set; }
 
-        public Task<ProcessHandlerResult> ProcessRequest(IStumpsHttpContext context)
+        public async Task<ProcessHandlerResult> ProcessRequest(IStumpsHttpContext context)
         {
 
             foreach (var value in _headers)
@@ -57,7 +57,7 @@
                 this.ContextProcessed(this, new StumpsContextEventArgs(context));
             }
 
-            return new Task<ProcessHandlerResult>(() => ProcessHandlerResult.Terminate);
+            return ProcessHandlerResult.Terminate;
 
         }
 
