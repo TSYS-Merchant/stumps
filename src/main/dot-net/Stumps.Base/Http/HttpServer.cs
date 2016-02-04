@@ -177,7 +177,6 @@
             {
                 _started = false;
                 _listener.Stop();
-                _thread.Join();
             }
             catch (ObjectDisposedException)
             {
