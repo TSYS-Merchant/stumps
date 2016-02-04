@@ -1,6 +1,6 @@
 Maintainers
 ====
-Copyright 2015, Cayan, LLC.
+Copyright 2016, Cayan, LLC.
 
 Find us on the [Stumps Google Group](https://groups.google.com/forum/#!forum/stumps-project).
 
