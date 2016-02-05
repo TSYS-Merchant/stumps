@@ -152,7 +152,7 @@
             catch (ArgumentException ex)
             {
                 isValid = false;
-                Console.WriteLine("Type - " + ex.GetType() + " \nSource - " + ex.Source + " \nException - " + ex.ToString());
+                Console.WriteLine("Type - " + ex.GetType() + " \nSource - " + ex.Source + " \nException - " + ex.ToString() + "\n\n");
             }
 
             return isValid;
