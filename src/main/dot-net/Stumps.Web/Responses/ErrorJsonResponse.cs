@@ -89,12 +89,14 @@
                     StatusCode = HttpStatusCode.InternalServerError
                 };
             }
-            catch
+            catch (Exception e)
             {
                 if (response != null)
                 {
                     response.Dispose();
                 }
+
+                Console.WriteLine("Type - " + e.GetType() + " \nSource - " + e.Source + " \nException - " + e.ToString() + " \n\n");
 
                 throw;
             }

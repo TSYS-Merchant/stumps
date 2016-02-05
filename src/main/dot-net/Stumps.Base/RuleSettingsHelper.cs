@@ -184,8 +184,9 @@ namespace Stumps
                 var bytes = Convert.FromBase64String(value);
                 return bytes;
             }
-            catch (FormatException)
+            catch (FormatException ex)
             {
+                Console.WriteLine("Type - " + ex.GetType() + " \nSource - " + ex.Source + " \nException - " + ex.ToString() + " \n\n");
                 return defaultValue;
             }
 

@@ -149,9 +149,10 @@
             {
                 isValid = Directory.Exists(directoryPath) && Path.IsPathRooted(directoryPath);
             }
-            catch (ArgumentException)
+            catch (ArgumentException ex)
             {
                 isValid = false;
+                Console.WriteLine("Type - " + ex.GetType() + " \nSource - " + ex.Source + " \nException - " + ex.ToString());
             }
 
             return isValid;

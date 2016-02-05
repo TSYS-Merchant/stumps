@@ -166,11 +166,14 @@
                     success = false;
                 }
 
+                Console.WriteLine("Type - " + wex.GetType() + " \nSource - " + wex.Source + " \nException - " + wex.ToString() + " \n\n");
+
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 // TODO: Log error
                 success = false;
+                Console.WriteLine("Type - " + ex.GetType() + " \nSource - " + ex.Source + " \nException - " + ex.ToString() + " \n\n");
             }
 
             return success;
@@ -232,6 +235,7 @@
                 {
                     success = false;
                 }
+                Console.WriteLine("Type - " + wex.GetType() + " \nSource - " + wex.Source + " \nException - " + wex.ToString() + " \n\n");
             }
 
             return success;
@@ -286,11 +290,12 @@
                 {
                     remoteWebRequest.Headers.Add(key, headers[key]);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     // The header could fail to add because it is being referenced
                     // as a property - this is OK.
                     // TODO: Log error
+                    Console.WriteLine("Type - " + ex.GetType() + " \nSource - " + ex.Source + " \nException - " + ex.ToString() + " \n\n");
                 }
             }
 

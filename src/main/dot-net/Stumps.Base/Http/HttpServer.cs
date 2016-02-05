@@ -178,8 +178,9 @@
                 _started = false;
                 _listener.Stop();
             }
-            catch (ObjectDisposedException)
+            catch (ObjectDisposedException ex)
             {
+                Console.WriteLine("Type - " + ex.GetType() + " \nSource - " + ex.Source + " \nException - " + ex.ToString() + " \n\n");
             }
         }
 
@@ -228,11 +229,13 @@
                 }
 
             }
-            catch (HttpListenerException)
+            catch (HttpListenerException e)
             {
+                Console.WriteLine("Type - " + e.GetType() + " \nSource - " + e.Source + " \nException - " + e.ToString() + " \n\n");
             }
-            catch (InvalidOperationException)
+            catch (InvalidOperationException ex)
             {
+                Console.WriteLine("Type - " + ex.GetType() + " \nSource - " + ex.Source + " \nException - " + ex.ToString() + " \n\n");
             }
 
         }
