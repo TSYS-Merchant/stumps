@@ -52,6 +52,14 @@
 			line-height: 32px;
 		}
 
+        .serverCard .header .name
+		{
+			font-size: 20px;
+			text-align: left;
+			padding-left: 10px;
+			float: left;
+		}
+
 		.serverCard .header .title
 		{
 			font-size: 12px;

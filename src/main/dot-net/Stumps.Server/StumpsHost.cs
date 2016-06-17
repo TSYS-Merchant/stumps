@@ -57,20 +57,19 @@
             Dispose(false);
         }
 
-        /// <summary>
-        ///     Creates a new instance of a Stumps server.
-        /// </summary>
+        /// <summary>Creates a new instance of a Stumps server.</summary>
+        /// <param name="serverName">Name of the server.</param>
         /// <param name="remoteServerHostName">The host name for the remote server by the Stumps server.</param>
         /// <param name="port">The TCP port used to listen for incomming HTTP requests.</param>
         /// <param name="useSsl"><c>true</c> if the remote server requires SSL.</param>
         /// <param name="autoStart"><c>true</c> to automatically start the Stumps server.</param>
         /// <returns>
-        ///     A <see cref="T:Stumps.Server.StumpsServerInstance" /> represeting the new Stumps server.
+        /// A <see cref="T:Stumps.Server.StumpsServerInstance" /> represeting the new Stumps server.
         /// </returns>
-        /// <exception cref="System.ArgumentNullException"><paramref name="remoteServerHostName"/> is null.</exception>
-        /// <exception cref="System.ArgumentOutOfRangeException"><paramref name="port"/> exceeds the allowed TCP port range.</exception>
+        /// <exception cref="System.ArgumentNullException"><paramref name="remoteServerHostName" /> is null.</exception>
+        /// <exception cref="System.ArgumentOutOfRangeException"><paramref name="port" /> exceeds the allowed TCP port range.</exception>
         /// <exception cref="StumpsNetworkException">The port is already in use.</exception>
-        public StumpsServerInstance CreateServerInstance(string remoteServerHostName, int port, bool useSsl, bool autoStart)
+        public StumpsServerInstance CreateServerInstance(string serverName, string remoteServerHostName, int port, bool useSsl, bool autoStart)
         {
 
             if (string.IsNullOrWhiteSpace(remoteServerHostName))
@@ -92,6 +91,7 @@
             var serverEntity = new ServerEntity
             {
                 AutoStart = autoStart,
+                ServerName = serverName,
                 RemoteServerHostName = remoteServerHostName,
                 Port = port,
                 UseSsl = useSsl,
@@ -322,6 +322,7 @@
             {
                 AutoStart = entity.AutoStart,
                 ListeningPort = entity.Port,
+                ServerName = entity.ServerName,
                 RemoteServerHostName = entity.RemoteServerHostName,
                 UseHttpsForIncommingConnections = entity.UseHttpsForIncommingConnections,
                 UseSsl = entity.UseSsl

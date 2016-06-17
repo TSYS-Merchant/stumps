@@ -13,6 +13,9 @@
 		<h1>Start Serving Up a New Website</h1>
 		<div class="innerForm greenDarkBackground">
 			<form method="post" id="newServerForm">
+				<div><label for="serverNameTextBox">Name</label><input type="text" name="serverNameTextBox" id="serverName"/></div>
+				<div><label>&nbsp;</label><span class="note">This will be the display name of the server.</span></div>
+
 				<div><label for="hostNameTextBox">Domain</label><input type="text" name="hostNameTextBox" id="hostName"/></div>
 				<div><label>&nbsp;</label><span class="note">Example: www.google.com or myserver.com:8000</span></div>
 

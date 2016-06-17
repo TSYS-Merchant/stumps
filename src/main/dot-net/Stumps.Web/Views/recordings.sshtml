@@ -13,7 +13,7 @@
 		<a href="/" class="left"><img src="/content/tb_back.png" />back</a>
 		<label class="left pointer" id="tb_recstart"><img src="/content/tb_recstart.png">start recording</label>
 		<label class="left pointer hide" id="tb_recstop"><img src="/content/tb_recstop.png">stop recording</label>
-		<a href="@Model.LocalWebsite" rel="noreferrer" target="_blank" class="right">@Model.ExternalHostName</a>
+		<a href="@Model.LocalWebsite" rel="noreferrer" target="_blank" class="right">@Model.ServerName (@Model.ExternalHostName)</a>
 	</div>
 	@EndIf
 	@If.IsRecording
@@ -21,7 +21,7 @@
 		<a href="/" class="left"><img src="/content/tb_back.png" />back</a>
 		<label class="left pointer hide" id="tb_recstart"><img src="/content/tb_recstart.png">start recording</label>
 		<label class="left pointer" id="tb_recstop"><img src="/content/tb_recstop.png">stop recording</label>
-		<a href="@Model.LocalWebsite" rel="noreferrer" target="_blank" class="right">@Model.ExternalHostName</a>
+		<a href="@Model.LocalWebsite" rel="noreferrer" target="_blank" class="right">@Model.ServerName (@Model.ExternalHostName)</a>
 	</div>
 	@EndIf
 

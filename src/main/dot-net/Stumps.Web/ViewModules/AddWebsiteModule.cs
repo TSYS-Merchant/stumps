@@ -38,7 +38,7 @@
 
             Post["/AddWebsite"] = _ =>
             {
-
+                var serverNameTextBox = ((string)(Request.Form.serverNameTextBox.Value ?? string.Empty)).Trim();
                 var hostNameTextBox = ((string)(Request.Form.hostNameTextBox.Value ?? string.Empty)).Trim();
                 var portTextBox = ((string)(Request.Form.portTextBox.Value ?? string.Empty)).Trim();
                 var useSslCheckBox = ((string)(Request.Form.useSslCheckBox.Value ?? "off")).Trim();
@@ -49,7 +49,7 @@
 
                 if (!string.IsNullOrEmpty(hostNameTextBox) && port > 0)
                 {
-                    stumpsHost.CreateServerInstance(hostNameTextBox, port, useSsl, true);
+                    stumpsHost.CreateServerInstance(serverNameTextBox, hostNameTextBox, port, useSsl, true);
                 }
 
                 return Response.AsRedirect("/");

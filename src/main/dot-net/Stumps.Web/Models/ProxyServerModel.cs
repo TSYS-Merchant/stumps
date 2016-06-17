@@ -16,6 +16,14 @@
         public bool AutoStart { get; set; }
 
         /// <summary>
+        ///     Gets or sets the name of the server.
+        /// </summary>
+        /// <value>
+        ///     The name of the server.
+        /// </value>
+        public string ServerName { get; set; }
+
+        /// <summary>
         ///     Gets or sets the external host name served by the proxy.
         /// </summary>
         /// <value>
@@ -38,6 +46,8 @@
         ///   <c>true</c> if the remote host requires SSL; otherwise, <c>false</c>.
         /// </value>
         public bool UseSsl { get; set; }
+
+        
 
     }
 

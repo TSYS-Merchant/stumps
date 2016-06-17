@@ -53,11 +53,12 @@
                 var model = new
                 {
                     ProxyId = server.ServerId,
+                    ServerName = server.ServerName,
                     ExternalHostName = server.UseSsl ? server.RemoteServerHostName + " (SSL)" : server.RemoteServerHostName,
                     LocalWebsite = "http://localhost:" + server.ListeningPort.ToString(CultureInfo.InvariantCulture) + "/",
                     IsRecording = server.RecordTraffic,
                     LastIndex = lastIndex,
-                    Recordings = recordingModelArray
+                    Recordings = recordingModelArray 
                 };
 
                 return View["recordings", model];

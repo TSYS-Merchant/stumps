@@ -8,6 +8,7 @@
 
 	@Each.Websites
 	<div class="serverCard @Current.IsRunning @Current.IsRecording" id="card_@Current.ProxyId">
+	<div class="header @Current.State" id="hder_name_@Current.ProxyId"><span class="name">@Current.ServerName</span></div>
 		<div class="header @Current.State" id="hder_@Current.ProxyId"><span class="title">@Current.ExternalHostName</span><span class="status" id="slbl_@Current.ProxyId">@Current.State</status></div>
 
 		<div class="body">
@@ -33,6 +34,7 @@
 	@EndEach
 
 	<div class="serverCard" id="newWebsite">
+		<div class="header"><span class="title">&ltuntitled&gt;</span></div>
 		<div class="header"><span class="title">&ltuntitled&gt;</span></div>
 		<div class="body">
 			<table class="bodyFrame">

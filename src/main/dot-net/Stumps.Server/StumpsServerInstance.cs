@@ -91,6 +91,14 @@
         public bool AutoStart { get; set; }
 
         /// <summary>
+        ///     Gets or sets the name of the server.
+        /// </summary>
+        /// <value>
+        ///     The name of the server.
+        /// </value>
+        public string ServerName { get; set; }
+
+        /// <summary>
         ///     Gets or sets the host name of the remote server.
         /// </summary>
         /// <value>
@@ -447,6 +455,7 @@
             // Find the persisted server entity 
             var entity = _dataAccess.ServerFind(this.ServerId);
             this.AutoStart = entity.AutoStart;
+            this.ServerName = entity.ServerName;
             this.RemoteServerHostName = entity.RemoteServerHostName;
             this.ListeningPort = entity.Port;
             this.UseSsl = entity.UseSsl;

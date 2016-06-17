@@ -11,7 +11,7 @@
 	<div class="toolbar blueBackground" id="tb_main">
 		<a href="/" class="left"><img src="/content/tb_back.png" />back</a>
 		<label class="left pointer" id="tb_viewrec"><img src="/content/tb_recstart.png">view recordings</label>
-		<a href="@Model.LocalWebsite" rel="noreferrer" target="_blank" class="right">@Model.ExternalHostName</a>
+		<a href="@Model.LocalWebsite" rel="noreferrer" target="_blank" class="right">@Model.ServerName (@Model.ExternalHostName)</a>
 	</div>
 	<div class="panel">
 		<div class="fill whiteBackground">

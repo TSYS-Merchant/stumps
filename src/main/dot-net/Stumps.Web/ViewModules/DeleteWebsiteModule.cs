@@ -32,7 +32,8 @@
                 var model = new
                 {
                     ProxyId = server.ServerId,
-                    ExternalHostName = server.RemoteServerHostName
+                    ServerName = server.ServerName,
+                    ExternalHostName = server.RemoteServerHostName,
                 };
 
                 return View["deletewebsite", model];

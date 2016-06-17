@@ -48,6 +48,7 @@
                         {
                             State = ModuleHelper.StateValue(server, "running", "stopped", "recording"),
                             StateImage = ModuleHelper.StateValue(server, "svr_run.png", "svr_stp.png", "svr_rec.png"),
+                            ServerName = server.ServerName,
                             ExternalHostName = server.UseSsl ? server.RemoteServerHostName + " (SSL)" : server.RemoteServerHostName,
                             RequestsServed = PrettyNumber(server.TotalRequestsServed),
                             StumpsServed = PrettyNumber(server.RequestsServedWithStump),

@@ -9,7 +9,7 @@
 	<div class="displayForm orangeBackground">
 		<h1>Delete a Website</h1>
 		<div class="innerForm orangeDarkBackground">
-			<div><p>You are about to delete the website '@Model.ExternalHostName'. Once you do this, it can't be recovered.</p></div>
+			<div><p>You are about to delete the server '@Model.ServerName' for the website '@Model.ExternalHostName'. Once you do this, it can't be recovered.</p></div>
 			<div><img src="/content/frm_checkoff.png" alt="Delete Server" class='isCheck' id="deleteServer" /><span class="check">I know, I'm going to delete it.</span><input type="checkbox" id="deleteServerCheckBox" name="deleteServerCheckBox" class="hide" /></div>
 
 			<div><label>&nbsp;</label></div>

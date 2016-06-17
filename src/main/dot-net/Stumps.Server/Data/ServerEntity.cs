@@ -32,6 +32,14 @@
         public int Port { get; set; }
 
         /// <summary>
+        ///     Gets or sets the name of the server.
+        /// </summary>
+        /// <value>
+        ///     The name of the server.
+        /// </value>
+        public string ServerName { get; set; }
+
+        /// <summary>
         ///     Gets or sets the host name for the remote server.
         /// </summary>
         /// <value>

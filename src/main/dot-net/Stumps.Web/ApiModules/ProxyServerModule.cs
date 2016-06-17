@@ -38,6 +38,7 @@
                     var model = new ProxyServerDetailsModel
                     {
                         AutoStart = server.AutoStart,
+                        ServerName = server.ServerName,
                         ExternalHostName = server.RemoteServerHostName,
                         IsRunning = server.IsRunning,
                         Port = server.ListeningPort,
@@ -61,7 +62,7 @@
             {
                 var model = this.Bind<ProxyServerModel>();
 
-                stumpsHost.CreateServerInstance(model.ExternalHostName, model.Port, model.UseSsl, model.AutoStart);
+                stumpsHost.CreateServerInstance(model.ServerName, model.ExternalHostName, model.Port, model.UseSsl, model.AutoStart);
 
                 return HttpStatusCode.Created;
             };

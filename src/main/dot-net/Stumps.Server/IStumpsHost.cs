@@ -10,17 +10,16 @@
     public interface IStumpsHost : IDisposable
     {
 
-        /// <summary>
-        ///     Creates a new instance of a Stumps server.
-        /// </summary>
+        /// <summary>Creates a new instance of a Stumps server.</summary>
+        /// <param name="serverName">Name of the server.</param>
         /// <param name="remoteServerHostName">The host name for the remote server by the Stumps server.</param>
         /// <param name="port">The TCP used to listen for incomming HTTP requests.</param>
         /// <param name="useSsl"><c>true</c> if the remote server requires SSL.</param>
         /// <param name="autoStart"><c>true</c> to automatically start the Stumps server.</param>
         /// <returns>
-        ///     A <see cref="T:Stumps.Server.StumpsServerInstance"/> represeting the new Stumps server.
+        /// A <see cref="T:Stumps.Server.StumpsServerInstance" /> represeting the new Stumps server.
         /// </returns>
-        StumpsServerInstance CreateServerInstance(string remoteServerHostName, int port, bool useSsl, bool autoStart);
+        StumpsServerInstance CreateServerInstance(string serverName, string remoteServerHostName, int port, bool useSsl, bool autoStart);
 
         /// <summary>
         ///     Deletes an existing Stumps server.
