@@ -89,6 +89,12 @@
         }
 
         /// <summary>
+        /// Gets or sets a value indicating whether [ignore SSL errors].
+        /// </summary>
+        /// <value><c>true</c> if [ignore SSL errors]; otherwise, <c>false</c>.</value>
+        public bool IgnoreSslErrors { get; set; }
+
+        /// <summary>
         ///     Closes the HTTP context and responds to the calling client.
         /// </summary>
         /// <param name="abort">if set to <c>true</c>, the connection is aborted without responding.</param>

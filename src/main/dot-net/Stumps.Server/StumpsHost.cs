@@ -325,7 +325,8 @@
                 ServerName = entity.ServerName,
                 RemoteServerHostName = entity.RemoteServerHostName,
                 UseHttpsForIncommingConnections = entity.UseHttpsForIncommingConnections,
-                UseSsl = entity.UseSsl
+                UseSsl = entity.UseSsl,
+                IgnoreSslErrors =  entity.IgnoreSslErrors,
             };
 
             _serverInstances.AddOrUpdate(server.ServerId, server, (key, oldServer) => server);

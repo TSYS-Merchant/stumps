@@ -263,6 +263,12 @@
         public bool UseHttpsForIncommingConnections { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether [ignore SSL errors].
+        /// </summary>
+        /// <value><c>true</c> if [ignore SSL errors]; otherwise, <c>false</c>.</value>
+        public bool IgnoreSslErrors { get; set; }
+
+        /// <summary>
         ///     Creates a new Stump.
         /// </summary>
         /// <param name="contract">The contract used to create the Stump.</param>
@@ -460,6 +466,7 @@
             this.ListeningPort = entity.Port;
             this.UseSsl = entity.UseSsl;
             this.UseHttpsForIncommingConnections = entity.UseHttpsForIncommingConnections;
+            this.IgnoreSslErrors = entity.IgnoreSslErrors;
 
             this.RecordingBehavior = entity.DisableStumpsWhenRecording
                                          ? RecordingBehavior.DisableStumps
@@ -477,6 +484,7 @@
 
                 _server = _serverFactory.CreateServer(this.ListeningPort, uri);
                 _server.UseHttpsForIncommingConnections = this.UseHttpsForIncommingConnections;
+                _server.IgnoreSslErrors = this.IgnoreSslErrors;
             }
             else
             {

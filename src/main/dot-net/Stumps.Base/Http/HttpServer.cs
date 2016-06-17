@@ -108,6 +108,12 @@
         }
 
         /// <summary>
+        /// Gets or sets a value indicating whether [ignore SSL errors].
+        /// </summary>
+        /// <value><c>true</c> if [ignore SSL errors]; otherwise, <c>false</c>.</value>
+        public bool IgnoreSslErrors { get; set; }
+
+        /// <summary>
         ///     Gets a value indicating whether the instance is started.
         /// </summary>
         /// <value>
@@ -189,7 +195,7 @@
         /// <param name="asyncResult">The asynchronous result.</param>
         private async void ProcessAsyncRequest()
         {
-
+            
             if (_listener == null)
             {
                 return;
@@ -208,6 +214,8 @@
                 {
                     this.RequestReceived(this, new StumpsContextEventArgs(stumpsContext));
                 }
+
+                stumpsContext.IgnoreSslErrors = IgnoreSslErrors;
 
                 // Process the request through the HTTP handler
                 var processResult = await _handler.ProcessRequest(stumpsContext);

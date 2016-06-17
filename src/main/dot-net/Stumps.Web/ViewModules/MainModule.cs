@@ -57,7 +57,8 @@
                             IsRunning = server.IsRunning ? "isRunning" : string.Empty,
                             IsRecording = server.RecordTraffic ? "isRecording" : string.Empty,
                             RecordingCount = PrettyNumber(server.Recordings.Count),
-                            StumpsCount = PrettyNumber(server.StumpCount)
+                            StumpsCount = PrettyNumber(server.StumpCount),
+                            IgnoreSslErrors = server.IgnoreSslErrors
                         });
 
                 }

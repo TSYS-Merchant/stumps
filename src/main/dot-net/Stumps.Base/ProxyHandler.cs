@@ -58,6 +58,11 @@
             var remoteWebRequest = (HttpWebRequest)WebRequest.Create(remoteUrl);
             remoteWebRequest.AllowAutoRedirect = false;
 
+            if (context.IgnoreSslErrors)
+            {
+                remoteWebRequest.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
+            }
+
             // Populate the headers for the new HTTP request from the incoming HTTP request
             PopulateRemoteHeadersFromContext(context, remoteWebRequest);
 

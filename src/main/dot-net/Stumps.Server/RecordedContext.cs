@@ -101,6 +101,9 @@
             private set;
         }
 
+        /// <summary>Gets or sets a value indicating whether [ignore SSL errors].</summary>
+        /// <value><c>true</c> if [ignore SSL errors]; otherwise, <c>false</c>.</value>
+        public bool IgnoreSslErrors { get; set; }
     }
 
 }

@@ -30,6 +30,7 @@
             get { return Guid.NewGuid(); }
         }
 
+        public bool IgnoreSslErrors { get; set; }
     }
 
 }

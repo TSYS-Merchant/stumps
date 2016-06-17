@@ -275,6 +275,10 @@
             }
         }
 
+        /// <summary>Gets or sets a value indicating whether [ignore SSL errors].</summary>
+        /// <value><c>true</c> if [ignore SSL errors]; otherwise, <c>false</c>.</value>
+        public bool IgnoreSslErrors { get; set; }
+
         /// <summary>
         ///     Adds a new <see cref="T:Stumps.Stump" /> with a specified identifier to the collection.
         /// </summary>
@@ -418,6 +422,8 @@
                 _server.RequestFinished += ServerRequestFinished;
                 _server.RequestProcessed += ServerRequestProcessed;
                 _server.RequestReceived += ServerRequestStarted;
+
+                _server.IgnoreSslErrors = IgnoreSslErrors;
 
                 _server.StartListening();
 
