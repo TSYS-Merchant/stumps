@@ -286,7 +286,7 @@
                 {
                     remoteWebRequest.Headers.Add(key, headers[key]);
                 }
-                catch (Exception)
+                catch (ArgumentException)
                 {
                     // The header could fail to add because it is being referenced
                     // as a property - this is OK.
