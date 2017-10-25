@@ -29,6 +29,7 @@
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <SuppressIces>ICE61</SuppressIces>
     <SuppressValidation>False</SuppressValidation>
+    <DefineConstants>VersionString=0.3.3.0</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="DirectoryStructure.wxs" />
