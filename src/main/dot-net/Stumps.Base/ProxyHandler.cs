@@ -109,7 +109,7 @@
                 this.ContextProcessed(this, new StumpsContextEventArgs(context));
             }
 
-            return ProcessHandlerResult.Continue;
+            return await Task.FromResult<ProcessHandlerResult>(ProcessHandlerResult.Continue);
 
         }
 
