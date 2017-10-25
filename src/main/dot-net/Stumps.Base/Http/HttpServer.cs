@@ -187,10 +187,10 @@
         ///     Processes the incoming HTTP request asynchronously.
         /// </summary>
         /// <param name="asyncResult">The asynchronous result.</param>
-        private async void ProcessAsyncRequest()
+        private async Task ProcessAsyncRequest()
         {
 
-            if (_listener == null)
+            if (_listener == null || !_listener.IsListening)
             {
                 return;
             }
@@ -220,13 +220,25 @@
                 var abortConnection = processResult == ProcessHandlerResult.DropConnection;
 
                 // End the request
-                stumpsContext.EndResponse(abortConnection);
+                await stumpsContext.EndResponse(abortConnection);
 
                 if (this.RequestFinished != null)
                 {
                     this.RequestFinished(this, new StumpsContextEventArgs(stumpsContext));
                 }
 
+            }
+            catch (AggregateException aex)
+            {
+                aex.Handle((iex) =>
+                {
+                    if (iex is HttpListenerException || iex is InvalidOperationException)
+                    {
+                        return true;
+                    }
+
+                    return false;
+                });
             }
             catch (HttpListenerException)
             {
@@ -245,7 +257,7 @@
 
             if (_started && _listener.IsListening)
             {
-                Task.Factory.StartNew(new Action(ProcessAsyncRequest));
+                Task.Run(async () => await ProcessAsyncRequest());
             }
 
         }

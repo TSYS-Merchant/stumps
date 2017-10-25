@@ -92,7 +92,7 @@
         ///     Closes the HTTP context and responds to the calling client.
         /// </summary>
         /// <param name="abort">if set to <c>true</c>, the connection is aborted without responding.</param>
-        public void EndResponse(bool abort)
+        public async Task EndResponse(bool abort)
         {
 
             // Forceably abort the connection
@@ -110,7 +110,7 @@
             WriteHeaders();
 
             // Write the body
-            WriteBody();
+            await WriteBody();
 
             _context.Response.Close();
 
@@ -119,7 +119,7 @@
         /// <summary>
         ///     Writes the body to the HTTP listener response.
         /// </summary>
-        private async void WriteBody()
+        private async Task WriteBody()
         {
 
             if (_response.BodyLength > 0)
