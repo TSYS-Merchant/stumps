@@ -57,7 +57,7 @@
                 this.ContextProcessed(this, new StumpsContextEventArgs(context));
             }
 
-            return ProcessHandlerResult.Terminate;
+            return await Task.FromResult<ProcessHandlerResult>(ProcessHandlerResult.Terminate);
 
         }
 

@@ -30,7 +30,7 @@
                 contextEvent(this, new StumpsContextEventArgs(context));
             }
 
-            return _cannedResponse;
+            return await Task.FromResult<ProcessHandlerResult>(_cannedResponse);
         }
 
         public int ProcessRequestCalls()

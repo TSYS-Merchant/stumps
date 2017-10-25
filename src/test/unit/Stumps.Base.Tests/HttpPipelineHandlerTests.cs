@@ -49,7 +49,7 @@ namespace Stumps
         }
 
         [Test]
-        public async void ProcessRequest_ExecuteMultipleHandlersInPipeline()
+        public async Task ProcessRequest_ExecuteMultipleHandlersInPipeline()
         {
 
             var context = Substitute.For<IStumpsHttpContext>();
@@ -69,7 +69,7 @@ namespace Stumps
         }
 
         [Test]
-        public async void ProcessRequest_StopsExecutingWhenTerminateReturned()
+        public async Task ProcessRequest_StopsExecutingWhenTerminateReturned()
         {
 
             var context = Substitute.For<IStumpsHttpContext>();
@@ -101,7 +101,7 @@ namespace Stumps
         }
 
         [Test]
-        public async void ProcessRequest_WithoutHandlers_ReturnsContinue()
+        public async Task ProcessRequest_WithoutHandlers_ReturnsContinue()
         {
 
             var context = Substitute.For<IStumpsHttpContext>();
