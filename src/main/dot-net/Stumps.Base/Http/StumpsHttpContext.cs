@@ -153,7 +153,23 @@
                     continue;
                 }
 
-                _context.Response.Headers.Add(headerName, _response.Headers[headerName]);
+                try
+                {
+                    var writeName = headerName;
+                    var writeValue = _response.Headers[headerName];
+
+                    if (HttpHeaderSanitization.SanitizeHeader(ref writeName, ref writeValue))
+                    {
+                        _context.Response.Headers.Add(writeName, writeValue);
+                    }
+                }
+                catch (ArgumentException)
+                {
+                    // The header could fail to add because it is being referenced
+                    // as a property - this is OK.
+                    // TODO: Log error
+                }
+
             }
 
         }
