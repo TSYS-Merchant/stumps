@@ -64,7 +64,7 @@
 
             var enumerable = context.Request.Headers.Accept;
 
-            var ranges = enumerable.OrderByDescending(o => o.Item2).Select(o => MediaRange.FromString(o.Item1)).ToList();
+            var ranges = enumerable.OrderByDescending(o => o.Item2).Select(o => new MediaRange(o.Item1)).ToList();
 
             foreach (var item in ranges)
             {
