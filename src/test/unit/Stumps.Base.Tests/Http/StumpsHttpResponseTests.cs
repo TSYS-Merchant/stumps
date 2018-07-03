@@ -4,6 +4,7 @@
     using System;
     using System.Globalization;
     using System.Net;
+    using System.Threading;
     using NUnit.Framework;
 
     [TestFixture]
@@ -20,6 +21,7 @@
             mockHandler.UpdateBody(TestData.SampleTextResponse);
             mockHandler.AddHeader("X-Stumps", "V1");
 
+            var eventMonitor = new ManualResetEventSlim(false);
             var finishingEventCount = 0;
 
             using (var server = HttpHelper.CreateServer(mockHandler))
@@ -29,7 +31,9 @@
                 {
                     var response = i.Context.Response;
 
+                    eventMonitor.Set();
                     finishingEventCount++;
+
                     Assert.IsNotNull(response.Headers);
                     Assert.Greater(response.Headers.Count, 0);
                     Assert.AreEqual(response.Headers["X-Stumps"], "V1");
@@ -48,6 +52,8 @@
                 }
 
             }
+
+            eventMonitor.Wait(1000);
 
             Assert.AreEqual(finishingEventCount, 1);
 
