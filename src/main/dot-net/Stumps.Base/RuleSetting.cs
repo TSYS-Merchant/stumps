@@ -1,12 +1,10 @@
 namespace Stumps
 {
-
     /// <summary>
     ///     A class that defines a setting for a <see cref="T:Stumps.IStumpRule"/>.
     /// </summary>
     public class RuleSetting
     {
-
         /// <summary>
         ///     Gets or sets the name of the setting for the rule.
         /// </summary>
@@ -30,7 +28,5 @@ namespace Stumps
             get;
             set;
         }
-
     }
-
 }

@@ -1,6 +1,5 @@
 ﻿namespace Stumps
 {
-
     using System;
 
     /// <summary>
@@ -8,7 +7,6 @@
     /// </summary>
     public interface IStumpsHttpContext
     {
-
         /// <summary>
         ///     Gets the received date and time the request was received.
         /// </summary>
@@ -40,7 +38,5 @@
         ///     The unique identifier for the HTTP context.
         /// </value>
         Guid UniqueIdentifier { get; }
-
     }
-
 }

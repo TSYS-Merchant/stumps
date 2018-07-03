@@ -1,6 +1,5 @@
 namespace Stumps
 {
-
     using System;
 
     /// <summary>
@@ -8,7 +7,6 @@ namespace Stumps
     /// </summary>
     internal interface IStumpsManager : IDisposable
     {
-
         /// <summary>
         /// Gets the count of Stumps in the collection.
         /// </summary>
@@ -44,17 +42,15 @@ namespace Stumps
         Stump FindStump(string stumpId);
 
         /// <summary>
-        ///     Finds the Stump that matches an incomming HTTP request.
+        ///     Finds the Stump that matches an incoming HTTP request.
         /// </summary>
         /// <param name="context">The incoming HTTP request context.</param>
         /// <returns>
-        ///     A <see cref="T:Stumps.Stump"/> that matches the incomming HTTP request.
+        ///     A <see cref="T:Stumps.Stump"/> that matches the incoming HTTP request.
         /// </returns>
         /// <remarks>
         ///     A <c>null</c> value is returned if a matching Stump is not found.
         /// </remarks>
         Stump FindStumpForContext(IStumpsHttpContext context);
-
     }
-
 }

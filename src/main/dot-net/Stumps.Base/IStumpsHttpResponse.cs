@@ -1,12 +1,10 @@
 ﻿namespace Stumps
 {
-
     /// <summary>
     ///     An interface that represents an HTTP response.
     /// </summary>
     public interface IStumpsHttpResponse : IStumpsHttpContextPart
     {
-        
         /// <summary>
         ///     Gets or sets the redirect address.
         /// </summary>
@@ -41,7 +39,5 @@
         ///     Clears the existing body of the HTTP response.
         /// </summary>
         void ClearBody();
-
     }
-
 }

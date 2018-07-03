@@ -1,12 +1,10 @@
 ﻿namespace Stumps
 {
-
     /// <summary>
     ///     A class that determins if a block of text contains a specified value.
     /// </summary>
     internal class TextContainsMatch : TextMatch
     {
-
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:Stumps.TextContainsMatch"/> class.
         /// </summary>
@@ -23,7 +21,6 @@
         /// <returns><c>true</c> if the text matches; otherwise, <c>false</c>.</returns>
         public override bool IsMatch(string value)
         {
-
             var match = this.UseRegexEvaluation
                             ? this.RegexValue.IsMatch(value)
                             : (value.IndexOf(this.StringValue, 0, this.ComparisonMethod) > -1);
@@ -31,9 +28,6 @@
             match = match ^ this.InverseEvaluation;
 
             return match;
-
         }
-
     }
-
 }

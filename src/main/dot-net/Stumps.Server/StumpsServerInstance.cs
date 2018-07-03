@@ -467,7 +467,7 @@
                 var uri = new Uri(uriString);
 
                 _server = _serverFactory.CreateServer(this.ListeningPort, uri);
-                _server.UseHttpsForIncommingConnections = this.UseHttpsForIncommingConnections;
+                _server.UseHttpsForIncomingConnections = this.UseHttpsForIncommingConnections;
             }
             else
             {

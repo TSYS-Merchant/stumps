@@ -1,6 +1,5 @@
 ﻿namespace Stumps
 {
-
     using System.Collections.Generic;
 
     /// <summary>
@@ -8,7 +7,6 @@
     /// </summary>
     public interface IStumpRule
     {
-
         /// <summary>
         /// Gets a value indicating whether the rule is initialized.
         /// </summary>
@@ -38,7 +36,5 @@
         ///     <c>true</c> if the <paramref name="request"/> matches the rule, otherwise, <c>false</c>.
         /// </returns>
         bool IsMatch(IStumpsHttpRequest request);
-
     }
-
 }

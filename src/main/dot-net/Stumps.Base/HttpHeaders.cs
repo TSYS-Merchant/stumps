@@ -1,6 +1,5 @@
 namespace Stumps
 {
-
     using System;
     using System.Collections.Generic;
 
@@ -9,7 +8,6 @@ namespace Stumps
     /// </summary>
     public class HttpHeaders : IHttpHeaders
     {
-
         private readonly Dictionary<string, string> _headers;
 
         /// <summary>
@@ -28,7 +26,7 @@ namespace Stumps
         /// </value>
         public int Count
         {
-            get { return _headers.Count; }
+            get => _headers.Count;
         }
 
         /// <summary>
@@ -39,7 +37,7 @@ namespace Stumps
         /// </value>
         public ICollection<string> HeaderNames
         {
-            get { return _headers.Keys; }
+            get => _headers.Keys;
         }
 
         /// <summary>
@@ -50,7 +48,7 @@ namespace Stumps
         /// </value>
         public virtual bool IsReadOnly
         {
-            get { return false; }
+            get => false;
         }
 
         /// <summary>
@@ -67,7 +65,6 @@ namespace Stumps
                 var keyValue = _headers.ContainsKey(headerName) ? _headers[headerName] : null;
                 return keyValue;
             }
-
             set
             {
                 if (string.IsNullOrWhiteSpace(headerName) || value == null)
@@ -85,18 +82,13 @@ namespace Stumps
                 {
                     _headers.Add(headerName, value);
                 }
-
             }
-
         }
 
         /// <summary>
         ///     Clears all existing headers from the instance.
         /// </summary>
-        public virtual void Clear()
-        {
-            _headers.Clear();
-        }
+        public virtual void Clear() => _headers.Clear();
 
         /// <summary>
         ///     Copies the elements of the <see cref="T:Stumps.IHttpHeaders"/> collection to another <see cref="T:Stumps.IHttpHeaders"/>.
@@ -105,17 +97,12 @@ namespace Stumps
         /// <exception cref="System.ArgumentNullException"><paramref name="httpHeaders"/> is <c>null</c>.</exception>
         public virtual void CopyTo(IHttpHeaders httpHeaders)
         {
-                
-            if (httpHeaders == null)
-            {
-                throw new ArgumentNullException("httpHeaders");
-            }
+            httpHeaders = httpHeaders ?? throw new ArgumentNullException(nameof(httpHeaders));
 
             foreach (var headerName in this.HeaderNames)
             {
                 httpHeaders[headerName] = this[headerName];
             }
-
         }
 
         /// <summary>
@@ -128,7 +115,5 @@ namespace Stumps
             var removed = _headers.Remove(headerName);
             return removed;
         }
-
     }
-
 }

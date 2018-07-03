@@ -1,6 +1,5 @@
 ﻿namespace Stumps
 {
-
     using System;
     using System.Threading.Tasks;
     using Stumps.Http;
@@ -11,7 +10,6 @@
     /// </summary>
     internal class StumpsHandler : IHttpHandler
     {
-
         /// <summary>
         ///     The minimum amount of time allowed for a delayed response.
         /// </summary>
@@ -32,19 +30,12 @@
         /// <exception cref="System.ArgumentNullException"><paramref name="stumpsManager"/> is <c>null</c>.</exception>
         public StumpsHandler(IStumpsManager stumpsManager)
         {
-
-            if (stumpsManager == null)
-            {
-                throw new ArgumentNullException("stumpsManager");
-            }
-
-            _stumpsManager = stumpsManager;
+            _stumpsManager = stumpsManager ?? throw new ArgumentNullException(nameof(stumpsManager));
             _handlerEnabled = true;
-
         }
 
         /// <summary>
-        ///     Occurs when an incomming HTTP requst is processed and responded to by the HTTP handler.
+        ///     Occurs when an incoming HTTP requst is processed and responded to by the HTTP handler.
         /// </summary>
         public event EventHandler<StumpsContextEventArgs> ContextProcessed;
 
@@ -56,8 +47,8 @@
         /// </value>
         public bool Enabled
         {
-            get { return _handlerEnabled; }
-            set { _handlerEnabled = value; }
+            get => _handlerEnabled;
+            set => _handlerEnabled = value;
         }
 
         /// <summary>
@@ -70,11 +61,7 @@
         /// <exception cref="System.ArgumentNullException"><paramref name="context"/> is <c>null</c>.</exception>
         public async Task<ProcessHandlerResult> ProcessRequest(IStumpsHttpContext context)
         {
-
-            if (context == null)
-            {
-                throw new ArgumentNullException("context");
-            }
+            context = context ?? throw new ArgumentNullException(nameof(context));
 
             // Early exit, if all Stumps are disabled
             if (!_handlerEnabled)
@@ -88,68 +75,56 @@
 
             if (stump != null)
             {
-
                 if (stump.ResponseDelay > StumpsHandler.MinimumResponseDelay)
                 {
                     var delay = stump.ResponseDelay;
                     delay = delay < StumpsHandler.MaximumResponseDelay ? delay : StumpsHandler.MaximumResponseDelay;
-                    //TimerWait.Wait(delay);
+
                     await Task.Delay(delay);
                 }
-
             }
 
             if (stump != null && stump.TerminateConnection)
             {
-
                 result = ProcessHandlerResult.DropConnection;
-
             }
             else if (stump != null && !stump.TerminateConnection)
             {
-
                 PopulateResponse(context, stump);
 
-                var stumpsResponse = context.Response as StumpsHttpResponse;
 
-                if (stumpsResponse != null)
+                if (context.Response is StumpsHttpResponse stumpsResponse)
                 {
                     stumpsResponse.Origin = HttpResponseOrigin.Stump;
                     stumpsResponse.StumpId = stump.StumpId;
                 }
 
-                if (this.ContextProcessed != null)
-                {
-                    this.ContextProcessed(this, new StumpsContextEventArgs(context));
-                }
+                this.ContextProcessed?.Invoke(this, new StumpsContextEventArgs(context));
                 
                 result = ProcessHandlerResult.Terminate;
-
             }
 
             return result;
-
         }
 
         /// <summary>
         ///     Populates the response of the HTTP context from the Stump.
         /// </summary>
-        /// <param name="incommingHttpContext">The incomming HTTP context.</param>
+        /// <param name="incomingHttpContext">The incoming HTTP context.</param>
         /// <param name="stump">The <see cref="T:Stumps.Stump"/> used to populate the response.</param>
-        private void PopulateResponse(IStumpsHttpContext incommingHttpContext, Stump stump)
+        private void PopulateResponse(IStumpsHttpContext incomingHttpContext, Stump stump)
         {
-
             // Write the status code information
-            incommingHttpContext.Response.StatusCode = stump.Response.StatusCode;
-            incommingHttpContext.Response.StatusDescription = stump.Response.StatusDescription;
+            incomingHttpContext.Response.StatusCode = stump.Response.StatusCode;
+            incomingHttpContext.Response.StatusDescription = stump.Response.StatusDescription;
 
             // Write the headers
-            incommingHttpContext.Response.Headers.Clear();
+            incomingHttpContext.Response.Headers.Clear();
 
-            stump.Response.Headers.CopyTo(incommingHttpContext.Response.Headers);
+            stump.Response.Headers.CopyTo(incomingHttpContext.Response.Headers);
 
             // Write the body
-            incommingHttpContext.Response.ClearBody();
+            incomingHttpContext.Response.ClearBody();
             
             if (stump.Response.BodyLength > 0)
             {
@@ -160,11 +135,8 @@
                     buffer = encoder.Encode(buffer);
                 }
 
-                incommingHttpContext.Response.AppendToBody(buffer);
+                incomingHttpContext.Response.AppendToBody(buffer);
             }
-
         }
-
     }
-
 }

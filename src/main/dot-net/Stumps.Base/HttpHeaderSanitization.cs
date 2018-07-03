@@ -7,25 +7,9 @@
     /// </summary>
     internal static class HttpHeaderSanitization
     {
-        private static readonly HashSet<char> InvalidHeaderNameCharacters = new HashSet<char> {
-            '"',
-            '\'',
-            '(',
-            ')',
-            ',',
-            '/',
-            ':',
-            ';',
-            '<',
-            '=',
-            '>',
-            '?',
-            '@',
-            '[',
-            '\\',
-            ']',
-            '{',
-            '}'
+        private static readonly HashSet<char> InvalidHeaderNameCharacters = new HashSet<char>
+        {
+            '"', '\'', '(', ')', ',', '/', ':', ';', '<', '=', '>', '?', '@', '[', '\\', ']', '{', '}'
         };
 
         /// <summary>
@@ -38,12 +22,10 @@
         /// </returns>
         public static bool SanitizeHeader(ref string name, ref string value)
         {
-
             var response = SanitizeHeaderPart(ref name, false);
             response = response & SanitizeHeaderPart(ref value, true);
 
             return response;
-
         }
 
         /// <summary>
@@ -56,7 +38,6 @@
         /// </returns>
         public static bool SanitizeHeaderPart(ref string value, bool isHeaderValue)
         {
-
             // First-Pass sanity check
             var response = EmptyCheck(ref value, isHeaderValue);
 
@@ -70,7 +51,6 @@
                 SanitizeHeaderName(ref value);
 
             return response;
-
         }
 
         /// <summary>
@@ -83,7 +63,6 @@
         /// </returns>
         private static bool EmptyCheck(ref string value, bool isHeaderValue)
         {
-
             if (value == null || value.Length == 0)
             {
                 if (!isHeaderValue)
@@ -91,12 +70,11 @@
                     return false;
                 }
 
-                //empty value is OK
+                // Empty value is OK
                 value = string.Empty;
             }
 
             return true;
-
         }
 
         /// <summary>
@@ -106,7 +84,6 @@
         /// <returns></returns>
         private static bool SanitizeHeaderName(ref string value)
         {
-
             var newValue = string.Empty;
             var valueSanitized = false;
 
@@ -132,7 +109,6 @@
             value = newValue;
 
             return response;
-
         }
 
         /// <summary>
@@ -145,14 +121,13 @@
         /// </remarks>
         private static bool SanitizeHeaderValue(ref string value)
         {
-
             var newValue = string.Empty;
             var valueSanitized = false;
 
             // WARNING this does break the multi-line headers
             foreach (var c in value)
             {
-                if (c == ' ' || c == '\t' || c >= 0x20 && c <= 0x7e)
+                if (c == ' ' || c == '\t' || (c >= 0x20 && c <= 0x7e))
                 {
                     newValue += c;
                 }
@@ -171,9 +146,6 @@
             value = newValue;
 
             return response;
-
         }
-
     }
-
 }

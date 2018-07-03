@@ -1,14 +1,12 @@
 namespace Stumps
 {
-
     /// <summary>
     ///     Provides the fallback response for a <see cref="T:Stumps.StumpsServer"/> when a remote host 
     ///     is not defined unavailable, and a <see cref="T:Stumps.Stump"/> was not found matching an
-    ///     incomming request. 
+    ///     incoming request. 
     /// </summary>
     public enum FallbackResponse
     {
-
         /// <summary>
         ///     The fallback response is undefined, and will default to an HTTP 503 Service Unavailable response.
         /// </summary>
@@ -23,7 +21,5 @@ namespace Stumps
         ///     Respond with an HTTP 503 Service Unavailable response.
         /// </summary>
         Http503ServiceUnavailable = 503
-
     }
-
 }

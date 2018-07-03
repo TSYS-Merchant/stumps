@@ -1,6 +1,5 @@
 ﻿namespace Stumps
 {
-
     using System;
     using Stumps.Http;
 
@@ -9,22 +8,19 @@
     /// </summary>
     public sealed class StumpsContextEventArgs : EventArgs
     {
-
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:Stumps.StumpsContextEventArgs" /> class.
         /// </summary>
         /// <param name="context">The <see cref="T:Stumps.IStumpsHttpContext" /> associated with the event.</param>
         internal StumpsContextEventArgs(IStumpsHttpContext context)
         {
-
             if (context == null)
             {
-                throw new ArgumentNullException("context");
+                throw new ArgumentNullException(nameof(context));
             }
 
-            var stumpsResponse = context.Response as StumpsHttpResponse;
-            
-            if (stumpsResponse != null)
+
+            if (context.Response is StumpsHttpResponse stumpsResponse)
             {
                 this.ResponseOrigin = stumpsResponse.Origin;
                 this.StumpId = stumpsResponse.StumpId;
@@ -36,7 +32,6 @@
             }
 
             this.Context = context;
-
         }
 
         /// <summary>
@@ -48,7 +43,6 @@
         public IStumpsHttpContext Context
         {
             get; 
-            private set;
         }
 
         /// <summary>
@@ -60,7 +54,6 @@
         public HttpResponseOrigin ResponseOrigin
         {
             get; 
-            private set;
         }
 
         /// <summary>
@@ -73,9 +66,6 @@
         public string StumpId
         {
             get;
-            private set;
         }
-
     }
-
 }

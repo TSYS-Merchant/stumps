@@ -1,14 +1,12 @@
 ﻿namespace Stumps
 {
-
     using System.Net;
 
     /// <summary>
-    ///     An interface that represents an incomming HTTP request.
+    ///     An interface that represents an incoming HTTP request.
     /// </summary>
     public interface IStumpsHttpRequest : IStumpsHttpContextPart
     {
-
         /// <summary>
         ///     Gets the HTTP data transfer method used by the client.
         /// </summary>
@@ -48,7 +46,5 @@
         ///     The remote end point where the HTTP request came from.
         /// </value>
         IPEndPoint RemoteEndPoint { get; }
-
     }
-
 }

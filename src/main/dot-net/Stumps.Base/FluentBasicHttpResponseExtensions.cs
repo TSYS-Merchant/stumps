@@ -1,6 +1,5 @@
 namespace Stumps
 {
-
     using System;
     using System.IO;
     using System.Web;
@@ -10,7 +9,6 @@ namespace Stumps
     /// </summary>
     public static class FluentBasicHttpResponseExtensions
     {
-
         /// <summary>
         ///     Specifies the body returned as part of the HTTP response.
         /// </summary>
@@ -20,16 +18,12 @@ namespace Stumps
         /// <exception cref="System.ArgumentNullException"><paramref name="response"/> is <c>null</c>.</exception>
         public static BasicHttpResponse WithBody(this BasicHttpResponse response, byte[] buffer)
         {
-
-            if (response == null)
-            {
-                throw new ArgumentNullException("response");
-            }
+            response = response ?? throw new ArgumentNullException(nameof(response));
 
             response.ClearBody();
             response.AppendToBody(buffer);
-            return response;
 
+            return response;
         }
 
         /// <summary>
@@ -41,16 +35,12 @@ namespace Stumps
         /// <exception cref="System.ArgumentNullException"><paramref name="response"/> is <c>null</c>.</exception>
         public static BasicHttpResponse WithBody(this BasicHttpResponse response, string body)
         {
-
-            if (response == null)
-            {
-                throw new ArgumentNullException("response");
-            }
+            response = response ?? throw new ArgumentNullException(nameof(response));
 
             response.ClearBody();
             response.AppendToBody(body);
-            return response;
 
+            return response;
         }
 
         /// <summary>
@@ -62,11 +52,7 @@ namespace Stumps
         /// <exception cref="System.ArgumentNullException"><paramref name="response"/> is <c>null</c>.</exception>
         public static BasicHttpResponse WithFile(this BasicHttpResponse response, string path)
         {
-
-            if (response == null)
-            {
-                throw new ArgumentNullException("response");
-            }
+            response = response ?? throw new ArgumentNullException(nameof(response));
 
             var buffer = File.ReadAllBytes(path);
 
@@ -77,7 +63,6 @@ namespace Stumps
             response.Headers["Content-Type"] = mimeType;
 
             return response;
-
         }
 
         /// <summary>
@@ -90,15 +75,10 @@ namespace Stumps
         /// <exception cref="System.ArgumentNullException"><paramref name="response"/> is <c>null</c>.</exception>
         public static BasicHttpResponse WithHeader(this BasicHttpResponse response, string headerName, string headerValue)
         {
+            response = response ?? throw new ArgumentNullException(nameof(response));
 
-            if (response == null)
-            {
-                throw new ArgumentNullException("response");
-            }
-            
             response.Headers[headerName] = headerValue;
             return response;
-
         }
 
         /// <summary>
@@ -110,15 +90,10 @@ namespace Stumps
         /// <exception cref="System.ArgumentNullException"><paramref name="response"/> is <c>null</c>.</exception>
         public static BasicHttpResponse WithStatusCode(this BasicHttpResponse response, int statusCode)
         {
-
-            if (response == null)
-            {
-                throw new ArgumentNullException("response");
-            }
+            response = response ?? throw new ArgumentNullException(nameof(response));
 
             response.StatusCode = statusCode;
             return response;
-
         }
 
         /// <summary>
@@ -130,15 +105,10 @@ namespace Stumps
         /// <exception cref="System.ArgumentNullException"><paramref name="response"/> is <c>null</c>.</exception>
         public static BasicHttpResponse WithStatusDescription(this BasicHttpResponse response, string statusDescription)
         {
-
-            if (response == null)
-            {
-                throw new ArgumentNullException("response");
-            }
+            response = response ?? throw new ArgumentNullException(nameof(response));
 
             response.StatusDescription = statusDescription;
             return response;
-
         }
 
         /// <summary>
@@ -150,17 +120,10 @@ namespace Stumps
         /// <exception cref="System.ArgumentNullException"><paramref name="response"/> is <c>null</c>.</exception>
         public static BasicHttpResponse WithRedirectAddress(this BasicHttpResponse response, string redirectAddress)
         {
-
-            if (response == null)
-            {
-                throw new ArgumentNullException("response");
-            }
+            response = response ?? throw new ArgumentNullException(nameof(response));
 
             response.RedirectAddress = redirectAddress;
             return response;
-
         }
-
     }
-
 }

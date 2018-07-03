@@ -1,10 +1,9 @@
 ﻿namespace Stumps
 {
-
     using System;
     using System.Collections.Generic;
-    using Stumps.Http;
     using System.Threading.Tasks;
+    using Stumps.Http;
 
     /// <summary>
     ///     A class implementing the <see cref="T:Stumps.Http.IHttpHandler"/> interface that executes multiple child
@@ -12,7 +11,6 @@
     /// </summary>
     internal class HttpPipelineHandler : IHttpHandler
     {
-
         private readonly List<IHttpHandler> _handlers;
 
         /// <summary>
@@ -24,7 +22,7 @@
         }
 
         /// <summary>
-        ///     Occurs when an incomming HTTP requst is processed and responded to by the HTTP handler.
+        ///     Occurs when an incoming HTTP requst is processed and responded to by the HTTP handler.
         /// </summary>
         public event EventHandler<StumpsContextEventArgs> ContextProcessed;
 
@@ -36,7 +34,7 @@
         /// </value>
         public int Count
         {
-            get { return _handlers.Count; }
+            get => _handlers.Count;
         }
 
         /// <summary>
@@ -49,7 +47,7 @@
         /// <returns>An <see cref="T:Stumps.Http.IHttpHandler"/>.</returns>
         public IHttpHandler this[int index]
         {
-            get { return _handlers[index]; }
+            get => _handlers[index];
         }
 
         /// <summary>
@@ -62,44 +60,29 @@
         /// <exception cref="System.ArgumentNullException"><paramref name="context"/> is <c>null</c>.</exception>
         public async Task<ProcessHandlerResult> ProcessRequest(IStumpsHttpContext context)
         {
-
-            if (context == null)
-            {
-                throw new ArgumentNullException("context");
-            }
+            context = context ?? throw new ArgumentNullException(nameof(context));
 
             var result = ProcessHandlerResult.Continue;
 
             foreach (var handler in _handlers)
             {
-
                 result = await handler.ProcessRequest(context);
 
                 if (result != ProcessHandlerResult.Continue)
                 {
                     break;
                 }
-
             }
 
-            if (this.ContextProcessed != null)
-            {
-                this.ContextProcessed(this, new StumpsContextEventArgs(context));
-            }
+            this.ContextProcessed?.Invoke(this, new StumpsContextEventArgs(context));
 
             return result;
-
         }
 
         /// <summary>
         /// Adds the specified child <see cref="T:Stumps.Http.IHttpHandler"/> to the end of the pipeline.
         /// </summary>
         /// <param name="handler">The child <see cref="T:Stumps.Http.IHttpHandler"/> to add.</param>
-        public void Add(IHttpHandler handler)
-        {
-            _handlers.Add(handler);
-        }
-
+        public void Add(IHttpHandler handler) => _handlers.Add(handler);
     }
-
 }

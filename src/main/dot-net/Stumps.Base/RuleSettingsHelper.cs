@@ -1,6 +1,5 @@
 namespace Stumps
 {
-
     using System;
     using System.Collections.Generic;
     using System.Globalization;
@@ -11,7 +10,6 @@ namespace Stumps
     /// </summary>
     public sealed class RuleSettingsHelper
     {
-
         private readonly Dictionary<string, string> _dict;
 
         /// <summary>
@@ -28,7 +26,6 @@ namespace Stumps
         /// <param name="settings">An enumerable collection of <see cref="T:Stumps.RuleSetting"/> objects.</param>
         public RuleSettingsHelper(IEnumerable<RuleSetting> settings) : this()
         {
-
             if (settings == null)
             {
                 return;
@@ -36,7 +33,6 @@ namespace Stumps
 
             foreach (var setting in settings)
             {
-
                 if (setting == null || string.IsNullOrWhiteSpace(setting.Name) || setting.Value == null)
                 {
                     continue;
@@ -50,9 +46,7 @@ namespace Stumps
                 {
                     _dict.Add(setting.Name, setting.Value);
                 }
-
             }
-
         }
 
         /// <summary>
@@ -63,7 +57,7 @@ namespace Stumps
         /// </value>
         public int Count
         {
-            get { return _dict.Count; }
+            get => _dict.Count;
         }
 
         /// <summary>
@@ -77,25 +71,16 @@ namespace Stumps
         /// <exception cref="System.ArgumentOutOfRangeException"><paramref name="value"/> cannot have a length of '0'.</exception>
         public void Add(string settingName, byte[] value)
         {
-        
-            if (settingName == null)
-            {
-                throw new ArgumentNullException("settingName");
-            }
-
-            if (value == null)
-            {
-                throw new ArgumentNullException("value");
-            }
+            settingName = settingName ?? throw new ArgumentNullException(nameof(settingName));
+            value = value ?? throw new ArgumentNullException(nameof(value));
 
             if (value.Length == 0)
             {
-                throw new ArgumentOutOfRangeException("value");
+                throw new ArgumentOutOfRangeException(nameof(value));
             }
 
             var s = Convert.ToBase64String(value, Base64FormattingOptions.None);
             AddOrUpdateSetting(settingName, s);
-
         }
 
         /// <summary>
@@ -106,15 +91,10 @@ namespace Stumps
         /// <exception cref="System.ArgumentNullException"><paramref name="settingName"/> is <c>null</c>.</exception>
         public void Add(string settingName, bool value)
         {
-
-            if (settingName == null)
-            {
-                throw new ArgumentNullException("settingName");
-            }
+            settingName = settingName ?? throw new ArgumentNullException(nameof(settingName));
 
             var s = value.ToString(CultureInfo.InvariantCulture);
             AddOrUpdateSetting(settingName, s);
-
         }
 
         /// <summary>
@@ -125,15 +105,11 @@ namespace Stumps
         /// <exception cref="System.ArgumentNullException"><paramref name="settingName"/> is <c>null</c>.</exception>
         public void Add(string settingName, int value)
         {
-
-            if (settingName == null)
-            {
-                throw new ArgumentNullException("settingName");
-            }
+            settingName = settingName ?? throw new ArgumentNullException(nameof(settingName));
 
             var s = value.ToString(CultureInfo.InvariantCulture);
-            AddOrUpdateSetting(settingName, s);
 
+            AddOrUpdateSetting(settingName, s);
         }
 
         /// <summary>
@@ -148,19 +124,10 @@ namespace Stumps
         /// </exception>
         public void Add(string settingName, string value)
         {
-
-            if (settingName == null)
-            {
-                throw new ArgumentNullException("settingName");
-            }
-
-            if (value == null)
-            {
-                throw new ArgumentNullException("value");
-            }
+            settingName = settingName ?? throw new ArgumentNullException(nameof(settingName));
+            value = value ?? throw new ArgumentNullException(nameof(value));
 
             AddOrUpdateSetting(settingName, value);
-
         }
 
         /// <summary>
@@ -171,7 +138,6 @@ namespace Stumps
         /// <returns>An array of <see cref="T:System.Byte"/> values for the specified <paramref name="settingName"/>.</returns>
         public byte[] FindByteArray(string settingName, byte[] defaultValue)
         {
-
             var value = FindSettingValue(settingName);
 
             if (value == null)
@@ -188,7 +154,6 @@ namespace Stumps
             {
                 return defaultValue;
             }
-
         }
 
         /// <summary>
@@ -199,17 +164,13 @@ namespace Stumps
         /// <returns>A <see cref="T:System.Boolean"/> containing the value for the specified <paramref name="settingName"/>.</returns>
         public bool FindBoolean(string settingName, bool defaultValue)
         {
-
             var value = FindSettingValue(settingName);
 
-            bool result;
-            
-            var parseResult = bool.TryParse(value, out result);
-            
+            var parseResult = bool.TryParse(value, out bool result);
+
             result = parseResult ? result : defaultValue;
 
             return result;
-
         }
 
         /// <summary>
@@ -221,17 +182,13 @@ namespace Stumps
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1720:IdentifiersShouldNotContainTypeNames", MessageId = "integer", Justification = "The identifier is appropriate in this context.")]
         public int FindInteger(string settingName, int defaultValue)
         {
-
             var value = FindSettingValue(settingName);
 
-            int result;
-
-            var parseResult = int.TryParse(value, NumberStyles.Integer, CultureInfo.InvariantCulture, out result);
+            var parseResult = int.TryParse(value, NumberStyles.Integer, CultureInfo.InvariantCulture, out int result);
 
             result = parseResult ? result : defaultValue;
 
             return result;
-            
         }
 
         /// <summary>
@@ -242,13 +199,11 @@ namespace Stumps
         /// <returns>A <see cref="T:System.String"/> containing the value for the specified <paramref name="settingName"/>.</returns>
         public string FindString(string settingName, string defaultValue)
         {
-
             var value = FindSettingValue(settingName);
 
             value = value ?? defaultValue;
 
             return value;
-            
         }
 
         /// <summary>
@@ -257,13 +212,11 @@ namespace Stumps
         /// <returns>An enumerable list of <see cref="T:Stumps.RuleSetting"/> objects.</returns>
         public IEnumerable<RuleSetting> ToEnumerableList()
         {
-
             return this._dict.Keys.Select(key => new RuleSetting
             {
                 Name = key,
                 Value = this._dict[key]
             }).ToList();
-
         }
 
         /// <summary>
@@ -273,7 +226,6 @@ namespace Stumps
         /// <param name="value">The value of the setting.</param>
         private void AddOrUpdateSetting(string settingName, string value)
         {
-        
             if (_dict.ContainsKey(settingName))
             {
                 _dict[settingName] = value;
@@ -282,7 +234,6 @@ namespace Stumps
             {
                 _dict.Add(settingName, value);
             }
-
         }
 
         /// <summary>
@@ -293,12 +244,8 @@ namespace Stumps
         /// <remarks>A <c>null</c> value is returned if the setting is not found.</remarks>
         private string FindSettingValue(string settingName)
         {
-
             var value = _dict.ContainsKey(settingName) ? _dict[settingName] : null;
             return value;
-
         }
-
     }
-
 }

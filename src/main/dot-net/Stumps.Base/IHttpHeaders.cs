@@ -1,6 +1,5 @@
 namespace Stumps
 {
-
     using System.Collections.Generic;
 
     /// <summary>
@@ -8,7 +7,6 @@ namespace Stumps
     /// </summary>
     public interface IHttpHeaders
     {
-
         /// <summary>
         ///     Gets the count of headers in the dictionary.
         /// </summary>
@@ -60,7 +58,5 @@ namespace Stumps
         /// <param name="headerName">The name of the header to remove.</param>
         /// <returns><c>true</c> if the header was found and removed; otherwise, <c>false</c>.</returns>
         bool Remove(string headerName);
-
     }
-
 }

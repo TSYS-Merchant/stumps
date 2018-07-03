@@ -1,6 +1,5 @@
 ﻿namespace Stumps
 {
-
     using System;
     using System.Collections.Generic;
 
@@ -9,7 +8,6 @@
     /// </summary>
     public sealed class Stump
     {
-
         private readonly List<IStumpRule> _ruleList;
         private IStumpsHttpResponse _response;
 
@@ -20,17 +18,15 @@
         /// <exception cref="System.ArgumentNullException"><paramref name="stumpId"/> is <c>null</c>, an empty string, or only contains white space.</exception>
         public Stump(string stumpId)
         {
-
             if (string.IsNullOrWhiteSpace(stumpId))
             {
-                throw new ArgumentNullException("stumpId");
+                throw new ArgumentNullException(nameof(stumpId));
             }
 
             this.StumpId = stumpId;
             _ruleList = new List<IStumpRule>();
 
             _response = null;
-
         }
 
         /// <summary>
@@ -39,10 +35,7 @@
         /// <value>
         ///     The number of rules for the Stump.
         /// </value>
-        public int Count
-        {
-            get { return _ruleList.Count; }
-        }
+        public int Count => _ruleList.Count;
 
         /// <summary>
         ///     Gets or sets the response for the Stump.
@@ -52,20 +45,8 @@
         /// </value>
         public IStumpsHttpResponse Response
         {
-            get
-            {
-                return _response;
-            }
-
-            set
-            {
-                if (value == null)
-                {
-                    throw new ArgumentNullException("value");
-                }
-
-                _response = value;
-            }
+            get => _response;
+            set => _response = value ?? throw new ArgumentNullException(nameof(value));
         }
 
         /// <summary>
@@ -111,14 +92,9 @@
         /// <param name="rule">The rule to add to the Stump.</param>
         public void AddRule(IStumpRule rule)
         {
-
-            if (rule == null)
-            {
-                throw new ArgumentNullException("rule");
-            }
+            rule = rule ?? throw new ArgumentNullException(nameof(rule));
 
             _ruleList.Add(rule);
-
         }
 
         /// <summary>
@@ -130,7 +106,6 @@
         /// </returns>
         public bool IsMatch(IStumpsHttpContext context)
         {
-
             if (context == null || _response == null || _ruleList.Count == 0)
             {
                 return false;
@@ -149,9 +124,6 @@
             }
 
             return match;
-
         }
-
     }
-
 }

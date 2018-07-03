@@ -1,6 +1,5 @@
 ﻿namespace Stumps
 {
-
     using System;
     using System.Text.RegularExpressions;
 
@@ -9,7 +8,6 @@
     /// </summary>
     internal class TextMatch
     {
-        
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:Stumps.TextMatch"/> class.
         /// </summary>
@@ -17,7 +15,6 @@
         /// <param name="ignoreCase">If set to <c>true</c>, capitalization is ignored.</param>
         public TextMatch(string value, bool ignoreCase)
         {
-
             if (value.StartsWith(BaseResources.NotPattern, StringComparison.OrdinalIgnoreCase))
             {
                 this.InverseEvaluation = true;
@@ -30,7 +27,6 @@
                 value = value.Remove(0, BaseResources.RegExPattern.Length);
 
                 this.RegexValue = ignoreCase ? new Regex(value, RegexOptions.IgnoreCase) : new Regex(value);
-
             }
             else
             {
@@ -38,7 +34,6 @@
             }
 
             this.ComparisonMethod = ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
-
         }
 
         /// <summary>
@@ -50,7 +45,6 @@
         protected StringComparison ComparisonMethod
         {
             get;
-            private set;
         }
 
         /// <summary>
@@ -108,14 +102,10 @@
         /// <returns><c>true</c> if the text matches; otherwise, <c>false</c>.</returns>
         public virtual bool IsMatch(string value)
         {
-
             var match = this.UseRegexEvaluation ? this.RegexValue.IsMatch(value) : this.StringValue.Equals(value, this.ComparisonMethod);
             match = match ^ this.InverseEvaluation;
 
             return match;
-
         }
-
     }
-
 }

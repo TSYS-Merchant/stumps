@@ -1,6 +1,5 @@
 namespace Stumps
 {
-
     using System;
     using System.Text;
     using Stumps.Http;
@@ -10,7 +9,6 @@ namespace Stumps
     /// </summary>
     public class BasicHttpResponse : IStumpsHttpResponse
     {
-
         private byte[] _bodyBuffer;
 
         /// <summary>
@@ -18,12 +16,7 @@ namespace Stumps
         /// </summary>
         public BasicHttpResponse()
         {
-
-            this.Headers = new HttpHeaders();
-            this.StatusCode = HttpStatusCodes.HttpOk;
-            this.StatusDescription = HttpStatusCodes.GetStatusDescription(this.StatusCode);
             _bodyBuffer = new byte[0];
-
         }
 
         /// <summary>
@@ -34,7 +27,7 @@ namespace Stumps
         /// </value>
         public int BodyLength
         {
-            get { return _bodyBuffer.Length; }
+            get => _bodyBuffer.Length;
         }
 
         /// <summary>
@@ -46,8 +39,7 @@ namespace Stumps
         public IHttpHeaders Headers
         {
             get;
-            private set;
-        }
+        } = new HttpHeaders();
 
         /// <summary>
         ///     Gets or sets the redirect address.
@@ -71,7 +63,7 @@ namespace Stumps
         {
             get;
             set;
-        }
+        } = HttpStatusCodes.HttpOk;
 
         /// <summary>
         ///     Gets or sets the description of the HTTP status code.
@@ -83,7 +75,7 @@ namespace Stumps
         {
             get;
             set;
-        }
+        } = HttpStatusCodes.GetStatusDescription(HttpStatusCodes.HttpOk);
 
         /// <summary>
         ///     Appends a byte array to the body of the HTTP response.
@@ -91,7 +83,6 @@ namespace Stumps
         /// <param name="buffer">The bytes to append to the body of the response.</param>
         public virtual void AppendToBody(byte[] buffer)
         {
-
             if (buffer == null)
             {
                 return;
@@ -104,7 +95,6 @@ namespace Stumps
             Buffer.BlockCopy(buffer, 0, newBuffer, _bodyBuffer.Length, buffer.Length);
 
             _bodyBuffer = newBuffer;
-
         }
 
         /// <summary>
@@ -112,10 +102,7 @@ namespace Stumps
         /// </summary>
         /// <param name="value">The value to append to the body of the HTTP response.</param>
         /// <remarks>The <paramref name="value"/> will be converted to a byte array using UTF8 encoding.</remarks>
-        public virtual void AppendToBody(string value)
-        {
-            AppendToBody(value, Encoding.UTF8);
-        }
+        public virtual void AppendToBody(string value) => AppendToBody(value, Encoding.UTF8);
 
         /// <summary>
         /// Appends a string value to the body of the HTTP response using a specified encoding.
@@ -124,11 +111,7 @@ namespace Stumps
         /// <param name="encoding">The encoding used to convert the <paramref name="value"/> into a byte array.</param>
         public virtual void AppendToBody(string value, Encoding encoding)
         {
-
-            if (encoding == null)
-            {
-                throw new ArgumentNullException("encoding");
-            }
+            encoding = encoding ?? throw new ArgumentNullException(nameof(encoding));
 
             if (string.IsNullOrEmpty(value))
             {
@@ -136,17 +119,14 @@ namespace Stumps
             }
 
             var bytes = encoding.GetBytes(value);
-            AppendToBody(bytes);
 
+            AppendToBody(bytes);
         }
 
         /// <summary>
         ///     Clears the existing body of the HTTP response.
         /// </summary>
-        public virtual void ClearBody()
-        {
-            _bodyBuffer = new byte[0];
-        }
+        public virtual void ClearBody() => _bodyBuffer = new byte[0];
 
         /// <summary>
         ///     Gets the bytes for the HTTP body.
@@ -154,20 +134,14 @@ namespace Stumps
         /// <returns>
         ///     An array of <see cref="T:System.Byte"/> values representing the HTTP body.
         /// </returns>
-        public virtual byte[] GetBody()
-        {
-            return _bodyBuffer;
-        }
+        public virtual byte[] GetBody() =>  _bodyBuffer;
 
         /// <summary>
         ///     Gets the body of the HTTP response as a <see cref="T:System.String"/>.
         /// </summary>
         /// <returns>A <see cref="T:System.String"/> representing the body of the HTTP response.</returns>
         /// <remarks>The body is decoded using UTF8 encoding.</remarks>
-        public virtual string GetBodyAsString()
-        {
-            return GetBodyAsString(Encoding.UTF8);
-        }
+        public virtual string GetBodyAsString() => GetBodyAsString(Encoding.UTF8);
 
         /// <summary>
         ///     Gets the body of the HTTP response as a <see cref="T:System.String"/>.
@@ -176,16 +150,9 @@ namespace Stumps
         /// <remarks>The body is decoded using UTF8 encoding.</remarks>
         public virtual string GetBodyAsString(Encoding encoding)
         {
-
-            if (encoding == null)
-            {
-                throw new ArgumentNullException("encoding");
-            }
+            encoding = encoding ?? throw new ArgumentNullException(nameof(encoding));
 
             return encoding.GetString(_bodyBuffer);
-
         }
-
     }
-
 }

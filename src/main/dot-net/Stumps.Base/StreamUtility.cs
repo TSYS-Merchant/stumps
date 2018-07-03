@@ -1,6 +1,5 @@
 ﻿namespace Stumps
 {
-
     using System;
     using System.IO;
     using System.Text;
@@ -10,10 +9,6 @@
     /// </summary>
     public static class StreamUtility
     {
-
-        /// <summary>
-        ///     The default buffer size used by the stream utility.
-        /// </summary>
         private const int BufferSize = 4096;
 
         /// <summary>
@@ -26,11 +21,7 @@
         /// <exception cref="System.ArgumentNullException"><paramref name="stream"/> is <c>null</c>.</exception>
         public static byte[] ConvertStreamToByteArray(Stream stream)
         {
-
-            if (stream == null)
-            {
-                throw new ArgumentNullException("stream");
-            }
+            stream = stream ?? throw new ArgumentNullException(nameof(stream));
 
             byte[] streamAsBytes;
 
@@ -41,7 +32,6 @@
             }
 
             return streamAsBytes;
-
         }
 
         /// <summary>
@@ -51,9 +41,7 @@
         /// <param name="outputStream">The output stream.</param>
         public static void CopyStream(Stream inputStream, Stream outputStream)
         {
-
             StreamUtility.CopyStream(inputStream, outputStream, -1);
-
         }
 
         /// <summary>
@@ -69,16 +57,8 @@
         /// </exception>
         public static void CopyStream(Stream inputStream, Stream outputStream, int startingPosition)
         {
-
-            if (inputStream == null)
-            {
-                throw new ArgumentNullException("inputStream");
-            }
-
-            if (outputStream == null)
-            {
-                throw new ArgumentNullException("outputStream");
-            }
+            inputStream = inputStream ?? throw new ArgumentNullException(nameof(inputStream));
+            outputStream = outputStream ?? throw new ArgumentNullException(nameof(outputStream));
 
             var buffer = new byte[StreamUtility.BufferSize];
             int bytesRead;
@@ -97,7 +77,6 @@
             {
                 inputStream.Position = startingPosition;
             }
-
         }
 
         /// <summary>
@@ -112,19 +91,10 @@
         /// </exception>
         public static void WriteUtf8StringToStream(string value, Stream stream)
         {
-
-            if (value == null)
-            {
-                throw new ArgumentNullException("value");
-            }
-
-            if (stream == null)
-            {
-                throw new ArgumentNullException("stream");
-            }
+            value = value ?? throw new ArgumentNullException(nameof(value));
+            stream = stream ?? throw new ArgumentNullException(nameof(stream));
 
             WriteStringToStream(value, stream, Encoding.UTF8);
-
         }
 
         /// <summary>
@@ -135,14 +105,10 @@
         /// <param name="encoding">The encoding used when writing to the stream.</param>
         private static void WriteStringToStream(string value, Stream stream, Encoding encoding)
         {
-
             using (var writer = new StreamWriter(stream, encoding))
             {
                 writer.Write(value);
             }
-
         }
-
     }
-
 }

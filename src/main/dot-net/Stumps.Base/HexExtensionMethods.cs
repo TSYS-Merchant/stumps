@@ -1,6 +1,5 @@
 namespace Stumps
 {
-
     using System;
     using System.Collections.Generic;
     using System.Globalization;
@@ -10,7 +9,6 @@ namespace Stumps
     /// </summary>
     public static class HexExtensionMethods
     {
-
         /// <summary>
         ///     Converts a byte array into a hex-encoded string.
         /// </summary>
@@ -18,7 +16,6 @@ namespace Stumps
         /// <returns>A hex-encoded representation of <paramref name="byteArray"/>.</returns>
         public static string ToHexString(this byte[] byteArray)
         {
-
             if (byteArray == null)
             {
                 return null;
@@ -27,7 +24,6 @@ namespace Stumps
             var result = BitConverter.ToString(byteArray);
             result = result.Replace("-", string.Empty);
             return result;
-
         }
 
         /// <summary>
@@ -37,7 +33,6 @@ namespace Stumps
         /// <returns>An array of <see cref="T:System.Byte"/> values decoded from <paramref name="hexValue"/>.</returns>
         public static byte[] ToByteArray(this string hexValue)
         {
-
             if (hexValue == null)
             {
                 return null;
@@ -53,9 +48,6 @@ namespace Stumps
             }
 
             return bytes.ToArray();
-
         }
-
     }
-
 }

@@ -1,12 +1,10 @@
 namespace Stumps
 {
-
     /// <summary>
     ///     An enumeration the origin of the HTTP response.
     /// </summary>
     public enum HttpResponseOrigin
     {
-
         /// <summary>
         ///     The request has not been processed, and the HTTP response does not have an origin.
         /// </summary>
@@ -31,7 +29,5 @@ namespace Stumps
         ///     The request was not processed, and an HTTP 503 Service Unavailable response was returned.
         /// </summary>
         ServiceUnavailable = 4
-
     }
-
 }

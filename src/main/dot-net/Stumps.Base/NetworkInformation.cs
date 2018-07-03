@@ -1,6 +1,5 @@
 ﻿namespace Stumps
 {
-
     using System;
     using System.Net;
     using System.Net.NetworkInformation;
@@ -11,7 +10,6 @@
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1724:TypeNamesShouldNotMatchNamespaces", Justification = "The name is preferred and should not cause any real conflicts when being used.")]
     public static class NetworkInformation
     {
-
         /// <summary>
         /// The minimum value used when trying to find an open TCP port.
         /// </summary>
@@ -30,7 +28,6 @@
         /// </returns>
         public static int FindRandomOpenPort()
         {
-
             var properties = IPGlobalProperties.GetIPGlobalProperties();
             var endpointList = properties.GetActiveTcpListeners();
 
@@ -63,7 +60,6 @@
             }
 
             return foundPort;
-
         }
 
         /// <summary>
@@ -75,7 +71,6 @@
         /// </returns>
         public static bool IsPortBeingUsed(int localPort)
         {
-
             if (localPort < IPEndPoint.MinPort || localPort > IPEndPoint.MaxPort)
             {
                 return true;
@@ -93,9 +88,6 @@
             }
 
             return false;
-
         }
-
     }
-
 }

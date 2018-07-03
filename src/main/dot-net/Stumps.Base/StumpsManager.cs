@@ -1,6 +1,5 @@
 namespace Stumps
 {
-
     using System;
     using System.Collections.Generic;
     using System.Threading;
@@ -10,12 +9,10 @@ namespace Stumps
     /// </summary>
     internal class StumpsManager : IStumpsManager
     {
-
         private readonly List<Stump> _stumpList;
         private readonly Dictionary<string, Stump> _stumpReference;
 
         private ReaderWriterLockSlim _lock;
-
         private bool _disposed;
 
         /// <summary>
@@ -23,20 +20,15 @@ namespace Stumps
         /// </summary>
         public StumpsManager()
         {
-
             _stumpList = new List<Stump>();
             _stumpReference = new Dictionary<string, Stump>(StringComparer.OrdinalIgnoreCase);
             _lock = new ReaderWriterLockSlim(LockRecursionPolicy.NoRecursion);
-
         }
 
         /// <summary>
         ///     Finalizes an instance of the <see cref="T:Stumps.StumpsManager"/> class.
         /// </summary>
-        ~StumpsManager()
-        {
-            Dispose(false);
-        }
+        ~StumpsManager() => Dispose(false);
 
         /// <summary>
         /// Gets the count of Stumps in the collection.
@@ -46,7 +38,7 @@ namespace Stumps
         /// </value>
         public int Count
         {
-            get { return _stumpList.Count; }
+            get => _stumpList.Count;
         }
 
         /// <summary>
@@ -57,10 +49,9 @@ namespace Stumps
         /// <exception cref="System.ArgumentException">A <see cref="T:Stumps.Stump" /> with the same identifier already exists.</exception>
         public void AddStump(Stump stump)
         {
-            
             if (stump == null)
             {
-                throw new ArgumentNullException("stump");
+                throw new ArgumentNullException(nameof(stump));
             }
 
             if (_stumpReference.ContainsKey(stump.StumpId))
@@ -74,7 +65,6 @@ namespace Stumps
             _stumpReference.Add(stump.StumpId, stump);
 
             _lock.ExitWriteLock();
-
         }
 
         /// <summary>
@@ -83,7 +73,6 @@ namespace Stumps
         /// <param name="stumpId">The  unique identifier for the stump to remove.</param>
         public void DeleteStump(string stumpId)
         {
-            
             _lock.EnterWriteLock();
 
             if (_stumpReference.ContainsKey(stumpId))
@@ -94,7 +83,6 @@ namespace Stumps
             }
 
             _lock.ExitWriteLock();
-
         }
 
         /// <summary>
@@ -102,10 +90,8 @@ namespace Stumps
         /// </summary>
         public void Dispose()
         {
-
             this.Dispose(true);
             GC.SuppressFinalize(this);
-
         }
 
         /// <summary>
@@ -120,29 +106,26 @@ namespace Stumps
         /// </remarks>
         public Stump FindStump(string stumpId)
         {
-
             _lock.EnterReadLock();
 
             var stump = _stumpReference[stumpId];
             _lock.ExitReadLock();
 
             return stump;
-
         }
 
         /// <summary>
-        ///     Finds the Stump that matches an incomming HTTP request.
+        ///     Finds the Stump that matches an incoming HTTP request.
         /// </summary>
         /// <param name="context">The incoming HTTP request context.</param>
         /// <returns>
-        ///     A <see cref="T:Stumps.Stump"/> that matches the incomming HTTP request.
+        ///     A <see cref="T:Stumps.Stump"/> that matches the incoming HTTP request.
         /// </returns>
         /// <remarks>
         ///     A <c>null</c> value is returned if a matching Stump is not found.
         /// </remarks>
         public Stump FindStumpForContext(IStumpsHttpContext context)
         {
-
             Stump foundStump = null;
 
             _lock.EnterReadLock();
@@ -159,7 +142,6 @@ namespace Stumps
             _lock.ExitReadLock();
 
             return foundStump;
-
         }
 
         /// <summary>
@@ -168,21 +150,18 @@ namespace Stumps
         /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
         protected virtual void Dispose(bool disposing)
         {
-
-            if (disposing && !_disposed)
+            if (!disposing || _disposed)
             {
-                _disposed = true;
-
-                if (_lock != null)
-                {
-                    _lock.Dispose();
-                    _lock = null;
-                }
-
+                return;
             }
 
+            _disposed = true;
+
+            if (_lock != null)
+            {
+                _lock.Dispose();
+                _lock = null;
+            }
         }
-
     }
-
 }

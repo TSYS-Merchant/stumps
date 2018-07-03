@@ -1,6 +1,5 @@
 ﻿namespace Stumps
 {
-
     using System;
     using System.Net;
     using System.Threading;
@@ -11,7 +10,6 @@
     /// </summary>
     public sealed class StumpsServer : IStumpsServer
     {
-
         private readonly object _syncRoot;
         private readonly IStumpsManager _stumpsManager;
 
@@ -21,7 +19,7 @@
         private FallbackResponse _defaultResponse;
         private Uri _remoteHttpServer;
         private int _port;
-        private bool _useHttpsForIncommingConnections;
+        private bool _useHttpsForIncomingConnections;
         private volatile bool _stumpsEnabled;
 
         private int _requestCounter;
@@ -44,16 +42,12 @@
 
             this.DefaultResponse = FallbackResponse.Http503ServiceUnavailable;
             this.StumpsEnabled = true;
-
         }
         
         /// <summary>
         ///     Finalizes an instance of the <see cref="T:Stumps.StumpsServer"/> class.
         /// </summary>
-        ~StumpsServer()
-        {
-            Dispose();
-        }
+        ~StumpsServer() => Dispose();
 
         /// <summary>
         ///     Occurs when the server finishes processing an HTTP request.
@@ -67,7 +61,7 @@
         public event EventHandler<StumpsContextEventArgs> RequestProcessed;
 
         /// <summary>
-        ///     Occurs when the server receives an incomming HTTP request.
+        ///     Occurs when the server receives an incoming HTTP request.
         /// </summary>
         public event EventHandler<StumpsContextEventArgs> RequestReceived;
 
@@ -82,11 +76,7 @@
         /// <exception cref="System.InvalidOperationException">The value cannot be changed while the server is running.</exception>
         public FallbackResponse DefaultResponse
         {
-            get
-            {
-                return _defaultResponse;
-            }
-
+            get => _defaultResponse;
             set
             {
                 if (this.IsRunning)
@@ -104,10 +94,7 @@
         /// <value>
         ///   <c>true</c> if the server is running; otherwise, <c>false</c>.
         /// </value>
-        public bool IsRunning
-        {
-            get { return _started; }
-        }
+        public bool IsRunning => _started;
 
         /// <summary>
         ///     Gets the port the HTTP server is using to listen for traffic.
@@ -119,11 +106,7 @@
         /// <exception cref="System.ArgumentOutOfRangeException">The value is not a valid TCP port.</exception>
         public int ListeningPort
         {
-            get
-            {
-                return _port;
-            }
-
+            get => _port;
             set
             {
                 if (this.IsRunning)
@@ -133,7 +116,7 @@
 
                 if (value < IPEndPoint.MinPort || value > IPEndPoint.MaxPort)
                 {
-                    throw new ArgumentOutOfRangeException("value");
+                    throw new ArgumentOutOfRangeException(nameof(value));
                 }
 
                 _port = value;
@@ -141,23 +124,18 @@
         }
 
         /// <summary>
-        ///     Gets the remote HTTP that is contacted when a <see cref="T:Stumps.Stump" /> is unavailable to handle the incomming request.
+        ///     Gets the remote HTTP that is contacted when a <see cref="T:Stumps.Stump" /> is unavailable to handle the incoming request.
         /// </summary>
         /// <value>
-        ///     The remote HTTP that is contacted when a <see cref="T:Stumps.Stump" /> is unavailable to handle the incomming request.
+        ///     The remote HTTP that is contacted when a <see cref="T:Stumps.Stump" /> is unavailable to handle the incoming request.
         /// </value>
         /// <exception cref="System.InvalidOperationException">The value cannot be changed while the server is running.</exception>
         /// <exception cref="System.ArgumentOutOfRangeException">The URI for the remote HTTP server is invalid.</exception>
         public Uri RemoteHttpServer
         {
-            get
-            {
-                return _remoteHttpServer;
-            }
-
+            get => _remoteHttpServer;
             set
             {
-
                 if (this.IsRunning)
                 {
                     throw new InvalidOperationException(BaseResources.ServerIsRunning);
@@ -182,9 +160,7 @@
                 }
 
                 _remoteHttpServer = value;
-
             }
-
         }
 
         /// <summary>
@@ -195,7 +171,7 @@
         /// </value>
         public int RequestsServedByRemoteHost
         {
-            get { return _remoteHostCounter; }
+            get => _remoteHostCounter;
         }
 
         /// <summary>
@@ -206,7 +182,7 @@
         /// </value>
         public int RequestsServedWithStump
         {
-            get { return _stumpsCounter; }
+            get => _stumpsCounter;
         }
 
         /// <summary>
@@ -215,10 +191,7 @@
         /// <value>
         /// The count of Stumps in the collection.
         /// </value>
-        public int StumpCount
-        {
-            get { return _stumpsManager.Count; }
-        }
+        public int StumpCount => _stumpsManager.Count;
 
         /// <summary>
         /// Gets or sets a value indicating whether to use stumps when serving requests.
@@ -228,11 +201,7 @@
         /// </value>
         public bool StumpsEnabled
         {
-            get
-            {
-                return _stumpsEnabled;
-            }
-
+            get => _stumpsEnabled;
             set
             {
                 _stumpsEnabled = value;
@@ -248,22 +217,18 @@
         /// </value>
         public int TotalRequestsServed
         {
-            get { return _requestCounter; }
+            get => _requestCounter;
         }
 
         /// <summary>
-        ///     Gets or sets a value indicating whether use HTTPS for incomming connections rather than HTTP.
+        ///     Gets or sets a value indicating whether use HTTPS for incoming connections rather than HTTP.
         /// </summary>
         /// <value>
-        ///     <c>true</c> to use HTTPS for incomming HTTP connections rather than HTTP.
+        ///     <c>true</c> to use HTTPS for incoming HTTP connections rather than HTTP.
         /// </value>
-        public bool UseHttpsForIncommingConnections
+        public bool UseHttpsForIncomingConnections
         {
-            get
-            {
-                return _useHttpsForIncommingConnections;
-            }
-
+            get => _useHttpsForIncomingConnections;
             set
             {
                 if (this.IsRunning)
@@ -271,7 +236,7 @@
                     throw new InvalidOperationException(BaseResources.ServerIsRunning);
                 }
 
-                _useHttpsForIncommingConnections = value;
+                _useHttpsForIncomingConnections = value;
             }
         }
 
@@ -295,29 +260,21 @@
         /// <param name="stump">The <see cref="T:Stumps.Stump" /> to add to the collection.</param>
         /// <exception cref="System.ArgumentNullException"><paramref name="stump"/> is <c>null</c>.</exception>
         /// <exception cref="System.ArgumentException">A <see cref="T:Stumps.Stump" /> with the same identifier already exists.</exception>
-        public void AddStump(Stump stump)
-        {
-            _stumpsManager.AddStump(stump);
-        }
+        public void AddStump(Stump stump) => _stumpsManager.AddStump(stump);
 
         /// <summary>
         ///     Deletes the specified stump from the collection.
         /// </summary>
         /// <param name="stumpId">The  unique identifier for the stump to remove.</param>
-        public void DeleteStump(string stumpId)
-        {
-            _stumpsManager.DeleteStump(stumpId);
-        }
+        public void DeleteStump(string stumpId) => _stumpsManager.DeleteStump(stumpId);
 
         /// <summary>
         ///     Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
         /// </summary>
         public void Dispose()
         {
-
             if (!_disposed)
             {
-
                 _disposed = true;
 
                 if (_started)
@@ -332,7 +289,6 @@
             }
 
             GC.SuppressFinalize(this);
-
         }
 
         /// <summary>
@@ -345,20 +301,15 @@
         /// <remarks>
         ///     A <c>null</c> value is returned if a Stump is not found.
         /// </remarks>
-        public Stump FindStump(string stumpId)
-        {
-            return _stumpsManager.FindStump(stumpId);
-        }
+        public Stump FindStump(string stumpId) => _stumpsManager.FindStump(stumpId);
         
         /// <summary>
         ///     Stops this instance of the Stumps server.
         /// </summary>
         public void Shutdown()
         {
-
             lock (_syncRoot)
             {
-
                 if (!_started)
                 {
                     return;
@@ -369,9 +320,7 @@
 
                 _server.Dispose();
                 _server = null;
-
             }
-
         }
 
         /// <summary>
@@ -379,10 +328,8 @@
         /// </summary>
         public void Start()
         {
-
             lock (_syncRoot)
             {
-
                 if (_started)
                 {
                     return;
@@ -412,7 +359,7 @@
                     pipeline.Add(stumpNotFoundHandler);
                 }
 
-                var scheme = _useHttpsForIncommingConnections ? ServerScheme.Https : ServerScheme.Http;
+                var scheme = _useHttpsForIncomingConnections ? ServerScheme.Https : ServerScheme.Http;
                 _server = new HttpServer(scheme, _port, pipeline);
 
                 _server.RequestFinished += ServerRequestFinished;
@@ -420,9 +367,7 @@
                 _server.RequestReceived += ServerRequestStarted;
 
                 _server.StartListening();
-
             }
-
         }
 
         /// <summary>
@@ -432,7 +377,6 @@
         /// <param name="e">The <see cref="T:Stumps.StumpsContextEventArgs"/> instance containing the event data.</param>
         private void ServerRequestFinished(object sender, StumpsContextEventArgs e)
         {
-
             // Increment the request counter
             Interlocked.Increment(ref _requestCounter);
 
@@ -448,11 +392,7 @@
             }
 
             // Raise the processed event
-            if (this.RequestFinished != null)
-            {
-                this.RequestFinished(this, e);
-            }
-
+            this.RequestFinished?.Invoke(this, e);
         }
 
         /// <summary>
@@ -460,32 +400,14 @@
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="StumpsContextEventArgs"/> instance containing the event data.</param>
-        private void ServerRequestProcessed(object sender, StumpsContextEventArgs e)
-        {
-
-            // Raise the request processed event
-            if (this.RequestProcessed != null)
-            {
-                this.RequestProcessed(this, e);
-            }
-
-        }
+        private void ServerRequestProcessed(object sender, StumpsContextEventArgs e) => this.RequestProcessed?.Invoke(this, e);
 
         /// <summary>
         ///     Handles the RequestStarted event of the server instance.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="T:Stumps.StumpsContextEventArgs"/> instance containing the event data.</param>
-        private void ServerRequestStarted(object sender, StumpsContextEventArgs e)
-        {
-
-            // Raise the request received event
-            if (this.RequestReceived != null)
-            {
-                this.RequestReceived(this, e);
-            }
-
-        }
+        private void ServerRequestStarted(object sender, StumpsContextEventArgs e) => this.RequestReceived?.Invoke(this, e);
 
         /// <summary>
         ///     Updates the enabled flag of the Stumps handler.
@@ -493,14 +415,10 @@
         /// <param name="enabled">If set to <c>true</c>, Stumps are enabled.</param>
         private void UpdateStumpsEnabledFlag(bool enabled)
         {
-
             if (_server != null && _stumpsHandler != null)
             {
                 _stumpsHandler.Enabled = enabled;
             }
-
         }
-
     }
-
 }

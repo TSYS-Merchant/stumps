@@ -1,12 +1,10 @@
 ﻿namespace Stumps
 {
-
     /// <summary>
     ///     A class that represents a set of String based functions.
     /// </summary>
     public static class TextAnalyzer
     {
-
         /// <summary>
         /// The allowed threshold for a byte array to be considered text.
         /// </summary>
@@ -21,7 +19,6 @@
         /// </returns>
         public static bool IsText(byte[] buffer)
         {
-
             if (buffer == null || buffer.Length == 0)
             {
                 return false;
@@ -46,9 +43,6 @@
             }
 
             return isText;
-
         }
-
     }
-
 }

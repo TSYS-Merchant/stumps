@@ -1,6 +1,5 @@
 namespace Stumps
 {
-
     using System;
 
     /// <summary>
@@ -8,7 +7,6 @@ namespace Stumps
     /// </summary>
     internal class ReadOnlyHttpHeaders : HttpHeaders
     {
-
         /// <summary>
         ///     Gets a value indicating whether the <see cref="T:Stumps.IHttpHeaders" /> is read-only.
         /// </summary>
@@ -17,9 +15,9 @@ namespace Stumps
         /// </value>
         public override bool IsReadOnly
         {
-            get { return true; }
+            get => true;
         }
-
+        
         /// <summary>
         ///     Gets or sets the <see cref="System.String"/> value for the specified header name.
         /// </summary>
@@ -30,18 +28,15 @@ namespace Stumps
         /// <exception cref="System.NotSupportedException">Thrown when altering the value of a header.</exception>
         public override string this[string headerName]
         {
-            get { return base[headerName]; }
-            set { throw new NotSupportedException(); }
+            get => base[headerName];
+            set => throw new NotSupportedException();
         }
 
         /// <summary>
         ///     Clears all existing headers from the instance.
         /// </summary>
         /// <exception cref="System.NotSupportedException">Always thrown.</exception>
-        public override void Clear()
-        {
-            throw new NotSupportedException();
-        }
+        public override void Clear() => throw new NotSupportedException();
 
         /// <summary>
         ///     Removes the header with the specified name.
@@ -51,28 +46,19 @@ namespace Stumps
         ///   <c>true</c> if the header was found and removed; otherwise, <c>false</c>.
         /// </returns>
         /// <exception cref="System.NotSupportedException">Always thrown.</exception>
-        public override bool Remove(string name)
-        {
-            throw new NotSupportedException();
-        }
+        public override bool Remove(string name) => throw new NotSupportedException();
 
         /// <summary>
         ///     Clears all existing headers from the instance.
         /// </summary>
-        internal void ClearInternal()
-        {
-            base.Clear();
-        }
+        internal void ClearInternal() => base.Clear();
 
         /// <summary>
         ///     Adds or updates an existing header.
         /// </summary>
         /// <param name="name">The name of the header to add or update.</param>
         /// <param name="value">The value of the header.</param>
-        internal void AddOrUpdateInternal(string name, string value) 
-        {
-            base[name] = value;
-        }
+        internal void AddOrUpdateInternal(string name, string value) => base[name] = value;
 
         /// <summary>
         ///     Removes the header with the specified name.
@@ -81,11 +67,6 @@ namespace Stumps
         /// <returns>
         ///   <c>true</c> if the header was found and removed; otherwise, <c>false</c>.
         /// </returns>
-        internal bool RemoveInternal(string name)
-        {
-            return base.Remove(name);
-        }
-
+        internal bool RemoveInternal(string name) => base.Remove(name);
     }
-
 }

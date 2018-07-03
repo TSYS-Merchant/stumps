@@ -1,6 +1,5 @@
 namespace Stumps
 {
-
     using System;
 
     /// <summary>
@@ -8,9 +7,8 @@ namespace Stumps
     /// </summary>
     public interface IStumpsServer : IDisposable
     {
-
         /// <summary>
-        ///     Occurs when the server processed an incomming HTTP request and returned the response to the client.
+        ///     Occurs when the server processed an incoming HTTP request and returned the response to the client.
         /// </summary>
         event EventHandler<StumpsContextEventArgs> RequestFinished;
 
@@ -21,7 +19,7 @@ namespace Stumps
         event EventHandler<StumpsContextEventArgs> RequestProcessed;
 
         /// <summary>
-        ///     Occurs when the server receives an incomming HTTP request.
+        ///     Occurs when the server receives an incoming HTTP request.
         /// </summary>
         event EventHandler<StumpsContextEventArgs> RequestReceived;
 
@@ -35,7 +33,7 @@ namespace Stumps
         /// </value>
         /// <exception cref="System.InvalidOperationException">The value cannot be changed while the server is running.</exception>
         FallbackResponse DefaultResponse { get; set; }
-        
+
         /// <summary>
         ///     Gets a value indicating whether the server is running.
         /// </summary>
@@ -55,10 +53,10 @@ namespace Stumps
         int ListeningPort { get; }
 
         /// <summary>
-        ///     Gets or sets the remote HTTP that is contacted when a <see cref="T:Stumps.Stump" /> is unavailable to handle the incomming request.
+        ///     Gets or sets the remote HTTP that is contacted when a <see cref="T:Stumps.Stump" /> is unavailable to handle the incoming request.
         /// </summary>
         /// <value>
-        ///     The remote HTTP that is contacted when a <see cref="T:Stumps.Stump" /> is unavailable to handle the incomming request.
+        ///     The remote HTTP that is contacted when a <see cref="T:Stumps.Stump" /> is unavailable to handle the incoming request.
         /// </value>
         /// <exception cref="System.InvalidOperationException">The value cannot be changed while the server is running.</exception>
         /// <exception cref="System.ArgumentOutOfRangeException">The URI for the remote HTTP server is invalid.</exception>
@@ -105,12 +103,12 @@ namespace Stumps
         int TotalRequestsServed { get; }
 
         /// <summary>
-        ///     Gets or sets a value indicating whether use HTTPS for incomming connections rather than HTTP.
+        ///     Gets or sets a value indicating whether use HTTPS for incoming connections rather than HTTP.
         /// </summary>
         /// <value>
-        ///     <c>true</c> to use HTTPS for incomming HTTP connections rather than HTTP.
+        ///     <c>true</c> to use HTTPS for incoming HTTP connections rather than HTTP.
         /// </value>
-        bool UseHttpsForIncommingConnections { get; set; }
+        bool UseHttpsForIncomingConnections { get; set; }
 
         /// <summary>
         ///     Adds a new <see cref="T:Stumps.Stump" /> with a specified identifier to the collection.
@@ -156,7 +154,5 @@ namespace Stumps
         ///     Starts this instance of the Stumps server.
         /// </summary>
         void Start();
-
     }
-
 }
