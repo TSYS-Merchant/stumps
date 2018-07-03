@@ -64,16 +64,14 @@
             // Populate the headers for the new HTTP request from the incoming HTTP request
             PopulateRemoteHeadersFromContext(context, remoteWebRequest);
 
-            // Setup a repsponse used by the class
-            HttpWebResponse response = null;
-
             // Populate the HTTP body for the request
-            var continueProcess = PopulateRemoteBodyFromContext(context, remoteWebRequest, ref response);
+            var webResponseResult = await PopulateRemoteBodyFromContext(context, remoteWebRequest);
+            var continueProcess = webResponseResult.Success;
 
             // Execute the remote web request
             if (continueProcess)
             {
-                continueProcess = ExecuteRemoteWebRequest(remoteWebRequest, ref response);
+                await ExecuteRemoteWebRequest(remoteWebRequest, webResponseResult);
             }
 
             if (!continueProcess)
@@ -83,16 +81,16 @@
                 context.Response.StatusDescription =
                     HttpStatusCodes.GetStatusDescription(HttpStatusCodes.HttpServiceUnavailable);
             }
-            else if (response != null)
+            else if (webResponseResult.Response != null)
             {
                 // Write the headers and the body of the response from the remote HTTP request
                 // to the incoming HTTP context.
-                WriteContextHeadersFromResponse(context, response);
-                await WriteContextBodyFromRemoteResponse(context, response);
-                context.Response.StatusCode = (int)response.StatusCode;
-                context.Response.StatusDescription = response.StatusDescription;
+                WriteContextHeadersFromResponse(context, webResponseResult.Response);
+                await WriteContextBodyFromRemoteResponse(context, webResponseResult.Response);
+                context.Response.StatusCode = (int)webResponseResult.Response.StatusCode;
+                context.Response.StatusDescription = webResponseResult.Response.StatusDescription;
 
-                var disposable = response as IDisposable;
+                var disposable = webResponseResult.Response as IDisposable;
                 disposable.Dispose();
             }
 
@@ -127,40 +125,32 @@
         ///     Executes the remote web request.
         /// </summary>
         /// <param name="remoteWebRequest">The remote web request.</param>
-        /// <param name="remoteWebResponse">The remote web response.</param>
-        /// <returns>
-        ///     <c>true</c> if the remote request executed successfully; otherwise, <c>false</c>.
-        /// </returns>
+        /// <param name="remoteWebResponseResult">The remote web response.</param>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Errors are logged.")]
-        private bool ExecuteRemoteWebRequest(HttpWebRequest remoteWebRequest, ref HttpWebResponse remoteWebResponse)
+        private async Task ExecuteRemoteWebRequest(HttpWebRequest remoteWebRequest, WebResponseResult remoteWebResponseResult)
         {
-            var success = true;
+            remoteWebResponseResult.Success = true;
 
             try
             {
-                remoteWebResponse = (HttpWebResponse)remoteWebRequest.GetResponse();
+                var webResponse = await remoteWebRequest.GetResponseAsync();
+                remoteWebResponseResult.Response = (HttpWebResponse)webResponse;
             }
             catch (WebException wex)
             {
-
                 if (wex.Response != null)
                 {
-                    remoteWebResponse = (HttpWebResponse)wex.Response;
+                    remoteWebResponseResult.Response = (HttpWebResponse)wex.Response;
                 }
                 else
                 {
-                    // TODO: Log error
-                    success = false;
+                    remoteWebResponseResult.Success = false;
                 }
-
             }
             catch (Exception)
             {
-                // TODO: Log error
-                success = false;
+                remoteWebResponseResult.Success = false;
             }
-
-            return success;
         }
 
         /// <summary>
@@ -183,42 +173,40 @@
         /// </summary>
         /// <param name="incomingHttpContext">The incoming HTTP context.</param>
         /// <param name="remoteWebRequest">The remote web request.</param>
-        /// <param name="remoteWebResponse">The remote web response.</param>
         /// <returns>
-        ///     <c>true</c> if the remote body was populated successfully; otherwise, <c>false</c>.
+        ///     Returns a <see cref="T:Stumps.ProxyHandler.WebResponseResult"/> containing the HTTP response and status.
         /// </returns>
-        private bool PopulateRemoteBodyFromContext(
+        private async Task<WebResponseResult> PopulateRemoteBodyFromContext(
             IStumpsHttpContext incomingHttpContext, 
-            HttpWebRequest remoteWebRequest,
-            ref HttpWebResponse remoteWebResponse)
+            HttpWebRequest remoteWebRequest)
         {
-            var success = true;
+            var result = new WebResponseResult
+            {
+                Success = true
+            };
 
             try
             {
                 if (incomingHttpContext.Request.BodyLength > 0)
                 {
                     remoteWebRequest.ContentLength = incomingHttpContext.Request.BodyLength;
-
-                    var requestStream = remoteWebRequest.GetRequestStream();
-
-                    requestStream.Write(incomingHttpContext.Request.GetBody(), 0, incomingHttpContext.Request.BodyLength);
+                    var requestStream = await remoteWebRequest.GetRequestStreamAsync();
+                    await requestStream.WriteAsync(incomingHttpContext.Request.GetBody(), 0, incomingHttpContext.Request.BodyLength);
                 }
-
             }
             catch (WebException wex)
             {
                 if (wex.Response != null)
                 {
-                    remoteWebResponse = (HttpWebResponse)wex.Response;
+                    result.Response = (HttpWebResponse)wex.Response;
                 }
                 else
                 {
-                    success = false;
+                    result.Success = false;
                 }
             }
 
-            return success;
+            return result;
         }
 
         /// <summary>
@@ -293,6 +281,36 @@
             foreach (var headerName in remoteWebResponse.Headers.AllKeys)
             {
                 incomingHttpContext.Response.Headers[headerName] = remoteWebResponse.Headers[headerName];
+            }
+        }
+
+        /// <summary>
+        ///     A class which contains the HTTP response executed within an asynchronous context.
+        /// </summary>
+        private class WebResponseResult
+        {
+            /// <summary>
+            /// Gets or sets the HTTP web response.
+            /// </summary>
+            /// <value>
+            /// The HTTP web response.
+            /// </value>
+            public HttpWebResponse Response
+            {
+                get;
+                set;
+            }
+
+            /// <summary>
+            /// Gets or sets a value indicating whether the HTTP request was successful.
+            /// </summary>
+            /// <value>
+            ///   <c>true</c> if successful; otherwise, <c>false</c>.
+            /// </value>
+            public bool Success
+            {
+                get;
+                set;
             }
         }
     }
