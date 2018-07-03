@@ -139,7 +139,7 @@
     <Content Include="Content\tb_save.png" />
     <Content Include="Content\toolbar.css" />
     <Content Include="Content\url.min.js" />
-    <EmbeddedResource Include="Resources\favicon.ico" />
+    <None Include="Resources\FaviconBase64.txt" />
     <None Include="Resources\PageNotFound.html" />
     <None Include="Resources\PageInternalServerError.html" />
   </ItemGroup>

@@ -23,10 +23,7 @@
         {
             _host = stumpsHost ?? throw new ArgumentNullException("stumpsHost");
 
-            using (var resourceStream = this.GetType().Assembly.GetManifestResourceStream("Stumps.Web.Resources.favicon.ico"))
-            {
-                _favIcon = StreamUtility.ConvertStreamToByteArray(resourceStream);
-            }
+            _favIcon = Convert.FromBase64String(WebResources.FaviconBase64);
         }
 
         /// <summary>
