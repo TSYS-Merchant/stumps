@@ -1,12 +1,10 @@
 ﻿namespace Stumps.Web.Models
 {
-
     /// <summary>
     ///     A class that represents the model for a proxy server.
     /// </summary>
     public class ProxyServerModel
     {
-
         /// <summary>
         /// Gets or sets a value indicating whether the proxy server automatically starts with the service.
         /// </summary>
@@ -38,7 +36,5 @@
         ///   <c>true</c> if the remote host requires SSL; otherwise, <c>false</c>.
         /// </value>
         public bool UseSsl { get; set; }
-
     }
-
 }

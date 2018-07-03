@@ -1,6 +1,5 @@
 ﻿namespace Stumps.Web
 {
-
     using System;
     using System.Net;
     using Nancy.Hosting.Self;
@@ -11,7 +10,6 @@
     /// </summary>
     public sealed class StumpsWebServer
     {
-
         private readonly NancyHost _server;
         private bool _disposed;
         private bool _started;
@@ -28,15 +26,11 @@
         /// <exception cref="System.InvalidOperationException">The port is already being used.</exception>
         public StumpsWebServer(IStumpsHost host, int port)
         {
-
-            if (host == null)
-            {
-                throw new ArgumentNullException("host");
-            }
+            host = host ?? throw new ArgumentNullException(nameof(host));
 
             if (port < IPEndPoint.MinPort || port > IPEndPoint.MaxPort)
             {
-                throw new ArgumentOutOfRangeException("port");
+                throw new ArgumentOutOfRangeException(nameof(port));
             }
 
             if (NetworkInformation.IsPortBeingUsed(port))
@@ -49,7 +43,6 @@
 
             var bootStrapper = new Bootstrapper(host);
             _server = new NancyHost(bootStrapper, new Uri(urlString));
-
         }
 
         /// <summary>
@@ -57,7 +50,6 @@
         /// </summary>
         public void Dispose()
         {
-
             if (!_disposed)
             {
                 _disposed = true;
@@ -66,7 +58,6 @@
             }
 
             GC.SuppressFinalize(this);
-
         }
 
         /// <summary>
@@ -98,7 +89,5 @@
 
             _started = true;
         }
-
     }
-
 }

@@ -1,12 +1,10 @@
 ﻿namespace Stumps.Web.Models
 {
-
     /// <summary>
     /// A class that represents a Stump.
     /// </summary>
     public class StumpModel
     {
-
         /// <summary>
         ///     Gets or sets the name of the Stump.
         /// </summary>
@@ -216,7 +214,5 @@
         ///     The unique identifier for the Stump.
         /// </value>
         public string StumpId { get; set; }
-
     }
-
 }

@@ -1,12 +1,10 @@
 ﻿namespace Stumps.Web.Models
 {
-
     /// <summary>
     ///     A class that represents the model for an HTTP header.
     /// </summary>
     public class HeaderModel
     {
-
         /// <summary>
         ///     Gets or sets the name of the HTTP header.
         /// </summary>
@@ -22,7 +20,5 @@
         /// The value of the HTTP header.
         /// </value>
         public string Value { get; set; }
-
     }
-
 }

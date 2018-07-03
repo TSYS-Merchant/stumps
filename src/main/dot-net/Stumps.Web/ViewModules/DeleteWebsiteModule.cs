@@ -1,6 +1,5 @@
 ﻿namespace Stumps.Web.ViewModules
 {
-
     using System;
     using Nancy;
     using Stumps.Server;
@@ -10,7 +9,6 @@
     /// </summary>
     public class DeleteWebsiteModule : NancyModule
     {
-
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:Stumps.Web.ViewModules.DeleteWebsiteModule"/> class.
         /// </summary>
@@ -18,11 +16,7 @@
         /// <exception cref="System.ArgumentNullException"><paramref name="stumpsHost"/> is <c>null</c>.</exception>
         public DeleteWebsiteModule(IStumpsHost stumpsHost)
         {
-
-            if (stumpsHost == null)
-            {
-                throw new ArgumentNullException("stumpsHost");
-            }
+            stumpsHost = stumpsHost ?? throw new ArgumentNullException(nameof(stumpsHost));
 
             Get["/proxy/{serverId}/delete"] = _ =>
             {
@@ -37,9 +31,6 @@
 
                 return View["deletewebsite", model];
             };
-
         }
-
     }
-
 }

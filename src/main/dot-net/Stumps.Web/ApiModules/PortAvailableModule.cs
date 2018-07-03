@@ -1,6 +1,5 @@
 ﻿namespace Stumps.Web.ApiModules
 {
-
     using System;
     using Nancy;
     using Stumps.Server;
@@ -11,7 +10,6 @@
     /// </summary>
     public class PortAvailableModule : NancyModule
     {
-
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:Stumps.Web.ApiModules.PortAvailableModule"/> class.
         /// </summary>
@@ -19,11 +17,7 @@
         /// <exception cref="System.ArgumentNullException"><paramref name="stumpsHost"/> is <c>null</c>.</exception>
         public PortAvailableModule(IStumpsHost stumpsHost) : base("/api")
         {
-
-            if (stumpsHost == null)
-            {
-                throw new ArgumentNullException("stumpsHost");
-            }
+            stumpsHost = stumpsHost ?? throw new ArgumentNullException(nameof(stumpsHost));
 
             Get["/portAvailable/{port}"] = _ =>
             {
@@ -37,7 +31,5 @@
                 return Response.AsJson(model);
             };
         }
-
     }
-
 }

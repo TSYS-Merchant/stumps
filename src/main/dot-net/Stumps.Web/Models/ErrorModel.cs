@@ -1,12 +1,10 @@
 ﻿namespace Stumps.Web.Models
 {
-
     /// <summary>
     ///     A class that represents the model an error that occurred.
     /// </summary>
     public class ErrorModel
     {
-
         /// <summary>
         ///     Gets or sets the errors that occurred.
         /// </summary>
@@ -31,7 +29,5 @@
         ///     The full exception for the error that occured.
         /// </value>
         public string FullException { get; set; }
-
     }
-
 }

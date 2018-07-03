@@ -1,6 +1,5 @@
 ﻿namespace Stumps.Web.ViewModules
 {
-
     using System;
     using Nancy;
     using Stumps.Server;
@@ -10,7 +9,6 @@
     /// </summary>
     public class AddWebsiteModule : NancyModule
     {
-
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:Stumps.Web.ViewModules.AddWebsiteModule"/> class.
         /// </summary>
@@ -18,11 +16,7 @@
         /// <exception cref="System.ArgumentNullException"><paramref name="stumpsHost"/> is <c>null</c>.</exception>
         public AddWebsiteModule(IStumpsHost stumpsHost)
         {
-
-            if (stumpsHost == null)
-            {
-                throw new ArgumentNullException("stumpsHost");
-            }
+            stumpsHost = stumpsHost ?? throw new ArgumentNullException(nameof(stumpsHost));
 
             Get["/AddWebsite"] = _ =>
             {
@@ -38,7 +32,6 @@
 
             Post["/AddWebsite"] = _ =>
             {
-
                 var hostNameTextBox = ((string)(Request.Form.hostNameTextBox.Value ?? string.Empty)).Trim();
                 var portTextBox = ((string)(Request.Form.portTextBox.Value ?? string.Empty)).Trim();
                 var useSslCheckBox = ((string)(Request.Form.useSslCheckBox.Value ?? "off")).Trim();
@@ -53,11 +46,7 @@
                 }
 
                 return Response.AsRedirect("/");
-
             };
-
         }
-
     }
-
 }

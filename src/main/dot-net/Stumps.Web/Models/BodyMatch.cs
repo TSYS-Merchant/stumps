@@ -1,12 +1,10 @@
 ﻿namespace Stumps.Web.Models
 {
-
     /// <summary>
     ///     An enumeration that describes the type of matching used against the body of an HTTP request.
     /// </summary>
     public enum BodyMatch
     {
-
         /// <summary>
         ///     The HTTP body can be anything.
         /// </summary>
@@ -31,7 +29,5 @@
         ///     The HTTP body must match a known value.
         /// </summary>
         ExactMatch = 4
-
     }
-
 }

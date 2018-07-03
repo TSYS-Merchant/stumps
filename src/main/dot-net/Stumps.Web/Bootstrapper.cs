@@ -1,6 +1,5 @@
 ﻿namespace Stumps.Web
 {
-
     using System;
     using Nancy;
     using Stumps.Server;
@@ -11,7 +10,6 @@
     /// </summary>
     public class Bootstrapper : DefaultNancyBootstrapper, IDisposable
     {
-
         private readonly byte[] _favIcon;
         private bool _disposed;
         private IStumpsHost _host;
@@ -23,19 +21,12 @@
         /// <exception cref="System.ArgumentNullException"><paramref name="stumpsHost"/> is <c>null</c>.</exception>
         public Bootstrapper(IStumpsHost stumpsHost)
         {
-
-            if (stumpsHost == null)
-            {
-                throw new ArgumentNullException("stumpsHost");
-            }
+            _host = stumpsHost ?? throw new ArgumentNullException("stumpsHost");
 
             using (var resourceStream = this.GetType().Assembly.GetManifestResourceStream("Stumps.Web.Resources.favicon.ico"))
             {
                 _favIcon = StreamUtility.ConvertStreamToByteArray(resourceStream);
             }
-
-            _host = stumpsHost;
-
         }
 
         /// <summary>
@@ -46,7 +37,7 @@
         /// </value>
         protected override byte[] FavIcon
         {
-            get { return _favIcon; }
+            get => _favIcon;
         }
 
         /// <summary>
@@ -54,10 +45,8 @@
         /// </summary>
         public new void Dispose()
         {
-
             this.Dispose(true);
             GC.SuppressFinalize(this);
-
         }
 
         /// <summary>
@@ -67,16 +56,11 @@
         /// <exception cref="System.ArgumentNullException"><paramref name="container"/> is <c>null</c>.</exception>
         protected override void ConfigureApplicationContainer(Nancy.TinyIoc.TinyIoCContainer container)
         {
-
-            if (container == null)
-            {
-                throw new ArgumentNullException("container");
-            }
+            container = container ?? throw new ArgumentNullException("container");
 
             base.ConfigureApplicationContainer(container);
 
             container.Register(_host);
-
         }
 
         /// <summary>
@@ -85,22 +69,20 @@
         /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
         protected virtual void Dispose(bool disposing)
         {
-
-            if (disposing && !_disposed)
+            if (!disposing || _disposed)
             {
-
-                _disposed = true;
-
-                if (_host != null)
-                {
-                    _host.Dispose();
-                    _host = null;
-                }
-
-                base.Dispose();
-
+                return;
             }
 
+            _disposed = true;
+
+            if (_host != null)
+            {
+                _host.Dispose();
+                _host = null;
+            }
+
+            base.Dispose();
         }
 
         /// <summary>
@@ -118,27 +100,12 @@
         /// </exception>
         protected override void RequestStartup(Nancy.TinyIoc.TinyIoCContainer container, Nancy.Bootstrapper.IPipelines pipelines, NancyContext context)
         {
-
-            if (container == null)
-            {
-                throw new ArgumentNullException("container");
-            }
-
-            if (pipelines == null)
-            {
-                throw new ArgumentNullException("pipelines");
-            }
-
-            if (context == null)
-            {
-                throw new ArgumentNullException("context");
-            }
+            container = container ?? throw new ArgumentNullException("container");
+            pipelines = pipelines ?? throw new ArgumentNullException("pipelines");
+            context = context ?? throw new ArgumentNullException("context");
 
             pipelines.OnError.AddItemToEndOfPipeline((z, a) => ErrorJsonResponse.FromException(a));
             base.RequestStartup(container, pipelines, context);
-
         }
-
     }
-
 }

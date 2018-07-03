@@ -1,6 +1,5 @@
 ﻿namespace Stumps.Web.ApiModules
 {
-
     using System;
     using System.Collections.Generic;
     using System.Text;
@@ -15,7 +14,6 @@
     /// </summary>
     public class StumpsModule : NancyModule
     {
-
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Stumps.Web.ApiModules.StumpsModule"/> class.
         /// </summary>
@@ -24,15 +22,10 @@
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Assumed to be handled by Nancy")]
         public StumpsModule(IStumpsHost serverHost)
         {
-
-            if (serverHost == null)
-            {
-                throw new ArgumentNullException("serverHost");
-            }
+            serverHost = serverHost ?? throw new ArgumentNullException(nameof(serverHost));
 
             Get["/api/proxy/{serverId}/stumps/{stumpId}"] = _ =>
             {
-
                 var serverId = (string)_.serverId;
                 var stumpId = (string)_.stumpId;
                 var server = serverHost.FindServer(serverId);
@@ -41,7 +34,6 @@
                 var model = CreateStumpModel(stump, serverId, stumpId);
 
                 return Response.AsJson(model);
-
             };
 
             Get["/api/proxy/{serverId}/stumps/{stumpId}/request"] = _ =>
@@ -70,7 +62,6 @@
 
             Post["/api/proxy/{serverId}/stumps"] = _ =>
             {
-
                 var serverId = (string)_.serverId;
                 var server = serverHost.FindServer(serverId);
 
@@ -80,14 +71,11 @@
                 server.CreateStump(contract);
 
                 return HttpStatusCode.OK;
-
             };
 
             Put["/api/proxy/{serverId}/stumps/{stumpId}"] = _ =>
             {
-
                 var serverId = (string)_.serverId;
-
                 var server = serverHost.FindServer(serverId);
 
                 var model = this.Bind<StumpModel>();
@@ -115,24 +103,20 @@
                 var returnModel = CreateStumpModel(stump, serverId, model.StumpId);
 
                 return Response.AsJson(returnModel);
-
             };
 
             Delete["/api/proxy/{serverId}/stumps/{stumpId}/delete"] = _ =>
             {
-
                 var serverId = (string)_.serverId;
                 var stumpId = (string)_.stumpId;
                 var server = serverHost.FindServer(serverId);
                 server.DeleteStump(stumpId);
 
                 return HttpStatusCode.OK;
-
             };
 
             Get["/api/proxy/{serverId}/stumps/isStumpNameAvailable/{stumpName}"] = _ =>
             {
-
                 var serverId = (string)_.serverId;
                 var stumpName = (string)_.stumpName;
                 var server = serverHost.FindServer(serverId);
@@ -145,9 +129,7 @@
                 };
 
                 return Response.AsJson(model);
-
             };
-
         }
 
         /// <summary>
@@ -163,7 +145,6 @@
             {
                 dict[model.Name] = model.Value;
             }
-
         }
 
         /// <summary>
@@ -174,7 +155,6 @@
         /// <returns>A <see cref="T:Stumps.Server.StumpContract" /> created from a recorded web request.</returns>
         private StumpContract CreateContractFromRecord(StumpModel model, StumpsServerInstance server)
         {
-
             var record = server.Recordings.FindAt(model.RecordId);
 
             var contract = new StumpContract
@@ -220,12 +200,10 @@
                 case BodyMatch.IsNotBlank:
                     contract.Rules.Add(new RuleContract(new BodyLengthRule(1, int.MaxValue)));
                     break;
-
             }
 
             switch (model.ResponseBodySource)
             {
-
                 case BodySource.Modified:
                     contract.Response.ClearBody();
                     contract.Response.AppendToBody(Encoding.UTF8.GetBytes(model.ResponseBodyModification));
@@ -239,7 +217,6 @@
                     contract.Response.ClearBody();
                     contract.Response.AppendToBody(record.Response.GetBody());
                     break;
-
             }
 
             CopyHeaderModelToDictionary(model.ResponseHeaders, contract.Response.Headers);
@@ -249,7 +226,6 @@
             contract.Response.ExamineBody();
 
             return contract;
-
         }
 
         /// <summary>
@@ -260,7 +236,6 @@
         /// <returns>A <see cref="T:Stumps.Server.StumpContract" /> created from an existing Stump.</returns>
         private StumpContract CreateContractFromStump(StumpModel model, StumpsServerInstance server)
         {
-
             var originalContract = server.FindStump(model.StumpId);
 
             var contract = new StumpContract
@@ -306,12 +281,10 @@
                 case BodyMatch.IsNotBlank:
                     contract.Rules.Add(new RuleContract(new BodyLengthRule(1, int.MaxValue)));
                     break;
-
             }
 
             switch (model.ResponseBodySource)
             {
-
                 case BodySource.Modified:
                     contract.Response.ClearBody();
                     contract.Response.AppendToBody(Encoding.UTF8.GetBytes(model.ResponseBodyModification));
@@ -325,7 +298,6 @@
                     contract.Response.ClearBody();
                     contract.Response.AppendToBody(originalContract.Response.GetBody());
                     break;
-
             }
 
             CopyHeaderModelToDictionary(model.ResponseHeaders, contract.Response.Headers);
@@ -335,7 +307,6 @@
             contract.Response.ExamineBody();
 
             return contract;
-
         }
         
         /// <summary>
@@ -346,7 +317,6 @@
         /// <returns>An array of <see cref="T:Stumps.Web.Models.HeaderModel"/> objects.</returns>
         private HeaderModel[] CreateHeaderModel(IHttpHeaders headers)
         {
-
             var headerList = new List<HeaderModel>();
 
             foreach (var header in headers.HeaderNames)
@@ -361,7 +331,6 @@
             }
 
             return headerList.ToArray();
-
         }
         
         /// <summary>
@@ -375,7 +344,6 @@
         /// </returns>
         private StumpModel CreateStumpModel(StumpContract stump, string serverId, string stumpId)
         {
-
             var bodyMatch = DetrmineBodyMatch(stump);
 
             var model = new StumpModel
@@ -416,12 +384,10 @@
             };
 
             return model;
-
         }
 
         private HeaderModel[] CreateHeadersFromRules(StumpContract contract)
         {
-
             var models = new List<HeaderModel>();
 
             var rules = contract.Rules.FindRuleContractByName(typeof(HeaderRule).Name);
@@ -440,7 +406,6 @@
             }
 
             return models.ToArray();
-
         }
 
         /// <summary>
@@ -450,7 +415,6 @@
         /// <returns>A member of the <see cref="T:Stumps.Web.Models.BodyMatch"/> enumeration.</returns>
         private BodyMatch DetrmineBodyMatch(StumpContract contract)
         {
-
             var rules = contract.Rules.FindRuleContractByName(typeof(BodyLengthRule).Name);
 
             if (rules.Count > 0)
@@ -466,7 +430,6 @@
                 {
                     return BodyMatch.IsNotBlank;
                 }
-
             }
 
             if (contract.Rules.FindRuleContractByName(typeof(BodyContentRule).Name).Count > 0)
@@ -480,9 +443,6 @@
             }
 
             return BodyMatch.IsAnything;
-
         }
-
     }
-
 }

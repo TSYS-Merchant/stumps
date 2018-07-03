@@ -1,12 +1,10 @@
 ﻿namespace Stumps.Web.Models
 {
-
     /// <summary>
     ///     A class that represents the model for a proxy server that includes detailed information.
     /// </summary>
     public class ProxyServerDetailsModel : ProxyServerModel
     {
-
         /// <summary>
         ///     Gets or sets a value indicating whether the proxy server is running.
         /// </summary>
@@ -62,7 +60,5 @@
         ///     The number of Stumps served by the proxy server.
         /// </value>
         public int StumpsServed { get; set; }
-
     }
-
 }

@@ -1,6 +1,5 @@
 ﻿namespace Stumps.Web.Responses
 {
-
     using System;
     using Nancy;
     using Nancy.Responses;
@@ -11,7 +10,6 @@
     /// </summary>
     public class ErrorJsonResponse : JsonResponse
     {
-
         private readonly ErrorModel _errorModel;
 
         /// <summary>
@@ -21,14 +19,7 @@
         /// <exception cref="System.ArgumentNullException"><paramref name="error"/>is <c>null</c>.</exception>
         private ErrorJsonResponse(ErrorModel error) : base(error, new DefaultJsonSerializer())
         {
-
-            if (error == null)
-            {
-                throw new ArgumentNullException("error");
-            }
-
-            _errorModel = error;
-
+            _errorModel = error ?? throw new ArgumentNullException(nameof(error));
         }
 
         /// <summary>
@@ -39,7 +30,7 @@
         /// </value>
         public string ErrorMessage
         {
-            get { return _errorModel.ErrorMessage; }
+            get => _errorModel.ErrorMessage;
         }
 
         /// <summary>
@@ -50,7 +41,7 @@
         /// </value>
         public string FullException
         {
-            get { return _errorModel.FullException; }
+            get => _errorModel.FullException;
         }
 
         /// <summary>
@@ -60,7 +51,6 @@
         /// <returns>A new <see cref="T:Stumps.Web.Responses.ErrorJsonResponse"/> object.</returns>
         public static ErrorJsonResponse FromException(Exception ex)
         {
-
             if (ex == null)
             {
                 return new ErrorJsonResponse(
@@ -100,7 +90,6 @@
             }
 
             return response;
-
         }
 
         /// <summary>
@@ -110,7 +99,6 @@
         /// <returns>A new <see cref="T:Stumps.Web.Responses.ErrorJsonResponse"/> object.</returns>
         public static ErrorJsonResponse FromMessage(string message)
         {
-
             var error = new ErrorModel
             {
                 ErrorMessage = message
@@ -119,9 +107,6 @@
             var response = new ErrorJsonResponse(error);
 
             return response;
-
         }
-
     }
-
 }

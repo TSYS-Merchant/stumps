@@ -1,6 +1,5 @@
 ﻿namespace Stumps.Web.ViewModules
 {
-
     using System;
     using System.Globalization;
     using Nancy;
@@ -12,7 +11,6 @@
     /// </summary>
     public class StumpEditorModule : NancyModule
     {
-
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:Stumps.Web.ViewModules.StumpEditorModule"/> class.
         /// </summary>
@@ -20,11 +18,7 @@
         /// <exception cref="System.ArgumentNullException"><paramref name="stumpsHost"/> is <c>null</c>.</exception>
         public StumpEditorModule(IStumpsHost stumpsHost)
         {
-
-            if (stumpsHost == null)
-            {
-                throw new ArgumentNullException("stumpsHost");
-            }
+            stumpsHost = stumpsHost ?? throw new ArgumentNullException(nameof(stumpsHost));
 
             Get["/proxy/{serverId}/recording/{recordIndex}/newstump"] = _ =>
             {
@@ -34,13 +28,13 @@
 
                 var model = new
                 {
-                    StumpName = "Stump - " + System.Environment.TickCount.ToString(CultureInfo.InvariantCulture),
+                    StumpName = $"Stump - {Environment.TickCount}",
                     Origin = (int)StumpOrigin.RecordedContext,
                     StumpId = string.Empty,
                     ProxyId = server.ServerId,
                     ExternalHostName = server.UseSsl ? server.RemoteServerHostName + " (SSL)" : server.RemoteServerHostName,
-                    LocalWebsite = "http://localhost:" + server.ListeningPort.ToString(CultureInfo.InvariantCulture) + "/",
-                    BackUrl = "/proxy/" + serverId + "/recordings",
+                    LocalWebsite = $"http://localhost:{server.ListeningPort}/",
+                    BackUrl = $"/proxy/{serverId}/recordings",
                     CreateButtonText = "Create New Stump",
                     LoadRecord = true,
                     LoadStump = false,
@@ -64,8 +58,8 @@
                     StumpId = stump.StumpId,
                     ProxyId = server.ServerId,
                     ExternalHostName = server.UseSsl ? server.RemoteServerHostName + " (SSL)" : server.RemoteServerHostName,
-                    LocalWebsite = "http://localhost:" + server.ListeningPort.ToString(CultureInfo.InvariantCulture) + "/",
-                    BackUrl = "/proxy/" + serverId + "/stumps",
+                    LocalWebsite = $"http://localhost:{server.ListeningPort}/",
+                    BackUrl = $"/proxy/{serverId}/stumps",
                     CreateButtonText = "Save Stump",
                     LoadRecord = false,
                     LoadStump = true,
@@ -74,9 +68,6 @@
 
                 return View["stumpeditor", model];
             };
-
         }
-
     }
-
 }

@@ -1,6 +1,5 @@
 ﻿namespace Stumps.Web.ApiModules
 {
-
     using System;
     using System.Collections.Generic;
     using Nancy;
@@ -13,7 +12,6 @@
     /// </summary>
     public class RecordingModule : NancyModule
     {
-
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:Stumps.Web.ApiModules.RecordingModule"/> class.
         /// </summary>
@@ -22,11 +20,7 @@
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Assumed to be handled by Nancy")]
         public RecordingModule(IStumpsHost stumpsHost)
         {
-
-            if (stumpsHost == null)
-            {
-                throw new ArgumentNullException("stumpsHost");
-            }
+            stumpsHost = stumpsHost ?? throw new ArgumentNullException(nameof(stumpsHost));
 
             Get["/api/proxy/{serverId}/recording"] = _ =>
             {
@@ -162,7 +156,6 @@
 
                 return Response.AsJson(model);
             };
-
         }
 
         /// <summary>
@@ -172,7 +165,6 @@
         /// <returns>An array of <see cref="Stumps.Web.Models.HeaderModel"/> objects.</returns>
         private HeaderModel[] GenerateHeaderModels(IStumpsHttpContextPart part)
         {
-
             var modelList = new List<HeaderModel>();
 
             foreach (var headerName in part.Headers.HeaderNames)
@@ -187,9 +179,6 @@
             }
 
             return modelList.ToArray();
-
         }
-
     }
-
 }

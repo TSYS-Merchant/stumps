@@ -1,6 +1,5 @@
 ﻿namespace Stumps.Web.Models
 {
-
     using System;
 
     /// <summary>
@@ -8,7 +7,6 @@
     /// </summary>
     public class RecordingDetailsModel
     {
-
         /// <summary>
         ///     Gets or sets the index of the recorded HTTP request.
         /// </summary>
@@ -155,7 +153,5 @@
         ///     The description for the HTTP response status code.
         /// </value>
         public string ResponseStatusDescription { get; set; }
-
     }
-
 }

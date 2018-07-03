@@ -1,6 +1,5 @@
 ﻿namespace Stumps.Web.ApiModules
 {
-
     using System;
     using System.Collections.Generic;
     using Nancy;
@@ -13,7 +12,6 @@
     /// </summary>
     public sealed class ProxyServerModule : NancyModule
     {
-
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:Stumps.Web.ApiModules.ProxyServerModule"/> class.
         /// </summary>
@@ -21,15 +19,10 @@
         /// <exception cref="System.ArgumentNullException"><paramref name="stumpsHost"/> is <c>null</c>.</exception>
         public ProxyServerModule(IStumpsHost stumpsHost) : base("/api")
         {
-
-            if (stumpsHost == null)
-            {
-                throw new ArgumentNullException("stumpsHost");
-            }
+            stumpsHost = stumpsHost ?? throw new ArgumentNullException(nameof(stumpsHost));
 
             Get["/proxy"] = _ =>
             {
-
                 var modelList = new List<ProxyServerDetailsModel>();
                 var serverList = stumpsHost.FindAll();
 
@@ -54,7 +47,6 @@
                 }
 
                 return Response.AsJson(modelList);
-
             };
 
             Post["/proxy"] = _ =>
@@ -74,9 +66,6 @@
 
                 return HttpStatusCode.OK;
             };
-
         }
-
     }
-
 }

@@ -1,6 +1,5 @@
 ﻿namespace Stumps.Web.ViewModules
 {
-
     using System;
     using Stumps.Server;
 
@@ -9,7 +8,6 @@
     /// </summary>
     internal static class ModuleHelper
     {
-
         /// <summary>
         ///     Returns a string value depending on the state of a <see cref="T:Stumps.Server.StumpsServerInstance"/>.
         /// </summary>
@@ -21,11 +19,7 @@
         /// <exception cref="System.ArgumentNullException"><paramref name="serverInstance"/> is <c>null</c>.</exception>
         public static string StateValue(StumpsServerInstance serverInstance, string running, string stopped, string recording)
         {
-
-            if (serverInstance == null)
-            {
-                throw new ArgumentNullException("serverInstance");
-            }
+            serverInstance = serverInstance ?? throw new ArgumentNullException(nameof(serverInstance));
 
             var value = stopped;
 
@@ -39,9 +33,6 @@
             }
 
             return value;
-
         }
-
     }
-
 }

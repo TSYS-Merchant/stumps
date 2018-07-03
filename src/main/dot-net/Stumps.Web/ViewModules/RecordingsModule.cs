@@ -1,6 +1,5 @@
 ﻿namespace Stumps.Web.ViewModules
 {
-
     using System;
     using System.Collections;
     using System.Globalization;
@@ -12,7 +11,6 @@
     /// </summary>
     public class RecordingsModule : NancyModule
     {
-
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:Stumps.Web.ViewModules.RecordingsModule"/> class.
         /// </summary>
@@ -20,11 +18,7 @@
         /// <exception cref="System.ArgumentNullException"><paramref name="serverHost"/> is <c>null</c>.</exception>
         public RecordingsModule(IStumpsHost serverHost)
         {
-
-            if (serverHost == null)
-            {
-                throw new ArgumentNullException("serverHost");
-            }
+            serverHost = serverHost ?? throw new ArgumentNullException(nameof(serverHost));
 
             Get["/proxy/{serverId}/recordings"] = _ =>
             {
@@ -54,7 +48,7 @@
                 {
                     ProxyId = server.ServerId,
                     ExternalHostName = server.UseSsl ? server.RemoteServerHostName + " (SSL)" : server.RemoteServerHostName,
-                    LocalWebsite = "http://localhost:" + server.ListeningPort.ToString(CultureInfo.InvariantCulture) + "/",
+                    LocalWebsite = $"http://localhost:{server.ListeningPort}/",
                     IsRecording = server.RecordTraffic,
                     LastIndex = lastIndex,
                     Recordings = recordingModelArray
@@ -62,9 +56,6 @@
 
                 return View["recordings", model];
             };
-
         }
-
     }
-
 }

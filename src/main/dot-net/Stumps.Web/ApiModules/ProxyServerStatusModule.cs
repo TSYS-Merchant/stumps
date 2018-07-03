@@ -1,6 +1,5 @@
 ﻿namespace Stumps.Web.ApiModules
 {
-
     using System;
     using Nancy;
     using Nancy.ModelBinding;
@@ -12,7 +11,6 @@
     /// </summary>
     public class ProxyServerStatusModule : NancyModule
     {
-
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:Stumps.Web.ApiModules.ProxyServerStatusModule"/> class.
         /// </summary>
@@ -20,15 +18,10 @@
         /// <exception cref="System.ArgumentNullException"><paramref name="stumpsHost"/> is <c>null</c>.</exception>
         public ProxyServerStatusModule(IStumpsHost stumpsHost)
         {
-
-            if (stumpsHost == null)
-            {
-                throw new ArgumentNullException("stumpsHost");
-            }
+            stumpsHost = stumpsHost ?? throw new ArgumentNullException(nameof(stumpsHost));
 
             Get["/api/proxy/{serverId}/status"] = _ =>
             {
-
                 var serverId = (string)_.serverId;
                 var server = stumpsHost.FindServer(serverId);
 
@@ -38,12 +31,10 @@
                 };
 
                 return Response.AsJson(model);
-
             };
 
             Put["/api/proxy/{serverId}/status"] = _ =>
             {
-
                 var serverId = (string)_.serverId;
                 var environment = stumpsHost.FindServer(serverId);
 
@@ -59,11 +50,7 @@
                 }
 
                 return Response.AsJson(model);
-
             };
-
         }
-
     }
-
 }

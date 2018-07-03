@@ -1,6 +1,5 @@
 ﻿namespace Stumps.Web.ViewModules
 {
-
     using System;
     using System.Collections;
     using System.Globalization;
@@ -13,7 +12,6 @@
     /// </summary>
     public class StumpsOverviewModule : NancyModule
     {
-
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:Stumps.Web.ViewModules.StumpsOverviewModule"/> class.
         /// </summary>
@@ -21,11 +19,7 @@
         /// <exception cref="System.ArgumentNullException"><paramref name="stumpsHost"/> is <c>null</c>.</exception>
         public StumpsOverviewModule(IStumpsHost stumpsHost)
         {
-
-            if (stumpsHost == null)
-            {
-                throw new ArgumentNullException("stumpsHost");
-            }
+            stumpsHost = stumpsHost ?? throw new ArgumentNullException(nameof(stumpsHost));
 
             Get["/proxy/{serverId}/stumps"] = _ =>
             {
@@ -51,16 +45,13 @@
                 var model = new
                 {
                     ProxyId = server.ServerId,
-                    ExternalHostName = server.UseSsl ? server.RemoteServerHostName + " (SSL)" : server.RemoteServerHostName,
-                    LocalWebsite = "http://localhost:" + server.ListeningPort.ToString(CultureInfo.InvariantCulture) + "/",
+                    ExternalHostName = server.UseSsl ? $"{server.RemoteServerHostName} (SSL)" : server.RemoteServerHostName,
+                    LocalWebsite = $"http://localhost:{server.ListeningPort}/",
                     Stumps = stumpModelArray
                 };
 
                 return View["stumpsoverview", model];
             };
-
         }
-
     }
-
 }
