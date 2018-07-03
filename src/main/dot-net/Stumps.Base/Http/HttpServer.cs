@@ -184,7 +184,8 @@
                 WaitForConnections();
 
                 // Create a new StumpsHttpContext
-                var stumpsContext = new StumpsHttpContext(context);
+                var stumpsContext = new StumpsHttpContext();
+                await stumpsContext.InitializeInstance(context);
 
                 this.RequestReceived?.Invoke(this, new StumpsContextEventArgs(stumpsContext));
 

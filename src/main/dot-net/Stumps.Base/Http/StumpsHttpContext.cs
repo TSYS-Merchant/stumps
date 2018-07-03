@@ -2,6 +2,7 @@
 {
     using System;
     using System.Net;
+    using System.Threading;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -10,26 +11,16 @@
     internal sealed class StumpsHttpContext : IStumpsHttpContext
     {
 
-        private readonly HttpListenerContext _context;
-        private readonly StumpsHttpRequest _request;
-        private readonly StumpsHttpResponse _response;
+        private HttpListenerContext _context;
+        private StumpsHttpRequest _request;
+        private StumpsHttpResponse _response;
+        private int initializeCalled = 0;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:Stumps.Http.StumpsHttpContext"/> class.
         /// </summary>
-        /// <param name="context">The <see cref="T:System.Net.HttpListenerContext"/> used to initialize the instance.</param>
-        /// <exception cref="System.ArgumentNullException"><paramref name="context"/> is <c>null</c>.</exception>
-        public StumpsHttpContext(HttpListenerContext context)
+        public StumpsHttpContext()
         {
-            _context = context ?? throw new ArgumentNullException(nameof(context));
-
-            // Initialize the HTTP request for the context
-            _request = new StumpsHttpRequest();
-
-            // TODO: Fix This
-            var task = Task.Run(() => _request.InitializeInstance(context.Request));
-            task.Wait();
-
             // Initialize the HTTP response for the context
             _response = new StumpsHttpResponse();
         }
@@ -42,8 +33,9 @@
         /// </value>
         public DateTime ReceivedDate
         {
-            get; 
-        } = DateTime.Now;
+            get;
+            private set;
+        }
 
         /// <summary>
         ///     Gets the <see cref="T:Stumps.IStumpsHttpRequest" /> object for the current HTTP request.
@@ -76,7 +68,8 @@
         public Guid UniqueIdentifier
         {
             get;
-        } = Guid.NewGuid();
+            private set;
+        }
 
         /// <summary>
         ///     Closes the HTTP context and responds to the calling client.
@@ -102,7 +95,33 @@
             await WriteBody();
 
             _context.Response.Close();
+        }
 
+        /// <summary>
+        ///     Initializes the instance with a specified <see cref="T:System.Net.HttpListenerContext"/> object.
+        /// </summary>
+        /// <param name="context">The <see cref="T:System.Net.HttpListenerContext"/> used to initialize the instance.</param>
+        /// <exception cref="System.ArgumentNullException"><paramref name="context"/> is <c>null</c>.</exception>
+        public async Task InitializeInstance(HttpListenerContext context)
+        {
+            var methodAlreadyCalled = Interlocked.CompareExchange(ref initializeCalled, 1, 0) == 1;
+
+            if (methodAlreadyCalled)
+            {
+                throw new InvalidOperationException("The object was already initialized with an existing context.");
+            }
+
+            context = context ?? throw new ArgumentNullException(nameof(context));
+
+            this.UniqueIdentifier = Guid.NewGuid();
+            this.ReceivedDate = DateTime.Now;
+
+            _context = context;
+
+            // Initialize the HTTP request for the context
+            _request = new StumpsHttpRequest();
+
+            await _request.InitializeInstance(context.Request);
         }
 
         /// <summary>
