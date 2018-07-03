@@ -341,8 +341,10 @@
                 var pipeline = new HttpPipelineHandler();
 
                 // Setup the Stump HTTP handler
-                _stumpsHandler = new StumpsHandler(_stumpsManager);
-                _stumpsHandler.Enabled = this.StumpsEnabled;
+                _stumpsHandler = new StumpsHandler(_stumpsManager)
+                {
+                    Enabled = this.StumpsEnabled
+                };
 
                 pipeline.Add(_stumpsHandler);
 

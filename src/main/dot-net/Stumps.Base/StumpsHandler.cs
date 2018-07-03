@@ -92,7 +92,6 @@
             {
                 PopulateResponse(context, stump);
 
-
                 if (context.Response is StumpsHttpResponse stumpsResponse)
                 {
                     stumpsResponse.Origin = HttpResponseOrigin.Stump;

@@ -19,7 +19,6 @@
                 throw new ArgumentNullException(nameof(context));
             }
 
-
             if (context.Response is StumpsHttpResponse stumpsResponse)
             {
                 this.ResponseOrigin = stumpsResponse.Origin;

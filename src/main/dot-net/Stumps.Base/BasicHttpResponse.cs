@@ -134,7 +134,7 @@ namespace Stumps
         /// <returns>
         ///     An array of <see cref="T:System.Byte"/> values representing the HTTP body.
         /// </returns>
-        public virtual byte[] GetBody() =>  _bodyBuffer;
+        public virtual byte[] GetBody() => _bodyBuffer;
 
         /// <summary>
         ///     Gets the body of the HTTP response as a <see cref="T:System.String"/>.
