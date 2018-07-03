@@ -1,6 +1,5 @@
 namespace Stumps.Launcher
 {
-
     using System;
     using System.Diagnostics;
     using System.Globalization;
@@ -13,14 +12,12 @@ namespace Stumps.Launcher
     /// </summary>
     public static class Program
     {
-
         /// <summary>
         ///     The main entry point for the application.
         /// </summary>
         [STAThread]
         public static void Main()
         {
-
             var configurationFile = Path.Combine(
                 DefaultConfigurationSettings.StoragePath, DefaultConfigurationSettings.ConfigurationFileName);
 
@@ -33,9 +30,6 @@ namespace Stumps.Launcher
             var urlString = string.Format(CultureInfo.InvariantCulture, "http://localhost:{0}/", configuration.WebApiPort);
 
             Process.Start(urlString);
-
         }
-
     }
-
 }
