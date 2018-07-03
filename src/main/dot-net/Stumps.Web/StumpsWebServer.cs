@@ -8,7 +8,7 @@
     /// <summary>
     ///     A class representing Stumps web server.
     /// </summary>
-    public sealed class StumpsWebServer
+    public sealed class StumpsWebServer : IDisposable
     {
         private readonly NancyHost _server;
         private bool _disposed;

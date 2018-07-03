@@ -114,7 +114,7 @@
         {
             if (_listener.IsListening)
             {
-                _listener.Stop();
+                _listener.Close();
             }
 
             if (_listener is IDisposable disposable)

@@ -38,7 +38,6 @@
         public IHttpHeaders Headers
         {
             get;
-            private set;
         } = new ReadOnlyHttpHeaders();
 
         /// <summary>
