@@ -1,6 +1,5 @@
 ﻿namespace Stumps.Server.Data
 {
-
     using System;
     using System.Collections.Generic;
     using System.IO;
@@ -12,7 +11,6 @@
     /// </summary>
     public sealed class DataAccess : IDataAccess
     {
-
         /// <summary>
         ///     The file extension used to for files that contain the body of the original HTTP request.
         /// </summary>
@@ -52,14 +50,7 @@
         /// <exception cref="System.ArgumentNullException"><paramref name="storagePath"/> is <c>null</c>.</exception>
         public DataAccess(string storagePath)
         {
-
-            if (storagePath == null)
-            {
-                throw new ArgumentNullException("storagePath");
-            }
-
-            _storagePath = storagePath;
-
+            _storagePath = storagePath ?? throw new ArgumentNullException(nameof(storagePath));
         }
 
         /// <summary>
@@ -70,7 +61,7 @@
         /// </value>
         public string StoragePath
         {
-            get { return _storagePath; }
+            get => _storagePath;
         }
 
         /// <summary>
@@ -80,18 +71,13 @@
         /// <exception cref="System.ArgumentNullException">server</exception>
         public void ServerCreate(ServerEntity server)
         {
-
-            if (server == null)
-            {
-                throw new ArgumentNullException("server");
-            }
+            server = server ?? throw new ArgumentNullException(nameof(server));
 
             var serverFile = Path.Combine(_storagePath, server.ServerId + DataAccess.StumpsServerFileExtension);
             JsonUtility.SerializeToFile(server, serverFile);
 
             Directory.CreateDirectory(Path.Combine(_storagePath, server.ServerId));
             Directory.CreateDirectory(Path.Combine(_storagePath, server.ServerId, DataAccess.StumpsPathName));
-
         }
 
         /// <summary>
@@ -101,10 +87,9 @@
         /// <exception cref="System.ArgumentNullException"><paramref name="serverId"/> is <c>null</c>.</exception>
         public void ServerDelete(string serverId)
         {
-
             if (string.IsNullOrWhiteSpace(serverId))
             {
-                throw new ArgumentNullException("serverId");
+                throw new ArgumentNullException(nameof(serverId));
             }
 
             var serverFile = Path.Combine(_storagePath, serverId + DataAccess.StumpsServerFileExtension);
@@ -112,7 +97,6 @@
 
             var serverPath = Path.Combine(_storagePath, serverId);
             Directory.Delete(serverPath, true);
-
         }
 
         /// <summary>
@@ -124,11 +108,9 @@
         /// </returns>
         public ServerEntity ServerFind(string serverId)
         {
-
             var path = Path.Combine(_storagePath, serverId + DataAccess.StumpsServerFileExtension);
             var entity = JsonUtility.DeserializeFromFile<ServerEntity>(path);
             return entity;
-
         }
 
         /// <summary>
@@ -139,12 +121,10 @@
         /// </returns>
         public IList<ServerEntity> ServerFindAll()
         {
-
             var serverEntities = JsonUtility.DeserializeFromDirectory<ServerEntity>(
                 _storagePath, "*" + DataAccess.StumpsServerFileExtension, SearchOption.TopDirectoryOnly);
 
             return serverEntities;
-
         }
 
         /// <summary>
@@ -163,10 +143,9 @@
         /// </remarks>
         public byte[] ServerReadResource(string serverId, string resourceName)
         {
-
             if (string.IsNullOrWhiteSpace(serverId))
             {
-                throw new ArgumentNullException("serverId");
+                throw new ArgumentNullException(nameof(serverId));
             }
 
             resourceName = resourceName ?? string.Empty;
@@ -180,7 +159,6 @@
             }
 
             return fileBytes;
-
         }
 
         /// <summary>
@@ -201,16 +179,12 @@
         /// </exception>
         public StumpEntity StumpCreate(string serverId, StumpEntity entity, byte[] originalRequestBody, byte[] originalResponseBody, byte[] responseBody)
         {
-
             if (string.IsNullOrWhiteSpace(serverId))
             {
-                throw new ArgumentNullException("serverId");
+                throw new ArgumentNullException(nameof(serverId));
             }
 
-            if (entity == null)
-            {
-                throw new ArgumentNullException("entity");
-            }
+            entity = entity ?? throw new ArgumentNullException(nameof(entity));
 
             var stumpsPath = Path.Combine(_storagePath, serverId, DataAccess.StumpsPathName);
 
@@ -246,7 +220,6 @@
             JsonUtility.SerializeToFile(entity, stumpFileName);
 
             return entity;
-
         }
 
         /// <summary>
@@ -276,7 +249,6 @@
             {
                 File.Delete(responseFileName);
             }
-
         }
 
         /// <summary>
@@ -294,9 +266,6 @@
                 stumpsPath, "*" + DataAccess.StumpFileExtension, SearchOption.TopDirectoryOnly);
 
             return stumpEntities;
-
         }
-
     }
-
 }

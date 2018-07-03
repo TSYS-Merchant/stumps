@@ -1,6 +1,5 @@
 ﻿namespace Stumps.Server
 {
-
     using System;
     using System.Collections.Generic;
 
@@ -9,12 +8,11 @@
     /// </summary>
     public interface IStumpsHost : IDisposable
     {
-
         /// <summary>
         ///     Creates a new instance of a Stumps server.
         /// </summary>
         /// <param name="remoteServerHostName">The host name for the remote server by the Stumps server.</param>
-        /// <param name="port">The TCP used to listen for incomming HTTP requests.</param>
+        /// <param name="port">The TCP used to listen for incoming HTTP requests.</param>
         /// <param name="useSsl"><c>true</c> if the remote server requires SSL.</param>
         /// <param name="autoStart"><c>true</c> to automatically start the Stumps server.</param>
         /// <returns>
@@ -75,7 +73,5 @@
         /// </summary>
         /// <param name="serverId">The unique identifier for the Stumps server.</param>
         void Start(string serverId);
-
     }
-
 }

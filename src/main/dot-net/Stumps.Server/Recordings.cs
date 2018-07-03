@@ -1,6 +1,5 @@
 ﻿namespace Stumps.Server
 {
-
     using System;
     using System.Collections.Generic;
 
@@ -9,7 +8,6 @@
     /// </summary>
     public sealed class Recordings
     {
-
         private readonly List<RecordedContext> _recordings;
         private readonly object _syncRoot = new object();
 
@@ -29,7 +27,7 @@
         /// </value>
         public int Count
         {
-            get { return _recordings.Count; }
+            get => _recordings.Count;
         }
 
         /// <summary>
@@ -52,7 +50,6 @@
         /// </returns>
         public IList<RecordedContext> Find(int afterIndex)
         {
-
             var returnList = new List<RecordedContext>();
 
             var startingIndex = afterIndex == int.MaxValue ? afterIndex - 1 : afterIndex;
@@ -61,16 +58,13 @@
 
             lock (_syncRoot)
             {
-
                 for (var i = startingIndex; i < _recordings.Count; i++)
                 {
                     returnList.Add(_recordings[i]);
                 }
-
             }
 
             return returnList;
-
         }
 
         /// <summary>
@@ -86,21 +80,17 @@
         /// </remarks>
         public RecordedContext FindAt(int index)
         {
-
             RecordedContext context = null;
 
             lock (_syncRoot)
             {
-
                 if (index < _recordings.Count)
                 {
                     context = _recordings[index];
                 }
-
             }
 
             return context;
-
         }
 
         /// <summary>
@@ -110,11 +100,7 @@
         /// <exception cref="System.ArgumentNullException"><paramref name="context"/> is <c>null</c>.</exception>
         internal void Add(IStumpsHttpContext context)
         {
-
-            if (context == null)
-            {
-                throw new ArgumentNullException("context");
-            }
+            context = context ?? throw new ArgumentNullException(nameof(context));
 
             var recordedContext = new RecordedContext(context, ContentDecoderHandling.DecodeRequired);
 
@@ -122,9 +108,6 @@
             {
                 _recordings.Add(recordedContext);
             }
-
         }
-
     }
-
 }

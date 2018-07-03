@@ -1,6 +1,5 @@
 namespace Stumps.Server.Data
 {
-
     using System;
 
     /// <summary>
@@ -9,7 +8,6 @@ namespace Stumps.Server.Data
     /// </summary>
     public class HttpResponseEntityReader : IStumpsHttpResponse
     {
-
         private readonly HttpResponseEntity _entity;
         private readonly byte[] _body;
 
@@ -28,24 +26,14 @@ namespace Stumps.Server.Data
         /// </exception>
         public HttpResponseEntityReader(string serverId, HttpResponseEntity responseEntity, IDataAccess dataAccess)
         {
-
             if (string.IsNullOrWhiteSpace(serverId))
             {
-                throw new ArgumentNullException("serverId");
+                throw new ArgumentNullException(nameof(serverId));
             }
 
-            if (responseEntity == null)
-            {
-                throw new ArgumentNullException("responseEntity");
+            dataAccess = dataAccess ?? throw new ArgumentNullException(nameof(dataAccess));
 
-            }
-
-            if (dataAccess == null)
-            {
-                throw new ArgumentNullException("dataAccess");
-            }
-
-            _entity = responseEntity;
+            _entity = responseEntity ?? throw new ArgumentNullException(nameof(responseEntity));
 
             this.Headers = new HttpHeaders();
             foreach (var pair in _entity.Headers)
@@ -54,7 +42,6 @@ namespace Stumps.Server.Data
             }
 
             _body = dataAccess.ServerReadResource(serverId, responseEntity.BodyResourceName) ?? new byte[0];
-
         }
 
         /// <summary>
@@ -65,7 +52,7 @@ namespace Stumps.Server.Data
         /// </value>
         public int BodyLength
         {
-            get { return _body.Length; }
+            get => _body.Length;
         }
 
         /// <summary>
@@ -89,8 +76,8 @@ namespace Stumps.Server.Data
         /// <exception cref="System.NotSupportedException">Thrown when altering the value of the redirect address.</exception>
         public string RedirectAddress
         {
-            get { return _entity.RedirectAddress; } 
-            set { throw new NotSupportedException(); }
+            get => _entity.RedirectAddress;
+            set => throw new NotSupportedException();
         }
 
         /// <summary>
@@ -102,8 +89,8 @@ namespace Stumps.Server.Data
         /// <exception cref="System.NotSupportedException">Thrown when altering the value of the status code.</exception>
         public int StatusCode
         {
-            get { return _entity.StatusCode; } 
-            set { throw new NotSupportedException(); }
+            get => _entity.StatusCode;
+            set => throw new NotSupportedException();
         }
 
         /// <summary>
@@ -115,8 +102,8 @@ namespace Stumps.Server.Data
         /// <exception cref="System.NotSupportedException">Thrown when altering the value of the status description.</exception>
         public string StatusDescription
         {
-            get { return _entity.StatusDescription; } 
-            set { throw new NotSupportedException(); }
+            get => _entity.StatusDescription;
+            set => throw new NotSupportedException();
         }
 
         /// <summary>
@@ -124,19 +111,13 @@ namespace Stumps.Server.Data
         /// </summary>
         /// <param name="buffer">The bytes to append to the body of the response.</param>
         /// <exception cref="System.NotSupportedException">Thrown when altering the HTTP body.</exception>
-        public void AppendToBody(byte[] buffer)
-        {
-            throw new NotSupportedException();
-        }
+        public void AppendToBody(byte[] buffer) => throw new NotSupportedException();
 
         /// <summary>
         ///     Clears the existing body of the HTTP response.
         /// </summary>
         /// <exception cref="System.NotSupportedException">Thrown when altering the HTTP body.</exception>
-        public void ClearBody()
-        {
-            throw new NotSupportedException();
-        }
+        public void ClearBody() => throw new NotSupportedException();
 
         /// <summary>
         ///     Gets the bytes for the HTTP body.
@@ -144,11 +125,6 @@ namespace Stumps.Server.Data
         /// <returns>
         ///     An array of <see cref="T:System.Byte"/> values representing the HTTP body.
         /// </returns>
-        public byte[] GetBody()
-        {
-            return _body;
-        }
-
+        public byte[] GetBody() => _body;
     }
-
 }

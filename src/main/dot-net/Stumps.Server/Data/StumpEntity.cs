@@ -1,6 +1,5 @@
 ﻿namespace Stumps.Server.Data
 {
-
     using System.Collections.Generic;
 
     /// <summary>
@@ -8,14 +7,17 @@
     /// </summary>
     public class StumpEntity
     {
-
         /// <summary>
         ///     Gets or sets the original HTTP request used as a reference when editing a Stump.
         /// </summary>
         /// <value>
         ///     The original HTTP request used as a reference when editing a Stump.
         /// </value>
-        public HttpRequestEntity OriginalRequest { get; set; }
+        public HttpRequestEntity OriginalRequest
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         ///     Gets or sets the original HTTP response used as a reference when editing a Stump.
@@ -23,7 +25,11 @@
         /// <value>
         ///     The original HTTP response used as a reference when editing a Stump.
         /// </value>
-        public HttpResponseEntity OriginalResponse { get; set; }
+        public HttpResponseEntity OriginalResponse
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         ///     Gets or sets the response to the Stump.
@@ -31,7 +37,11 @@
         /// <value>
         ///     The response to the Stump.
         /// </value>
-        public HttpResponseEntity Response { get; set; }
+        public HttpResponseEntity Response
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         ///     Gets or sets the amount of time (in milliseconds) the response is delayed.
@@ -40,7 +50,11 @@
         ///     The amount of time (in milliseconds) the response is delayed.
         /// </value>
         /// <remarks>A value of <c>0</c> or less will not cause a delay.</remarks>
-        public int ResponseDelay { get; set; }
+        public int ResponseDelay
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         ///     Gets or sets the rules associated with the Stump.
@@ -49,7 +63,11 @@
         ///     The rules associated with the Stump.
         /// </value>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly", Justification = "Entity is only for persistence.")]
-        public IList<RuleEntity> Rules { get; set; }
+        public IList<RuleEntity> Rules
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         ///     Gets or sets the organizational category the stump belongs to.
@@ -57,7 +75,11 @@
         /// <value>
         ///     The organizational category the stump belongs to.
         /// </value>
-        public string StumpCategory { get; set; }
+        public string StumpCategory
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         ///     Gets or sets the unique identifier for the stump.
@@ -73,7 +95,11 @@
         /// <value>
         ///     The name of the stump.
         /// </value>
-        public string StumpName { get; set; }
+        public string StumpName
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         ///     Gets or sets a flag indicating whether to forceably terminate the connection.
@@ -81,8 +107,10 @@
         /// <value>
         ///   <c>true</c> if the connection should be forceably terminated; otherwise, <c>false</c>.
         /// </value>
-        public bool TerminateConnection { get; set; }
-
+        public bool TerminateConnection
+        {
+            get;
+            set;
+        }
     }
-
 }

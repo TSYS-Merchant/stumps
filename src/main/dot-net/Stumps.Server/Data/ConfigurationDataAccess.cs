@@ -1,6 +1,5 @@
 ﻿namespace Stumps.Server.Data
 {
-
     using System;
     using System.IO;
     using Stumps.Server.Utility;
@@ -11,7 +10,6 @@
     /// </summary>
     public class ConfigurationDataAccess : IConfigurationDataAccess
     {
-
         private readonly string _configurationFile;
 
         /// <summary>
@@ -21,14 +19,7 @@
         /// <exception cref="System.ArgumentNullException"><paramref name="configurationFile"/> is <c>null</c>.</exception>
         public ConfigurationDataAccess(string configurationFile)
         {
-
-            if (configurationFile == null)
-            {
-                throw new ArgumentNullException("configurationFile");
-            }
-
-            _configurationFile = configurationFile;
-
+            _configurationFile = configurationFile ?? throw new ArgumentNullException(nameof(configurationFile));
         }
 
         /// <summary>
@@ -37,13 +28,13 @@
         /// <param name="configureDefaultsAction">The action to execute after preparing the data access.</param>
         public void EnsureConfigurationIsInitialized(Action configureDefaultsAction)
         {
-
             if (File.Exists(_configurationFile))
             {
                 return;
             }
 
             var configurationFileDirectory = Path.GetDirectoryName(this._configurationFile);
+
             configurationFileDirectory = string.IsNullOrEmpty(configurationFileDirectory)
                                              ? "."
                                              : configurationFileDirectory;
@@ -53,11 +44,7 @@
                 Directory.CreateDirectory(configurationFileDirectory);
             }
 
-            if (configureDefaultsAction != null)
-            {
-                configureDefaultsAction();
-            }
-
+            configureDefaultsAction?.Invoke();
         }
 
         /// <summary>
@@ -68,10 +55,8 @@
         /// </returns>
         public ConfigurationEntity LoadConfiguration()
         {
-
             var loadedConfiguration = JsonUtility.DeserializeFromFile<ConfigurationEntity>(_configurationFile);
             return loadedConfiguration;
-
         }
 
         /// <summary>
@@ -81,16 +66,9 @@
         /// <exception cref="System.ArgumentNullException"><paramref name="value"/> is <c>null</c>.</exception>
         public void SaveConfiguration(ConfigurationEntity value)
         {
-
-            if (value == null)
-            {
-                throw new ArgumentNullException("value");
-            }
+            value = value ?? throw new ArgumentNullException(nameof(value));
 
             JsonUtility.SerializeToFile(value, _configurationFile);
-
         }
-
     }
-
 }

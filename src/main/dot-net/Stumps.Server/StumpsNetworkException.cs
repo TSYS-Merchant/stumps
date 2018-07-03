@@ -1,6 +1,5 @@
 ﻿namespace Stumps.Server
 {
-
     using System;
     using System.Runtime.Serialization;
 
@@ -10,7 +9,6 @@
     [Serializable]
     public class StumpsNetworkException : Exception
     {
-
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:Stumps.Server.StumpsNetworkException"/> class.
         /// </summary>
@@ -43,7 +41,5 @@
         protected StumpsNetworkException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
-
     }
-
 }

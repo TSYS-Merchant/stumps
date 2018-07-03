@@ -1,6 +1,5 @@
 namespace Stumps.Server
 {
-
     using System;
     using System.Security.Cryptography;
     using System.Text;
@@ -10,7 +9,6 @@ namespace Stumps.Server
     /// </summary>
     public abstract class RecordedContextPartBase : IStumpsHttpContextPart
     {
-
         private byte[] _bodyBuffer;
 
         /// <summary>
@@ -21,11 +19,7 @@ namespace Stumps.Server
         /// <exception cref="System.ArgumentNullException"><paramref name="contextPart"/> is <c>null</c>.</exception>
         protected RecordedContextPartBase(IStumpsHttpContextPart contextPart, ContentDecoderHandling decoderHandling)
         {
-
-            if (contextPart == null)
-            {
-                throw new ArgumentNullException("contextPart");
-            }
+            contextPart = contextPart ?? throw new ArgumentNullException(nameof(contextPart));
 
             // Copy in the headers
             this.Headers = new HttpHeaders();
@@ -46,7 +40,6 @@ namespace Stumps.Server
             }
 
             this.ExamineBody();
-
         }
 
         /// <summary>
@@ -57,7 +50,7 @@ namespace Stumps.Server
         /// </value>
         public int BodyLength
         {
-            get { return _bodyBuffer.Length; }
+            get => _bodyBuffer.Length;
         }
 
         /// <summary>
@@ -102,20 +95,14 @@ namespace Stumps.Server
         /// <returns>
         ///     An array of <see cref="T:System.Byte"/> values representing the HTTP body.
         /// </returns>
-        public byte[] GetBody()
-        {
-            return _bodyBuffer;
-        }
+        public byte[] GetBody() => _bodyBuffer;
 
         /// <summary>
         ///     Gets the HTTP body as a <see cref="T:System.String"/>.
         /// </summary>
         /// <returns>A <see cref="T:System.String"/> representing the body of the HTTP response.</returns>
         /// <remarks>The body is decoded using UTF8 encoding.</remarks>
-        public string GetBodyAsString()
-        {
-            return GetBodyAsString(Encoding.UTF8);
-        }
+        public string GetBodyAsString() => GetBodyAsString(Encoding.UTF8);
 
         /// <summary>
         ///     Gets the HTTP body as a <see cref="T:System.String"/>.
@@ -124,14 +111,9 @@ namespace Stumps.Server
         /// <remarks>The body is decoded using UTF8 encoding.</remarks>
         public string GetBodyAsString(Encoding encoding)
         {
-
-            if (encoding == null)
-            {
-                throw new ArgumentNullException("encoding");
-            }
+            encoding = encoding ?? throw new ArgumentNullException(nameof(encoding));
 
             return encoding.GetString(_bodyBuffer);
-
         }
 
         /// <summary>
@@ -140,7 +122,6 @@ namespace Stumps.Server
         /// <param name="buffer">The bytes to append to the body of the response.</param>
         protected void AppendToBody(byte[] buffer)
         {
-
             if (buffer == null)
             {
                 return;
@@ -153,29 +134,20 @@ namespace Stumps.Server
             Buffer.BlockCopy(buffer, 0, newBuffer, _bodyBuffer.Length, buffer.Length);
 
             _bodyBuffer = newBuffer;
-
         }
 
         /// <summary>
         ///     Clears the existing body of the HTTP response.
         /// </summary>
-        protected void ClearBody()
-        {
-            _bodyBuffer = new byte[0];
-        }
+        protected void ClearBody() => _bodyBuffer = new byte[0];
 
         /// <summary>
         ///     Examines the body for the classification, and the MD5 hash.
         /// </summary>
         protected void ExamineBody()
         {
-
-            // Determine the body type
             DetermineBodyClassification();
-
-            // Generate the MD5 hash of the body
             GenerateMd5Hash();
-
         }
 
         /// <summary>
@@ -183,7 +155,6 @@ namespace Stumps.Server
         /// </summary>
         private void DecodeBody()
         {
-
             var contentEncoding = this.Headers["Content-Encoding"];
 
             if (contentEncoding != null)
@@ -191,7 +162,6 @@ namespace Stumps.Server
                 var encoder = new ContentEncoder(contentEncoding);
                 _bodyBuffer = encoder.Decode(_bodyBuffer);
             }
-
         }
 
         /// <summary>
@@ -199,7 +169,6 @@ namespace Stumps.Server
         /// </summary>
         private void DetermineBodyClassification()
         {
-            
             if (_bodyBuffer.Length == 0)
             {
                 this.BodyType = HttpBodyClassification.Empty;
@@ -216,7 +185,6 @@ namespace Stumps.Server
             {
                 this.BodyType = HttpBodyClassification.Binary;
             }
-
         }
 
         /// <summary>
@@ -224,7 +192,6 @@ namespace Stumps.Server
         /// </summary>
         private void GenerateMd5Hash()
         {
-        
             if (_bodyBuffer == null || _bodyBuffer.Length == 0)
             {
                 this.BodyMd5Hash = string.Empty;
@@ -236,9 +203,6 @@ namespace Stumps.Server
                 var bytes = hash.ComputeHash(_bodyBuffer);
                 this.BodyMd5Hash = bytes.ToHexString();
             }
-
         }
-
     }
-
 }

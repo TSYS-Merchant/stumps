@@ -1,6 +1,5 @@
 ﻿namespace Stumps.Server.Data
 {
-
     using System;
 
     /// <summary>
@@ -8,7 +7,6 @@
     /// </summary>
     public interface IConfigurationDataAccess
     {
-
         /// <summary>
         ///     Loads the <see cref="T:Stumps.Server.Data.ConfigurationEntity"/> from the data store.
         /// </summary>
@@ -28,7 +26,5 @@
         /// </summary>
         /// <param name="value">The <see cref="T:Stumps.Server.Data.ConfigurationEntity"/> to persist in the store.</param>
         void SaveConfiguration(ConfigurationEntity value);
-
     }
-
 }

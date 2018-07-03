@@ -1,6 +1,5 @@
 namespace Stumps.Server
 {
-
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -10,7 +9,6 @@ namespace Stumps.Server
     /// </summary>
     public static class ContractBindings
     {
-
         private static readonly Dictionary<string, Type> KnownRules = FindRulesForAssembly();
 
         /// <summary>
@@ -23,11 +21,7 @@ namespace Stumps.Server
         /// <exception cref="System.ArgumentNullException"><paramref name="contract"/> is <c>null</c>.</exception>
         public static Stump CreateStumpFromContract(StumpContract contract)
         {
-
-            if (contract == null)
-            {
-                throw new ArgumentNullException("contract");
-            }
+            contract = contract ?? throw new ArgumentNullException(nameof(contract));
 
             var stump = new Stump(contract.StumpId);
 
@@ -40,7 +34,6 @@ namespace Stumps.Server
             stump.Response = contract.Response;
 
             return stump;
-
         }
 
         /// <summary>
@@ -51,17 +44,12 @@ namespace Stumps.Server
         /// <exception cref="System.ArgumentNullException"><paramref name="contract"/> is <c>null</c>.</exception>
         public static IStumpRule CreateRuleFromContract(RuleContract contract)
         {
-
-            if (contract == null)
-            {
-                throw new ArgumentNullException("contract");
-            }
+            contract = contract ?? throw new ArgumentNullException(nameof(contract));
 
             var type = KnownRules[contract.RuleName];
             var rule = Activator.CreateInstance(type) as IStumpRule;
             rule.InitializeFromSettings(contract.GetRuleSettings());
             return rule;
-
         }
 
         /// <summary>
@@ -73,11 +61,7 @@ namespace Stumps.Server
         /// <exception cref="System.ArgumentNullException"><paramref name="contract"/> is <c>null</c>.</exception>
         public static T CreateRuleFromContract<T>(RuleContract contract) where T : IStumpRule, new()
         {
-
-            if (contract == null)
-            {
-                throw new ArgumentNullException("contract");
-            }
+            contract = contract ?? throw new ArgumentNullException(nameof(contract));
 
             var type = KnownRules[contract.RuleName];
             var rule = Activator.CreateInstance(type) as IStumpRule;
@@ -92,7 +76,6 @@ namespace Stumps.Server
             }
 
             return (T)rule;
-
         }
 
         /// <summary>
@@ -101,7 +84,6 @@ namespace Stumps.Server
         /// <returns>A dictionary of rules for the current assembly.</returns>
         private static Dictionary<string, Type> FindRulesForAssembly()
         {
-
             var dict = new Dictionary<string, Type>(StringComparer.OrdinalIgnoreCase);
             var baseType = typeof(IStumpRule);
 
@@ -115,7 +97,5 @@ namespace Stumps.Server
 
             return dict;
         }
-
     }
-
 }

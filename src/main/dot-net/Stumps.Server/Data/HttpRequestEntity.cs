@@ -1,12 +1,10 @@
 namespace Stumps.Server.Data
 {
-
     /// <summary>
     ///     A class that represents the persisted form of an HTTP request.
     /// </summary>
     public class HttpRequestEntity : HttpContextPartEntity
     {
-
         /// <summary>
         ///     Gets the HTTP data transfer method used by the client.
         /// </summary>
@@ -66,7 +64,5 @@ namespace Stumps.Server.Data
             get;
             set;
         }
-
     }
-
 }

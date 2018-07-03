@@ -1,6 +1,5 @@
 namespace Stumps.Server
 {
-
     using System.Collections.Generic;
     using Stumps.Server.Data;
 
@@ -9,7 +8,6 @@ namespace Stumps.Server
     /// </summary>
     internal static class ContractEntityBinding
     {
-
         /// <summary>
         ///     Creates a Stump contract from a Stump data entity.
         /// </summary>
@@ -21,7 +19,6 @@ namespace Stumps.Server
         /// </returns>
         public static StumpContract CreateContractFromEntity(string serverId, StumpEntity entity, IDataAccess dataAccess)
         {
-
             var contract = new StumpContract
             {
                 OriginalRequest = new RecordedRequest(new HttpRequestEntityReader(serverId, entity.OriginalRequest, dataAccess), ContentDecoderHandling.DecodeNotRequired),
@@ -56,7 +53,6 @@ namespace Stumps.Server
             }
 
             return contract;
-
         }
 
         /// <summary>
@@ -68,7 +64,6 @@ namespace Stumps.Server
         /// </returns>
         public static StumpEntity CreateEntityFromContract(StumpContract contract)
         {
-
             var originalRequest = new HttpRequestEntity
             {
                 BodyResourceName = string.Empty,
@@ -131,11 +126,9 @@ namespace Stumps.Server
                 }
 
                 entity.Rules.Add(ruleEntity);
-
             }
 
             return entity;
-
         }
 
         /// <summary>
@@ -145,7 +138,6 @@ namespace Stumps.Server
         /// <returns>A list of <see cref="T:Stumps.Server.Data.NameValuePairEntity"/> objects.</returns>
         private static List<NameValuePairEntity> CreateNameValuePairFromHeaders(IHttpHeaders headers)
         {
-
             var pairs = new List<NameValuePairEntity>();
 
             foreach (var headerName in headers.HeaderNames)
@@ -159,9 +151,6 @@ namespace Stumps.Server
             }
 
             return pairs;
-
         }
-
     }
-
 }

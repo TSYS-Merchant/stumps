@@ -1,6 +1,5 @@
 ﻿namespace Stumps.Server.Data
 {
-
     using System.Collections.Generic;
 
     /// <summary>
@@ -8,7 +7,6 @@
     /// </summary>
     public interface IDataAccess
     {
-
         /// <summary>
         ///     Creates an entry for a new stumps server.
         /// </summary>
@@ -67,7 +65,5 @@
         /// <param name="serverId">The unique identifier for the Stumps server.</param>
         /// <returns>A generic list of <see cref="T:Stumps.Server.Data.StumpEntity"/> objects.</returns>
         IList<StumpEntity> StumpFindAll(string serverId);
-
     }
-
 }

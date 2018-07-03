@@ -1,6 +1,5 @@
 ﻿namespace Stumps.Server
 {
-
     using System;
     using System.IO;
 
@@ -9,7 +8,6 @@
     /// </summary>
     public static class DefaultConfigurationSettings
     {
-
         /// <summary>
         ///     Gets the name of the configuration file.
         /// </summary>
@@ -18,7 +16,7 @@
         /// </value>
         public static string ConfigurationFileName
         {
-            get { return "stumps.config"; }
+            get => "stumps.config";
         }
 
         /// <summary>
@@ -29,7 +27,7 @@
         /// </value>
         public static int DataCompatibilityVersion
         {
-            get { return 1; }
+            get => 1;
         }
 
         /// <summary>
@@ -40,7 +38,7 @@
         /// </value>
         public static string StorageDirectoryName
         {
-            get { return "Stumps"; }
+            get => "Stumps";
         }
 
         /// <summary>
@@ -67,9 +65,7 @@
         /// </value>
         public static int WebApiPort
         {
-            get { return 8888; }
+            get => 8888;
         }
-
     }
-
 }

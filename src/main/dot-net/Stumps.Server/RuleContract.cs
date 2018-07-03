@@ -1,6 +1,5 @@
 namespace Stumps.Server
 {
-
     using System.Collections.Generic;
 
     /// <summary>
@@ -8,7 +7,6 @@ namespace Stumps.Server
     /// </summary>
     public class RuleContract
     {
-
         private readonly List<RuleSetting> _ruleSettings;
 
         /// <summary>
@@ -25,7 +23,6 @@ namespace Stumps.Server
         /// <param name="rule">The <see cref="T:Stumps.IStumpRule"/> used to create the instance.</param>
         public RuleContract(IStumpRule rule) : this()
         {
-
             if (rule == null)
             {
                 return;
@@ -58,25 +55,18 @@ namespace Stumps.Server
         /// <param name="setting">The <see cref="T:Stumps.RuleSetting"/> to add to the contract.</param>
         public void AppendRuleSetting(RuleSetting setting)
         {
-
             if (setting == null || string.IsNullOrWhiteSpace(setting.Name) || setting.Value == null)
             {
                 return;
             }
 
             _ruleSettings.Add(setting);
-
         }
 
         /// <summary>
         ///     Gets an array of the <see cref="T:Stumps.RuleSetting" /> objects for the contract.
         /// </summary>
         /// <returns>An array of <see cref="T:Stumps.RuleSetting"/> objects.</returns>
-        public RuleSetting[] GetRuleSettings()
-        {
-            return _ruleSettings.ToArray();
-        }
-
+        public RuleSetting[] GetRuleSettings() => _ruleSettings.ToArray();
     }
-
 }

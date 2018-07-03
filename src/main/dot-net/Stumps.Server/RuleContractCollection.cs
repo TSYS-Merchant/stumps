@@ -1,6 +1,5 @@
 namespace Stumps.Server
 {
-
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
@@ -10,7 +9,6 @@ namespace Stumps.Server
     /// </summary>
     public class RuleContractCollection : ICollection<RuleContract>
     {
-
         private readonly List<RuleContract> _contracts;
 
         /// <summary>
@@ -27,7 +25,7 @@ namespace Stumps.Server
         /// <returns>The number of elements contained in the <see cref="T:Stumps.Server.RuleContractCollection" />.</returns>
         public int Count
         {
-            get { return _contracts.Count; }
+            get => _contracts.Count;
         }
 
         /// <summary>
@@ -36,25 +34,19 @@ namespace Stumps.Server
         /// <returns><c>true</c> if the <see cref="T:Stumps.Server.RuleContractCollection" /> is read-only; otherwise, <c>false</c>.</returns>
         public bool IsReadOnly
         {
-            get { return false; }
+            get => false;
         }
 
         /// <summary>
         ///     Adds an item to the <see cref="T:Stumps.Server.RuleContractCollection" />.
         /// </summary>
         /// <param name="item">The object to add to the <see cref="T:Stumps.Server.RuleContractCollection" />.</param>
-        public void Add(RuleContract item)
-        {
-            _contracts.Add(item);
-        }
+        public void Add(RuleContract item) => _contracts.Add(item);
 
         /// <summary>
         ///     Removes all items from the <see cref="T:Stumps.Server.RuleContractCollection" />.
         /// </summary>
-        public void Clear()
-        {
-            _contracts.Clear();
-        }
+        public void Clear() => _contracts.Clear();
 
         /// <summary>
         ///     Determines whether the <see cref="T:Stumps.Server.RuleContractCollection" /> contains a specific value.
@@ -63,20 +55,14 @@ namespace Stumps.Server
         /// <returns>
         ///     <c>true</c> if <paramref name="item" /> is found in the <see cref="T:Stumps.Server.RuleContractCollection" />; otherwise, <c>false</c>.
         /// </returns>
-        public bool Contains(RuleContract item)
-        {
-            return _contracts.Contains(item);
-        }
+        public bool Contains(RuleContract item) => _contracts.Contains(item);
 
         /// <summary>
         ///     Copies the items from the collection to the destination array.
         /// </summary>
         /// <param name="array">The array destination array.</param>
         /// <param name="arrayIndex">Index of the array to begin copying.</param>
-        public void CopyTo(RuleContract[] array, int arrayIndex)
-        {
-            _contracts.CopyTo(array, arrayIndex);
-        }
+        public void CopyTo(RuleContract[] array, int arrayIndex) => _contracts.CopyTo(array, arrayIndex);
 
         /// <summary>
         ///     Finds all rules with the specified name.
@@ -85,9 +71,7 @@ namespace Stumps.Server
         /// <returns>A collection of <see cref="T:Stumps.Server.RuleContract"/> objects.</returns>
         public IList<RuleContract> FindRuleContractByName(string name)
         {
-
             return _contracts.Where(rule => rule.RuleName.Equals(name, System.StringComparison.OrdinalIgnoreCase)).ToList();
-
         }
 
         /// <summary>
@@ -96,10 +80,7 @@ namespace Stumps.Server
         /// <returns>
         ///     A <see cref="T:System.Collections.Generic.IEnumerator`1" /> that can be used to iterate through the collection.
         /// </returns>
-        public IEnumerator<RuleContract> GetEnumerator()
-        {
-            return _contracts.GetEnumerator();
-        }
+        public IEnumerator<RuleContract> GetEnumerator() => _contracts.GetEnumerator();
 
         /// <summary>
         ///     Removes the first occurrence of a specific object from the <see cref="T:Stumps.Server.RuleContractCollection" />.
@@ -111,10 +92,7 @@ namespace Stumps.Server
         ///     This method also returns <c>false</c> if <paramref name="item" /> is not found in the original 
         ///     <see cref="T:Stumps.Server.RuleContractCollection" />.
         /// </returns>
-        public bool Remove(RuleContract item)
-        {
-            return _contracts.Remove(item);
-        }
+        public bool Remove(RuleContract item) => _contracts.Remove(item);
 
         /// <summary>
         ///     Returns an enumerator that iterates through a collection.
@@ -122,11 +100,6 @@ namespace Stumps.Server
         /// <returns>
         ///     An <see cref="T:System.Collections.IEnumerator" /> object that can be used to iterate through the collection.
         /// </returns>
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return ((IEnumerable)_contracts).GetEnumerator();
-        }
-
+        IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable)_contracts).GetEnumerator();
     }
-
 }

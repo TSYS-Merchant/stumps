@@ -1,6 +1,5 @@
 ﻿namespace Stumps.Server
 {
-
     using System;
     using System.Collections.Generic;
     using System.Globalization;
@@ -14,7 +13,6 @@
     /// </summary>
     public class StumpsServerInstance : IDisposable
     {
-
         /// <summary>
         ///     The format for a URI for an insecure HTTP connection.
         /// </summary>
@@ -46,13 +44,7 @@
         /// <param name="dataAccess">The data access provider used by the instance.</param>
         public StumpsServerInstance(IServerFactory serverFactory, string serverId, IDataAccess dataAccess)
         {
-
-            if (serverFactory == null)
-            {
-                throw new ArgumentNullException("serverFactory");
-            }
-
-            _serverFactory = serverFactory;
+            _serverFactory = serverFactory ?? throw new ArgumentNullException(nameof(serverFactory));
 
             this.ServerId = serverId;
 
@@ -63,24 +55,17 @@
             _stumpList = new List<StumpContract>();
             _stumpReference = new Dictionary<string, StumpContract>(StringComparer.OrdinalIgnoreCase);
 
-            // Setup the recordings maintained by the server instance.
-            this.Recordings = new Recordings();
-
             // Initialize the server
             InitializeServer();
 
             // Initialize the Stumps
             InitializeStumps();
-
         }
 
         /// <summary>
         ///     Finalizes an instance of the <see cref="T:Stumps.Server.StumpsServerInstance"/> class.
         /// </summary>
-        ~StumpsServerInstance()
-        {
-            this.Dispose(false);
-        }
+        ~StumpsServerInstance() => Dispose(false);
 
         /// <summary>
         ///     Gets or sets a value indicating whether to automatically start the instance.
@@ -88,7 +73,11 @@
         /// <value>
         ///   <c>true</c> if the instance should automatically; otherwise, <c>false</c>.
         /// </value>
-        public bool AutoStart { get; set; }
+        public bool AutoStart
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         ///     Gets or sets the host name of the remote server.
@@ -96,7 +85,11 @@
         /// <value>
         ///     The host name of the remote server.
         /// </value>
-        public string RemoteServerHostName { get; set; }
+        public string RemoteServerHostName
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         ///     Gets or sets a value indicating whether the instance is running.
@@ -114,12 +107,16 @@
         }
 
         /// <summary>
-        ///     Gets or sets the port the Stumps server is listening on for incomming HTTP requests.
+        ///     Gets or sets the port the Stumps server is listening on for incoming HTTP requests.
         /// </summary>
         /// <value>
-        ///     The port the Stumps server is listening on for incomming HTTP requests.
+        ///     The port the Stumps server is listening on for incoming HTTP requests.
         /// </value>
-        public int ListeningPort { get; set; }
+        public int ListeningPort
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         ///     Gets the recorded HTTP requests and responses.
@@ -127,7 +124,10 @@
         /// <value>
         ///     The recorded HTTP requests and responses.
         /// </value>
-        public Recordings Recordings { get; private set; }
+        public Recordings Recordings
+        {
+            get;
+        } = new Recordings();
 
         /// <summary>
         /// Gets or sets a value indicating whether to record all traffic.
@@ -137,11 +137,7 @@
         /// </value>
         public bool RecordTraffic
         {
-            get
-            {
-                return _recordTraffic;
-            }
-
+            get => _recordTraffic;
             set 
             { 
                 if (value)
@@ -182,8 +178,8 @@
         /// </value>
         public bool StumpsEnabled
         {
-            get { return _server.StumpsEnabled; }
-            set { _server.StumpsEnabled = value; }
+            get => _server.StumpsEnabled;
+            set => _server.StumpsEnabled = value;
         }
 
         /// <summary>
@@ -194,7 +190,7 @@
         /// </value>
         public int RequestsServedByRemoteServer
         {
-            get { return _server.RequestsServedByRemoteHost; }
+            get => _server.RequestsServedByRemoteHost;
         }
 
         /// <summary>
@@ -205,7 +201,7 @@
         /// </value>
         public int RequestsServedWithStump
         {
-            get { return _server.RequestsServedWithStump; }
+            get => _server.RequestsServedWithStump;
         }
 
         /// <summary>
@@ -214,7 +210,11 @@
         /// <value>
         ///     The unique identifier for the server.
         /// </value>
-        public string ServerId { get; set; }
+        public string ServerId
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         ///     Gets the count of Stumps in the collection.
@@ -224,7 +224,7 @@
         /// </value>
         public int StumpCount
         {
-            get { return _stumpList.Count; }
+            get => _stumpList.Count;
         }
 
         /// <summary>
@@ -235,7 +235,7 @@
         /// </value>
         public int TotalRequestsServed
         {
-            get { return _server.TotalRequestsServed; }
+            get => _server.TotalRequestsServed;
         }
 
         /// <summary>
@@ -244,15 +244,23 @@
         /// <value>
         ///   <c>true</c> if the remote server requires SSL; otherwise, <c>false</c>.
         /// </value>
-        public bool UseSsl { get; set; }
+        public bool UseSsl
+        {
+            get;
+            set;
+        }
 
         /// <summary>
-        ///     Gets or sets a value indicating whether use HTTPS for incomming connections rather than HTTP.
+        ///     Gets or sets a value indicating whether use HTTPS for incoming connections rather than HTTP.
         /// </summary>
         /// <value>
-        ///     <c>true</c> to use HTTPS for incomming HTTP connections rather than HTTP.
+        ///     <c>true</c> to use HTTPS for incoming HTTP connections rather than HTTP.
         /// </value>
-        public bool UseHttpsForIncommingConnections { get; set; }
+        public bool UseHttpsForIncomingConnections
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         ///     Creates a new Stump.
@@ -265,11 +273,7 @@
         /// <exception cref="System.ArgumentException">A stump with the same name already exists.</exception>
         public StumpContract CreateStump(StumpContract contract)
         {
-
-            if (contract == null)
-            {
-                throw new ArgumentNullException("contract");
-            }
+            contract = contract ?? throw new ArgumentNullException(nameof(contract));
 
             if (string.IsNullOrEmpty(contract.StumpId))
             {
@@ -288,7 +292,6 @@
             UnwrapAndAddStump(contract);
 
             return contract;
-
         }
 
         /// <summary>
@@ -297,7 +300,6 @@
         /// <param name="stumpId">The unique identifier for the Stump.</param>
         public void DeleteStump(string stumpId)
         {
-
             _lock.EnterWriteLock();
 
             var stump = _stumpReference[stumpId];
@@ -308,7 +310,6 @@
             _dataAccess.StumpDelete(this.ServerId, stumpId);
 
             _lock.ExitWriteLock();
-
         }
 
         /// <summary>
@@ -316,10 +317,8 @@
         /// </summary>
         public void Dispose()
         {
-
             this.Dispose(true);
             GC.SuppressFinalize(this);
-
         }
 
         /// <summary>
@@ -330,7 +329,6 @@
         /// </returns>
         public IList<StumpContract> FindAllContracts()
         {
-
             _lock.EnterReadLock();
 
             var stumpContractList = this._stumpList.ToList();
@@ -338,7 +336,6 @@
             _lock.ExitReadLock();
 
             return stumpContractList;
-
         }
 
         /// <summary>
@@ -353,13 +350,12 @@
         /// </remarks>
         public StumpContract FindStump(string stumpId)
         {
-
             _lock.EnterReadLock();
 
             var stump = _stumpReference[stumpId];
             _lock.ExitReadLock();
-            return stump;
 
+            return stump;
         }
         
         /// <summary>
@@ -371,13 +367,11 @@
         /// </returns>
         public bool StumpNameExists(string stumpName)
         {
-
             var stumpList = new List<StumpContract>(FindAllContracts());
             var stump = stumpList.Find(s => s.StumpName.Equals(stumpName, StringComparison.OrdinalIgnoreCase));
             var stumpNameExists = stump != null;
 
             return stumpNameExists;
-
         }
 
         /// <summary>
@@ -385,12 +379,10 @@
         /// </summary>
         public void Shutdown()
         {
-
             if (_server != null)
             {
                 _server.Shutdown();
             }
-
         }
 
         /// <summary>
@@ -398,12 +390,10 @@
         /// </summary>
         public void Start()
         {
-
             if (_server != null)
             {
                 _server.Start();
             }
-
         }
 
         /// <summary>
@@ -412,10 +402,8 @@
         /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
         protected virtual void Dispose(bool disposing)
         {
-
             if (!_disposed)
             {
-
                 _disposed = true;
 
                 if (this.IsRunning)
@@ -433,9 +421,7 @@
                     _lock.Dispose();
                     _lock = null;
                 }
-
             }
-
         }
         
         /// <summary>
@@ -443,14 +429,13 @@
         /// </summary>
         private void InitializeServer()
         {
-
             // Find the persisted server entity 
             var entity = _dataAccess.ServerFind(this.ServerId);
             this.AutoStart = entity.AutoStart;
             this.RemoteServerHostName = entity.RemoteServerHostName;
             this.ListeningPort = entity.Port;
             this.UseSsl = entity.UseSsl;
-            this.UseHttpsForIncommingConnections = entity.UseHttpsForIncommingConnections;
+            this.UseHttpsForIncomingConnections = entity.UseHttpsForIncomingConnections;
 
             this.RecordingBehavior = entity.DisableStumpsWhenRecording
                                          ? RecordingBehavior.DisableStumps
@@ -467,7 +452,7 @@
                 var uri = new Uri(uriString);
 
                 _server = _serverFactory.CreateServer(this.ListeningPort, uri);
-                _server.UseHttpsForIncomingConnections = this.UseHttpsForIncommingConnections;
+                _server.UseHttpsForIncomingConnections = this.UseHttpsForIncomingConnections;
             }
             else
             {
@@ -482,7 +467,6 @@
                     this.Recordings.Add(e.Context);
                 }
             };
-
         }
 
         /// <summary>
@@ -497,7 +481,6 @@
                 var contract = ContractEntityBinding.CreateContractFromEntity(this.ServerId, entity, _dataAccess);
                 UnwrapAndAddStump(contract);
             }
-
         }
         
         /// <summary>
@@ -506,7 +489,6 @@
         /// <param name="contract">The <see cref="T:Stumps.Server.StumpContract"/> used to create the Stump.</param>
         private void UnwrapAndAddStump(StumpContract contract)
         {
-
             _lock.EnterWriteLock();
 
             var stump = ContractBindings.CreateStumpFromContract(contract);
@@ -516,9 +498,6 @@
             _server.AddStump(stump);
 
             _lock.ExitWriteLock();
-
         }
-
     }
-
 }

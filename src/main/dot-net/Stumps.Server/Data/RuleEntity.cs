@@ -1,6 +1,5 @@
 namespace Stumps.Server.Data
 {
-
     using System.Collections.Generic;
 
     /// <summary>
@@ -8,7 +7,6 @@ namespace Stumps.Server.Data
     /// </summary>
     public class RuleEntity
     {
-
         /// <summary>
         ///     Gets or sets the name of the rule.
         /// </summary>
@@ -33,7 +31,5 @@ namespace Stumps.Server.Data
             get;
             set;
         }
-
     }
-
 }

@@ -1,12 +1,10 @@
 namespace Stumps.Server
 {
-
     /// <summary>
     ///     Defines the behavior of the server instance when recording traffic.
     /// </summary>
     public enum RecordingBehavior
     {
-
         /// <summary>
         ///     Disable stumps when recording.
         /// </summary>
@@ -16,7 +14,5 @@ namespace Stumps.Server
         ///     Leave the status of the stumps unchanged.
         /// </summary>
         LeaveStumpsUnchanged = 1
-
     }
-
 }

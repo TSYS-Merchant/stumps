@@ -1,19 +1,21 @@
 ﻿namespace Stumps.Server.Data
 {
-
     /// <summary>
     ///     A class that represents the persisted form Stumps Server's configuration.
     /// </summary>
     public sealed class ServerEntity
     {
-
         /// <summary>
         ///     Gets or sets a value indicating whether to automatically start the Stumps server after it is loaded.
         /// </summary>
         /// <value>
         ///   <c>true</c> if the Stumps server should automatically start after it is loaded; otherwise, <c>false</c>.
         /// </value>
-        public bool AutoStart { get; set; }
+        public bool AutoStart
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         /// Gets or sets a value indicating whether to disable stumps when recording.
@@ -21,7 +23,11 @@
         /// <value>
         /// <c>true</c> to disable stumps when recording; otherwise, <c>false</c>.
         /// </value>
-        public bool DisableStumpsWhenRecording { get; set; }
+        public bool DisableStumpsWhenRecording
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         ///     Gets or sets the TCP port the Stumps server listens to for traffic.
@@ -29,7 +35,11 @@
         /// <value>
         ///     The TCP port the Stumps server listens to for traffic.
         /// </value>
-        public int Port { get; set; }
+        public int Port
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         ///     Gets or sets the host name for the remote server.
@@ -37,7 +47,11 @@
         /// <value>
         ///     The host name of the remote server.
         /// </value>
-        public string RemoteServerHostName { get; set; }
+        public string RemoteServerHostName
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         ///     Gets or sets the unique identifier for the server.
@@ -45,15 +59,23 @@
         /// <value>
         ///     The unique identifier for the server.
         /// </value>
-        public string ServerId { get; set; }
+        public string ServerId
+        {
+            get;
+            set;
+        }
 
         /// <summary>
-        ///     Gets or sets a value indicating whether use HTTPS for incomming connections rather than HTTP.
+        ///     Gets or sets a value indicating whether use HTTPS for incoming connections rather than HTTP.
         /// </summary>
         /// <value>
-        ///     <c>true</c> to use HTTPS for incomming HTTP connections rather than HTTP.
+        ///     <c>true</c> to use HTTPS for incoming HTTP connections rather than HTTP.
         /// </value>
-        public bool UseHttpsForIncommingConnections { get; set; }
+        public bool UseHttpsForIncomingConnections
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         ///     Gets or sets a value indicating whether the remote server requires an SSL connection.
@@ -61,8 +83,10 @@
         /// <value>
         ///     <c>true</c> if the remote server requires SSL; otherwise, <c>false</c>.
         /// </value>
-        public bool UseSsl { get; set; }
-
+        public bool UseSsl
+        {
+            get;
+            set;
+        }
     }
-
 }

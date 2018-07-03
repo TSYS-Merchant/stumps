@@ -1,12 +1,10 @@
 namespace Stumps.Server
 {
-
     /// <summary>
     ///     Provides a classification of the HTTP body after being analyzed.
     /// </summary>
     public enum HttpBodyClassification
     {
-
         /// <summary>
         ///     The HTTP body is empty.
         /// </summary>
@@ -26,7 +24,5 @@ namespace Stumps.Server
         ///     The HTTP body contains text.
         /// </summary>
         Text = 3
-
     }
-
 }

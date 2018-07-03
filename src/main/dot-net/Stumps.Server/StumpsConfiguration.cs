@@ -1,6 +1,5 @@
 ﻿namespace Stumps.Server
 {
-
     using System;
     using System.IO;
     using System.Net;
@@ -11,7 +10,6 @@
     /// </summary>
     public class StumpsConfiguration
     {
-
         /// <summary>
         /// The maximum data compatibility version number allowed.
         /// </summary>
@@ -32,15 +30,8 @@
         /// <exception cref="System.ArgumentNullException"><paramref name="dataAccess"/> is <c>null</c>.</exception>
         public StumpsConfiguration(IConfigurationDataAccess dataAccess)
         {
-
-            if (dataAccess == null)
-            {
-                throw new ArgumentNullException("dataAccess");
-            }
-
-            _dataAccess = dataAccess;
+            _dataAccess = dataAccess ?? throw new ArgumentNullException(nameof(dataAccess));
             _configurationEntity = CreateDefaultConfigurationEntity();
-
         }
 
         /// <summary>
@@ -51,8 +42,8 @@
         /// </value>
         public int DataCompatibilityVersion
         {
-            get { return _configurationEntity.DataCompatibilityVersion; }
-            set { _configurationEntity.DataCompatibilityVersion = value; }
+            get => _configurationEntity.DataCompatibilityVersion;
+            set => _configurationEntity.DataCompatibilityVersion = value;
         }
 
         /// <summary>
@@ -63,8 +54,8 @@
         /// </value>
         public string StoragePath
         {
-            get { return _configurationEntity.StoragePath; }
-            set { _configurationEntity.StoragePath = value; }
+            get => _configurationEntity.StoragePath;
+            set => _configurationEntity.StoragePath = value;
         }
 
         /// <summary>
@@ -75,25 +66,19 @@
         /// </value>
         public int WebApiPort
         {
-            get { return _configurationEntity.WebApiPort; }
-            set { _configurationEntity.WebApiPort = value; }
+            get => _configurationEntity.WebApiPort;
+            set => _configurationEntity.WebApiPort = value;
         }
 
         /// <summary>
         ///     Loads the configuration from the data store.
         /// </summary>
-        public void LoadConfiguration()
-        {
-            _configurationEntity = _dataAccess.LoadConfiguration();
-        }
+        public void LoadConfiguration() => _configurationEntity = _dataAccess.LoadConfiguration();
 
         /// <summary>
         ///     Saves the configuration to the data store.
         /// </summary>
-        public void SaveConfiguration()
-        {
-            _dataAccess.SaveConfiguration(_configurationEntity);
-        }
+        public void SaveConfiguration() => _dataAccess.SaveConfiguration(_configurationEntity);
 
         /// <summary>
         ///     Validates the configuration settings are correct.
@@ -103,14 +88,12 @@
         /// </returns>
         public bool ValidateConfigurationSettings()
         {
-
             var isConfigurationInvalid = this.WebApiPort < IPEndPoint.MinPort || this.WebApiPort > IPEndPoint.MaxPort ||
                                          this.DataCompatibilityVersion < StumpsConfiguration.MinimumDataCompatibilityVersion ||
                                          this.DataCompatibilityVersion > StumpsConfiguration.MaximumDataCompatibilityVersion ||
                                          !DirectoryIsValid(this.StoragePath);
 
             return !isConfigurationInvalid;
-
         }
 
         /// <summary>
@@ -121,7 +104,6 @@
         /// </returns>
         private static ConfigurationEntity CreateDefaultConfigurationEntity()
         {
-
             var entity = new ConfigurationEntity
             {
                 DataCompatibilityVersion = DefaultConfigurationSettings.DataCompatibilityVersion,
@@ -130,7 +112,6 @@
             };
 
             return entity;
-
         }
 
         /// <summary>
@@ -142,7 +123,6 @@
         /// </returns>
         private static bool DirectoryIsValid(string directoryPath)
         {
-
             bool isValid;
 
             try
@@ -155,9 +135,6 @@
             }
 
             return isValid;
-
         }
-
     }
-
 }

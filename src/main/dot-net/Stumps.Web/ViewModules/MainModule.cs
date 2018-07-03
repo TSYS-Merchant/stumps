@@ -41,7 +41,7 @@
 
                 foreach (var server in servers)
                 {
-                    var schema = server.UseHttpsForIncommingConnections ? "https" : "http";
+                    var schema = server.UseHttpsForIncomingConnections ? "https" : "http";
 
                     list.Add(
                         new

@@ -1,6 +1,5 @@
 ﻿namespace Stumps.Server
 {
-
     using System;
 
     /// <summary>
@@ -8,7 +7,6 @@
     /// </summary>
     public class RecordedContext : IStumpsHttpContext
     {
-
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:Stumps.Server.RecordedContext" /> class.
         /// </summary>
@@ -17,18 +15,13 @@
         /// <exception cref="System.ArgumentNullException"><paramref name="context"/> is <c>null</c>.</exception>
         public RecordedContext(IStumpsHttpContext context, ContentDecoderHandling decoderHandling)
         {
-
-            if (context == null)
-            {
-                throw new ArgumentNullException("context");
-            }
+            context = context ?? throw new ArgumentNullException(nameof(context));
 
             this.Request = new RecordedRequest(context.Request, decoderHandling);
             this.Response = new RecordedResponse(context.Response, decoderHandling);
 
             this.ReceivedDate = context.ReceivedDate;
             this.UniqueIdentifier = context.UniqueIdentifier;
-
         }
 
         /// <summary>
@@ -40,7 +33,6 @@
         public DateTime ReceivedDate
         {
             get;
-            private set;
         }
 
         /// <summary>
@@ -52,7 +44,6 @@
         public RecordedRequest Request
         {
             get;
-            private set;
         }
 
         /// <summary>
@@ -63,7 +54,7 @@
         /// </value>
         IStumpsHttpRequest IStumpsHttpContext.Request
         {
-            get { return this.Request; }
+            get => this.Request;
         }
 
         /// <summary>
@@ -75,7 +66,6 @@
         public RecordedResponse Response
         {
             get;
-            private set;
         }
 
         /// <summary>
@@ -86,7 +76,7 @@
         /// </value>
         IStumpsHttpResponse IStumpsHttpContext.Response
         {
-            get { return this.Response; }
+            get => this.Response;
         }
 
         /// <summary>
@@ -98,9 +88,6 @@
         public Guid UniqueIdentifier
         {
             get;
-            private set;
         }
-
     }
-
 }
