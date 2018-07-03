@@ -1,6 +1,5 @@
 ﻿namespace Stumps.Http
 {
-
     using System;
     using System.Net;
     using System.Threading.Tasks;
@@ -22,16 +21,7 @@
         /// <exception cref="System.ArgumentNullException"><paramref name="context"/> is <c>null</c>.</exception>
         public StumpsHttpContext(HttpListenerContext context)
         {
-
-            if (context == null)
-            {
-                throw new ArgumentNullException("context");
-            }
-
-            this.UniqueIdentifier = Guid.NewGuid();
-            this.ReceivedDate = DateTime.Now;
-
-            _context = context;
+            _context = context ?? throw new ArgumentNullException(nameof(context));
 
             // Initialize the HTTP request for the context
             _request = new StumpsHttpRequest();
@@ -39,7 +29,6 @@
 
             // Initialize the HTTP response for the context
             _response = new StumpsHttpResponse();
-
         }
 
         /// <summary>
@@ -51,8 +40,7 @@
         public DateTime ReceivedDate
         {
             get; 
-            private set;
-        }
+        } = DateTime.Now;
 
         /// <summary>
         ///     Gets the <see cref="T:Stumps.IStumpsHttpRequest" /> object for the current HTTP request.
@@ -62,7 +50,7 @@
         /// </value>
         public IStumpsHttpRequest Request
         {
-            get { return _request; }
+            get => _request;
         }
 
         /// <summary>
@@ -73,7 +61,7 @@
         /// </value>
         public IStumpsHttpResponse Response
         {
-            get { return _response; }
+            get => _response;
         }
 
         /// <summary>
@@ -85,8 +73,7 @@
         public Guid UniqueIdentifier
         {
             get;
-            private set;
-        }
+        } = Guid.NewGuid();
 
         /// <summary>
         ///     Closes the HTTP context and responds to the calling client.
@@ -94,7 +81,6 @@
         /// <param name="abort">if set to <c>true</c>, the connection is aborted without responding.</param>
         public async Task EndResponse(bool abort)
         {
-
             // Forceably abort the connection
             if (abort)
             {
@@ -121,12 +107,10 @@
         /// </summary>
         private async Task WriteBody()
         {
-
             if (_response.BodyLength > 0)
             {
                 await _context.Response.OutputStream.WriteAsync(_response.GetBody(), 0, _response.BodyLength);
             }
-
         }
 
         /// <summary>
@@ -134,7 +118,6 @@
         /// </summary>
         private void WriteHeaders()
         {
-
             // content type
             _context.Response.ContentType = _response.Headers["content-type"] ?? string.Empty;
 
@@ -169,11 +152,7 @@
                     // as a property - this is OK.
                     // TODO: Log error
                 }
-
             }
-
         }
-
     }
-
 }

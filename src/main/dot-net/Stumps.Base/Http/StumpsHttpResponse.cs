@@ -1,19 +1,15 @@
 ﻿namespace Stumps.Http
 {
-
     /// <summary>
     ///     A class that represents the response to an HTTP request.
     /// </summary>
     internal sealed class StumpsHttpResponse : BasicHttpResponse
     {
-
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Stumps.Http.StumpsHttpResponse"/> class.
         /// </summary>
         public StumpsHttpResponse()
         {
-            this.Origin = HttpResponseOrigin.Unprocessed;
-            this.StumpId = null;
         }
 
         /// <summary>
@@ -26,7 +22,7 @@
         {
             get;
             set;
-        }
+        } = HttpResponseOrigin.Unprocessed;
 
         /// <summary>
         ///     Gets the unique identifier for the Stump that processed the request.
@@ -40,7 +36,5 @@
             get;
             set;
         }
-
     }
-
 }

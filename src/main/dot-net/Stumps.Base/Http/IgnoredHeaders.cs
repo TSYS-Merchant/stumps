@@ -1,6 +1,5 @@
 namespace Stumps.Http
 {
-
     using System;
     using System.Collections.Generic;
 
@@ -9,7 +8,6 @@ namespace Stumps.Http
     /// </summary>
     internal static class IgnoredHeaders
     {
-
         private static readonly HashSet<string> KnownHeaders = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
         {
             "content-length",
@@ -23,11 +21,6 @@ namespace Stumps.Http
         /// </summary>
         /// <param name="headerName">THe name of the header.</param>
         /// <returns><c>true</c> if the header is ignored; otherwise, <c>false</c>.</returns>
-        public static bool IsIgnored(string headerName)
-        {
-            return KnownHeaders.Contains(headerName);
+        public static bool IsIgnored(string headerName) => KnownHeaders.Contains(headerName);
         }
-
-    }
-
 }

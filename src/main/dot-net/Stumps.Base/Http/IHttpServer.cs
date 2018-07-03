@@ -1,6 +1,5 @@
 namespace Stumps.Http
 {
-
     using System;
 
     /// <summary>
@@ -8,9 +7,8 @@ namespace Stumps.Http
     /// </summary>
     internal interface IHttpServer : IDisposable
     {
-
         /// <summary>
-        ///     Occurs when the server processed an incomming HTTP request and returned the response to the client.
+        ///     Occurs when the server processed an incoming HTTP request and returned the response to the client.
         /// </summary>
         event EventHandler<StumpsContextEventArgs> RequestFinished;
 
@@ -21,7 +19,7 @@ namespace Stumps.Http
         event EventHandler<StumpsContextEventArgs> RequestProcessed;
 
         /// <summary>
-        ///     Occurs when the server receives an incomming HTTP request.
+        ///     Occurs when the server receives an incoming HTTP request.
         /// </summary>
         event EventHandler<StumpsContextEventArgs> RequestReceived;
 
@@ -50,7 +48,5 @@ namespace Stumps.Http
         ///     Stops the instance from listening for HTTP requests.
         /// </summary>
         void StopListening();
-
     }
-
 }

@@ -1,15 +1,12 @@
 ﻿namespace Stumps.Http
 {
-
-    using System.Globalization;
     using System.Net;
 
     /// <summary>
-    ///     A class that represents an incomming HTTP request.
+    ///     A class that represents an incoming HTTP request.
     /// </summary>
     internal sealed class StumpsHttpRequest : IStumpsHttpRequest
     {
-
         private byte[] _bodyBuffer;
 
         /// <summary>
@@ -18,7 +15,6 @@
         public StumpsHttpRequest()
         {
             _bodyBuffer = new byte[0];
-            this.Headers = new ReadOnlyHttpHeaders();
         }
 
         /// <summary>
@@ -29,7 +25,7 @@
         /// </value>
         public int BodyLength
         {
-            get { return _bodyBuffer.Length; }
+            get => _bodyBuffer.Length;
         }
 
         /// <summary>
@@ -42,7 +38,7 @@
         {
             get;
             private set;
-        }
+        } = new ReadOnlyHttpHeaders();
 
         /// <summary>
         ///     Gets the HTTP data transfer method used by the client.
@@ -110,10 +106,7 @@
         /// <returns>
         ///     An array of <see cref="T:System.Byte"/> values representing the HTTP body.
         /// </returns>
-        public byte[] GetBody()
-        {
-            return _bodyBuffer;
-        }
+        public byte[] GetBody() => _bodyBuffer;
 
         /// <summary>
         ///     Initializes the instance using the specified <see cref="T:System.Net.HttpListenerRequest"/>.
@@ -121,12 +114,10 @@
         /// <param name="request">The <see cref="T:System.Net.HttpListenerRequest"/> used to initilize the instance.</param>
         public void InitializeInstance(HttpListenerRequest request)
         {
-
             // Setup the standard values
             this.HttpMethod = request.HttpMethod;
             this.LocalEndPoint = request.LocalEndPoint;
-            this.ProtocolVersion = string.Format(
-                CultureInfo.InvariantCulture, "{0}.{1}", request.ProtocolVersion.Major, request.ProtocolVersion.Minor);
+            this.ProtocolVersion = $"{request.ProtocolVersion.Major}.{request.ProtocolVersion.Minor}";
             this.RawUrl = request.RawUrl;
             this.RemoteEndPoint = request.RemoteEndPoint;
 
@@ -140,9 +131,6 @@
             {
                 headers.AddOrUpdateInternal(key, request.Headers[key]);
             }
-
         }
-
     }
-
 }

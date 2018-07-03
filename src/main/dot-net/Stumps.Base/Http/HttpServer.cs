@@ -1,10 +1,8 @@
 ﻿namespace Stumps.Http
 {
-
     using System;
     using System.Globalization;
     using System.Net;
-    using System.Threading;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -12,7 +10,6 @@
     /// </summary>
     internal sealed class HttpServer : IHttpServer
     {
-
         private readonly IHttpHandler _handler;
         private readonly int _port;
         private readonly ServerScheme _scheme;
@@ -22,30 +19,25 @@
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:Stumps.Http.HttpServer"/> class.
         /// </summary>
+        /// <param name="scheme">The transport server scheme used.</param>
         /// <param name="port">The port the HTTP server is using to listen for traffic.</param>
         /// <param name="handler">The default <see cref="T:Stumps.Http.IHttpHandler"/> executed when receiving traffic.</param>
-        /// <exception cref="System.ArgumentNullException">
-        /// <paramref name="handler"/> is <c>null</c>.
-        /// </exception>
+        /// <exception cref="ArgumentNullException">handler</exception>
+        /// <exception cref="ArgumentOutOfRangeException">port</exception>
+        /// <exception cref="System.ArgumentNullException"><paramref name="handler" /> is <c>null</c>.</exception>
         /// <exception cref="System.ArgumentOutOfRangeException"><paramref name="port"/> exceeds the allowed TCP port range.</exception>
         public HttpServer(ServerScheme scheme, int port, IHttpHandler handler)
         {
-
-            if (handler == null)
-            {
-                throw new ArgumentNullException("handler");
-            }
+            _handler = handler ?? throw new ArgumentNullException(nameof(handler));
 
             if (port < IPEndPoint.MinPort || port > IPEndPoint.MaxPort)
             {
-                throw new ArgumentOutOfRangeException("port");
+                throw new ArgumentOutOfRangeException(nameof(port));
             }
 
             _listener = new HttpListener();
             _port = port;
             _scheme = scheme;
-            _handler = handler;
-
         }
 
         /// <summary>
@@ -64,13 +56,10 @@
         /// <summary>
         /// Finalizes an instance of the <see cref="T:Stumps.Http.HttpServer"/> class.
         /// </summary>
-        ~HttpServer()
-        {
-            Dispose();
-        }
+        ~HttpServer() => Dispose();
 
         /// <summary>
-        ///     Occurs when the server processed an incomming HTTP request and returned the response to the client.
+        ///     Occurs when the server processed an incoming HTTP request and returned the response to the client.
         /// </summary>
         public event EventHandler<StumpsContextEventArgs> RequestFinished;
 
@@ -81,7 +70,7 @@
         public event EventHandler<StumpsContextEventArgs> RequestProcessed;
 
         /// <summary>
-        ///     Occurs when the server receives an incomming HTTP request.
+        ///     Occurs when the server receives an incoming HTTP request.
         /// </summary>
         public event EventHandler<StumpsContextEventArgs> RequestReceived;
 
@@ -93,7 +82,7 @@
         /// </value>
         public int Port
         {
-            get { return _port; }
+            get => _port;
         }
 
         /// <summary>
@@ -104,7 +93,7 @@
         /// </value>
         public ServerScheme Scheme
         {
-            get { return _scheme; }
+            get => _scheme;
         }
 
         /// <summary>
@@ -115,7 +104,7 @@
         /// </value>
         public bool Started
         {
-            get { return _started; }
+            get => _started;
         }
 
         /// <summary>
@@ -123,20 +112,17 @@
         /// </summary>
         public void Dispose()
         {
-
             if (_listener.IsListening)
             {
                 _listener.Stop();
             }
 
-            var disposable = _listener as IDisposable;
-            if (disposable != null)
+            if (_listener is IDisposable disposable)
             {
                 disposable.Dispose();
             }
 
             GC.SuppressFinalize(this);
-
         }
 
         /// <summary>
@@ -144,7 +130,6 @@
         /// </summary>
         public void StartListening()
         {
-
             if (_started)
             {
                 return;
@@ -165,7 +150,6 @@
             _listener.AuthenticationSchemes = AuthenticationSchemes.Anonymous;
 
             WaitForConnections();
-
         }
 
         /// <summary>
@@ -186,10 +170,8 @@
         /// <summary>
         ///     Processes the incoming HTTP request asynchronously.
         /// </summary>
-        /// <param name="asyncResult">The asynchronous result.</param>
         private async Task ProcessAsyncRequest()
         {
-
             if (_listener == null || !_listener.IsListening)
             {
                 return;
@@ -204,29 +186,19 @@
                 // Create a new StumpsHttpContext
                 var stumpsContext = new StumpsHttpContext(context);
 
-                if (this.RequestReceived != null)
-                {
-                    this.RequestReceived(this, new StumpsContextEventArgs(stumpsContext));
-                }
+                this.RequestReceived?.Invoke(this, new StumpsContextEventArgs(stumpsContext));
 
                 // Process the request through the HTTP handler
                 var processResult = await _handler.ProcessRequest(stumpsContext);
 
-                if (this.RequestProcessed != null)
-                {
-                    this.RequestProcessed(this, new StumpsContextEventArgs(stumpsContext));
-                }
+                this.RequestProcessed?.Invoke(this, new StumpsContextEventArgs(stumpsContext));
 
                 var abortConnection = processResult == ProcessHandlerResult.DropConnection;
 
                 // End the request
                 await stumpsContext.EndResponse(abortConnection);
 
-                if (this.RequestFinished != null)
-                {
-                    this.RequestFinished(this, new StumpsContextEventArgs(stumpsContext));
-                }
-
+                this.RequestFinished?.Invoke(this, new StumpsContextEventArgs(stumpsContext));
             }
             catch (AggregateException aex)
             {
@@ -246,7 +218,6 @@
             catch (InvalidOperationException)
             {
             }
-
         }
 
         /// <summary>
@@ -254,14 +225,10 @@
         /// </summary>
         private void WaitForConnections()
         {
-
             if (_started && _listener.IsListening)
             {
                 Task.Run(async () => await ProcessAsyncRequest());
             }
-
         }
-
     }
-
 }

@@ -1,6 +1,5 @@
 ﻿namespace Stumps.Http
 {
-
     using System;
     using System.Threading.Tasks;
 
@@ -9,9 +8,8 @@
     /// </summary>
     internal interface IHttpHandler
     {
-
         /// <summary>
-        ///     Occurs when an incomming HTTP requst is processed and responded to by the HTTP handler.
+        ///     Occurs when an incoming HTTP requst is processed and responded to by the HTTP handler.
         /// </summary>
         event EventHandler<StumpsContextEventArgs> ContextProcessed;
 
@@ -23,7 +21,5 @@
         ///     A member of the <see cref="T:Stumps.Http.ProcessHandlerResult"/> enumeration.
         /// </returns>
         Task<ProcessHandlerResult> ProcessRequest(IStumpsHttpContext context);
-
     }
-
 }
