@@ -1,6 +1,5 @@
 ﻿namespace Stumps
 {
-
     using Stumps.Server;
 
     /// <summary>
@@ -8,7 +7,6 @@
     /// </summary>
     public interface IStartup
     {
-
         /// <summary>
         ///     Gets or sets the configuration for the Stumps server.
         /// </summary>
@@ -29,7 +27,5 @@
         ///     Runs the instance of the Stumps server.
         /// </summary>
         void RunInstance();
-
     }
-
 }

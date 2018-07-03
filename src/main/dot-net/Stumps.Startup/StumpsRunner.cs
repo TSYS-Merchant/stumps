@@ -1,6 +1,5 @@
 ﻿namespace Stumps
 {
-
     using System;
     using Stumps.Server;
     using Stumps.Server.Data;
@@ -11,7 +10,6 @@
     /// </summary>
     public sealed class StumpsRunner : IDisposable
     {
-
         private readonly object _syncRoot;
         private bool _disposed;
 
@@ -27,24 +25,14 @@
         /// <exception cref="System.ArgumentNullException"><paramref name="configuration"/> is <c>null</c>.</exception>
         public StumpsRunner(StumpsConfiguration configuration)
         {
-
-            if (configuration == null)
-            {
-                throw new ArgumentNullException("configuration");
-            }
-
-            this.Configuration = configuration;
+            this.Configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
             _syncRoot = new object();
-
         }
 
         /// <summary>
         ///     Finalizes an instance of the <see cref="T:Stumps.StumpsServer"/> class.
         /// </summary>
-        ~StumpsRunner()
-        {
-            Dispose();
-        }
+        ~StumpsRunner() => Dispose();
 
         /// <summary>
         /// Gets the <see cref="T:Stumps.Server.StumpsConfiguration"/> used to initialize the instance.
@@ -52,14 +40,16 @@
         /// <value>
         /// The <see cref="T:Stumps.Server.StumpsConfiguration"/> used to initialize the instance.
         /// </value>
-        public StumpsConfiguration Configuration { get; private set; }
+        public StumpsConfiguration Configuration
+        {
+            get;
+        }
 
         /// <summary>
         ///     Stops all running proxy servers and the REST API.
         /// </summary>
         public void Shutdown()
         {
-
             lock (_syncRoot)
             {
                 if (!_started)
@@ -74,9 +64,7 @@
 
                 _host.Dispose();
                 _webServer.Dispose();
-
             }
-
         }
 
         /// <summary>
@@ -85,11 +73,9 @@
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Objects are disposed when the modules are stopped.")]
         public void Start()
         {
-
             // Prevent multiple simultaneous requests to start or stop the instance. 
             lock (_syncRoot)
             {
-
                 if (_started)
                 {
                     return;
@@ -112,9 +98,7 @@
                 // Start the host and the web server
                 _host.Start();
                 _webServer.Start();
-
             }
-
         }
 
         /// <summary>
@@ -122,23 +106,17 @@
         /// </summary>
         public void Dispose()
         {
-
             if (!_disposed)
             {
-
                 _disposed = true;
 
                 if (_started)
                 {
                     this.Shutdown();
                 }
-
             }
 
             GC.SuppressFinalize(this);
-
         }
-        
     }
-
 }

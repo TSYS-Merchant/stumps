@@ -1,13 +1,11 @@
 ﻿namespace Stumps
 {
-
     /// <summary>
     ///     A class that provides an implementation of <see cref="T:Stumps.IMessageWriter"/> that writes messages
     ///     to the Windows event logs.
     /// </summary>
     public class EventLogWriter : IMessageWriter
     {
-
         /// <summary>
         ///     Records a debug message.
         /// </summary>
@@ -31,7 +29,5 @@
         public void Information(string message)
         {
         }
-
     }
-
 }
