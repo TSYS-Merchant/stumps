@@ -1,6 +1,5 @@
 ﻿namespace Stumps.Rules
 {
-
     using System;
     using System.Collections.Generic;
 
@@ -9,7 +8,6 @@
     /// </summary>
     public class HttpMethodRule : IStumpRule
     {
-
         private const string HttpMethodSetting = "httpmethod.value";
 
         private string _textMatchValue;
@@ -39,7 +37,7 @@
         /// </value>
         public string HttpMethodTextMatch
         {
-            get { return _textMatchValue; }
+            get => _textMatchValue;
         }
         
         /// <summary>
@@ -64,7 +62,11 @@
         {
             var settings = new[]
             {
-                new RuleSetting { Name = HttpMethodRule.HttpMethodSetting, Value = _textMatchValue }
+                new RuleSetting
+                {
+                    Name = HttpMethodRule.HttpMethodSetting,
+                    Value = _textMatchValue
+                }
             };
 
             return settings;
@@ -76,22 +78,17 @@
         /// <param name="settings">The enumerable list of <see cref="T:Stumps.RuleSetting" /> objects.</param>
         public void InitializeFromSettings(IEnumerable<RuleSetting> settings)
         {
+            settings = settings ?? throw new ArgumentNullException(nameof(settings));
 
             if (this.IsInitialized)
             {
                 throw new InvalidOperationException(BaseResources.BodyRuleAlreadyInitializedError);
             }
 
-            if (settings == null)
-            {
-                throw new ArgumentNullException("settings");
-            }
-
             var helper = new RuleSettingsHelper(settings);
             var httpMethod = helper.FindString(HttpMethodRule.HttpMethodSetting, string.Empty);
 
             InitializeRule(httpMethod);
-
         }
 
         /// <summary>
@@ -103,7 +100,6 @@
         /// </returns>
         public bool IsMatch(IStumpsHttpRequest request)
         {
-
             if (request == null)
             {
                 return false;
@@ -111,7 +107,6 @@
 
             var match = _textMatch.IsMatch(request.HttpMethod);
             return match;
-
         }
 
         /// <summary>
@@ -120,13 +115,9 @@
         /// <param name="httpMethod">The HTTP method for the rule.</param>
         public void InitializeRule(string httpMethod)
         {
-
             _textMatchValue = httpMethod ?? string.Empty;
             _textMatch = new TextMatch(_textMatchValue, true);
             this.IsInitialized = true;
-
         }
-
     }
-
 }

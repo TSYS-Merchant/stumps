@@ -1,6 +1,5 @@
 ﻿namespace Stumps.Rules
 {
-
     using System;
     using System.Collections.Generic;
 
@@ -9,13 +8,11 @@
     /// </summary>
     public class HeaderRule : IStumpRule
     {
-
         private const string HeaderNameSetting = "header.name";
         private const string HeaderValueSetting = "header.value";
 
         private string _headerNameValue;
         private string _headerValueValue;
-
         private TextMatch _nameTextMatch;
         private TextMatch _valueTextMatch;
 
@@ -33,9 +30,7 @@
         /// <param name="value">The value of the HTTP header.</param>
         public HeaderRule(string name, string value)
         {
-
             InitializeRule(name, value);
-
         }
 
         /// <summary>
@@ -46,7 +41,7 @@
         /// </value>
         public string HeaderNameTextMatch
         {
-            get { return _headerNameValue; }
+            get => _headerNameValue;
         }
 
         /// <summary>
@@ -57,7 +52,7 @@
         /// </value>
         public string HeaderValueTextMatch
         {
-            get { return _headerValueValue; }
+            get => _headerValueValue;
         }
 
         /// <summary>
@@ -80,15 +75,21 @@
         /// </returns>
         public IEnumerable<RuleSetting> GetRuleSettings()
         {
-
             var settings = new[]
             {
-                new RuleSetting { Name = HeaderRule.HeaderNameSetting, Value = _headerNameValue },
-                new RuleSetting { Name = HeaderRule.HeaderValueSetting, Value = _headerValueValue }
+                new RuleSetting
+                {
+                    Name = HeaderRule.HeaderNameSetting,
+                    Value = _headerNameValue
+                },
+                new RuleSetting
+                {
+                    Name = HeaderRule.HeaderValueSetting,
+                    Value = _headerValueValue
+                }
             };
 
             return settings;
-
         }
 
         /// <summary>
@@ -97,15 +98,11 @@
         /// <param name="settings">The enumerable list of <see cref="T:Stumps.RuleSetting" /> objects.</param>
         public void InitializeFromSettings(IEnumerable<RuleSetting> settings)
         {
+            settings = settings ?? throw new ArgumentNullException(nameof(settings));
 
             if (this.IsInitialized)
             {
                 throw new InvalidOperationException(BaseResources.BodyRuleAlreadyInitializedError);
-            }
-
-            if (settings == null)
-            {
-                throw new ArgumentNullException("settings");
             }
 
             var helper = new RuleSettingsHelper(settings);
@@ -113,7 +110,6 @@
             var value = helper.FindString(HeaderRule.HeaderValueSetting, string.Empty);
 
             InitializeRule(name, value);
-
         }
 
         /// <summary>
@@ -125,7 +121,6 @@
         /// </returns>
         public bool IsMatch(IStumpsHttpRequest request)
         {
-
             if (request == null || request.Headers == null)
             {
                 return false;
@@ -135,7 +130,6 @@
 
             foreach (var headerName in request.Headers.HeaderNames)
             {
-
                 var nameMatches = _nameTextMatch.IsMatch(headerName);
 
                 if (!nameMatches)
@@ -152,11 +146,9 @@
 
                 match = true;
                 break;
-
             }
 
             return match;
-
         }
 
         /// <summary>
@@ -166,7 +158,6 @@
         /// <param name="value">The value of the HTTP header.</param>
         private void InitializeRule(string name, string value)
         {
-
             _headerNameValue = name ?? string.Empty;
             _headerValueValue = value ?? string.Empty;
 
@@ -175,7 +166,5 @@
 
             this.IsInitialized = true;
         }
-
     }
-
 }

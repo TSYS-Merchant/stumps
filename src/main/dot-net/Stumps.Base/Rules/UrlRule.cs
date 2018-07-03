@@ -1,6 +1,5 @@
 ﻿namespace Stumps.Rules
 {
-
     using System;
     using System.Collections.Generic;
 
@@ -9,7 +8,6 @@
     /// </summary>
     public class UrlRule : IStumpRule
     {
-
         private const string UrlSetting = "url.value";
 
         private TextMatch _textMatch;
@@ -51,7 +49,7 @@
         /// </value>
         public string UrlTextMatch
         {
-            get { return _textMatchValue; }
+            get => _textMatchValue;
         }
 
         /// <summary>
@@ -62,14 +60,16 @@
         /// </returns>
         public IEnumerable<RuleSetting> GetRuleSettings()
         {
-            
             var settings = new[]
             {
-                new RuleSetting { Name = UrlRule.UrlSetting, Value = _textMatchValue }
+                new RuleSetting
+                {
+                    Name = UrlRule.UrlSetting,
+                    Value = _textMatchValue
+                }
             };
 
             return settings;
-
         }
 
         /// <summary>
@@ -78,22 +78,17 @@
         /// <param name="settings">The enumerable list of <see cref="T:Stumps.RuleSetting" /> objects.</param>
         public void InitializeFromSettings(IEnumerable<RuleSetting> settings)
         {
+            settings = settings ?? throw new ArgumentNullException(nameof(settings));
 
             if (this.IsInitialized)
             {
                 throw new InvalidOperationException(BaseResources.BodyRuleAlreadyInitializedError);
             }
 
-            if (settings == null)
-            {
-                throw new ArgumentNullException("settings");
-            }
-
             var helper = new RuleSettingsHelper(settings);
             var value = helper.FindString(UrlRule.UrlSetting, string.Empty);
 
             InitializeRule(value);
-
         }
 
         /// <summary>
@@ -105,7 +100,6 @@
         /// </returns>
         public bool IsMatch(IStumpsHttpRequest request)
         {
-
             if (request == null)
             {
                 return false;
@@ -113,7 +107,6 @@
 
             var match = _textMatch.IsMatch(request.RawUrl);
             return match;
-
         }
 
         /// <summary>
@@ -126,9 +119,6 @@
 
             _textMatch = new TextMatch(_textMatchValue, true);
             this.IsInitialized = true;
-
         }
-
     }
-
 }

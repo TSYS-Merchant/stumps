@@ -1,6 +1,5 @@
 ﻿namespace Stumps.Rules
 {
-
     using System;
     using System.Collections.Generic;
 
@@ -9,10 +8,8 @@
     /// </summary>
     public class BodyLengthRule : IStumpRule
     {
-
         private const string MaximumLengthSettingName = "length.maximum";
         private const string MinimumLengthSettingName = "length.minimum";
-
         private const int DefaultMinimumLength = int.MinValue;
         private const int DefaultMaximumLength = int.MinValue;
 
@@ -35,11 +32,9 @@
         /// <param name="maximumBodyLength">The maximum length of the body.</param>
         public BodyLengthRule(int minimumBodyLength, int maximumBodyLength)
         {
-
             this.IsInitialized = true;
             _minimumLength = minimumBodyLength;
             _maximumLength = maximumBodyLength;
-
         }
         
         /// <summary>
@@ -62,7 +57,7 @@
         /// </value>
         public int MaximumBodyLength
         {
-            get { return _maximumLength; }
+            get => _maximumLength;
         }
 
         /// <summary>
@@ -73,7 +68,7 @@
         /// </value>
         public int MinimumBodyLength
         {
-            get { return _minimumLength; }
+            get => _minimumLength;
         }
         
         /// <summary>
@@ -84,13 +79,11 @@
         /// </returns>
         public IEnumerable<RuleSetting> GetRuleSettings()
         {
-
             var helper = new RuleSettingsHelper();
             helper.Add(BodyLengthRule.MaximumLengthSettingName, _maximumLength);
             helper.Add(BodyLengthRule.MinimumLengthSettingName, _minimumLength);
 
             return helper.ToEnumerableList();
-
         }
 
         /// <summary>
@@ -99,15 +92,11 @@
         /// <param name="settings">The enumerable list of <see cref="T:Stumps.RuleSetting" /> objects.</param>
         public void InitializeFromSettings(IEnumerable<RuleSetting> settings)
         {
+            settings = settings ?? throw new ArgumentNullException(nameof(settings));
 
             if (this.IsInitialized)
             {
                 throw new InvalidOperationException(BaseResources.BodyRuleAlreadyInitializedError);
-            }
-
-            if (settings == null)
-            {
-                throw new ArgumentNullException("settings");
             }
 
             var helper = new RuleSettingsHelper(settings);
@@ -115,7 +104,6 @@
             _minimumLength = helper.FindInteger(BodyLengthRule.MinimumLengthSettingName, BodyLengthRule.DefaultMinimumLength);
 
             this.IsInitialized = true;
-
         }
 
         /// <summary>
@@ -127,7 +115,6 @@
         /// </returns>
         public bool IsMatch(IStumpsHttpRequest request)
         {
-
             if (request == null)
             {
                 return false;
@@ -136,9 +123,6 @@
             var match = request.BodyLength >= _minimumLength && request.BodyLength <= _maximumLength;
 
             return match;
-
         }
-        
     }
-
 }

@@ -1,6 +1,5 @@
 ﻿namespace Stumps.Rules
 {
-
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -12,9 +11,7 @@
     /// </summary>
     public class BodyContentRule : IStumpRule
     {
-
         private const string TextEvaluationSettingName = "text.evaluation";
-
         private List<TextContainsMatch> _textMatchList;
         private string[] _textMatches;
 
@@ -31,9 +28,7 @@
         /// <param name="textEvaluators">The array of strings representing text evaluation rules.</param>
         public BodyContentRule(string[] textEvaluators)
         {
-
             InitializeRule(textEvaluators);
-
         }
 
         /// <summary>
@@ -56,7 +51,6 @@
         /// </returns>
         public IEnumerable<RuleSetting> GetRuleSettings()
         {
-
             var settings = new List<RuleSetting>();
 
             if (_textMatches != null)
@@ -69,7 +63,6 @@
             }
 
             return settings;
-
         }
 
         /// <summary>
@@ -78,10 +71,7 @@
         /// <value>
         ///     The text evaluators used for the body content rule.
         /// </value>
-        public string[] GetTextEvaluators()
-        {
-            return _textMatches;
-        }
+        public string[] GetTextEvaluators() => _textMatches;
 
         /// <summary>
         ///     Initializes a rule from an enumerable list of <see cref="T:Stumps.RuleSetting" /> objects.
@@ -89,15 +79,11 @@
         /// <param name="settings">The enumerable list of <see cref="T:Stumps.RuleSetting" /> objects.</param>
         public void InitializeFromSettings(IEnumerable<RuleSetting> settings)
         {
+            settings = settings ?? throw new ArgumentNullException(nameof(settings));
 
             if (this.IsInitialized)
             {
                 throw new InvalidOperationException(BaseResources.BodyRuleAlreadyInitializedError);
-            }
-
-            if (settings == null)
-            {
-                throw new ArgumentNullException("settings");
             }
 
             var textEvaluators = new List<string>();
@@ -113,7 +99,6 @@
             }
 
             InitializeRule(textEvaluators.ToArray());
-
         }
 
         /// <summary>
@@ -125,7 +110,6 @@
         /// </returns>
         public bool IsMatch(IStumpsHttpRequest request)
         {
-
             if (request == null || request.BodyLength == 0)
             {
                 return false;
@@ -153,7 +137,6 @@
             }
 
             return match;
-
         }
 
         /// <summary>
@@ -162,9 +145,7 @@
         /// <param name="textEvaluators">The array of strings representing text evaluation rules.</param>
         private void InitializeRule(string[] textEvaluators)
         {
-
             this.IsInitialized = true;
-
             _textMatches = textEvaluators;
 
             if (textEvaluators == null)
@@ -178,9 +159,6 @@
             {
                 _textMatchList.Add(new TextContainsMatch(rule, false));
             }
-
         }
-
     }
-
 }
