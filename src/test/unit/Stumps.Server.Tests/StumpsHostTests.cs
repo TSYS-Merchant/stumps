@@ -1,6 +1,5 @@
 ﻿namespace Stumps.Server
 {
-
     using System;
     using System.Net;
     using System.Net.Sockets;
@@ -13,15 +12,12 @@
     [TestFixture]
     public class StumpsHostTests
     {
-
         private readonly int _defaultPort;
 
         public StumpsHostTests()
         {
-
             var randomGenerator = new Random();
             _defaultPort = randomGenerator.Next(IPEndPoint.MinPort, IPEndPoint.MinPort + 1);
-
         }
 
         [Test]
@@ -36,7 +32,6 @@
         [Test]
         public void Constructor_PortInUse_ThrowsException()
         {
-
             int port = NetworkInformation.FindRandomOpenPort();
             string externalHostName = "www.foo.com";
             bool autoStart = false;
@@ -70,7 +65,6 @@
             {
                 tcpListener.Stop();
             }
-
         }
 
         [Test]
@@ -85,7 +79,5 @@
                 () => proxy.CreateServerInstance("www.foo.com", IPEndPoint.MinPort - 1, true, false),
                 Throws.Exception.TypeOf<ArgumentOutOfRangeException>().With.Property("ParamName").EqualTo("port"));
         }
-
     }
-
 }

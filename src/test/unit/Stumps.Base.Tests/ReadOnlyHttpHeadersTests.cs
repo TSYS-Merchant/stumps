@@ -1,13 +1,11 @@
-namespace Stumps
+﻿namespace Stumps
 {
-
     using System;
     using NUnit.Framework;
 
     [TestFixture]
     public class ReadOnlyHttpHeadersTests
     {
-
         [Test]
         public void Constructor_WithDefaults_HasNoHeaders()
         {
@@ -114,7 +112,5 @@ namespace Stumps
             headers.RemoveInternal("abc");
             Assert.AreEqual(0, headers.Count);
         }
-
     }
-
 }

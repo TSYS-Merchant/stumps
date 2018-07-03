@@ -1,12 +1,10 @@
 ﻿namespace Stumps
 {
-
     using System;
     using Stumps.Http;
 
     public class MockHttpResponse : IStumpsHttpResponse
     {
-
         private byte[] _bodyBuffer;
         
         public MockHttpResponse()
@@ -66,7 +64,5 @@
         {
             return _bodyBuffer;
         }
-
     }
-
 }

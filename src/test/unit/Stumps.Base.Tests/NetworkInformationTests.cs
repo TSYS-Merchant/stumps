@@ -1,6 +1,5 @@
 ﻿namespace Stumps
 {
-
     using System;
     using System.Net;
     using System.Net.NetworkInformation;
@@ -9,29 +8,24 @@
     [TestFixture]
     public class NetworkInformationTests
     {
-
         [Test]
         public void FindRandomOpenPort_ReturnsPort()
         {
             var port = NetworkInformation.FindRandomOpenPort();
             Assert.IsNotNull(port);
-
         }
 
         [Test]
         public void FindRandomOpenPort_FindsValidPort()
         {
-
             var port = NetworkInformation.FindRandomOpenPort();
             Assert.IsFalse(IsPortInUse(port));
-
         }
 
         [Test]
         public void IsPortInUse_With135_ReturnsTrue()
         {
-            // This is a really crappy test and only works on Windows
-            // environments -- my apologies.
+            /* This is a really crappy test and only works on Windows environments -- my apologies. */
 
             if (Environment.OSVersion.Platform == PlatformID.Win32NT)
             {
@@ -52,7 +46,6 @@
 
         private static bool IsPortInUse(int port)
         {
-
             var globalIpProperties = IPGlobalProperties.GetIPGlobalProperties();
             var connections = globalIpProperties.GetActiveTcpConnections();
 
@@ -68,9 +61,6 @@
             }
 
             return isPortInUse;
-
         }
-
     }
-
 }

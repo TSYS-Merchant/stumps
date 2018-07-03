@@ -1,35 +1,34 @@
 ﻿namespace Stumps.Http
 {
-
     using System;
     using System.Globalization;
     using System.Net;
+    using System.Threading;
     using NUnit.Framework;
 
     [TestFixture]
     public class StumpsHttpRequestTests
     {
-
         [Test]
         public void StumpsHttpRequest_PopulatesCorrectly()
         {
+            var mockHandler = new MockHandler
+            {
+                StatusCode = 202,
+                StatusDescription = "Bob"
+            };
 
-            var mockHandler = new MockHandler();
-            mockHandler.StatusCode = 202;
-            mockHandler.StatusDescription = "Bob";
             mockHandler.UpdateBody(TestData.SampleTextResponse);
             mockHandler.ContentType = "bobs.type";
 
-            var startingEventCount = 0;
+            var requestReceivedEvent = new AutoResetEvent(false);
 
             using (var server = HttpHelper.CreateServer(mockHandler))
             {
-
                 server.RequestReceived += (o, i) =>
                 {
                     var request = i.Context.Request;
 
-                    startingEventCount++;
                     Assert.Greater(request.Headers.Count, 0);
                     Assert.AreEqual("POST", request.HttpMethod);
                     Assert.AreEqual(server.Port, request.LocalEndPoint.Port);
@@ -37,7 +36,7 @@
                     Assert.AreEqual("/", request.RawUrl);
                     Assert.AreEqual(3, request.BodyLength);
                     CollectionAssert.AreEqual(new byte[] { 1, 2, 3 }, request.GetBody());
-
+                    requestReceivedEvent.Set();
                 };
 
                 server.StartListening();
@@ -58,13 +57,10 @@
                 {
                     Assert.IsNotNull(response);
                 }
-
             }
 
-            Assert.AreEqual(startingEventCount, 1);
-
+            var requestReceived = requestReceivedEvent.WaitOne(1000);
+            Assert.IsTrue(requestReceived);
         }
-
     }
-
 }

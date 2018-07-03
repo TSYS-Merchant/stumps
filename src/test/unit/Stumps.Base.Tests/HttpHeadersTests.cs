@@ -1,13 +1,11 @@
-namespace Stumps
+﻿namespace Stumps
 {
-
     using System;
     using NUnit.Framework;
 
     [TestFixture]
     public class HttpHeaderTests
     {
-
         [Test]
         public void Constructor_WithDefaults_HasNoHeaders()
         {
@@ -122,11 +120,9 @@ namespace Stumps
         [Test]
         public void CopyTo_WithNullHeaders_ThrowsException()
         {
-
             Assert.That(
                 () => new HttpHeaders().CopyTo(null),
                 Throws.Exception.TypeOf<ArgumentNullException>().With.Property("ParamName").EqualTo("httpHeaders"));
-
         }
 
         [Test]
@@ -191,7 +187,5 @@ namespace Stumps
             headers["abc"] = "123";
             Assert.IsFalse(headers.Remove("defg"));
         }
-
     }
-
 }

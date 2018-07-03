@@ -1,11 +1,9 @@
 ﻿namespace Stumps
 {
-
     using System;
 
     public class MockHttpContext : IStumpsHttpContext
     {
-
         public MockHttpContext() : this(null, null)
         {
         }
@@ -29,7 +27,5 @@
         {
             get { return Guid.NewGuid(); }
         }
-
     }
-
 }

@@ -1,22 +1,18 @@
 ﻿namespace Stumps.Server.Utility
 {
-
     using System.IO;
     using NUnit.Framework;
 
     [TestFixture]
     public class JsonUtilityTests
     {
-
         [Test]
         public void DeserializeFromDirectory_WithValidDirectory_LoadsAndDeserializes()
         {
-
             var tempFolder = CreateTempFolder();
 
             try
             {
-
                 CreateJsonFile(tempFolder);
                 CreateJsonFile(tempFolder);
                 CreateJsonFile(tempFolder);
@@ -25,19 +21,16 @@
                     tempFolder, "*.*", SearchOption.AllDirectories);
 
                 Assert.AreEqual(3, obj.Count);
-
             }
             finally
             {
                 DeleteTempFolder(tempFolder);
             }
-
         }
 
         [Test]
         public void DeserializeFromFile_WithValidFile_LoadsAndDeserializes()
         {
-
             var tempFolder = CreateTempFolder();
 
             try
@@ -48,19 +41,16 @@
                 Assert.AreEqual("Red", obj.Color);
                 Assert.AreEqual(SampleJsonObject.SampleValues.Value2, obj.EnumerationValue);
                 Assert.AreEqual(50, obj.Number);
-
             }
             finally
             {
                 DeleteTempFolder(tempFolder);
             }
-
         }
 
         [Test]
         public void SerializeToFile_WithValidObject_CreatesFile()
         {
-
             var tempFolder = CreateTempFolder();
             try
             {
@@ -82,7 +72,6 @@
             {
                 DeleteTempFolder(tempFolder);
             }
-
         }
 
         private string CreateJsonFile(string tempFolder)
@@ -96,24 +85,18 @@
 
         private string CreateTempFolder()
         {
-
             var path = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
             Directory.CreateDirectory(path);
 
             return path;
-
         }
 
         private void DeleteTempFolder(string path)
         {
-
             if (Directory.Exists(path))
             {
                 Directory.Delete(path, true);
             }
-
         }
-
     }
-
 }

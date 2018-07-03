@@ -1,6 +1,5 @@
 ﻿namespace Stumps.Server
 {
-
     using System;
     using System.IO;
     using NSubstitute;
@@ -10,34 +9,28 @@
     [TestFixture]
     public class ConfigurationTests
     {
-
         [Test]
         public void Constructor_NullDataAccess_ThrowsException()
         {
-
             Assert.That(
                 () => new StumpsConfiguration(null),
                 Throws.Exception.TypeOf<ArgumentNullException>().With.Property("ParamName").EqualTo("dataAccess"));
-
         }
 
         [Test]
         public void Constructor_WithValidDataAccess_InitializesUsingDefaults()
         {
-
             var dal = Substitute.For<IConfigurationDataAccess>();
             var config = new StumpsConfiguration(dal);
 
             Assert.AreEqual(DefaultConfigurationSettings.DataCompatibilityVersion, config.DataCompatibilityVersion);
             Assert.AreEqual(DefaultConfigurationSettings.StoragePath, config.StoragePath);
             Assert.AreEqual(DefaultConfigurationSettings.WebApiPort, config.WebApiPort);
-
         }
 
         [Test]
         public void LoadConfiguration_CallsDal()
         {
-
             var entity = CreateSampleConfigurationEntity();
 
             var configurationDal = Substitute.For<IConfigurationDataAccess>();
@@ -47,13 +40,11 @@
             configuration.LoadConfiguration();
 
             configurationDal.Received(1).LoadConfiguration();
-
         }
 
         [Test]
         public void LoadConfiguration_UpdatesConfigurationValues()
         {
-
             var entity = CreateSampleConfigurationEntity();
 
             var configurationDal = Substitute.For<IConfigurationDataAccess>();
@@ -65,13 +56,11 @@
             Assert.AreEqual(entity.DataCompatibilityVersion, configuration.DataCompatibilityVersion);
             Assert.AreEqual(entity.StoragePath, configuration.StoragePath);
             Assert.AreEqual(entity.WebApiPort, configuration.WebApiPort);
-
         }
 
         [Test]
         public void SaveConfiguration_CallsDalWithCorrectArgs()
         {
-
             const int DataCompatibility = 15;
             const string StoragePath = @"C:\StoragePath";
             const int Port = 8000;
@@ -95,13 +84,11 @@
                                     x =>
                                     x.DataCompatibilityVersion == DataCompatibility && x.StoragePath.Equals(StoragePath) &&
                                     x.WebApiPort == Port));
-
         }
 
         [Test]
         public void ValidConfiguration_WithInvalidDatabaseCompatibility_ReturnsFalse()
         {
-
             var configurationDal = Substitute.For<IConfigurationDataAccess>();
 
             var configuration = new StumpsConfiguration(configurationDal)
@@ -116,13 +103,11 @@
             configuration.DataCompatibilityVersion = StumpsConfiguration.MaximumDataCompatibilityVersion + 1;
 
             Assert.IsFalse(configuration.ValidateConfigurationSettings());
-
         }
 
         [Test]
         public void ValidConfiguration_WithInvalidPort_ReturnsFalse()
         {
-
             var configurationDal = Substitute.For<IConfigurationDataAccess>();
 
             var configuration = new StumpsConfiguration(configurationDal)
@@ -137,13 +122,11 @@
             configuration.WebApiPort = int.MaxValue;
 
             Assert.IsFalse(configuration.ValidateConfigurationSettings());
-
         }
 
         [Test]
         public void ValidConfiguration_WithInvalidStoragePath_ReturnsFalse()
         {
-
             var configurationDal = Substitute.For<IConfigurationDataAccess>();
 
             var configuration = new StumpsConfiguration(configurationDal)
@@ -161,13 +144,11 @@
 
             configuration.StoragePath = "test >> &&& // \\ || bad path";
             Assert.IsFalse(configuration.ValidateConfigurationSettings());
-
         }
 
         [Test]
         public void ValidConfiguration_WithValidValues_ReturnsTrue()
         {
-
             var configurationDal = Substitute.For<IConfigurationDataAccess>();
             var configuration = new StumpsConfiguration(configurationDal)
             {
@@ -177,12 +158,10 @@
             };
 
             Assert.IsTrue(configuration.ValidateConfigurationSettings());
-
         }
 
         private ConfigurationEntity CreateSampleConfigurationEntity()
         {
-
             var entity = new ConfigurationEntity
             {
                 DataCompatibilityVersion = 15,
@@ -191,9 +170,6 @@
             };
 
             return entity;
-
         }
-
     }
-
 }

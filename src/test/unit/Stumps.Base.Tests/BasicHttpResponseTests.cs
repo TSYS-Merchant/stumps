@@ -1,6 +1,5 @@
-namespace Stumps
+﻿namespace Stumps
 {
-
     using System;
     using System.Text;
     using NUnit.Framework;
@@ -8,7 +7,6 @@ namespace Stumps
     [TestFixture]
     public class BasicHttpResponseTests
     {
-
         [Test]
         public void Constructor_Default_InitializesHeader()
         {
@@ -34,7 +32,6 @@ namespace Stumps
         [Test]
         public void AppendToBody_WithAdditionalBytes_AppendsToEnd()
         {
-
             var newBytes = new byte[5]
             {
                 1, 2, 3, 4, 5
@@ -50,13 +47,11 @@ namespace Stumps
             response.AppendToBody(newBytes);
             Assert.AreEqual(10, response.BodyLength);
             CollectionAssert.AreEqual(expected, response.GetBody());
-
         }
 
         [Test]
         public void AppendToBody_WithAdditionalString_AppendsToEnd()
         {
-
             var newString = "ABCDE";
 
             var expectedString = "ABCDEABCDE";
@@ -66,7 +61,6 @@ namespace Stumps
             response.AppendToBody(newString);
             Assert.AreEqual(10, response.BodyLength);
             CollectionAssert.AreEqual(expectedString, response.GetBodyAsString());
-
         }
 
         [Test]
@@ -120,19 +114,16 @@ namespace Stumps
         [Test]
         public void AppendToBody_WithStringAndNullEncoding_ThrowsException()
         {
-
             var response = new BasicHttpResponse();
             
             Assert.That(
                 () => response.AppendToBody(string.Empty, null),
                 Throws.Exception.TypeOf<ArgumentNullException>().With.Property("ParamName").EqualTo("encoding"));
-
         }
 
         [Test]
         public void ClearBody_WhenCalled_RemovedAllBytes()
         {
-
             var newBytes = new byte[5]
             {
                 1, 2, 3, 4, 5
@@ -145,22 +136,17 @@ namespace Stumps
             var bodyBytes = response.GetBody();
             Assert.IsNotNull(bodyBytes);
             Assert.AreEqual(0, bodyBytes.Length);
-
         }
 
         [Test]
         public void GetBody_WithNullEncoding_ThrowsException()
         {
-
             var response = new BasicHttpResponse();
             response.AppendToBody("ABCD");
 
             Assert.That(
                 () => response.GetBodyAsString(null),
                 Throws.Exception.TypeOf<ArgumentNullException>().With.Property("ParamName").EqualTo("encoding"));
-
         }
-
     }
-
 }

@@ -1,6 +1,5 @@
 ﻿namespace Stumps.Rules
 {
-
     using System;
     using System.Collections.Generic;
     using System.Text;
@@ -10,31 +9,24 @@
     [TestFixture]
     public class BodyContentRuleTests
     {
-
         [Test]
         public void Constructor_Default_NotInitialized()
         {
-
             var rule = new BodyContentRule();
             Assert.IsFalse(rule.IsInitialized);
-
         }
 
         [Test]
         public void Constructor_ListOfStrings_Initialized()
         {
-
             var rule = new BodyContentRule(new string[] { "Test1", "Test2" });
             Assert.True(rule.IsInitialized);
-
         }
 
         [Test]
         public void Constructor_ValueIsNull_Accepted()
         {
-
             Assert.DoesNotThrow(() => new BodyContentRule(null));
-
         }
 
         [Test]
@@ -48,32 +40,27 @@
         [Test]
         public void InitializeFromSettings_WhenInitialized_ThrowsException()
         {
-
             var rule = new BodyContentRule(new string[] { "ABCD" });
             var settings = new[] { new RuleSetting { Name = "text.evaluation", Value = "passed" } };
 
             Assert.That(
                 () => rule.InitializeFromSettings(settings),
                 Throws.Exception.TypeOf<InvalidOperationException>());
-
         }
 
         [Test]
         public void InitializeFromSettings_WithNullSettings_ThrowsException()
         {
-
             var rule = new BodyContentRule();
 
             Assert.That(
                 () => rule.InitializeFromSettings(null),
                 Throws.Exception.TypeOf<ArgumentNullException>().With.Property("ParamName").EqualTo("settings"));
-
         }
 
         [Test]
         public void InitializeFromSettings_WithValidSettings_MatchesCorrectly()
         {
-
             var settings = new[]
             {
                 new RuleSetting { Name = "text.evaluation", Value = "passed" },
@@ -89,13 +76,11 @@
 
             var request = CreateTextRequest("passed");
             Assert.IsTrue(rule.IsMatch(request));
-
         }
 
         [Test]
         public void IsMatch_NullContext_ReturnsFalse()
         {
-
             var rule = new BodyContentRule(
                 new string[]
                 {
@@ -103,13 +88,11 @@
                 });
 
             Assert.IsFalse(rule.IsMatch(null));
-
         }
 
         [Test]
         public void IsMatch_WithoutBody_ReturnsFalse()
         {
-
             var request = Substitute.For<IStumpsHttpRequest>();
             request.BodyLength.Returns(0);
 
@@ -120,13 +103,11 @@
                 });
 
             Assert.IsFalse(rule.IsMatch(null));
-
         }
 
         [Test]
         public void IsMatch_BinaryContentWithTextString_ReturnsFalse()
         {
-
             var request = CreateBinaryRequest();
 
             var rule = new BodyContentRule(
@@ -136,13 +117,11 @@
                 });
 
             Assert.IsFalse(rule.IsMatch(request));
-
         }
 
         [Test]
         public void IsMatch_ContainsTextInversedWithMatchingText_ReturnsTrue()
         {
-
             var rule = new BodyContentRule(
                 new string[]
                 {
@@ -151,13 +130,11 @@
 
             var request = CreateTextRequest("passed");
             Assert.IsTrue(rule.IsMatch(request));
-
         }
 
         [Test]
         public void IsMatch_ContainsTextInversedWithNonMatchingText_ReturnsFalse()
         {
-
             var rule = new BodyContentRule(
                 new string[]
                 {
@@ -166,13 +143,11 @@
 
             var request = CreateTextRequest("passed");
             Assert.IsFalse(rule.IsMatch(request));
-
         }
 
         [Test]
         public void IsMatch_ContainsTextWithMatchingString_ReturnsTrue()
         {
-
             var rule = new BodyContentRule(
                 new string[]
                 {
@@ -181,13 +156,11 @@
 
             var request = CreateTextRequest("passed");
             Assert.IsTrue(rule.IsMatch(request));
-
         }
 
         [Test]
         public void IsMatch_ContainsTextWithNonMatchingString_ReturnsFalse()
         {
-
             var ruleCaseMatches = new BodyContentRule(
                 new string[]
                 {
@@ -206,13 +179,11 @@
 
             // correct text, wrong case
             Assert.IsFalse(ruleCaseDoesNotMatch.IsMatch(request));
-
         }
 
         [Test]
         public void IsMatch_RegexTextInversedWithMatchingString_ReturnsFalse()
         {
-
             var rule = new BodyContentRule(
                 new string[]
                 {
@@ -221,13 +192,11 @@
 
             var request = CreateTextRequest("passed");
             Assert.IsFalse(rule.IsMatch(request));
-
         }
 
         [Test]
         public void IsMatch_RegexTextInversedWithNonMatchingString_ReturnsTrue()
         {
-
             var rule = new BodyContentRule(
                 new string[]
                 {
@@ -236,13 +205,11 @@
 
             var request = CreateTextRequest("failed");
             Assert.IsTrue(rule.IsMatch(request));
-
         }
 
         [Test]
         public void IsMatch_RegexTextWithMatchingString_ReturnsTrue()
         {
-
             var rule = new BodyContentRule(
                 new string[]
                 {
@@ -251,13 +218,11 @@
 
             var request = CreateTextRequest("passed");
             Assert.IsTrue(rule.IsMatch(request));
-
         }
 
         [Test]
         public void IsMatch_RegexTextWithNonMatchingString_ReturnsFalse()
         {
-
             var rule = new BodyContentRule(
                 new string[]
                 {
@@ -266,12 +231,10 @@
 
             var request = CreateTextRequest("failed");
             Assert.IsFalse(rule.IsMatch(request));
-
         }
 
         private IStumpsHttpRequest CreateBinaryRequest()
         {
-
             var buffer = new byte[]
             {
                 200, 172, 203, 199, 166, 180, 7
@@ -282,12 +245,10 @@
             request.BodyLength.Returns(buffer.Length);
 
             return request;
-
         }
 
         private IStumpsHttpRequest CreateTextRequest(string text)
         {
-
             var exampleString = "AAAAAABBBBBB" + text + "CCCCCCDDDDDD";
             var buffer = Encoding.UTF8.GetBytes(exampleString);
 
@@ -296,9 +257,6 @@
             request.BodyLength.Returns(buffer.Length);
 
             return request;
-
         }
-
     }
-
 }

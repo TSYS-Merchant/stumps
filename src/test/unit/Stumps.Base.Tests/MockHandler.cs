@@ -1,6 +1,5 @@
 ﻿namespace Stumps
 {
-
     using System;
     using System.Collections.Generic;
     using System.Text;
@@ -9,20 +8,17 @@
 
     internal class MockHandler : IHttpHandler
     {
-
         private readonly List<Tuple<string, string>> _headers;
         private byte[] _body;
 
         public MockHandler()
         {
-
             _headers = new List<Tuple<string, string>>();
 
             this.ContentType = "text/plain";
             this.StatusCode = 200;
             this.StatusDescription = "OK";
             _body = null;
-
         }
 
         public event EventHandler<StumpsContextEventArgs> ContextProcessed;
@@ -37,7 +33,6 @@
 
         public async Task<ProcessHandlerResult> ProcessRequest(IStumpsHttpContext context)
         {
-
             foreach (var value in _headers)
             {
                 context.Response.Headers[value.Item1] = value.Item2;
@@ -58,23 +53,16 @@
             }
 
             return await Task.FromResult<ProcessHandlerResult>(ProcessHandlerResult.Terminate);
-
         }
 
         public void AddHeader(string headerName, string headerValue)
         {
-
             _headers.Add(new Tuple<string, string>(headerName, headerValue));
-
         }
 
         public void UpdateBody(string value)
         {
-
             _body = Encoding.UTF8.GetBytes(value);
-
         }
-
     }
-
 }
