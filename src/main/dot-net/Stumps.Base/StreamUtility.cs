@@ -3,6 +3,7 @@
     using System;
     using System.IO;
     using System.Text;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///     A class that represents a set of Stream based functions.
@@ -19,7 +20,7 @@
         ///     An array of bytes contained within the specified <paramref name="stream"/>.
         /// </returns>
         /// <exception cref="System.ArgumentNullException"><paramref name="stream"/> is <c>null</c>.</exception>
-        public static byte[] ConvertStreamToByteArray(Stream stream)
+        public static async Task<byte[]> ConvertStreamToByteArray(Stream stream)
         {
             stream = stream ?? throw new ArgumentNullException(nameof(stream));
 
@@ -27,7 +28,7 @@
 
             using (var ms = new MemoryStream())
             {
-                stream.CopyTo(ms);
+                await stream.CopyToAsync(ms);
                 streamAsBytes = ms.ToArray();
             }
 
@@ -39,9 +40,9 @@
         /// </summary>
         /// <param name="inputStream">The input stream.</param>
         /// <param name="outputStream">The output stream.</param>
-        public static void CopyStream(Stream inputStream, Stream outputStream)
+        public static async Task CopyStream(Stream inputStream, Stream outputStream)
         {
-            StreamUtility.CopyStream(inputStream, outputStream, -1);
+            await StreamUtility.CopyStream(inputStream, outputStream, -1);
         }
 
         /// <summary>
@@ -55,7 +56,7 @@
         /// or
         /// <paramref name="outputStream"/> is <c>null</c>.
         /// </exception>
-        public static void CopyStream(Stream inputStream, Stream outputStream, int startingPosition)
+        public static async Task CopyStream(Stream inputStream, Stream outputStream, int startingPosition)
         {
             inputStream = inputStream ?? throw new ArgumentNullException(nameof(inputStream));
             outputStream = outputStream ?? throw new ArgumentNullException(nameof(outputStream));
@@ -68,9 +69,9 @@
                 inputStream.Position = startingPosition;
             }
 
-            while ((bytesRead = inputStream.Read(buffer, 0, StreamUtility.BufferSize)) > 0)
+            while ((bytesRead = await inputStream.ReadAsync(buffer, 0, StreamUtility.BufferSize)) > 0)
             {
-                outputStream.Write(buffer, 0, bytesRead);
+                await outputStream.WriteAsync(buffer, 0, bytesRead);
             }
 
             if (startingPosition > -1)
@@ -89,12 +90,12 @@
         /// or
         /// <paramref name="stream"/> is <c>null</c>.
         /// </exception>
-        public static void WriteUtf8StringToStream(string value, Stream stream)
+        public static async Task WriteUtf8StringToStream(string value, Stream stream)
         {
             value = value ?? throw new ArgumentNullException(nameof(value));
             stream = stream ?? throw new ArgumentNullException(nameof(stream));
 
-            WriteStringToStream(value, stream, Encoding.UTF8);
+            await WriteStringToStream(value, stream, Encoding.UTF8);
         }
 
         /// <summary>
@@ -103,11 +104,11 @@
         /// <param name="value">The value to write to the stream.</param>
         /// <param name="stream">The stream to write to.</param>
         /// <param name="encoding">The encoding used when writing to the stream.</param>
-        private static void WriteStringToStream(string value, Stream stream, Encoding encoding)
+        private static async Task WriteStringToStream(string value, Stream stream, Encoding encoding)
         {
             using (var writer = new StreamWriter(stream, encoding))
             {
-                writer.Write(value);
+                await writer.WriteAsync(value);
             }
         }
     }

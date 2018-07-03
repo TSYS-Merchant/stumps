@@ -1,28 +1,30 @@
 ﻿namespace Stumps
 {
+
     using System;
     using System.IO;
+    using System.Threading.Tasks;
     using NUnit.Framework;
 
     [TestFixture]
     public class StreamUtilityTests
     {
+
         [Test]
         public void ConvertStreamToByteArray_NullValue_ThrowsException()
         {
-            Assert.That(
-                () => StreamUtility.ConvertStreamToByteArray(null),
-                Throws.Exception.TypeOf<ArgumentNullException>().With.Property("ParamName").EqualTo("stream"));
+            var ex = Assert.ThrowsAsync<ArgumentNullException>(async () => await StreamUtility.ConvertStreamToByteArray(null));
+            Assert.That(ex.ParamName.Equals("stream", StringComparison.OrdinalIgnoreCase));
         }
 
         [Test]
-        public void ConvertStreamToByteArray_ValidStream_ReturnsArray()
+        public async Task ConvertStreamToByteArray_ValidStream_ReturnsArray()
         {
             var buffer = CreateByteArray(100);
 
             using (var ms = new MemoryStream(buffer))
             {
-                var newBuffer = StreamUtility.ConvertStreamToByteArray(ms);
+                var newBuffer = await StreamUtility.ConvertStreamToByteArray(ms);
                 CollectionAssert.AreEqual(buffer, newBuffer);
             }
         }
@@ -30,33 +32,33 @@
         [Test]
         public void CopyStreamWithStartingPosition_NullInputStream_ThrowsException()
         {
-            Assert.That(
-                () =>
+            var ex = Assert.ThrowsAsync<ArgumentNullException>(async () =>
+            {
+                using (var ms = new MemoryStream())
                 {
-                    using (var ms = new MemoryStream())
-                    {
-                        StreamUtility.CopyStream(null, ms, 5);
-                    }
-                }, 
-                Throws.Exception.TypeOf<ArgumentNullException>().With.Property("ParamName").EqualTo("inputStream"));
+                    await StreamUtility.CopyStream(null, ms, 5);
+                }
+            });
+
+            Assert.That(ex.ParamName.Equals("inputStream", StringComparison.Ordinal));
         }
 
         [Test]
         public void CopyStreamWithStartingPosition_NullOutputStream_ThrowsException()
         {
-            Assert.That(
-                () =>
+            var ex = Assert.ThrowsAsync<ArgumentNullException>(async () =>
+            {
+                using (var ms = new MemoryStream())
                 {
-                    using (var ms = new MemoryStream())
-                    {
-                        StreamUtility.CopyStream(ms, null, 5);
-                    }
-                }, 
-                Throws.Exception.TypeOf<ArgumentNullException>().With.Property("ParamName").EqualTo("outputStream"));
+                    await StreamUtility.CopyStream(ms, null, 5);
+                }
+            });
+
+            Assert.That(ex.ParamName.Equals("outputStream", StringComparison.Ordinal));
         }
 
         [Test]
-        public void CopyStreamWithStartingPosition_ValidStreamsAndStartingPosition_CopiesPartiallyAndResetStart()
+        public async Task CopyStreamWithStartingPosition_ValidStreamsAndStartingPosition_CopiesPartiallyAndResetStart()
         {
             var buffer = CreateByteArray(100);
 
@@ -64,11 +66,9 @@
             {
                 using (var output = new MemoryStream())
                 {
-
-                    StreamUtility.CopyStream(source, output, 5);
+                    await StreamUtility.CopyStream(source, output, 5);
                     Assert.AreEqual(95, output.Length);
                     Assert.AreEqual(5, source.Position);
-
                 }
             }
         }
@@ -76,76 +76,71 @@
         [Test]
         public void CopyStream_NullInputStream_ThrowsException()
         {
-            Assert.That(
-                () =>
+            var ex = Assert.ThrowsAsync<ArgumentNullException>(async () =>
+            {
+                using (var ms = new MemoryStream())
                 {
-                    using (var ms = new MemoryStream())
-                    {
-                        StreamUtility.CopyStream(null, ms);
-                    }
-                }, 
-                Throws.Exception.TypeOf<ArgumentNullException>().With.Property("ParamName").EqualTo("inputStream"));
+                    await StreamUtility.CopyStream(null, ms);
+                }
+            });
+
+            Assert.That(ex.ParamName.Equals("inputStream", StringComparison.Ordinal));
         }
 
         [Test]
         public void CopyStream_NullOutputStream_ThrowsException()
         {
-            Assert.That(
-                () =>
+            var ex = Assert.ThrowsAsync<ArgumentNullException>(async () =>
+            {
+                using (var ms = new MemoryStream())
                 {
-                    using (var ms = new MemoryStream())
-                    {
-                        StreamUtility.CopyStream(ms, null);
-                    }
-                }, 
-                Throws.Exception.TypeOf<ArgumentNullException>().With.Property("ParamName").EqualTo("outputStream"));
+                    await StreamUtility.CopyStream(ms, null);
+                }
+            });
+
+            Assert.That(ex.ParamName.Equals("outputStream", StringComparison.Ordinal));
         }
 
         [Test]
-        public void CopyStream_ValidStreams_CopiesStream()
+        public async Task CopyStream_ValidStreams_CopiesStream()
         {
             var buffer = CreateByteArray(100);
 
             using (var source = new MemoryStream(buffer))
             {
-
                 source.Position = 0;
 
                 using (var output = new MemoryStream())
                 {
-
-                    StreamUtility.CopyStream(source, output);
+                    await StreamUtility.CopyStream(source, output);
                     Assert.AreEqual(100, output.Length);
-
                 }
-
             }
         }
 
         [Test]
         public void WriteUtf8StringToStream_NullStream_ThrowsException()
         {
-            Assert.That(
-                () => StreamUtility.WriteUtf8StringToStream("ABCD", null),
-                Throws.Exception.TypeOf<ArgumentNullException>().With.Property("ParamName").EqualTo("stream"));
+            var ex = Assert.ThrowsAsync<ArgumentNullException>(async () => await StreamUtility.WriteUtf8StringToStream("ABCD", null));
+            Assert.That(ex.ParamName.Equals("stream", StringComparison.Ordinal));
         }
 
         [Test]
         public void WriteUtf8StringToStream_NullValue_ThrowsException()
         {
-            Assert.That(
-                () =>
+            var ex = Assert.ThrowsAsync<ArgumentNullException>(async () =>
+            {
+                using (var ms = new MemoryStream())
                 {
-                    using (var ms = new MemoryStream())
-                    {
-                        StreamUtility.WriteUtf8StringToStream(null, ms);
-                    }
-                }, 
-                Throws.Exception.TypeOf<ArgumentNullException>().With.Property("ParamName").EqualTo("value"));
+                    await StreamUtility.WriteUtf8StringToStream(null, ms);
+                }
+            });
+
+            Assert.That(ex.ParamName.Equals("value", StringComparison.Ordinal));
         }
 
         [Test]
-        public void WriteUtfStringToStream_ValidString_WritesToStream()
+        public async Task WriteUtfStringToStream_ValidString_WritesToStream()
         {
             var tempFolder = CreateTempFolder();
             var file = Path.GetRandomFileName();
@@ -155,7 +150,7 @@
             {
                 using (var stream = File.OpenWrite(path))
                 {
-                    StreamUtility.WriteUtf8StringToStream("HelloWorld", stream);
+                    await StreamUtility.WriteUtf8StringToStream("HelloWorld", stream);
                 }
 
                 var fi = new FileInfo(path);
@@ -193,6 +188,8 @@
             {
                 Directory.Delete(path, true);
             }
+
         }
     }
+
 }

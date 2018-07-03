@@ -25,7 +25,10 @@
 
             // Initialize the HTTP request for the context
             _request = new StumpsHttpRequest();
-            _request.InitializeInstance(context.Request);
+
+            // TODO: Fix This
+            var task = Task.Run(() => _request.InitializeInstance(context.Request));
+            task.Wait();
 
             // Initialize the HTTP response for the context
             _response = new StumpsHttpResponse();

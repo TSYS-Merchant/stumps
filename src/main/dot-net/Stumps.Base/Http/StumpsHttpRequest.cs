@@ -1,6 +1,7 @@
 ﻿namespace Stumps.Http
 {
     using System.Net;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///     A class that represents an incoming HTTP request.
@@ -112,7 +113,7 @@
         ///     Initializes the instance using the specified <see cref="T:System.Net.HttpListenerRequest"/>.
         /// </summary>
         /// <param name="request">The <see cref="T:System.Net.HttpListenerRequest"/> used to initilize the instance.</param>
-        public void InitializeInstance(HttpListenerRequest request)
+        public async Task InitializeInstance(HttpListenerRequest request)
         {
             // Setup the standard values
             this.HttpMethod = request.HttpMethod;
@@ -122,7 +123,7 @@
             this.RemoteEndPoint = request.RemoteEndPoint;
 
             // Setup the body
-            _bodyBuffer = StreamUtility.ConvertStreamToByteArray(request.InputStream);
+            _bodyBuffer = await StreamUtility.ConvertStreamToByteArray(request.InputStream);
 
             // Setup the headers
             var headers = (ReadOnlyHttpHeaders)this.Headers;

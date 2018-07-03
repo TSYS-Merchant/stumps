@@ -88,7 +88,7 @@
                 // Write the headers and the body of the response from the remote HTTP request
                 // to the incoming HTTP context.
                 WriteContextHeadersFromResponse(context, response);
-                WriteContextBodyFromRemoteResponse(context, response);
+                await WriteContextBodyFromRemoteResponse(context, response);
                 context.Response.StatusCode = (int)response.StatusCode;
                 context.Response.StatusDescription = response.StatusDescription;
 
@@ -270,13 +270,13 @@
         /// </summary>
         /// <param name="incomingHttpContext">The incoming HTTP context.</param>
         /// <param name="remoteWebResponse">The remote web response.</param>
-        private void WriteContextBodyFromRemoteResponse(IStumpsHttpContext incomingHttpContext, HttpWebResponse remoteWebResponse)
+        private async Task WriteContextBodyFromRemoteResponse(IStumpsHttpContext incomingHttpContext, HttpWebResponse remoteWebResponse)
         {
             if (remoteWebResponse.ContentLength != 0)
             {
                 var responseStream = remoteWebResponse.GetResponseStream();
                 incomingHttpContext.Response.ClearBody();
-                incomingHttpContext.Response.AppendToBody(StreamUtility.ConvertStreamToByteArray(responseStream));
+                incomingHttpContext.Response.AppendToBody(await StreamUtility.ConvertStreamToByteArray(responseStream));
             }
         }
 
