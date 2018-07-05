@@ -9,7 +9,7 @@
     public sealed class Stump
     {
         private readonly List<IStumpRule> _ruleList;
-        private IStumpsHttpResponse _response;
+        private IStumpsHttpResponseFactory _responseFactory;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:Stumps.Stump" /> class.
@@ -26,7 +26,7 @@
             this.StumpId = stumpId;
             _ruleList = new List<IStumpRule>();
 
-            _response = null;
+            _responseFactory = null;
         }
 
         /// <summary>
@@ -43,10 +43,10 @@
         /// <value>
         ///     The response for the Stump.
         /// </value>
-        public IStumpsHttpResponse Response
+        public IStumpsHttpResponseFactory ResponseFactory
         {
-            get => _response;
-            set => _response = value ?? throw new ArgumentNullException(nameof(value));
+            get => _responseFactory;
+            set => _responseFactory = value ?? throw new ArgumentNullException(nameof(value));
         }
 
         /// <summary>
@@ -106,7 +106,10 @@
         /// </returns>
         public bool IsMatch(IStumpsHttpContext context)
         {
-            if (context == null || _response == null || _ruleList.Count == 0)
+            if (context == null 
+                || _responseFactory == null 
+                || _ruleList.Count == 0 
+                || (_responseFactory is BasicHttpResponseFactory && ((BasicHttpResponseFactory) _responseFactory).Response == null))
             {
                 return false;
             }

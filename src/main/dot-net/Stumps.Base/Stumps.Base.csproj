@@ -79,6 +79,7 @@
     <Compile Include="IStumpsHttpContext.cs" />
     <Compile Include="IStumpsHttpRequest.cs" />
     <Compile Include="IStumpsHttpResponse.cs" />
+    <Compile Include="IStumpsHttpResponseFactory.cs" />
     <Compile Include="IStumpsManager.cs" />
     <Compile Include="IStumpsServer.cs" />
     <Compile Include="ServerScheme.cs" />
@@ -100,6 +101,7 @@
     <Compile Include="Rules\HeaderRule.cs" />
     <Compile Include="Rules\HttpMethodRule.cs" />
     <Compile Include="Rules\UrlRule.cs" />
+    <Compile Include="BasicHttpResponseFactory.cs" />
     <Compile Include="StreamUtility.cs" />
     <Compile Include="Stump.cs" />
     <Compile Include="StumpsContextEventArgs.cs" />

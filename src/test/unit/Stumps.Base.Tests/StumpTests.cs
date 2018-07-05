@@ -31,19 +31,23 @@
         }
 
         [Test]
-        public void Respose_GetSet_ReturnsResponse()
+        public void ResposeFactory_GetSet_ReturnsResponseFactory()
         {
-            var response = new BasicHttpResponse();
-            var stump = new Stump("ABC");
-            stump.Response = response;
-            Assert.AreEqual(response, stump.Response);
+            var responseFactory = new BasicHttpResponseFactory();
+
+            var stump = new Stump("ABC")
+            {
+                ResponseFactory = responseFactory
+            };
+
+            Assert.AreEqual(responseFactory, stump.ResponseFactory);
         }
 
         [Test]
-        public void Respose_SetNull_ThrowsException()
+        public void ResposeFactory_SetNull_ThrowsException()
         {
             Assert.That(
-                () => new Stump("ABC").Response = null,
+                () => new Stump("ABC").ResponseFactory = null,
                 Throws.Exception.TypeOf<ArgumentNullException>().With.Property("ParamName").EqualTo("value"));
         }
 
@@ -72,7 +76,7 @@
             rule1.IsMatch(null).Returns(true);
 
             stump.AddRule(rule1);
-            stump.Response = new BasicHttpResponse();
+            stump.ResponseFactory = new BasicHttpResponseFactory();
 
             Assert.IsFalse(stump.IsMatch(null));
         }
@@ -93,8 +97,10 @@
         [Test]
         public void IsMatch_WithoutRules_ReturnsFalse()
         {
-            var stump = new Stump("ABC");
-            stump.Response = new BasicHttpResponse();
+            var stump = new Stump("ABC")
+            {
+                ResponseFactory = new BasicHttpResponseFactory()
+            };
 
             Assert.IsFalse(stump.IsMatch(Substitute.For<IStumpsHttpContext>()));
         }
@@ -117,7 +123,7 @@
             stump.AddRule(rule1);
             stump.AddRule(rule2);
 
-            stump.Response = new BasicHttpResponse();
+            stump.ResponseFactory = new BasicHttpResponseFactory(new BasicHttpResponse());
 
             var matches = stump.IsMatch(context);
             rule1.Received(1).IsMatch(request);
@@ -143,12 +149,32 @@
             stump.AddRule(rule1);
             stump.AddRule(rule2);
 
-            stump.Response = new BasicHttpResponse();
+            stump.ResponseFactory = new BasicHttpResponseFactory(new BasicHttpResponse());
 
             var matches = stump.IsMatch(context);
             rule1.Received(1).IsMatch(request);
             rule2.Received(1).IsMatch(request);
             Assert.IsFalse(matches);
         }
+
+        [Test]
+        public void IsMatch_WithBasicHttpResponseFactoryNoResponse_ReturnsFalse()
+        {
+            var stump = new Stump("ABC");
+
+            var context = Substitute.For<IStumpsHttpContext>();
+            var request = Substitute.For<IStumpsHttpRequest>();
+            context.Request.Returns(request);
+
+            var rule1 = Substitute.For<IStumpRule>();
+            rule1.IsMatch(request).Returns(true);
+
+            stump.ResponseFactory = new BasicHttpResponseFactory();
+
+            var matches = stump.IsMatch(context);
+            rule1.DidNotReceive().IsMatch(request);
+            Assert.IsFalse(matches);
+        }
+
     }
 }

@@ -113,24 +113,27 @@
         /// <param name="stump">The <see cref="T:Stumps.Stump"/> used to populate the response.</param>
         private void PopulateResponse(IStumpsHttpContext incomingHttpContext, Stump stump)
         {
+            // Create the response
+            var stumpResponse = stump.ResponseFactory.CreateResponse(incomingHttpContext.Request);
+
             // Write the status code information
-            incomingHttpContext.Response.StatusCode = stump.Response.StatusCode;
-            incomingHttpContext.Response.StatusDescription = stump.Response.StatusDescription;
+            incomingHttpContext.Response.StatusCode = stumpResponse.StatusCode;
+            incomingHttpContext.Response.StatusDescription = stumpResponse.StatusDescription;
 
             // Write the headers
             incomingHttpContext.Response.Headers.Clear();
 
-            stump.Response.Headers.CopyTo(incomingHttpContext.Response.Headers);
+            stumpResponse.Headers.CopyTo(incomingHttpContext.Response.Headers);
 
             // Write the body
             incomingHttpContext.Response.ClearBody();
             
-            if (stump.Response.BodyLength > 0)
+            if (stumpResponse.BodyLength > 0)
             {
-                var buffer = stump.Response.GetBody();
-                if (stump.Response.Headers["Content-Encoding"] != null)
+                var buffer = stumpResponse.GetBody();
+                if (stumpResponse.Headers["Content-Encoding"] != null)
                 {
-                    var encoder = new ContentEncoder(stump.Response.Headers["Content-Encoding"]);
+                    var encoder = new ContentEncoder(stumpResponse.Headers["Content-Encoding"]);
                     buffer = encoder.Encode(buffer);
                 }
 
