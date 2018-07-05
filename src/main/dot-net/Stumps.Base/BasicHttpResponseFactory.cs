@@ -10,7 +10,6 @@
     {
         public BasicHttpResponseFactory()
         {
-
         }
 
         /// <summary>
@@ -22,6 +21,14 @@
         {
             this.Response = response ?? throw new ArgumentNullException(nameof(response));
         }
+
+        /// <summary>
+        /// Gets a value indicating whether this instance has a valid response available.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if this instance has a valid response available; otherwise, <c>false</c>.
+        /// </value>
+        public bool HasResponse => this.Response != null;
 
         /// <summary>
         ///     Gets or sets the <see cref="T:Stumps.IStumpsHttpResponse"/> returned by the factory.

@@ -107,9 +107,8 @@
         public bool IsMatch(IStumpsHttpContext context)
         {
             if (context == null 
-                || _responseFactory == null 
-                || _ruleList.Count == 0 
-                || (_responseFactory is BasicHttpResponseFactory && ((BasicHttpResponseFactory) _responseFactory).Response == null))
+                || _responseFactory?.HasResponse == false
+                || _ruleList.Count == 0)
             {
                 return false;
             }
