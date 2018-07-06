@@ -36,7 +36,7 @@ namespace Stumps
 
             stump.TerminateConnection = true;
 
-            stump.ResponseFactory = new BasicHttpResponseFactory(new BasicHttpResponse());
+            stump.ResponseFactory = new SingleHttpResponseFactory(new BasicHttpResponse());
 
             return stump;
         }
@@ -165,7 +165,7 @@ namespace Stumps
             stump = stump ?? throw new ArgumentNullException(nameof(stump));
 
             var response = new BasicHttpResponse();
-            stump.ResponseFactory = new BasicHttpResponseFactory(response);
+            stump.ResponseFactory = new SingleHttpResponseFactory(response);
 
             return response;
         }

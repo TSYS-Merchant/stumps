@@ -64,7 +64,6 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="BasicHttpResponseFactoryTests.cs" />
     <Compile Include="BasicHttpResponseTests.cs" />
     <Compile Include="ContentEncoderTests.cs" />
     <Compile Include="FallbackResponseHandlerTests.cs" />
@@ -80,6 +79,7 @@
     <Compile Include="MockHttpContext.cs" />
     <Compile Include="MockHttpRequest.cs" />
     <Compile Include="MockHttpResponse.cs" />
+    <Compile Include="MultipleResponseFactoryTests.cs" />
     <Compile Include="NetworkInformationTests.cs" />
     <Compile Include="NoOpHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -98,7 +98,7 @@
     <Compile Include="Rules\HeaderRuleTests.cs" />
     <Compile Include="Rules\HttpMethodRuleTests.cs" />
     <Compile Include="Rules\UrlRuleTests.cs" />
-    <Compile Include="SequencedHttpResponseFactoryTests.cs" />
+    <Compile Include="SingleResponseFactoryTests.cs" />
     <Compile Include="StreamUtilityTests.cs" />
     <Compile Include="StumpTests.cs" />
     <Compile Include="TestData.Designer.cs">
@@ -121,6 +121,7 @@
     <EmbeddedResource Include="TestData.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>TestData.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

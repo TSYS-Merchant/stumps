@@ -4,13 +4,13 @@
     using NUnit.Framework;
 
     [TestFixture]
-    public class BasicHttpResponseFactoryTests
+    public class SingleResponseFactoryTests
     {
         [Test]
         public void Constructor_WithResponse_PopulatesResponse()
         {
             var response = new BasicHttpResponse();
-            var factory = new BasicHttpResponseFactory(response);
+            var factory = new SingleHttpResponseFactory(response);
 
             Assert.AreSame(response, factory.Response);
         }
@@ -19,7 +19,7 @@
         public void Constructor_WithNullResponse_ThrowsException()
         {
             Assert.That(
-                () => new BasicHttpResponseFactory(null),
+                () => new SingleHttpResponseFactory(null),
                 Throws.Exception.TypeOf<ArgumentNullException>().With.Property("ParamName").EqualTo("response"));
         }
     }

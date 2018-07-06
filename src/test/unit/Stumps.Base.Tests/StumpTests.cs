@@ -33,7 +33,7 @@
         [Test]
         public void ResposeFactory_GetSet_ReturnsResponseFactory()
         {
-            var responseFactory = new BasicHttpResponseFactory();
+            var responseFactory = new SingleHttpResponseFactory();
 
             var stump = new Stump("ABC")
             {
@@ -76,7 +76,7 @@
             rule1.IsMatch(null).Returns(true);
 
             stump.AddRule(rule1);
-            stump.ResponseFactory = new BasicHttpResponseFactory();
+            stump.ResponseFactory = new SingleHttpResponseFactory();
 
             Assert.IsFalse(stump.IsMatch(null));
         }
@@ -99,7 +99,7 @@
         {
             var stump = new Stump("ABC")
             {
-                ResponseFactory = new BasicHttpResponseFactory()
+                ResponseFactory = new SingleHttpResponseFactory()
             };
 
             Assert.IsFalse(stump.IsMatch(Substitute.For<IStumpsHttpContext>()));
@@ -123,7 +123,7 @@
             stump.AddRule(rule1);
             stump.AddRule(rule2);
 
-            stump.ResponseFactory = new BasicHttpResponseFactory(new BasicHttpResponse());
+            stump.ResponseFactory = new SingleHttpResponseFactory(new BasicHttpResponse());
 
             var matches = stump.IsMatch(context);
             rule1.Received(1).IsMatch(request);
@@ -149,7 +149,7 @@
             stump.AddRule(rule1);
             stump.AddRule(rule2);
 
-            stump.ResponseFactory = new BasicHttpResponseFactory(new BasicHttpResponse());
+            stump.ResponseFactory = new SingleHttpResponseFactory(new BasicHttpResponse());
 
             var matches = stump.IsMatch(context);
             rule1.Received(1).IsMatch(request);
@@ -169,7 +169,7 @@
             var rule1 = Substitute.For<IStumpRule>();
             rule1.IsMatch(request).Returns(true);
 
-            stump.ResponseFactory = new BasicHttpResponseFactory();
+            stump.ResponseFactory = new SingleHttpResponseFactory();
 
             var matches = stump.IsMatch(context);
             rule1.DidNotReceive().IsMatch(request);

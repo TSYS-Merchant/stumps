@@ -83,8 +83,8 @@
     <Compile Include="IStumpsHttpResponseFactory.cs" />
     <Compile Include="IStumpsManager.cs" />
     <Compile Include="IStumpsServer.cs" />
-    <Compile Include="SequenceBehavior.cs" />
-    <Compile Include="SequencedHttpResponseFactory.cs" />
+    <Compile Include="MultipleResponseFactory.cs" />
+    <Compile Include="MultipleResponseFactoryBehavior.cs" />
     <Compile Include="ServerScheme.cs" />
     <Compile Include="NetworkInformation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -104,7 +104,7 @@
     <Compile Include="Rules\HeaderRule.cs" />
     <Compile Include="Rules\HttpMethodRule.cs" />
     <Compile Include="Rules\UrlRule.cs" />
-    <Compile Include="BasicHttpResponseFactory.cs" />
+    <Compile Include="SingleResponseFactory.cs" />
     <Compile Include="StreamUtility.cs" />
     <Compile Include="Stump.cs" />
     <Compile Include="StumpsContextEventArgs.cs" />

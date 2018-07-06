@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Threading;
 
-    public class SequencedHttpResponseFactory : IStumpsHttpResponseFactory, IDisposable
+    public class MultipleResponseFactory : IStumpsHttpResponseFactory, IDisposable
     {
         private const string StumpsHeaderName = "x-stumps";
         private const string ResetHeaderValue = "reset-sequence";
@@ -21,11 +21,11 @@
         private bool _disposed;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="SequencedHttpResponseFactory"/> class that does not contain
+        ///     Initializes a new instance of the <see cref="MultipleResponseFactory"/> class that does not contain
         ///     any responses and will, by default, return an HTTP 501 (Not Implemented) error.
         /// </summary>
-        /// <param name="behavior">The behavior of the <see cref="SequencedHttpResponseFactory.Behavior"/> method when retrieving the next <see cref="IStumpsHttpResponse"/>.</param>
-        public SequencedHttpResponseFactory(SequenceBehavior behavior)
+        /// <param name="behavior">The behavior of the <see cref="MultipleResponseFactory.Behavior"/> method when retrieving the next <see cref="IStumpsHttpResponse"/>.</param>
+        public MultipleResponseFactory(MultipleResponseFactoryBehavior behavior)
         {
             _listLock = new ReaderWriterLockSlim(LockRecursionPolicy.NoRecursion);
             _positionLock = new ReaderWriterLockSlim(LockRecursionPolicy.NoRecursion);
@@ -40,42 +40,42 @@
         }
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="SequencedHttpResponseFactory"/> class that does not contain
+        ///     Initializes a new instance of the <see cref="MultipleResponseFactory"/> class that does not contain
         ///     any responses while specifying the default response when there are no other responses left in a sequence, 
         ///     or the instance does not contain any responses.
         /// </summary>
-        /// <param name="behavior">The behavior of the <see cref="SequencedHttpResponseFactory.Behavior"/> method when retrieving the next <see cref="IStumpsHttpResponse"/>.</param>
+        /// <param name="behavior">The behavior of the <see cref="MultipleResponseFactory.Behavior"/> method when retrieving the next <see cref="IStumpsHttpResponse"/>.</param>
         /// <param name="defaultResponse">The default <see cref="IStumpsHttpResponse"/> returned when there are no responses left in a sequence, or the instance doe snot contain any responses.</param>
         /// <exception cref="ArgumentNullException"><paramref name="defaultResponse"/> is <c>null</c>.</exception>
-        public SequencedHttpResponseFactory(SequenceBehavior behavior, IStumpsHttpResponse defaultResponse) : this(behavior)
+        public MultipleResponseFactory(MultipleResponseFactoryBehavior behavior, IStumpsHttpResponse defaultResponse) : this(behavior)
         {
             this.DefaultResponse = defaultResponse ?? throw new ArgumentNullException(nameof(defaultResponse));
         }
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="SequencedHttpResponseFactory"/> class that contains
+        ///     Initializes a new instance of the <see cref="MultipleResponseFactory"/> class that contains
         ///     the responses copied from the specified collection.
         /// </summary>
-        /// <param name="behavior">The behavior of the <see cref="SequencedHttpResponseFactory.Behavior"/> method when retrieving the next <see cref="IStumpsHttpResponse"/>.</param>
+        /// <param name="behavior">The behavior of the <see cref="MultipleResponseFactory.Behavior"/> method when retrieving the next <see cref="IStumpsHttpResponse"/>.</param>
         /// <param name="responses">The collection of <see cref="IStumpsHttpResponse"/> whose elements are copied to the new instance.</param>
         /// <exception cref="ArgumentNullException"><paramref name="responses"/> is <c>null</c>.</exception>
-        public SequencedHttpResponseFactory(SequenceBehavior behavior, IEnumerable<IStumpsHttpResponse> responses) : this(behavior)
+        public MultipleResponseFactory(MultipleResponseFactoryBehavior behavior, IEnumerable<IStumpsHttpResponse> responses) : this(behavior)
         {
             responses = responses ?? throw new ArgumentNullException(nameof(responses));
             _responses.AddRange(responses);
         }
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="SequencedHttpResponseFactory"/> class that contains
+        ///     Initializes a new instance of the <see cref="MultipleResponseFactory"/> class that contains
         ///     the responses copied from the specified collection while specifying the default response when there 
         ///     are no other responses left in a sequence, or the instance does not contain any responses.
         /// </summary>
-        /// <param name="behavior">The behavior of the <see cref="SequencedHttpResponseFactory.Behavior"/> method when retrieving the next <see cref="IStumpsHttpResponse"/>.</param>
+        /// <param name="behavior">The behavior of the <see cref="MultipleResponseFactory.Behavior"/> method when retrieving the next <see cref="IStumpsHttpResponse"/>.</param>
         /// <param name="responses">The collection of <see cref="IStumpsHttpResponse"/> whose elements are copied to the new instance.</param>
         /// <param name="defaultResponse">The default <see cref="IStumpsHttpResponse"/> returned when there are no responses left in a sequence, or the instance doe snot contain any responses.</param>
         /// <exception cref="ArgumentNullException"><paramref name="responses"/> is <c>null</c>.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="defaultResponse"/> is <c>null</c>.</exception>
-        public SequencedHttpResponseFactory(SequenceBehavior behavior, IEnumerable<IStumpsHttpResponse> responses, IStumpsHttpResponse defaultResponse) : this(behavior, defaultResponse)
+        public MultipleResponseFactory(MultipleResponseFactoryBehavior behavior, IEnumerable<IStumpsHttpResponse> responses, IStumpsHttpResponse defaultResponse) : this(behavior, defaultResponse)
         {
             responses = responses ?? throw new ArgumentNullException(nameof(responses));
             _responses.AddRange(responses);
@@ -90,7 +90,7 @@
         /// <param name="index">The zero-based index of the <see cref="T:Stumps.IStumpsHttpResponse"/> to get.</param>
         /// <returns>The <see cref="Stumps.IStumpsHttpResponse"/> at the specified index.</returns>
         /// <exception cref="ArgumentOutOfRangeException"><c>index</c> is not a valid index in the <see cref="T:Stumps.StumpsHttpResponseFactory"/>.</exception>
-        /// <exception cref="ObjectDisposedException">The <see cref="SequencedHttpResponseFactory"/> object has been disposed.</exception>
+        /// <exception cref="ObjectDisposedException">The <see cref="MultipleResponseFactory"/> object has been disposed.</exception>
         public IStumpsHttpResponse this[int index]
         {
             get
@@ -114,24 +114,24 @@
         }
 
         /// <summary>
-        ///     Gets the behavior of the <see cref="SequencedHttpResponseFactory.Behavior"/> method when retrieving the next <see cref="IStumpsHttpResponse"/>.
+        ///     Gets the behavior of the <see cref="MultipleResponseFactory.Behavior"/> method when retrieving the next <see cref="IStumpsHttpResponse"/>.
         /// </summary>
         /// <value>
-        ///     The behavior of the <see cref="SequencedHttpResponseFactory.Behavior"/> method when retrieving the next <see cref="IStumpsHttpResponse"/>.
+        ///     The behavior of the <see cref="MultipleResponseFactory.Behavior"/> method when retrieving the next <see cref="IStumpsHttpResponse"/>.
         /// </value>
-        public SequenceBehavior Behavior
+        public MultipleResponseFactoryBehavior Behavior
         {
             get;
             private set;
         }
 
         /// <summary>
-        ///     Gets the number of responses contained within the <see cref="T:Stumps.SequencedHttpResponseFactory"/>.
+        ///     Gets the number of responses contained within the <see cref="MultipleResponseFactory"/>.
         /// </summary>
         /// <value>
-        ///     The number of responses contained within the <see cref="T:Stumps.SequencedHttpResponseFactory"/>.
+        ///     The number of responses contained within the <see cref="MultipleHttpResponseFactory"/>.
         /// </value>
-        /// <exception cref="ObjectDisposedException">The <see cref="SequencedHttpResponseFactory"/> object has been disposed.</exception>
+        /// <exception cref="ObjectDisposedException">The <see cref="MultipleResponseFactory"/> object has been disposed.</exception>
         public int Count
         {
             get
@@ -173,7 +173,7 @@
         /// </summary>
         /// <param name="response">The <see cref="T:Stumps.IStumpsHttpResponse"/> to add to the <see cref="T:Stumps.StumpsHttpResponseFactory"/>.</param>
         /// <exception cref="ArgumentNullException"><paramref name="response"/> is <c>null</c>.</exception>
-        /// <exception cref="ObjectDisposedException">The <see cref="SequencedHttpResponseFactory"/> object has been disposed.</exception>
+        /// <exception cref="ObjectDisposedException">The <see cref="MultipleResponseFactory"/> object has been disposed.</exception>
         public void Add(IStumpsHttpResponse response)
         {
             ThrowExceptionIfDisposed();
@@ -193,7 +193,7 @@
         /// <summary>
         ///     Removes all items from the <see cref="T:Stumps.StumpsHttpResponseFactory"/>.
         /// </summary>
-        /// <exception cref="ObjectDisposedException">The <see cref="SequencedHttpResponseFactory"/> object has been disposed.</exception>
+        /// <exception cref="ObjectDisposedException">The <see cref="MultipleResponseFactory"/> object has been disposed.</exception>
         public void Clear()
         {
             ThrowExceptionIfDisposed();
@@ -216,7 +216,7 @@
         /// <returns>
         ///     An <see cref="T:Stumps.IStumpsHttpResponse" /> object based on an incoming <see cref="T:Stumps.IStumpsHttpRequest" />.
         /// </returns>
-        /// <exception cref="ObjectDisposedException">The <see cref="SequencedHttpResponseFactory"/> object has been disposed.</exception>
+        /// <exception cref="ObjectDisposedException">The <see cref="MultipleResponseFactory"/> object has been disposed.</exception>
         public IStumpsHttpResponse CreateResponse(IStumpsHttpRequest request)
         {
             ThrowExceptionIfDisposed();
@@ -226,11 +226,11 @@
                 this.ResetToBeginning();
             }
 
-            if (this.Behavior == SequenceBehavior.Random)
+            if (this.Behavior == MultipleResponseFactoryBehavior.Random)
             {
                 return ChooseRandomResponse();
             }
-            else if (this.Behavior == SequenceBehavior.SequentialThenLoop)
+            else if (this.Behavior == MultipleResponseFactoryBehavior.OrderedInfinite)
             {
                 return ChooseNextResponse();
             }
@@ -278,7 +278,7 @@
         /// </summary>
         /// <param name="index">The zero-based index of the item to remove.</param>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="index"/> is not a valid index in the <see cref="T:Stumps.StumpsHttpResponseFactory"/>.</exception>
-        /// <exception cref="ObjectDisposedException">The <see cref="SequencedHttpResponseFactory"/> object has been disposed.</exception>
+        /// <exception cref="ObjectDisposedException">The <see cref="MultipleResponseFactory"/> object has been disposed.</exception>
         public void RemoveAt(int index)
         {
             ThrowExceptionIfDisposed();
@@ -307,7 +307,7 @@
         /// </summary>
         public void ResetToBeginning()
         {
-            if (this.Behavior == SequenceBehavior.Random)
+            if (this.Behavior == MultipleResponseFactoryBehavior.Random)
             {
                 return;
             }
@@ -403,12 +403,12 @@
         /// <summary>
         /// Throws an exception if the object is disposed.
         /// </summary>
-        /// <exception cref="ObjectDisposedException">The <see cref="SequencedHttpResponseFactory"/> object has been disposed.</exception>
+        /// <exception cref="ObjectDisposedException">The <see cref="MultipleResponseFactory"/> object has been disposed.</exception>
         private void ThrowExceptionIfDisposed()
         {
             if (_disposed)
             {
-                throw new ObjectDisposedException(nameof(SequencedHttpResponseFactory));
+                throw new ObjectDisposedException(nameof(MultipleResponseFactory));
             }
         }
     }
