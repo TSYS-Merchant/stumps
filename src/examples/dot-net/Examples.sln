@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2035
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWorldApi", "HelloWorldApi\HelloWorldApi.csproj", "{54691B65-3823-4C57-9876-FE1AFEA9289C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Referenced", "Referenced", "{76F40D96-ADB6-47D8-9942-058AB25C420D}"
@@ -8,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stumps.Base", "..\..\main\dot-net\Stumps.Base\Stumps.Base.csproj", "{EB4D58DA-2B6C-4A51-B648-7D4FB6D8DC80}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWorldFluentApi", "HelloWorldFluentApi\HelloWorldFluentApi.csproj", "{1B1D29FF-E936-4846-BDD5-3F4AA3B556BE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWorldMultipleResponseFluentApi", "HelloWorldMultipleResponseFluentApi\HelloWorldMultipleResponseFluentApi.csproj", "{EFC9F4FC-5D72-47E7-AC7C-9DF6BDB87AC4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,11 +53,26 @@ Global
 		{1B1D29FF-E936-4846-BDD5-3F4AA3B556BE}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{1B1D29FF-E936-4846-BDD5-3F4AA3B556BE}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{1B1D29FF-E936-4846-BDD5-3F4AA3B556BE}.Release|x86.ActiveCfg = Release|Any CPU
+		{EFC9F4FC-5D72-47E7-AC7C-9DF6BDB87AC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFC9F4FC-5D72-47E7-AC7C-9DF6BDB87AC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFC9F4FC-5D72-47E7-AC7C-9DF6BDB87AC4}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{EFC9F4FC-5D72-47E7-AC7C-9DF6BDB87AC4}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{EFC9F4FC-5D72-47E7-AC7C-9DF6BDB87AC4}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EFC9F4FC-5D72-47E7-AC7C-9DF6BDB87AC4}.Debug|x86.Build.0 = Debug|Any CPU
+		{EFC9F4FC-5D72-47E7-AC7C-9DF6BDB87AC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFC9F4FC-5D72-47E7-AC7C-9DF6BDB87AC4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EFC9F4FC-5D72-47E7-AC7C-9DF6BDB87AC4}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{EFC9F4FC-5D72-47E7-AC7C-9DF6BDB87AC4}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{EFC9F4FC-5D72-47E7-AC7C-9DF6BDB87AC4}.Release|x86.ActiveCfg = Release|Any CPU
+		{EFC9F4FC-5D72-47E7-AC7C-9DF6BDB87AC4}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{EB4D58DA-2B6C-4A51-B648-7D4FB6D8DC80} = {76F40D96-ADB6-47D8-9942-058AB25C420D}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B4790302-6DEE-4C10-89E4-E7EA63A672D8}
 	EndGlobalSection
 EndGlobal

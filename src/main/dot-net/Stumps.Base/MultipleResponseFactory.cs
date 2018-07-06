@@ -24,7 +24,7 @@
         ///     Initializes a new instance of the <see cref="MultipleResponseFactory"/> class that does not contain
         ///     any responses and will, by default, return an HTTP 501 (Not Implemented) error.
         /// </summary>
-        /// <param name="behavior">The behavior of the <see cref="MultipleResponseFactory.Behavior"/> method when retrieving the next <see cref="IStumpsHttpResponse"/>.</param>
+        /// <param name="behavior">The The behavior of the <see cref="MultipleResponseFactory.CreateResponse(IStumpsHttpRequest)"/> method when retrieving the next <see cref="IStumpsHttpResponse"/>.</param>
         public MultipleResponseFactory(MultipleResponseFactoryBehavior behavior)
         {
             _listLock = new ReaderWriterLockSlim(LockRecursionPolicy.NoRecursion);
@@ -44,7 +44,7 @@
         ///     any responses while specifying the default response when there are no other responses left in a sequence, 
         ///     or the instance does not contain any responses.
         /// </summary>
-        /// <param name="behavior">The behavior of the <see cref="MultipleResponseFactory.Behavior"/> method when retrieving the next <see cref="IStumpsHttpResponse"/>.</param>
+        /// <param name="behavior">The The behavior of the <see cref="MultipleResponseFactory.CreateResponse(IStumpsHttpRequest)"/> method when retrieving the next <see cref="IStumpsHttpResponse"/>.</param>
         /// <param name="defaultResponse">The default <see cref="IStumpsHttpResponse"/> returned when there are no responses left in a sequence, or the instance doe snot contain any responses.</param>
         /// <exception cref="ArgumentNullException"><paramref name="defaultResponse"/> is <c>null</c>.</exception>
         public MultipleResponseFactory(MultipleResponseFactoryBehavior behavior, IStumpsHttpResponse defaultResponse) : this(behavior)
@@ -56,7 +56,7 @@
         ///     Initializes a new instance of the <see cref="MultipleResponseFactory"/> class that contains
         ///     the responses copied from the specified collection.
         /// </summary>
-        /// <param name="behavior">The behavior of the <see cref="MultipleResponseFactory.Behavior"/> method when retrieving the next <see cref="IStumpsHttpResponse"/>.</param>
+        /// <param name="behavior">The The behavior of the <see cref="MultipleResponseFactory.CreateResponse(IStumpsHttpRequest)"/> method when retrieving the next <see cref="IStumpsHttpResponse"/>.</param>
         /// <param name="responses">The collection of <see cref="IStumpsHttpResponse"/> whose elements are copied to the new instance.</param>
         /// <exception cref="ArgumentNullException"><paramref name="responses"/> is <c>null</c>.</exception>
         public MultipleResponseFactory(MultipleResponseFactoryBehavior behavior, IEnumerable<IStumpsHttpResponse> responses) : this(behavior)
@@ -70,7 +70,7 @@
         ///     the responses copied from the specified collection while specifying the default response when there 
         ///     are no other responses left in a sequence, or the instance does not contain any responses.
         /// </summary>
-        /// <param name="behavior">The behavior of the <see cref="MultipleResponseFactory.Behavior"/> method when retrieving the next <see cref="IStumpsHttpResponse"/>.</param>
+        /// <param name="behavior">The The behavior of the <see cref="MultipleResponseFactory.CreateResponse(IStumpsHttpRequest)"/> method when retrieving the next <see cref="IStumpsHttpResponse"/>.</param>
         /// <param name="responses">The collection of <see cref="IStumpsHttpResponse"/> whose elements are copied to the new instance.</param>
         /// <param name="defaultResponse">The default <see cref="IStumpsHttpResponse"/> returned when there are no responses left in a sequence, or the instance doe snot contain any responses.</param>
         /// <exception cref="ArgumentNullException"><paramref name="responses"/> is <c>null</c>.</exception>
@@ -114,10 +114,10 @@
         }
 
         /// <summary>
-        ///     Gets the behavior of the <see cref="MultipleResponseFactory.Behavior"/> method when retrieving the next <see cref="IStumpsHttpResponse"/>.
+        ///     Gets the The behavior of the <see cref="MultipleResponseFactory.CreateResponse(IStumpsHttpRequest)"/> method when retrieving the next <see cref="IStumpsHttpResponse"/>.
         /// </summary>
         /// <value>
-        ///     The behavior of the <see cref="MultipleResponseFactory.Behavior"/> method when retrieving the next <see cref="IStumpsHttpResponse"/>.
+        ///     The The behavior of the <see cref="MultipleResponseFactory.CreateResponse(IStumpsHttpRequest)"/> method when retrieving the next <see cref="IStumpsHttpResponse"/>.
         /// </value>
         public MultipleResponseFactoryBehavior Behavior
         {
@@ -169,12 +169,13 @@
         public bool HasResponse => true;
 
         /// <summary>
-        ///     Adds the specified response to the <see cref="T:Stumps.StumpsHttpResponseFactory"/>.
+        /// Adds the specified response to the <see cref="T:Stumps.StumpsHttpResponseFactory" />.
         /// </summary>
-        /// <param name="response">The <see cref="T:Stumps.IStumpsHttpResponse"/> to add to the <see cref="T:Stumps.StumpsHttpResponseFactory"/>.</param>
-        /// <exception cref="ArgumentNullException"><paramref name="response"/> is <c>null</c>.</exception>
-        /// <exception cref="ObjectDisposedException">The <see cref="MultipleResponseFactory"/> object has been disposed.</exception>
-        public void Add(IStumpsHttpResponse response)
+        /// <param name="response">The <see cref="T:Stumps.IStumpsHttpResponse" /> to add to the <see cref="T:Stumps.StumpsHttpResponseFactory" />.</param>
+        /// <returns>The <see cref="IStumpsHttpResponse"/> added to the object.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="response" /> is <c>null</c>.</exception>
+        /// <exception cref="ObjectDisposedException">The <see cref="MultipleResponseFactory" /> object has been disposed.</exception>
+        public IStumpsHttpResponse Add(IStumpsHttpResponse response)
         {
             ThrowExceptionIfDisposed();
 
@@ -188,6 +189,8 @@
 
             _listLock.ExitWriteLock();
             _positionLock.ExitWriteLock();
+
+            return response;
         }
 
         /// <summary>

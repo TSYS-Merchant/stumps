@@ -171,6 +171,50 @@ namespace Stumps
         }
 
         /// <summary>
+        ///     Asserts that the <see cref="MultipleResponseFactory"/> will respond with a <see cref="BasicHttpResponse"/>.
+        /// </summary>
+        /// <param name="responseFactory">The <see cref="MultipleResponseFactory"/> to which the new <see cref="BasicHttpResponse"/> is added.</param>
+        /// <returns>A <see cref="BasicHttpResponse"/> created for the <paramref name="responseFactory"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="responseFactory"/> is <c>null</c>.</exception>
+        public static BasicHttpResponse Responds(this MultipleResponseFactory responseFactory)
+        {
+            responseFactory = responseFactory ?? throw new ArgumentNullException(nameof(responseFactory));
+
+            var response = new BasicHttpResponse();
+            responseFactory.Add(response);
+
+            return response;
+        }
+
+        /// <summary>
+        ///     Asserts that the <see cref="Stump"/> will respond using a <see cref="MultipleResponseFactory"/>.
+        /// </summary>
+        /// <param name="stump">The <see cref="Stump"/> intercepting incoming HTTP requests.</param>
+        /// <returns>A <see cref="MultipleResponseFactory"/> created for the <paramref name="stump"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="stump"/> is <c>null</c>.</exception>
+        public static MultipleResponseFactory HasMultipleResponses(this Stump stump)
+        {
+            return HasMultipleResponses(stump, MultipleResponseFactoryBehavior.OrderedInfinite);
+        }
+
+        /// <summary>
+        /// Respondswithes the multiple.
+        /// </summary>
+        /// <param name="stump">The <see cref="Stump"/> intercepting incoming HTTP requests.</param>
+        /// <param name="behavior">The behavior of the <see cref="MultipleResponseFactory.CreateResponse(IStumpsHttpRequest)"/> method when retrieving the next <see cref="IStumpsHttpResponse"/>.</param>
+        /// <returns>A <see cref="MultipleResponseFactory"/> created for the <paramref name="stump"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="stump"/> is <c>null</c>.</exception>
+        public static MultipleResponseFactory HasMultipleResponses(this Stump stump, MultipleResponseFactoryBehavior behavior)
+        {
+            stump = stump ?? throw new ArgumentNullException(nameof(stump));
+
+            var factory = new MultipleResponseFactory(behavior);
+            stump.ResponseFactory = factory;
+
+            return (MultipleResponseFactory) stump.ResponseFactory;
+        }
+
+        /// <summary>
         ///     Creates an MD5 hash for the specified bytes.
         /// </summary>
         /// <param name="buffer">The buffer.</param>
