@@ -6,6 +6,9 @@
 
     public class SequencedHttpResponseFactory : IStumpsHttpResponseFactory, IDisposable
     {
+        private const string StumpsHeaderName = "x-stumps";
+        private const string ResetHeaderValue = "reset-sequence";
+
         private readonly Random _random;
 
         private readonly List<IStumpsHttpResponse> _responses;
@@ -218,6 +221,11 @@
         {
             ThrowExceptionIfDisposed();
 
+            if (request?.Headers?[StumpsHeaderName]?.Equals(ResetHeaderValue, StringComparison.OrdinalIgnoreCase) == true)
+            {
+                this.ResetToBeginning();
+            }
+
             if (this.Behavior == SequenceBehavior.Random)
             {
                 return ChooseRandomResponse();
@@ -294,6 +302,22 @@
             }
         }
 
+        /// <summary>
+        ///     Resets the next request to the start of the sequence regardless of the current position.
+        /// </summary>
+        public void ResetToBeginning()
+        {
+            if (this.Behavior == SequenceBehavior.Random)
+            {
+                return;
+            }
+
+            _positionLock.EnterWriteLock();
+
+            Interlocked.Exchange(ref _position, -1);
+
+            _positionLock.ExitWriteLock();
+        }
 
         /// <summary>
         ///     Chooses the next <see cref="IStumpsHttpResponse"/> in the list of available responses after the response returned from a previous request.

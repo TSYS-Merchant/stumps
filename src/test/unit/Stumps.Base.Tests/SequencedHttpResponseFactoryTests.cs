@@ -346,6 +346,31 @@
         }
 
         [Test]
+        public void CreateResponse_WithSequenceBehavior_CanResetUsingRequestHeader()
+        {
+            const string UpperCasedStumpsHeader = "X-STUMPS";
+            const string UpperCasedResetSequence = "RESET-SEQUENCE";
+
+            var factory = new SequencedHttpResponseFactory(SequenceBehavior.SequentialThenLoop);
+            PopulateFactoryWithMultipleResponses(factory, 5);
+
+            GetMultipleResponsesFromFactory(factory, 3);
+            var responses = GetMultipleResponsesFromFactory(factory, 10);
+            var expectedStatusCodeSequence = new int[] { 1, 2, 3 };
+
+            var request = new MockHttpRequest
+            {
+                Headers = new HttpHeaders()
+            };
+
+            request.Headers[UpperCasedStumpsHeader] = UpperCasedResetSequence;
+
+            var response = factory.CreateResponse(request);
+
+            Assert.AreEqual(1, response.StatusCode);
+        }
+
+        [Test]
         public void CreateResponse_WithLoopBehaviorInMultithreadedEnvironment_ReturnsExpectedValues()
         {
             var counts = new int[21];
@@ -410,6 +435,20 @@
             Assert.AreEqual(2, factory.Count);
             Assert.AreEqual(1, factory[0].StatusCode);
             Assert.AreEqual(3, factory[1].StatusCode);
+        }
+
+        [Test]
+        public void ResetToBeginning_WhenCalled_ResetsPosition()
+        {
+            var factory = new SequencedHttpResponseFactory(SequenceBehavior.SequentialThenLoop);
+            PopulateFactoryWithMultipleResponses(factory, 3);
+
+            Assert.AreEqual(1, factory.CreateResponse(new MockHttpRequest()).StatusCode);
+            Assert.AreEqual(2, factory.CreateResponse(new MockHttpRequest()).StatusCode);
+
+            factory.ResetToBeginning();
+
+            Assert.AreEqual(1, factory.CreateResponse(new MockHttpRequest()).StatusCode);
         }
 
         private void PopulateFactoryWithMultipleResponses(SequencedHttpResponseFactory factory, int count)
