@@ -11,7 +11,7 @@ namespace Stumps
     {
         private readonly List<Stump> _stumpList;
         private readonly Dictionary<string, Stump> _stumpReference;
-
+        
         private ReaderWriterLockSlim _lock;
         private bool _disposed;
 
@@ -49,10 +49,7 @@ namespace Stumps
         /// <exception cref="System.ArgumentException">A <see cref="T:Stumps.Stump" /> with the same identifier already exists.</exception>
         public void AddStump(Stump stump)
         {
-            if (stump == null)
-            {
-                throw new ArgumentNullException(nameof(stump));
-            }
+            stump = stump ?? throw new ArgumentNullException(nameof(stump));
 
             if (_stumpReference.ContainsKey(stump.StumpId))
             {

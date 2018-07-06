@@ -35,7 +35,7 @@ namespace Stumps.Http
         ///     Gets a value indicating whether the instance is started.
         /// </summary>
         /// <value>
-        ///   <c>true</c> if the instance is started; otherwise, <c>false</c>.
+        ///     <c>true</c> if the instance is started; otherwise, <c>false</c>.
         /// </value>
         bool Started { get; }
 

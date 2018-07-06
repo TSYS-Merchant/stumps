@@ -18,6 +18,16 @@
         public const int HttpOk = 200;
 
         /// <summary>
+        ///     The HTTP 500 Internal Server Error status code.
+        /// </summary>
+        public const int HttpInternalServerError = 500;
+
+        /// <summary>
+        ///     The HTTP 501 Not Implemented status code.
+        /// </summary>
+        public const int HttpNotImplemented = 501;
+
+        /// <summary>
         ///     The HTTP Error 503 Service Unavailable status code.
         /// </summary>
         public const int HttpServiceUnavailable = 503;
@@ -29,6 +39,8 @@
         {
             [HttpStatusCodes.HttpOk] = "OK",
             [HttpStatusCodes.HttpNotFound] = "Not Found",
+            [HttpStatusCodes.HttpInternalServerError] = "Internal Server Error",
+            [HttpStatusCodes.HttpNotImplemented] = "Not Implemented",
             [HttpStatusCodes.HttpServiceUnavailable] = "Service Unavailable"
         };
 

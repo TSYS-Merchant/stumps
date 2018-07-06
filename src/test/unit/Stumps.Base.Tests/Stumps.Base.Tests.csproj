@@ -98,6 +98,7 @@
     <Compile Include="Rules\HeaderRuleTests.cs" />
     <Compile Include="Rules\HttpMethodRuleTests.cs" />
     <Compile Include="Rules\UrlRuleTests.cs" />
+    <Compile Include="SequencedHttpResponseFactoryTests.cs" />
     <Compile Include="StreamUtilityTests.cs" />
     <Compile Include="StumpTests.cs" />
     <Compile Include="TestData.Designer.cs">
