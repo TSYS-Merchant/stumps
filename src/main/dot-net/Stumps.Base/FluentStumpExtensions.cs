@@ -36,7 +36,7 @@ namespace Stumps
 
             stump.TerminateConnection = true;
 
-            stump.ResponseFactory = new SingleHttpResponseFactory(new BasicHttpResponse());
+            stump.Responds();
 
             return stump;
         }
@@ -164,19 +164,21 @@ namespace Stumps
         {
             stump = stump ?? throw new ArgumentNullException(nameof(stump));
 
+            stump.ResponseFactory = stump.ResponseFactory ?? new StumpResponseFactory();
+
             var response = new BasicHttpResponse();
-            stump.ResponseFactory = new SingleHttpResponseFactory(response);
+            stump.ResponseFactory.Add(response);
 
             return response;
         }
 
         /// <summary>
-        ///     Asserts that the <see cref="MultipleResponseFactory"/> will respond with a <see cref="BasicHttpResponse"/>.
+        ///     Asserts that the <see cref="StumpResponseFactory"/> will respond with a <see cref="BasicHttpResponse"/>.
         /// </summary>
-        /// <param name="responseFactory">The <see cref="MultipleResponseFactory"/> to which the new <see cref="BasicHttpResponse"/> is added.</param>
+        /// <param name="responseFactory">The <see cref="StumpResponseFactory"/> to which the new <see cref="BasicHttpResponse"/> is added.</param>
         /// <returns>A <see cref="BasicHttpResponse"/> created for the <paramref name="responseFactory"/>.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="responseFactory"/> is <c>null</c>.</exception>
-        public static BasicHttpResponse Responds(this MultipleResponseFactory responseFactory)
+        public static BasicHttpResponse Responds(this StumpResponseFactory responseFactory)
         {
             responseFactory = responseFactory ?? throw new ArgumentNullException(nameof(responseFactory));
 
@@ -187,31 +189,22 @@ namespace Stumps
         }
 
         /// <summary>
-        ///     Asserts that the <see cref="Stump"/> will respond using a <see cref="MultipleResponseFactory"/>.
-        /// </summary>
-        /// <param name="stump">The <see cref="Stump"/> intercepting incoming HTTP requests.</param>
-        /// <returns>A <see cref="MultipleResponseFactory"/> created for the <paramref name="stump"/>.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="stump"/> is <c>null</c>.</exception>
-        public static MultipleResponseFactory HasMultipleResponses(this Stump stump)
-        {
-            return HasMultipleResponses(stump, MultipleResponseFactoryBehavior.OrderedInfinite);
-        }
-
-        /// <summary>
         /// Respondswithes the multiple.
         /// </summary>
         /// <param name="stump">The <see cref="Stump"/> intercepting incoming HTTP requests.</param>
-        /// <param name="behavior">The behavior of the <see cref="MultipleResponseFactory.CreateResponse(IStumpsHttpRequest)"/> method when retrieving the next <see cref="IStumpsHttpResponse"/>.</param>
-        /// <returns>A <see cref="MultipleResponseFactory"/> created for the <paramref name="stump"/>.</returns>
+        /// <param name="behavior">The behavior of the <see cref="StumpResponseFactory.CreateResponse(IStumpsHttpRequest)"/> method when retrieving the next <see cref="IStumpsHttpResponse"/>.</param>
+        /// <returns>The calling <see cref="T:Stumps.Stump"/>.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="stump"/> is <c>null</c>.</exception>
-        public static MultipleResponseFactory HasMultipleResponses(this Stump stump, MultipleResponseFactoryBehavior behavior)
+        public static Stump ReturnsMultipleResponses(this Stump stump, ResponseFactoryBehavior behavior)
         {
             stump = stump ?? throw new ArgumentNullException(nameof(stump));
 
-            var factory = new MultipleResponseFactory(behavior);
-            stump.ResponseFactory = factory;
+            if (stump.ResponseFactory == null || stump.ResponseFactory.Behavior != behavior)
+            {
+                stump.ResponseFactory = new StumpResponseFactory(behavior);
+            }
 
-            return (MultipleResponseFactory) stump.ResponseFactory;
+            return stump;
         }
 
         /// <summary>

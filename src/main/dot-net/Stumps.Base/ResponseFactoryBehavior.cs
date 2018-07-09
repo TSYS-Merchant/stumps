@@ -1,9 +1,10 @@
 ﻿namespace Stumps
 {
     /// <summary>
-    ///     An enumeration which defines the behavior of the <see cref="MultipleResponseFactory"/> class.
+    ///     An enumeration which defines the behavior of the <see cref="StumpResponseFactory"/> class when it
+    ///     can return multiple responses.
     /// </summary>
-    public enum MultipleResponseFactoryBehavior
+    public enum ResponseFactoryBehavior
     {
         /// <summary>
         /// Each incoming request returns the next response in the list sequentially.
@@ -17,7 +18,7 @@
         /// Once the cursor is beyond the current list of responses a default response is
         /// returned.
         /// </summary>
-        OrderedThenDefault = 1,
+        OrderedThenFailure = 1,
 
         /// <summary>
         /// Each incoming request randomly chooses a response from the available list

@@ -26,20 +26,18 @@
             ConsoleHelper.ApplicationBanner("Hello World (Multiple Response) Fluent API");
 
             // Create a new Stumps Server
-            var server = new StumpsServer();
+            var server = new StumpsServer().RespondsWithHttp404();
 
-            // Showing off some chaining: Make the server return an HTTP 404 for all unknown
-            // and then when the URL /HelloWorld.htm is requested, return back multiple HTML pages
-            // that are loaded from a file.
-            var multipleResponseFactory = 
-                server.RespondsWithHttp404()
+            // Showing off the multi-response behavior. When the URL /HelloWorld.htm is requested, 
+            // return back multiple HTML pages that are loaded from a file at random.
+            var randomResponseStump = server
                 .HandlesRequest("HelloWorld").MatchingMethod("GET")
                                              .MatchingUrl("/HelloWorld.htm")
-                                             .HasMultipleResponses();
+                                             .ReturnsMultipleResponses(ResponseFactoryBehavior.Random);
 
-            multipleResponseFactory.Responds().WithFile("HelloWorld1.htm");
-            multipleResponseFactory.Responds().WithFile("HelloWorld2.htm");
-            multipleResponseFactory.Responds().WithFile("HelloWorld3.htm");
+            randomResponseStump.Responds().WithFile("HelloWorld1.htm");
+            randomResponseStump.Responds().WithFile("HelloWorld2.htm");
+            randomResponseStump.Responds().WithFile("HelloWorld3.htm");
 
             // Showing off the ability to drop a connection for an incomming URL
             server.HandlesRequest("HelloDrop").MatchingMethod("GET")

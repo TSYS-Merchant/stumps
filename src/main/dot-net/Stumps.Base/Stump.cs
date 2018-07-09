@@ -9,7 +9,7 @@
     public sealed class Stump
     {
         private readonly List<IStumpRule> _ruleList;
-        private IStumpsHttpResponseFactory _responseFactory;
+        private IStumpResponseFactory _responseFactory;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:Stumps.Stump" /> class.
@@ -26,7 +26,7 @@
             this.StumpId = stumpId;
             _ruleList = new List<IStumpRule>();
 
-            _responseFactory = null;
+            _responseFactory = new StumpResponseFactory();
         }
 
         /// <summary>
@@ -43,7 +43,7 @@
         /// <value>
         ///     The response for the Stump.
         /// </value>
-        public IStumpsHttpResponseFactory ResponseFactory
+        public IStumpResponseFactory ResponseFactory
         {
             get => _responseFactory;
             set => _responseFactory = value ?? throw new ArgumentNullException(nameof(value));

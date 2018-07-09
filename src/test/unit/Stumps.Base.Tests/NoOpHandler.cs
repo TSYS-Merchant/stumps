@@ -7,7 +7,7 @@
 
     internal class NoOpHandler : IHttpHandler
     {
-        private ProcessHandlerResult _cannedResponse;
+        private readonly ProcessHandlerResult _cannedResponse;
         private int _processRequestCalls;
 
         public NoOpHandler(ProcessHandlerResult cannedResponse)
@@ -21,13 +21,9 @@
         {
             Interlocked.Increment(ref _processRequestCalls);
 
-            var contextEvent = this.ContextProcessed;
-            if (contextEvent != null)
-            {
-                contextEvent(this, new StumpsContextEventArgs(context));
-            }
+            this.ContextProcessed?.Invoke(this, new StumpsContextEventArgs(context));
 
-            return await Task.FromResult<ProcessHandlerResult>(_cannedResponse);
+            return await Task.FromResult(_cannedResponse);
         }
 
         public int ProcessRequestCalls()

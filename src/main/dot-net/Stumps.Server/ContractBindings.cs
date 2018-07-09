@@ -31,7 +31,7 @@ namespace Stumps.Server
                 stump.AddRule(rule);
             }
 
-            stump.ResponseFactory = new SingleHttpResponseFactory(contract.Response);
+            stump.ResponseFactory.Add(contract.Response);
 
             return stump;
         }

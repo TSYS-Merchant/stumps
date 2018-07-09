@@ -7,32 +7,32 @@
     using NUnit.Framework;
 
     [TestFixture]
-    public class MultipleResponseFactoryTests
+    public class StumpResponseFactoryTests
     {
         [Test]
         public void Constructor_WithBehavior_InitializesCorrectDefaults()
         {
             const int NotImplementedStatusCode = 501;
 
-            var factory = new MultipleResponseFactory(MultipleResponseFactoryBehavior.Random);
+            var factory = new StumpResponseFactory(ResponseFactoryBehavior.Random);
 
-            Assert.AreEqual(MultipleResponseFactoryBehavior.Random, factory.Behavior);
+            Assert.AreEqual(ResponseFactoryBehavior.Random, factory.Behavior);
             Assert.AreEqual(0, factory.Count);
-            Assert.NotNull(factory.DefaultResponse);
-            Assert.AreEqual(NotImplementedStatusCode, factory.DefaultResponse.StatusCode);
+            Assert.NotNull(factory.FailureResponse);
+            Assert.AreEqual(NotImplementedStatusCode, factory.FailureResponse.StatusCode);
         }
 
         [Test]
-        public void Constructor_WithDefaultResponse_SetsResponse()
+        public void Constructor_WithFailureResponse_SetsResponseAndBehavior()
         {
             const int NotFoundStatusCode = 404;
 
-            var factory = new MultipleResponseFactory(MultipleResponseFactoryBehavior.Random, HttpErrorResponses.HttpNotFound);
+            var factory = new StumpResponseFactory(HttpErrorResponses.HttpNotFound);
 
-            Assert.AreEqual(MultipleResponseFactoryBehavior.Random, factory.Behavior);
+            Assert.AreEqual(ResponseFactoryBehavior.OrderedThenFailure, factory.Behavior);
             Assert.AreEqual(0, factory.Count);
-            Assert.NotNull(factory.DefaultResponse);
-            Assert.AreEqual(NotFoundStatusCode, factory.DefaultResponse.StatusCode);
+            Assert.NotNull(factory.FailureResponse);
+            Assert.AreEqual(NotFoundStatusCode, factory.FailureResponse.StatusCode);
         }
 
         [Test]
@@ -42,9 +42,9 @@
                 () =>
                 {
                     IStumpsHttpResponse nullResponse = null;
-                    var factory = new MultipleResponseFactory(MultipleResponseFactoryBehavior.Random, nullResponse);
+                    var factory = new StumpResponseFactory(nullResponse);
                 },
-                Throws.Exception.TypeOf<ArgumentNullException>().With.Property("ParamName").EqualTo("defaultResponse"));
+                Throws.Exception.TypeOf<ArgumentNullException>().With.Property("ParamName").EqualTo("failureResponse"));
         }
 
         [Test]
@@ -54,7 +54,7 @@
                 () =>
                 {
                     IEnumerable<IStumpsHttpResponse> nullResponse = null;
-                    var factory = new MultipleResponseFactory(MultipleResponseFactoryBehavior.Random, nullResponse);
+                    var factory = new StumpResponseFactory(ResponseFactoryBehavior.Random, nullResponse);
                 },
                 Throws.Exception.TypeOf<ArgumentNullException>().With.Property("ParamName").EqualTo("responses"));
         }
@@ -64,9 +64,9 @@
         {
             var responses = new List<IStumpsHttpResponse>();
 
-            var factory = new MultipleResponseFactory(MultipleResponseFactoryBehavior.Random, responses);
+            var factory = new StumpResponseFactory(ResponseFactoryBehavior.Random, responses);
 
-            Assert.AreEqual(MultipleResponseFactoryBehavior.Random, factory.Behavior);
+            Assert.AreEqual(ResponseFactoryBehavior.Random, factory.Behavior);
             Assert.AreEqual(responses.Count, factory.Count);
         }
 
@@ -81,16 +81,16 @@
                 new BasicHttpResponse()
             };
 
-            var factory = new MultipleResponseFactory(MultipleResponseFactoryBehavior.Random, responses);
+            var factory = new StumpResponseFactory(ResponseFactoryBehavior.Random, responses);
 
-            Assert.AreEqual(MultipleResponseFactoryBehavior.Random, factory.Behavior);
+            Assert.AreEqual(ResponseFactoryBehavior.Random, factory.Behavior);
             Assert.AreEqual(responses.Count, factory.Count);
         }
 
         [Test]
         public void Indexor_WithInvalidIndex_ThrowsExpcetion()
         {
-            var factory = new MultipleResponseFactory(MultipleResponseFactoryBehavior.Random);
+            var factory = new StumpResponseFactory(ResponseFactoryBehavior.Random);
 
             Assert.Throws<ArgumentOutOfRangeException>(() => factory[0].GetBody());
         }
@@ -98,7 +98,7 @@
         [Test]
         public void Indexor_WhenFactoryIsDisposed_ThrowsExpcetion()
         {
-            var factory = new MultipleResponseFactory(MultipleResponseFactoryBehavior.OrderedInfinite);
+            var factory = new StumpResponseFactory(ResponseFactoryBehavior.OrderedInfinite);
             factory.Dispose();
 
             Assert.Throws<ObjectDisposedException>(() => factory[0].GetBody());
@@ -107,33 +107,60 @@
         [Test]
         public void Indexor_WithValidIndex_ReturnsCorrectValue()
         {
-            var responses = new List<IStumpsHttpResponse>();
-            responses.Add(new BasicHttpResponse());
-
-            responses.Add(new BasicHttpResponse()
+            var responses = new List<IStumpsHttpResponse>
             {
-                StatusCode = 1
-            });
+                new BasicHttpResponse(),
 
-            responses.Add(new BasicHttpResponse());
+                new BasicHttpResponse()
+                {
+                    StatusCode = 1
+                },
 
-            var factory = new MultipleResponseFactory(MultipleResponseFactoryBehavior.OrderedInfinite, responses);
+                new BasicHttpResponse()
+            };
+
+            var factory = new StumpResponseFactory(ResponseFactoryBehavior.OrderedInfinite, responses);
 
             Assert.AreSame(responses[1], factory[1]);
             Assert.AreNotSame(responses[0], factory[1]);
         }
 
-        [Test]
-        public void HasResponse_AlwaysTrue()
+        [TestCase(ResponseFactoryBehavior.OrderedInfinite)]
+        [TestCase(ResponseFactoryBehavior.OrderedThenFailure)]
+        [TestCase(ResponseFactoryBehavior.Random)]
+        public void HasResponse_GivenABehavior_WithoutAnyResponses_ReturnsFalse(ResponseFactoryBehavior behavior)
         {
-            var factory = new MultipleResponseFactory(MultipleResponseFactoryBehavior.OrderedInfinite);
+            var factory = new StumpResponseFactory(behavior);
+            Assert.IsFalse(factory.HasResponse);
+        }
+
+        [TestCase(ResponseFactoryBehavior.OrderedInfinite, true)]
+        [TestCase(ResponseFactoryBehavior.OrderedThenFailure, false)]
+        [TestCase(ResponseFactoryBehavior.Random, true)]
+        public void HasResponse_GivenABehavior_WhenFailureResponseIsNull_ReturnsCorrectResult(ResponseFactoryBehavior behavior, bool expectedResponse)
+        {
+            var factory = new StumpResponseFactory(behavior);
+            factory.Add(new MockHttpResponse());
+            factory.FailureResponse = null;
+
+            Assert.AreEqual(expectedResponse, factory.HasResponse);
+        }
+
+        [TestCase(ResponseFactoryBehavior.OrderedInfinite)]
+        [TestCase(ResponseFactoryBehavior.OrderedThenFailure)]
+        [TestCase(ResponseFactoryBehavior.Random)]
+        public void HasResponse_GivenABehavior_WithResponsesAndFailureResponse_ReturnsTrue(ResponseFactoryBehavior behavior)
+        {
+            var factory = new StumpResponseFactory(behavior);
+            factory.Add(new MockHttpResponse());
+
             Assert.IsTrue(factory.HasResponse);
         }
 
         [Test]
         public void Add_WhenFactoryIsDisposed_ThrowsExpcetion()
         {
-            var factory = new MultipleResponseFactory(MultipleResponseFactoryBehavior.OrderedInfinite);
+            var factory = new StumpResponseFactory(ResponseFactoryBehavior.OrderedInfinite);
             factory.Dispose();
 
             Assert.Throws<ObjectDisposedException>(() => factory.Add(new BasicHttpResponse()));
@@ -145,7 +172,7 @@
             Assert.That(
                 () =>
                 {
-                    var factory = new MultipleResponseFactory(MultipleResponseFactoryBehavior.OrderedInfinite);
+                    var factory = new StumpResponseFactory(ResponseFactoryBehavior.OrderedInfinite);
                     factory.Add(null);
                 },
                 Throws.Exception.TypeOf<ArgumentNullException>().With.Property("ParamName").EqualTo("response"));
@@ -154,7 +181,7 @@
         [Test]
         public void Add_WhenCalled_ResetsOrderPosition()
         {
-            var factory = new MultipleResponseFactory(MultipleResponseFactoryBehavior.OrderedInfinite);
+            var factory = new StumpResponseFactory(ResponseFactoryBehavior.OrderedInfinite);
             PopulateFactoryWithMultipleResponses(factory, 3);
 
             Assert.AreEqual(1, factory.CreateResponse(new MockHttpRequest()).StatusCode);
@@ -171,7 +198,7 @@
         [Test]
         public void Add_WithValidResponse_AddsToCollection()
         {
-            var factory = new MultipleResponseFactory(MultipleResponseFactoryBehavior.OrderedInfinite);
+            var factory = new StumpResponseFactory(ResponseFactoryBehavior.OrderedInfinite);
             factory.Add(new BasicHttpResponse());
 
             Assert.AreEqual(1, factory.Count);
@@ -182,7 +209,7 @@
         {
             const int ItemCount = 1000;
 
-            var factory = new MultipleResponseFactory(MultipleResponseFactoryBehavior.OrderedInfinite);
+            var factory = new StumpResponseFactory(ResponseFactoryBehavior.OrderedInfinite);
 
             var t = new Thread(() =>
             {
@@ -212,7 +239,7 @@
         [Test]
         public void Clear_WhenCalled_ResetsOrderPosition()
         {
-            var factory = new MultipleResponseFactory(MultipleResponseFactoryBehavior.OrderedInfinite);
+            var factory = new StumpResponseFactory(ResponseFactoryBehavior.OrderedInfinite);
             PopulateFactoryWithMultipleResponses(factory, 3);
 
             Assert.AreEqual(1, factory.CreateResponse(new MockHttpRequest()).StatusCode);
@@ -231,7 +258,7 @@
         [Test]
         public void Clear_WhenFactoryIsDisposed_ThrowsExpcetion()
         {
-            var factory = new MultipleResponseFactory(MultipleResponseFactoryBehavior.OrderedInfinite);
+            var factory = new StumpResponseFactory(ResponseFactoryBehavior.OrderedInfinite);
             factory.Dispose();
 
             Assert.Throws<ObjectDisposedException>(() => factory.Clear());
@@ -240,7 +267,7 @@
         [Test]
         public void Clear_WhenCalled_RemoveAllItemsInCollection()
         {
-            var factory = new MultipleResponseFactory(MultipleResponseFactoryBehavior.OrderedInfinite);
+            var factory = new StumpResponseFactory(ResponseFactoryBehavior.OrderedInfinite);
             factory.Add(new BasicHttpResponse());
 
             factory.Clear();
@@ -253,7 +280,7 @@
         {
             var t = new Thread(() =>
             {
-                var factory = new MultipleResponseFactory(MultipleResponseFactoryBehavior.OrderedInfinite);
+                var factory = new StumpResponseFactory(ResponseFactoryBehavior.OrderedInfinite);
                 Assert.DoesNotThrow(() => Parallel.For(0, 1000, (i) => factory.Clear()));
             });
 
@@ -269,7 +296,7 @@
         [Test]
         public void CreateResponse_WhenFactoryIsDisposed_ThrowsExpcetion()
         {
-            var factory = new MultipleResponseFactory(MultipleResponseFactoryBehavior.OrderedInfinite);
+            var factory = new StumpResponseFactory(ResponseFactoryBehavior.OrderedInfinite);
             factory.Dispose();
 
             Assert.Throws<ObjectDisposedException>(() => factory.CreateResponse(new MockHttpRequest()));
@@ -278,37 +305,37 @@
         [Test]
         public void CreateResponse_WithoutResponsesWithRandomBehavior_ReturnsDefault()
         {
-            var factory = new MultipleResponseFactory(MultipleResponseFactoryBehavior.Random);
+            var factory = new StumpResponseFactory(ResponseFactoryBehavior.Random);
             var response = factory.CreateResponse(new MockHttpRequest());
 
             Assert.NotNull(response);
-            Assert.AreEqual(factory.DefaultResponse.StatusCode, response.StatusCode);
+            Assert.AreEqual(factory.FailureResponse.StatusCode, response.StatusCode);
         }
 
         [Test]
         public void CreateResponse_WithoutResponsesWithOrderedInfiniteBehavior_ReturnsDefault()
         {
-            var factory = new MultipleResponseFactory(MultipleResponseFactoryBehavior.OrderedInfinite);
+            var factory = new StumpResponseFactory(ResponseFactoryBehavior.OrderedInfinite);
             var response = factory.CreateResponse(new MockHttpRequest());
 
             Assert.NotNull(response);
-            Assert.AreEqual(factory.DefaultResponse.StatusCode, response.StatusCode);
+            Assert.AreEqual(factory.FailureResponse.StatusCode, response.StatusCode);
         }
 
         [Test]
         public void CreateResponse_WithoutResponsesWithOrderedThenDefaultBehavior_ReturnsDefault()
         {
-            var factory = new MultipleResponseFactory(MultipleResponseFactoryBehavior.OrderedThenDefault);
+            var factory = new StumpResponseFactory(ResponseFactoryBehavior.OrderedThenFailure);
             var response = factory.CreateResponse(new MockHttpRequest());
 
             Assert.NotNull(response);
-            Assert.AreEqual(factory.DefaultResponse.StatusCode, response.StatusCode);
+            Assert.AreEqual(factory.FailureResponse.StatusCode, response.StatusCode);
         }
 
         [Test]
         public void CreateResponse_WithRandomBehavior_ReturnsExpectedValues()
         {
-            var factory = new MultipleResponseFactory(MultipleResponseFactoryBehavior.Random);
+            var factory = new StumpResponseFactory(ResponseFactoryBehavior.Random);
             PopulateFactoryWithMultipleResponses(factory, 5);
 
             var responses = GetMultipleResponsesFromFactory(factory, 10);
@@ -317,13 +344,13 @@
 
             Assert.IsFalse(AreStatusCodesEqual(responses, unexpectedStatusCodeSequence));
 
-            responses.ForEach((r) => Assert.AreNotEqual(factory.DefaultResponse.StatusCode, r.StatusCode));
+            responses.ForEach((r) => Assert.AreNotEqual(factory.FailureResponse.StatusCode, r.StatusCode));
         }
 
         [Test]
         public void CreateResponse_WithOrderedThenDefaultBehavior_ReturnsExpectedValues()
         {
-            var factory = new MultipleResponseFactory(MultipleResponseFactoryBehavior.OrderedThenDefault);
+            var factory = new StumpResponseFactory(ResponseFactoryBehavior.OrderedThenFailure);
             PopulateFactoryWithMultipleResponses(factory, 3);
 
             var responses = GetMultipleResponsesFromFactory(factory, 5);
@@ -336,7 +363,7 @@
         [Test]
         public void CreateResponse_WithOrderedInfiniteBehavior_ReturnsExpectedValues()
         {
-            var factory = new MultipleResponseFactory(MultipleResponseFactoryBehavior.OrderedInfinite);
+            var factory = new StumpResponseFactory(ResponseFactoryBehavior.OrderedInfinite);
             PopulateFactoryWithMultipleResponses(factory, 5);
 
             var responses = GetMultipleResponsesFromFactory(factory, 10);
@@ -352,7 +379,7 @@
             const string UpperCasedStumpsHeader = "X-STUMPS";
             const string UpperCasedResetSequence = "RESET-SEQUENCE";
 
-            var factory = new MultipleResponseFactory(MultipleResponseFactoryBehavior.OrderedInfinite);
+            var factory = new StumpResponseFactory(ResponseFactoryBehavior.OrderedInfinite);
             PopulateFactoryWithMultipleResponses(factory, 5);
 
             GetMultipleResponsesFromFactory(factory, 3);
@@ -376,7 +403,7 @@
         {
             var counts = new int[21];
 
-            var factory = new MultipleResponseFactory(MultipleResponseFactoryBehavior.OrderedInfinite);
+            var factory = new StumpResponseFactory(ResponseFactoryBehavior.OrderedInfinite);
             PopulateFactoryWithMultipleResponses(factory, 20);
 
             var mockRequest = new MockHttpRequest();
@@ -398,14 +425,14 @@
         {
             const int BadPosition = 0;
 
-            var factory = new MultipleResponseFactory(MultipleResponseFactoryBehavior.OrderedInfinite);
+            var factory = new StumpResponseFactory(ResponseFactoryBehavior.OrderedInfinite);
             Assert.Throws<ArgumentOutOfRangeException>(() => factory.RemoveAt(BadPosition));
         }
 
         [Test]
         public void RemoveAt_WhenCalled_ResetsOrderPosition()
         {
-            var factory = new MultipleResponseFactory(MultipleResponseFactoryBehavior.OrderedInfinite);
+            var factory = new StumpResponseFactory(ResponseFactoryBehavior.OrderedInfinite);
             PopulateFactoryWithMultipleResponses(factory, 5);
 
             Assert.AreEqual(1, factory.CreateResponse(new MockHttpRequest()).StatusCode);
@@ -419,7 +446,7 @@
         [Test]
         public void RemoveAt_WhenFactoryIsDisposed_ThrowsExpcetion()
         {
-            var factory = new MultipleResponseFactory(MultipleResponseFactoryBehavior.OrderedInfinite);
+            var factory = new StumpResponseFactory(ResponseFactoryBehavior.OrderedInfinite);
             factory.Dispose();
 
             Assert.Throws<ObjectDisposedException>(() => factory.RemoveAt(0));
@@ -428,7 +455,7 @@
         [Test]
         public void RemoveAt_WithValidPosition_RemovesResponse()
         {
-            var factory = new MultipleResponseFactory(MultipleResponseFactoryBehavior.OrderedInfinite);
+            var factory = new StumpResponseFactory(ResponseFactoryBehavior.OrderedInfinite);
             PopulateFactoryWithMultipleResponses(factory, 3);
 
             factory.RemoveAt(1);
@@ -441,7 +468,7 @@
         [Test]
         public void ResetToBeginning_WhenCalled_ResetsOrderPosition()
         {
-            var factory = new MultipleResponseFactory(MultipleResponseFactoryBehavior.OrderedInfinite);
+            var factory = new StumpResponseFactory(ResponseFactoryBehavior.OrderedInfinite);
             PopulateFactoryWithMultipleResponses(factory, 3);
 
             Assert.AreEqual(1, factory.CreateResponse(new MockHttpRequest()).StatusCode);
@@ -452,7 +479,7 @@
             Assert.AreEqual(1, factory.CreateResponse(new MockHttpRequest()).StatusCode);
         }
 
-        private void PopulateFactoryWithMultipleResponses(MultipleResponseFactory factory, int count)
+        private void PopulateFactoryWithMultipleResponses(StumpResponseFactory factory, int count)
         {
             for (var i = 1; i <= count; i++)
             {
@@ -465,7 +492,7 @@
             }
         }
 
-        private List<IStumpsHttpResponse> GetMultipleResponsesFromFactory(MultipleResponseFactory factory, int count)
+        private List<IStumpsHttpResponse> GetMultipleResponsesFromFactory(StumpResponseFactory factory, int count)
         {
             var request = new MockHttpRequest();
             var responses = new List<IStumpsHttpResponse>();
