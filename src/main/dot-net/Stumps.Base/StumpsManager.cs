@@ -65,6 +65,19 @@ namespace Stumps
         }
 
         /// <summary>
+        ///     Deletes all stumps from the collection.
+        /// </summary>
+        public void DeleteAll()
+        {
+            _lock.EnterWriteLock();
+
+            _stumpReference.Clear();
+            _stumpList.Clear();
+
+            _lock.ExitWriteLock();
+        }
+
+        /// <summary>
         ///     Deletes the specified stump from the collection.
         /// </summary>
         /// <param name="stumpId">The  unique identifier for the stump to remove.</param>

@@ -24,6 +24,11 @@ namespace Stumps
         void AddStump(Stump stump);
 
         /// <summary>
+        ///     Deletes all stumps from the collection.
+        /// </summary>
+        void DeleteAll();
+
+        /// <summary>
         ///     Deletes the specified stump from the collection.
         /// </summary>
         /// <param name="stumpId">The  unique identifier for the stump to remove.</param>

@@ -263,6 +263,11 @@
         public void AddStump(Stump stump) => _stumpsManager.AddStump(stump);
 
         /// <summary>
+        ///     Deletes all the stumps from the collection.
+        /// </summary>
+        public void DeleteAllStumps() => _stumpsManager.DeleteAll();
+
+        /// <summary>
         ///     Deletes the specified stump from the collection.
         /// </summary>
         /// <param name="stumpId">The  unique identifier for the stump to remove.</param>
