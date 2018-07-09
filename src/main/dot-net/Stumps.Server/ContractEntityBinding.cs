@@ -24,12 +24,10 @@ namespace Stumps.Server
                 OriginalRequest = new RecordedRequest(new HttpRequestEntityReader(serverId, entity.OriginalRequest, dataAccess), ContentDecoderHandling.DecodeNotRequired),
                 OriginalResponse = new RecordedResponse(new HttpResponseEntityReader(serverId, entity.OriginalResponse, dataAccess), ContentDecoderHandling.DecodeNotRequired),
                 Response = new RecordedResponse(new HttpResponseEntityReader(serverId, entity.Response, dataAccess), ContentDecoderHandling.DecodeNotRequired),
-                ResponseDelay = entity.ResponseDelay,
                 Rules = new RuleContractCollection(),
                 StumpCategory = entity.StumpName,
                 StumpId = entity.StumpId,
                 StumpName = entity.StumpName,
-                TerminateConnection = entity.TerminateConnection
             };
 
             foreach (var ruleEntity in entity.Rules)
@@ -80,8 +78,10 @@ namespace Stumps.Server
                 BodyResourceName = string.Empty,
                 Headers = CreateNameValuePairFromHeaders(contract.OriginalResponse.Headers),
                 RedirectAddress = contract.OriginalResponse.RedirectAddress,
+                ResponseDelay = contract.OriginalResponse.ResponseDelay,
                 StatusCode = contract.OriginalResponse.StatusCode,
-                StatusDescription = contract.OriginalResponse.StatusDescription
+                StatusDescription = contract.OriginalResponse.StatusDescription,
+                TerminateConnection = contract.OriginalResponse.TerminateConnection
             };
 
             var response = new HttpResponseEntity
@@ -89,8 +89,10 @@ namespace Stumps.Server
                 BodyResourceName = string.Empty,
                 Headers = CreateNameValuePairFromHeaders(contract.Response.Headers),
                 RedirectAddress = contract.Response.RedirectAddress,
+                ResponseDelay = contract.Response.ResponseDelay,
                 StatusCode = contract.Response.StatusCode,
-                StatusDescription = contract.Response.StatusDescription
+                StatusDescription = contract.Response.StatusDescription,
+                TerminateConnection = contract.Response.TerminateConnection
             };
 
             var entity = new StumpEntity
@@ -98,12 +100,10 @@ namespace Stumps.Server
                 OriginalRequest = originalRequest,
                 OriginalResponse = originalResponse,
                 Response = response,
-                ResponseDelay = contract.ResponseDelay,
                 Rules = new List<RuleEntity>(),
                 StumpCategory = contract.StumpCategory,
                 StumpId = contract.StumpId,
                 StumpName = contract.StumpName,
-                TerminateConnection = contract.TerminateConnection
             };
 
             foreach (var rule in contract.Rules)

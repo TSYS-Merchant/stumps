@@ -10,38 +10,6 @@ namespace Stumps
     public static class FluentStumpExtensions
     {
         /// <summary>
-        ///     Specifies the amount of time the server delays before responding with the Stump.
-        /// </summary>
-        /// <param name="stump">The <see cref="T:Stumps.Stump"/> intercepting incoming HTTP requests.</param>
-        /// <param name="delayMilliseconds">The amount of time, in milliseconds, the response is delayed.</param>
-        /// <returns>The calling <see cref="T:Stumps.Stump"/>.</returns>
-        /// <exception cref="System.ArgumentNullException"><paramref name="stump"/> is <c>null</c>.</exception>
-        public static Stump DelayedBy(this Stump stump, int delayMilliseconds)
-        {
-            stump = stump ?? throw new ArgumentNullException(nameof(stump));
-
-            stump.ResponseDelay = delayMilliseconds;
-            return stump;
-        }
-
-        /// <summary>
-        ///     Asserts that the <see cref="T:Stumps.Stump"/> will drop the connection immediately.
-        /// </summary>
-        /// <param name="stump">The <see cref="T:Stumps.Stump"/> intercepting incoming HTTP requests.</param>
-        /// <returns>The calling <see cref="T:Stumps.Stump"/>.</returns>
-        /// <exception cref="System.ArgumentNullException"><paramref name="stump"/> is <c>null</c>.</exception>
-        public static Stump DropsConnection(this Stump stump)
-        {
-            stump = stump ?? throw new ArgumentNullException(nameof(stump));
-
-            stump.TerminateConnection = true;
-
-            stump.Responds();
-
-            return stump;
-        }
-
-        /// <summary>
         ///     Requires the incoming HTTP request to match the specified body.
         /// </summary>
         /// <param name="stump">The <see cref="T:Stumps.Stump"/> intercepting incoming HTTP requests.</param>

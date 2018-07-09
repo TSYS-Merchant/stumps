@@ -36,13 +36,13 @@ namespace Stumps.Examples.HelloWorldFluentApi
             server.RespondsWithHttp404()
                   .HandlesRequest("HelloWorld").MatchingMethod("GET")
                                                .MatchingUrl("/HelloWorld.htm")
-                                               .DelayedBy(2000)
-                                               .Responds().WithFile("HelloWorld.htm");
+                                               .Responds().WithFile("HelloWorld.htm")
+                                                          .DelayedBy(2000);
 
             // Showing off the ability to drop a connection for an incomming URL
             server.HandlesRequest("HelloDrop").MatchingMethod("GET")
                                               .MatchingUrl("/HelloDrop.htm")
-                                              .DropsConnection();
+                                              .Responds().ByDroppingTheConnection();
 
             // Showing off a stump
             // Show the requests that are incomming

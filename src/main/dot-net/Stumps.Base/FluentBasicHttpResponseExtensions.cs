@@ -10,6 +10,36 @@ namespace Stumps
     public static class FluentBasicHttpResponseExtensions
     {
         /// <summary>
+        ///     Specifies the amount of time the server delays before responding with the Stump.
+        /// </summary>
+        /// <param name="stump">The <see cref="T:Stumps.Stump"/> intercepting incoming HTTP requests.</param>
+        /// <param name="delayMilliseconds">The amount of time, in milliseconds, the response is delayed.</param>
+        /// <returns>The calling <see cref="BasicHttpResponse"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="response"/> is <c>null</c>.</exception>
+        public static BasicHttpResponse DelayedBy(this BasicHttpResponse response, int delayMilliseconds)
+        {
+            response = response ?? throw new ArgumentNullException(nameof(response));
+
+            response.ResponseDelay = delayMilliseconds;
+            return response;
+        }
+
+        /// <summary>
+        ///     Asserts that the <see cref="T:Stumps.Stump"/> will drop the connection immediately.
+        /// </summary>
+        /// <param name="stump">The <see cref="T:Stumps.Stump"/> intercepting incoming HTTP requests.</param>
+        /// <returns>The calling <see cref="BasicHttpResponse"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="response"/> is <c>null</c>.</exception>
+        public static BasicHttpResponse ByDroppingTheConnection(this BasicHttpResponse response)
+        {
+            response = response ?? throw new ArgumentNullException(nameof(response));
+
+            response.TerminateConnection = true;
+
+            return response;
+        }
+
+        /// <summary>
         ///     Specifies the body returned as part of the HTTP response.
         /// </summary>
         /// <param name="response">The <see cref="T:Stumps.BasicHttpResponse" /> that returns in response to an HTTP request.</param>

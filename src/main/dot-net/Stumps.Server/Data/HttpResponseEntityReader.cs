@@ -81,6 +81,22 @@ namespace Stumps.Server.Data
         }
 
         /// <summary>
+        ///     Gets or sets the amount of time (in milliseconds) the response is delayed.
+        /// </summary>
+        /// <value>
+        ///     The amount of time (in milliseconds) the response is delayed.
+        /// </value>
+        /// <remarks>
+        ///     A value of <c>0</c> or less will not cause a delay.
+        /// </remarks>
+        /// <exception cref="NotSupportedException">Thrown when altering the value of the response delay.</exception>
+        public int ResponseDelay
+        {
+            get => _entity.ResponseDelay;
+            set => throw new NotImplementedException();
+        }
+
+        /// <summary>
         ///     Gets or sets the HTTP status code for the response.
         /// </summary>
         /// <value>
@@ -104,6 +120,19 @@ namespace Stumps.Server.Data
         {
             get => _entity.StatusDescription;
             set => throw new NotSupportedException();
+        }
+
+        /// <summary>
+        ///     Gets or sets a flag indicating whether to forceably terminate the connection.
+        /// </summary>
+        /// <value>
+        ///     <c>true</c> if the connection should be forceably terminated; otherwise, <c>false</c>.
+        /// </value>
+        /// <exception cref="NotSupportedException">Thrown when altering the value indicating to terminate the connection.</exception>
+        public bool TerminateConnection
+        {
+            get => _entity.TerminateConnection;
+            set => throw new NotImplementedException();
         }
 
         /// <summary>

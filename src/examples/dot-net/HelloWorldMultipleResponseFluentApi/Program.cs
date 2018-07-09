@@ -42,7 +42,18 @@
             // Showing off the ability to drop a connection for an incomming URL
             server.HandlesRequest("HelloDrop").MatchingMethod("GET")
                                               .MatchingUrl("/HelloDrop.htm")
-                                              .DropsConnection();
+                                              .Responds().ByDroppingTheConnection();
+
+            // Showing off the ability to mix and match the delay and terminate connection
+            // features within a sequence using the default looping behavior.
+            var mixedStump = server
+                .HandlesRequest("HelloMixed").MatchingMethod("GET")
+                                             .MatchingUrl("/HelloMixed.htm");
+
+            mixedStump.Responds().WithFile("HelloWorld1.htm");
+            mixedStump.Responds().WithFile("HelloWorld2.htm").DelayedBy(2000);
+            mixedStump.Responds().WithFile("HelloWorld3.htm");
+            mixedStump.Responds().ByDroppingTheConnection();
 
             // Showing off a stump
             // Show the requests that are incomming
