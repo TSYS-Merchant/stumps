@@ -37,17 +37,17 @@
 
             var stump = new Stump("ABC")
             {
-                ResponseFactory = responseFactory
+                Responses = responseFactory
             };
 
-            Assert.AreEqual(responseFactory, stump.ResponseFactory);
+            Assert.AreEqual(responseFactory, stump.Responses);
         }
 
         [Test]
         public void ResposeFactory_SetNull_ThrowsException()
         {
             Assert.That(
-                () => new Stump("ABC").ResponseFactory = null,
+                () => new Stump("ABC").Responses = null,
                 Throws.Exception.TypeOf<ArgumentNullException>().With.Property("ParamName").EqualTo("value"));
         }
 

@@ -78,7 +78,7 @@
             }
 
             // Create the response
-            var stumpResponse = stump.ResponseFactory.CreateResponse(context.Request);
+            var stumpResponse = stump.Responses.CreateResponse(context.Request);
 
             if (stumpResponse.ResponseDelay > StumpsHandler.MinimumResponseDelay)
             {

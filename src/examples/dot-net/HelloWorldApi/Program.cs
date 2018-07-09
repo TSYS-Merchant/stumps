@@ -48,8 +48,8 @@ namespace Stumps.Examples.HelloWorldApi
                 "<html><header><title>Stumps Hello World</title></header><body><p>Hello From Stumps</p></body></html>");
 
             // Add the response to the stump
-            stump.ResponseFactory = new StumpResponseFactory();
-            stump.ResponseFactory.Add(response);
+            stump.Responses = new StumpResponseFactory();
+            stump.Responses.Add(response);
 
             // Add the stump to the server
             server.AddStump(stump);

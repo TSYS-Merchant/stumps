@@ -132,10 +132,10 @@ namespace Stumps
         {
             stump = stump ?? throw new ArgumentNullException(nameof(stump));
 
-            stump.ResponseFactory = stump.ResponseFactory ?? new StumpResponseFactory();
+            stump.Responses = stump.Responses ?? new StumpResponseFactory();
 
             var response = new BasicHttpResponse();
-            stump.ResponseFactory.Add(response);
+            stump.Responses.Add(response);
 
             return response;
         }
@@ -167,9 +167,9 @@ namespace Stumps
         {
             stump = stump ?? throw new ArgumentNullException(nameof(stump));
 
-            if (stump.ResponseFactory == null || stump.ResponseFactory.Behavior != behavior)
+            if (stump.Responses == null || stump.Responses.Behavior != behavior)
             {
-                stump.ResponseFactory = new StumpResponseFactory(behavior);
+                stump.Responses = new StumpResponseFactory(behavior);
             }
 
             return stump;

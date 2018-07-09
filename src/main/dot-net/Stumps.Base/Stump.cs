@@ -38,12 +38,12 @@
         public int Count => _ruleList.Count;
 
         /// <summary>
-        ///     Gets or sets the response for the Stump.
+        ///     Gets or sets the response factory for the stump.
         /// </summary>
         /// <value>
-        ///     The response for the Stump.
+        ///     The response factory for the stump.
         /// </value>
-        public IStumpResponseFactory ResponseFactory
+        public IStumpResponseFactory Responses
         {
             get => _responseFactory;
             set => _responseFactory = value ?? throw new ArgumentNullException(nameof(value));
