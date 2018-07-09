@@ -3,7 +3,7 @@ namespace Stumps
     using System;
 
     /// <summary>
-    ///     An interface for a class that manages a collection of <see cref="T:Stumps.Stump"/> objects.
+    ///     An interface for a class that manages a collection of <see cref="Stump"/> objects.
     /// </summary>
     internal interface IStumpsManager : IDisposable
     {
@@ -16,11 +16,11 @@ namespace Stumps
         int Count { get; }
 
         /// <summary>
-        ///     Adds a new <see cref="T:Stumps.Stump" /> to the collection.
+        ///     Adds a new <see cref="Stump" /> to the collection.
         /// </summary>
-        /// <param name="stump">The <see cref="T:Stumps.Stump" /> to add to the collection.</param>
-        /// <exception cref="System.ArgumentNullException"><paramref name="stump"/> is <c>null</c>.</exception>
-        /// <exception cref="System.ArgumentException">A <see cref="T:Stumps.Stump" /> with the same identifier already exists.</exception>
+        /// <param name="stump">The <see cref="Stump" /> to add to the collection.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="stump"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentException">A <see cref="Stump" /> with the same identifier already exists.</exception>
         void AddStump(Stump stump);
 
         /// <summary>
@@ -39,7 +39,7 @@ namespace Stumps
         /// </summary>
         /// <param name="stumpId">The unique identifier for the Stump.</param>
         /// <returns>
-        ///     A <see cref="T:Stumps.Stump"/> with the specified <paramref name="stumpId"/>.
+        ///     A <see cref="Stump"/> with the specified <paramref name="stumpId"/>.
         /// </returns>
         /// <remarks>
         ///     A <c>null</c> value is returned if a Stump is not found.
@@ -51,7 +51,7 @@ namespace Stumps
         /// </summary>
         /// <param name="context">The incoming HTTP request context.</param>
         /// <returns>
-        ///     A <see cref="T:Stumps.Stump"/> that matches the incoming HTTP request.
+        ///     A <see cref="Stump"/> that matches the incoming HTTP request.
         /// </returns>
         /// <remarks>
         ///     A <c>null</c> value is returned if a matching Stump is not found.

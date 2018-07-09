@@ -1,7 +1,7 @@
 ﻿namespace Stumps.Http
 {
     /// <summary>
-    ///     Provides the result of a class implementing the <see cref="T:Stumps.Http.IHttpHandler"/> 
+    ///     Provides the result of a class implementing the <see cref="IHttpHandler"/> 
     ///     interface when processing an incoming request.
     /// </summary>
     internal enum ProcessHandlerResult

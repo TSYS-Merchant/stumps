@@ -17,7 +17,7 @@
         private int initializeCalled = 0;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Stumps.Http.StumpsHttpContext"/> class.
+        ///     Initializes a new instance of the <see cref="StumpsHttpContext"/> class.
         /// </summary>
         public StumpsHttpContext()
         {
@@ -38,10 +38,10 @@
         }
 
         /// <summary>
-        ///     Gets the <see cref="T:Stumps.IStumpsHttpRequest" /> object for the current HTTP request.
+        ///     Gets the <see cref="IStumpsHttpRequest" /> object for the current HTTP request.
         /// </summary>
         /// <value>
-        ///     The <see cref="T:Stumps.IStumpsHttpRequest" /> object for the current HTTP request.
+        ///     The <see cref="IStumpsHttpRequest" /> object for the current HTTP request.
         /// </value>
         public IStumpsHttpRequest Request
         {
@@ -49,10 +49,10 @@
         }
 
         /// <summary>
-        ///     Gets the <see cref="T:Stumps.IStumpsHttpResponse" /> object for the current HTTP response.
+        ///     Gets the <see cref="IStumpsHttpResponse" /> object for the current HTTP response.
         /// </summary>
         /// <value>
-        ///     The <see cref="T:Stumps.IStumpsHttpResponse" /> object for the current HTTP response.
+        ///     The <see cref="IStumpsHttpResponse" /> object for the current HTTP response.
         /// </value>
         public IStumpsHttpResponse Response
         {
@@ -98,10 +98,10 @@
         }
 
         /// <summary>
-        ///     Initializes the instance with a specified <see cref="T:System.Net.HttpListenerContext"/> object.
+        ///     Initializes the instance with a specified <see cref="HttpListenerContext"/> object.
         /// </summary>
-        /// <param name="context">The <see cref="T:System.Net.HttpListenerContext"/> used to initialize the instance.</param>
-        /// <exception cref="System.ArgumentNullException"><paramref name="context"/> is <c>null</c>.</exception>
+        /// <param name="context">The <see cref="HttpListenerContext"/> used to initialize the instance.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="context"/> is <c>null</c>.</exception>
         public async Task InitializeInstance(HttpListenerContext context)
         {
             var methodAlreadyCalled = Interlocked.CompareExchange(ref initializeCalled, 1, 0) == 1;

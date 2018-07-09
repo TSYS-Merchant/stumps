@@ -182,11 +182,11 @@
         public string ResponseBodyUrl { get; set; }
 
         /// <summary>
-        ///     Gets or sets the an array of <see cref="T:Stumps.Web.Models.HeaderModel"/> objects that represent 
+        ///     Gets or sets the an array of <see cref="HeaderModel"/> objects that represent 
         ///     the HTTP headers sent in the response.
         /// </summary>
         /// <value>
-        ///     The <see cref="T:Stumps.Web.Models.HeaderModel"/> objects headers that represent the HTTP headers 
+        ///     The <see cref="HeaderModel"/> objects headers that represent the HTTP headers 
         ///     sent in the response.
         /// </value>
         public HeaderModel[] ResponseHeaders { get; set; }

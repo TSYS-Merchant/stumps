@@ -1,5 +1,6 @@
 ﻿namespace Stumps.Http
 {
+    using System;
     using System.Net;
     using System.Threading.Tasks;
 
@@ -11,7 +12,7 @@
         private byte[] _bodyBuffer;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Stumps.Http.StumpsHttpRequest"/> class.
+        ///     Initializes a new instance of the <see cref="StumpsHttpRequest"/> class.
         /// </summary>
         public StumpsHttpRequest()
         {
@@ -104,14 +105,14 @@
         ///     Gets the body for the HTTP request.
         /// </summary>
         /// <returns>
-        ///     An array of <see cref="T:System.Byte"/> values representing the HTTP body.
+        ///     An array of <see cref="Byte"/> values representing the HTTP body.
         /// </returns>
         public byte[] GetBody() => _bodyBuffer;
 
         /// <summary>
-        ///     Initializes the instance using the specified <see cref="T:System.Net.HttpListenerRequest"/>.
+        ///     Initializes the instance using the specified <see cref="HttpListenerRequest"/>.
         /// </summary>
-        /// <param name="request">The <see cref="T:System.Net.HttpListenerRequest"/> used to initilize the instance.</param>
+        /// <param name="request">The <see cref="HttpListenerRequest"/> used to initilize the instance.</param>
         public async Task InitializeInstance(HttpListenerRequest request)
         {
             // Setup the standard values

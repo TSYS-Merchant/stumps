@@ -24,7 +24,7 @@
         ///     Finds a random open port.
         /// </summary>
         /// <returns>
-        ///     An <see cref="T:System.Int32"/> representing an available TCP port.
+        ///     An <see cref="Int32"/> representing an available TCP port.
         /// </returns>
         public static int FindRandomOpenPort()
         {

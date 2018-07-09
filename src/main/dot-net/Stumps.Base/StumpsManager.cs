@@ -5,7 +5,7 @@ namespace Stumps
     using System.Threading;
 
     /// <summary>
-    ///     A class that manages a collection of <see cref="T:Stumps.Stump"/> objects.
+    ///     A class that manages a collection of <see cref="Stump"/> objects.
     /// </summary>
     internal class StumpsManager : IStumpsManager
     {
@@ -16,7 +16,7 @@ namespace Stumps
         private bool _disposed;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Stumps.StumpsManager"/> class.
+        ///     Initializes a new instance of the <see cref="StumpsManager"/> class.
         /// </summary>
         public StumpsManager()
         {
@@ -26,7 +26,7 @@ namespace Stumps
         }
 
         /// <summary>
-        ///     Finalizes an instance of the <see cref="T:Stumps.StumpsManager"/> class.
+        ///     Finalizes an instance of the <see cref="StumpsManager"/> class.
         /// </summary>
         ~StumpsManager() => Dispose(false);
 
@@ -42,11 +42,11 @@ namespace Stumps
         }
 
         /// <summary>
-        ///     Adds a new <see cref="T:Stumps.Stump" /> to the collection.
+        ///     Adds a new <see cref="Stump" /> to the collection.
         /// </summary>
-        /// <param name="stump">The <see cref="T:Stumps.Stump" /> to add to the collection.</param>
-        /// <exception cref="System.ArgumentNullException"><paramref name="stump"/> is <c>null</c>.</exception>
-        /// <exception cref="System.ArgumentException">A <see cref="T:Stumps.Stump" /> with the same identifier already exists.</exception>
+        /// <param name="stump">The <see cref="Stump" /> to add to the collection.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="stump"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentException">A <see cref="Stump" /> with the same identifier already exists.</exception>
         public void AddStump(Stump stump)
         {
             stump = stump ?? throw new ArgumentNullException(nameof(stump));
@@ -109,7 +109,7 @@ namespace Stumps
         /// </summary>
         /// <param name="stumpId">The unique identifier for the Stump.</param>
         /// <returns>
-        ///     A <see cref="T:Stumps.Stump"/> with the specified <paramref name="stumpId"/>.
+        ///     A <see cref="Stump"/> with the specified <paramref name="stumpId"/>.
         /// </returns>
         /// <remarks>
         ///     A <c>null</c> value is returned if a Stump is not found.
@@ -129,7 +129,7 @@ namespace Stumps
         /// </summary>
         /// <param name="context">The incoming HTTP request context.</param>
         /// <returns>
-        ///     A <see cref="T:Stumps.Stump"/> that matches the incoming HTTP request.
+        ///     A <see cref="Stump"/> that matches the incoming HTTP request.
         /// </returns>
         /// <remarks>
         ///     A <c>null</c> value is returned if a matching Stump is not found.

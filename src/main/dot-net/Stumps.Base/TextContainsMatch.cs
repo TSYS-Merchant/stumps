@@ -6,7 +6,7 @@
     internal class TextContainsMatch : TextMatch
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Stumps.TextContainsMatch"/> class.
+        ///     Initializes a new instance of the <see cref="TextContainsMatch"/> class.
         /// </summary>
         /// <param name="value">The value to find.</param>
         /// <param name="ignoreCase">If set to <c>true</c>, capitalization is ignored.</param>

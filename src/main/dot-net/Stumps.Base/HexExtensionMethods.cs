@@ -30,7 +30,7 @@ namespace Stumps
         ///     Converts a hex-encoded string into a byte array.
         /// </summary>
         /// <param name="hexValue">The hex-encoded string.</param>
-        /// <returns>An array of <see cref="T:System.Byte"/> values decoded from <paramref name="hexValue"/>.</returns>
+        /// <returns>An array of <see cref="Byte"/> values decoded from <paramref name="hexValue"/>.</returns>
         public static byte[] ToByteArray(this string hexValue)
         {
             if (hexValue == null)

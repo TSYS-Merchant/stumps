@@ -5,7 +5,7 @@ namespace Stumps
     using Stumps.Http;
 
     /// <summary>
-    ///     A class implementing the <see cref="T:Stumps.Http.IHttpHandler"/> interface that provides a fallback
+    ///     A class implementing the <see cref="IHttpHandler"/> interface that provides a fallback
     ///     response to an incoming HTTP request.
     /// </summary>
     internal class FallbackResponseHandler : IHttpHandler
@@ -15,10 +15,10 @@ namespace Stumps
         private readonly HttpResponseOrigin _origin;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Stumps.FallbackResponseHandler"/> class.
+        ///     Initializes a new instance of the <see cref="FallbackResponseHandler"/> class.
         /// </summary>
         /// <param name="response">The default response.</param>
-        /// <exception cref="System.ArgumentOutOfRangeException"><paramref name="response"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="response"/> is <c>null</c>.</exception>
         public FallbackResponseHandler(FallbackResponse response)
         {
             if (!Enum.IsDefined(typeof(FallbackResponse), response))
@@ -45,11 +45,11 @@ namespace Stumps
         /// <summary>
         ///     Processes an incoming HTTP request.
         /// </summary>
-        /// <param name="context">The <see cref="T:Stumps.IStumpsHttpContext" /> representing both the incoming request and the response.</param>
+        /// <param name="context">The <see cref="IStumpsHttpContext" /> representing both the incoming request and the response.</param>
         /// <returns>
-        /// A member of the <see cref="T:Stumps.Http.ProcessHandlerResult" /> enumeration.
+        /// A member of the <see cref="ProcessHandlerResult" /> enumeration.
         /// </returns>
-        /// <exception cref="System.ArgumentNullException"><paramref name="context"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="context"/> is <c>null</c>.</exception>
         public async Task<ProcessHandlerResult> ProcessRequest(IStumpsHttpContext context)
         {
             context = context ?? throw new ArgumentNullException(nameof(context));

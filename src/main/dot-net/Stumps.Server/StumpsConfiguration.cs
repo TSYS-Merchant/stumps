@@ -24,10 +24,10 @@
         private ConfigurationEntity _configurationEntity;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Stumps.Server.StumpsConfiguration"/> class.
+        ///     Initializes a new instance of the <see cref="StumpsConfiguration"/> class.
         /// </summary>
         /// <param name="dataAccess">The data access.</param>
-        /// <exception cref="System.ArgumentNullException"><paramref name="dataAccess"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="dataAccess"/> is <c>null</c>.</exception>
         public StumpsConfiguration(IConfigurationDataAccess dataAccess)
         {
             _dataAccess = dataAccess ?? throw new ArgumentNullException(nameof(dataAccess));
@@ -100,7 +100,7 @@
         ///     Creates a default configuration entity.
         /// </summary>
         /// <returns>
-        ///     A <see cref="T:Stumps.Server.Data.ConfigurationEntity"/> initalized with the default values.
+        ///     A <see cref="ConfigurationEntity"/> initalized with the default values.
         /// </returns>
         private static ConfigurationEntity CreateDefaultConfigurationEntity()
         {

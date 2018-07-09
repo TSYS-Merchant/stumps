@@ -3,7 +3,7 @@
     using System.Collections.Generic;
 
     /// <summary>
-    ///     A class that represents the persisted form for a <see cref="T:Stumps.Stump"/>.
+    ///     A class that represents the persisted form for a <see cref="Stump"/>.
     /// </summary>
     public class StumpEntity
     {

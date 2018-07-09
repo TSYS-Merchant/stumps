@@ -5,14 +5,14 @@ namespace Stumps.Server
     using System.Linq;
 
     /// <summary>
-    /// A class that represents a collection of <see cref="T:Stumps.Server.RuleContract" /> objects.
+    /// A class that represents a collection of <see cref="RuleContract" /> objects.
     /// </summary>
     public class RuleContractCollection : ICollection<RuleContract>
     {
         private readonly List<RuleContract> _contracts;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Stumps.Server.RuleContractCollection"/> class.
+        ///     Initializes a new instance of the <see cref="RuleContractCollection"/> class.
         /// </summary>
         public RuleContractCollection()
         {
@@ -20,40 +20,40 @@ namespace Stumps.Server
         }
 
         /// <summary>
-        ///     Gets the number of elements contained in the <see cref="T:Stumps.Server.RuleContractCollection" />.
+        ///     Gets the number of elements contained in the <see cref="RuleContractCollection" />.
         /// </summary>
-        /// <returns>The number of elements contained in the <see cref="T:Stumps.Server.RuleContractCollection" />.</returns>
+        /// <returns>The number of elements contained in the <see cref="RuleContractCollection" />.</returns>
         public int Count
         {
             get => _contracts.Count;
         }
 
         /// <summary>
-        ///     Gets a value indicating whether the <see cref="T:Stumps.Server.RuleContractCollection" /> is read-only.
+        ///     Gets a value indicating whether the <see cref="RuleContractCollection" /> is read-only.
         /// </summary>
-        /// <returns><c>true</c> if the <see cref="T:Stumps.Server.RuleContractCollection" /> is read-only; otherwise, <c>false</c>.</returns>
+        /// <returns><c>true</c> if the <see cref="RuleContractCollection" /> is read-only; otherwise, <c>false</c>.</returns>
         public bool IsReadOnly
         {
             get => false;
         }
 
         /// <summary>
-        ///     Adds an item to the <see cref="T:Stumps.Server.RuleContractCollection" />.
+        ///     Adds an item to the <see cref="RuleContractCollection" />.
         /// </summary>
-        /// <param name="item">The object to add to the <see cref="T:Stumps.Server.RuleContractCollection" />.</param>
+        /// <param name="item">The object to add to the <see cref="RuleContractCollection" />.</param>
         public void Add(RuleContract item) => _contracts.Add(item);
 
         /// <summary>
-        ///     Removes all items from the <see cref="T:Stumps.Server.RuleContractCollection" />.
+        ///     Removes all items from the <see cref="RuleContractCollection" />.
         /// </summary>
         public void Clear() => _contracts.Clear();
 
         /// <summary>
-        ///     Determines whether the <see cref="T:Stumps.Server.RuleContractCollection" /> contains a specific value.
+        ///     Determines whether the <see cref="RuleContractCollection" /> contains a specific value.
         /// </summary>
-        /// <param name="item">The object to locate in the <see cref="T:Stumps.Server.RuleContractCollection" />.</param>
+        /// <param name="item">The object to locate in the <see cref="RuleContractCollection" />.</param>
         /// <returns>
-        ///     <c>true</c> if <paramref name="item" /> is found in the <see cref="T:Stumps.Server.RuleContractCollection" />; otherwise, <c>false</c>.
+        ///     <c>true</c> if <paramref name="item" /> is found in the <see cref="RuleContractCollection" />; otherwise, <c>false</c>.
         /// </returns>
         public bool Contains(RuleContract item) => _contracts.Contains(item);
 
@@ -68,7 +68,7 @@ namespace Stumps.Server
         ///     Finds all rules with the specified name.
         /// </summary>
         /// <param name="name">The name of the rule.</param>
-        /// <returns>A collection of <see cref="T:Stumps.Server.RuleContract"/> objects.</returns>
+        /// <returns>A collection of <see cref="RuleContract"/> objects.</returns>
         public IList<RuleContract> FindRuleContractByName(string name)
         {
             return _contracts.Where(rule => rule.RuleName.Equals(name, System.StringComparison.OrdinalIgnoreCase)).ToList();
@@ -78,19 +78,19 @@ namespace Stumps.Server
         ///     Returns an enumerator that iterates through the collection.
         /// </summary>
         /// <returns>
-        ///     A <see cref="T:System.Collections.Generic.IEnumerator`1" /> that can be used to iterate through the collection.
+        ///     A <see cref="IEnumerator{T}" /> that can be used to iterate through the collection.
         /// </returns>
         public IEnumerator<RuleContract> GetEnumerator() => _contracts.GetEnumerator();
 
         /// <summary>
-        ///     Removes the first occurrence of a specific object from the <see cref="T:Stumps.Server.RuleContractCollection" />.
+        ///     Removes the first occurrence of a specific object from the <see cref="RuleContractCollection" />.
         /// </summary>
-        /// <param name="item">The object to remove from the <see cref="T:Stumps.Server.RuleContractCollection" />.</param>
+        /// <param name="item">The object to remove from the <see cref="RuleContractCollection" />.</param>
         /// <returns>
         ///     <c>true</c> if <paramref name="item" /> was successfully removed from the 
-        ///     <see cref="T:Stumps.Server.RuleContractCollection" />; otherwise, <c>false</c>. 
+        ///     <see cref="RuleContractCollection" />; otherwise, <c>false</c>. 
         ///     This method also returns <c>false</c> if <paramref name="item" /> is not found in the original 
-        ///     <see cref="T:Stumps.Server.RuleContractCollection" />.
+        ///     <see cref="RuleContractCollection" />.
         /// </returns>
         public bool Remove(RuleContract item) => _contracts.Remove(item);
 
@@ -98,7 +98,7 @@ namespace Stumps.Server
         ///     Returns an enumerator that iterates through a collection.
         /// </summary>
         /// <returns>
-        ///     An <see cref="T:System.Collections.IEnumerator" /> object that can be used to iterate through the collection.
+        ///     An <see cref="IEnumerator" /> object that can be used to iterate through the collection.
         /// </returns>
         IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable)_contracts).GetEnumerator();
     }

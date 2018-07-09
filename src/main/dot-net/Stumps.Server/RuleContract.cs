@@ -10,7 +10,7 @@ namespace Stumps.Server
         private readonly List<RuleSetting> _ruleSettings;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Stumps.Server.RuleContract"/> class.
+        ///     Initializes a new instance of the <see cref="RuleContract"/> class.
         /// </summary>
         public RuleContract()
         {
@@ -18,9 +18,9 @@ namespace Stumps.Server
         }
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Stumps.Server.RuleContract"/> class.
+        ///     Initializes a new instance of the <see cref="RuleContract"/> class.
         /// </summary>
-        /// <param name="rule">The <see cref="T:Stumps.IStumpRule"/> used to create the instance.</param>
+        /// <param name="rule">The <see cref="IStumpRule"/> used to create the instance.</param>
         public RuleContract(IStumpRule rule) : this()
         {
             if (rule == null)
@@ -50,9 +50,9 @@ namespace Stumps.Server
         }
 
         /// <summary>
-        ///     Appends a <see cref="T:Stumps.RuleSetting"/> to the contract.
+        ///     Appends a <see cref="RuleSetting"/> to the contract.
         /// </summary>
-        /// <param name="setting">The <see cref="T:Stumps.RuleSetting"/> to add to the contract.</param>
+        /// <param name="setting">The <see cref="RuleSetting"/> to add to the contract.</param>
         public void AppendRuleSetting(RuleSetting setting)
         {
             if (setting == null || string.IsNullOrWhiteSpace(setting.Name) || setting.Value == null)
@@ -64,9 +64,9 @@ namespace Stumps.Server
         }
 
         /// <summary>
-        ///     Gets an array of the <see cref="T:Stumps.RuleSetting" /> objects for the contract.
+        ///     Gets an array of the <see cref="RuleSetting" /> objects for the contract.
         /// </summary>
-        /// <returns>An array of <see cref="T:Stumps.RuleSetting"/> objects.</returns>
+        /// <returns>An array of <see cref="RuleSetting"/> objects.</returns>
         public RuleSetting[] GetRuleSettings() => _ruleSettings.ToArray();
     }
 }

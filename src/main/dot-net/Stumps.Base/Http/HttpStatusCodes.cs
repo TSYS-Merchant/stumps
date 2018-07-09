@@ -1,5 +1,6 @@
 ﻿namespace Stumps.Http
 {
+    using System;
     using System.Collections.Generic;
 
     /// <summary>
@@ -49,7 +50,7 @@
         /// </summary>
         /// <param name="httpStatusCode">The HTTP status code.</param>
         /// <returns>
-        ///     A <see cref="T:System.String" /> that represents the description for the <paramref name="httpStatusCode" />.
+        ///     A <see cref="String" /> that represents the description for the <paramref name="httpStatusCode" />.
         /// </returns>
         public static string GetStatusDescription(int httpStatusCode)
         {

@@ -7,7 +7,7 @@
     using Stumps.Http;
 
     /// <summary>
-    ///     A class implementing the <see cref="T:Stumps.Http.IHttpHandler"/> interface that proxies requests to an external host.
+    ///     A class implementing the <see cref="IHttpHandler"/> interface that proxies requests to an external host.
     /// </summary>
     internal class ProxyHandler : IHttpHandler
     {
@@ -30,7 +30,7 @@
         private readonly Uri _externalHostUri;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Stumps.ProxyHandler" /> class.
+        ///     Initializes a new instance of the <see cref="ProxyHandler" /> class.
         /// </summary>
         /// <param name="externalHostUri">The external host URI.</param>
         public ProxyHandler(Uri externalHostUri)
@@ -46,11 +46,11 @@
         /// <summary>
         ///     Processes an incoming HTTP request.
         /// </summary>
-        /// <param name="context">The <see cref="T:Stumps.IStumpsHttpContext" /> representing both the incoming request and the response.</param>
+        /// <param name="context">The <see cref="IStumpsHttpContext" /> representing both the incoming request and the response.</param>
         /// <returns>
-        ///     A member of the <see cref="T:Stumps.Http.ProcessHandlerResult" /> enumeration.
+        ///     A member of the <see cref="ProcessHandlerResult" /> enumeration.
         /// </returns>
-        /// <exception cref="System.ArgumentNullException"><paramref name="context"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="context"/> is <c>null</c>.</exception>
         public async Task<ProcessHandlerResult> ProcessRequest(IStumpsHttpContext context)
         {
             context = context ?? throw new ArgumentNullException(nameof(context));
@@ -160,7 +160,7 @@
         /// <param name="headerName">Name of the header.</param>
         /// <param name="defaultValue">The default value to use if the header is not found.</param>
         /// <returns>
-        ///     A <see cref="T:System.String"/> representing the value of the header.
+        ///     A <see cref="String"/> representing the value of the header.
         /// </returns>
         private string GetHeaderValue(Dictionary<string, string> headers, string headerName, string defaultValue)
         {
@@ -174,7 +174,7 @@
         /// <param name="incomingHttpContext">The incoming HTTP context.</param>
         /// <param name="remoteWebRequest">The remote web request.</param>
         /// <returns>
-        ///     Returns a <see cref="T:Stumps.ProxyHandler.WebResponseResult"/> containing the HTTP response and status.
+        ///     Returns a <see cref="ProxyHandler.WebResponseResult"/> containing the HTTP response and status.
         /// </returns>
         private async Task<WebResponseResult> PopulateRemoteBodyFromContext(
             IStumpsHttpContext incomingHttpContext, 

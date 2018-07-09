@@ -8,13 +8,13 @@
     public interface IStumpResponseFactory : IDisposable
     {
         /// <summary>
-        ///     Gets the <see cref="T:Stumps.IStumpsHttpResponse"/> at the specified index.
+        ///     Gets the <see cref="IStumpsHttpResponse"/> at the specified index.
         /// </summary>
         /// <value>
-        ///     The <see cref="T:Stumps.IStumpsHttpResponse"/> at the specified index.
+        ///     The <see cref="IStumpsHttpResponse"/> at the specified index.
         /// </value>
-        /// <param name="index">The zero-based index of the <see cref="T:Stumps.IStumpsHttpResponse"/> to get.</param>
-        /// <returns>The <see cref="Stumps.IStumpsHttpResponse"/> at the specified index.</returns>
+        /// <param name="index">The zero-based index of the <see cref="IStumpsHttpResponse"/> to get.</param>
+        /// <returns>The <see cref="IStumpsHttpResponse"/> at the specified index.</returns>
         IStumpsHttpResponse this[int index] { get; }
 
         /// <summary>
@@ -52,7 +52,7 @@
         /// <summary>
         ///     Adds the specified response to the <see cref="IStumpResponseFactory" />.
         /// </summary>
-        /// <param name="response">The <see cref="T:Stumps.IStumpsHttpResponse" /> to add to the <see cref="IStumpResponseFactory" />.</param>
+        /// <param name="response">The <see cref="IStumpsHttpResponse" /> to add to the <see cref="IStumpResponseFactory" />.</param>
         /// <returns>The <see cref="IStumpsHttpResponse"/> added to the object.</returns>
         IStumpsHttpResponse Add(IStumpsHttpResponse response);
 

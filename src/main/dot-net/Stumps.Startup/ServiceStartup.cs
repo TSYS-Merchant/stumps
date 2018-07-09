@@ -21,10 +21,10 @@
         }
 
         /// <summary>
-        ///     Gets or sets the <see cref="T:Stumps.IMessageWriter" /> used to record startup messages.
+        ///     Gets or sets the <see cref="IMessageWriter" /> used to record startup messages.
         /// </summary>
         /// <value>
-        ///     The <see cref="T:Stumps.IMessageWriter" /> used to record startup messages.
+        ///     The <see cref="IMessageWriter" /> used to record startup messages.
         /// </value>
         public IMessageWriter MessageWriter
         {

@@ -3,15 +3,15 @@
     using Stumps.Http;
 
     /// <summary>
-    ///     A reference <see cref="T:Stumps.IStumpsHttpResponse"/> objects representing common HTTP errors.
+    ///     A reference <see cref="IStumpsHttpResponse"/> objects representing common HTTP errors.
     /// </summary>
     public static class HttpErrorResponses
     {
         /// <summary>
-        ///     Gets an <see cref="T:IStumpsHttpResponse" /> representing an HTTP 404 (Not Found) response.
+        ///     Gets an <see cref="IStumpsHttpResponse" /> representing an HTTP 404 (Not Found) response.
         /// </summary>
         /// <value>
-        ///     An <see cref="T:IStumpsHttpResponse" /> representing an HTTP 404 (Not Found) response.
+        ///     An <see cref="IStumpsHttpResponse" /> representing an HTTP 404 (Not Found) response.
         /// </value>
         public static IStumpsHttpResponse HttpNotFound
         {
@@ -28,10 +28,10 @@
         }
 
         /// <summary>
-        ///     Gets an <see cref="T:IStumpsHttpResponse" /> representing an HTTP 500 (Internal Server Error) response.
+        ///     Gets an <see cref="IStumpsHttpResponse" /> representing an HTTP 500 (Internal Server Error) response.
         /// </summary>
         /// <value>
-        ///     An <see cref="T:IStumpsHttpResponse" /> representing an HTTP 500 (Internal Server Error) response.
+        ///     An <see cref="IStumpsHttpResponse" /> representing an HTTP 500 (Internal Server Error) response.
         /// </value>
         public static IStumpsHttpResponse HttpInternalServerError
         {
@@ -48,10 +48,10 @@
         }
 
         /// <summary>
-        ///     Gets an <see cref="T:IStumpsHttpResponse" /> representing an HTTP 501 (Not Implemented) response.
+        ///     Gets an <see cref="IStumpsHttpResponse" /> representing an HTTP 501 (Not Implemented) response.
         /// </summary>
         /// <value>
-        ///     An <see cref="T:IStumpsHttpResponse" /> representing an HTTP 501 (Not Implemented) response.
+        ///     An <see cref="IStumpsHttpResponse" /> representing an HTTP 501 (Not Implemented) response.
         /// </value>
         public static IStumpsHttpResponse HttpNotImplemented
         {
@@ -68,10 +68,10 @@
         }
 
         /// <summary>
-        ///     Gets an <see cref="T:IStumpsHttpResponse" /> representing an HTTP 503 (Service Unavailable) response.
+        ///     Gets an <see cref="IStumpsHttpResponse" /> representing an HTTP 503 (Service Unavailable) response.
         /// </summary>
         /// <value>
-        ///     An <see cref="T:IStumpsHttpResponse" /> representing an HTTP 503 (Service Unavailable) response.
+        ///     An <see cref="IStumpsHttpResponse" /> representing an HTTP 503 (Service Unavailable) response.
         /// </value>
         public static IStumpsHttpResponse HttpServiceUnavailable
         {

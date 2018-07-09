@@ -4,8 +4,8 @@ namespace Stumps.Server.Data
     using System.Net;
 
     /// <summary>
-    ///     A class that provides an <see cref="T:Stumps.IStumpsHttpRequest"/> implementation using a
-    ///     <see cref="T:Stumps.Server.Data.HttpRequestEntity"/> object.
+    ///     A class that provides an <see cref="IStumpsHttpRequest"/> implementation using a
+    ///     <see cref="HttpRequestEntity"/> object.
     /// </summary>
     public class HttpRequestEntityReader : IStumpsHttpRequest
     {
@@ -13,12 +13,12 @@ namespace Stumps.Server.Data
         private readonly byte[] _body;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Stumps.Server.Data.HttpRequestEntityReader"/> class.
+        ///     Initializes a new instance of the <see cref="HttpRequestEntityReader"/> class.
         /// </summary>
         /// <param name="serverId">The unique identifier for the server.</param>
         /// <param name="requestEntity">The request entity.</param>
         /// <param name="dataAccess">The data access provider used by the instance.</param>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="serverId"/> is <c>null</c>.
         /// or
         /// <paramref name="requestEntity"/> is <c>null</c>.
@@ -125,7 +125,7 @@ namespace Stumps.Server.Data
         ///     Gets the bytes for the HTTP body.
         /// </summary>
         /// <returns>
-        ///     An array of <see cref="T:System.Byte" /> values representing the HTTP body.
+        ///     An array of <see cref="Byte" /> values representing the HTTP body.
         /// </returns>
         public byte[] GetBody() => _body;
     }

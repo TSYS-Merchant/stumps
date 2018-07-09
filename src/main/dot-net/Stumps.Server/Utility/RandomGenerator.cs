@@ -1,5 +1,6 @@
 ﻿namespace Stumps.Server.Utility
 {
+    using System;
     using System.Security.Cryptography;
     using System.Text;
 
@@ -23,7 +24,7 @@
         /// Generates a new unique identifier.
         /// </summary>
         /// <returns>
-        ///     A <see cref="T:System.String"/> containing a identifier.
+        ///     A <see cref="String"/> containing a identifier.
         /// </returns>
         public static string GenerateIdentifier()
         {

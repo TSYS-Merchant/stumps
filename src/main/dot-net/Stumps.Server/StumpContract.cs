@@ -6,7 +6,7 @@
     public class StumpContract
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Stumps.Server.StumpContract"/> class.
+        ///     Initializes a new instance of the <see cref="StumpContract"/> class.
         /// </summary>
         public StumpContract()
         {

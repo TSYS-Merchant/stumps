@@ -16,18 +16,18 @@
         DateTime ReceivedDate { get; }
 
         /// <summary>
-        ///     Gets the <see cref="T:Stumps.IStumpsHttpRequest"/> object for the current HTTP request.
+        ///     Gets the <see cref="IStumpsHttpRequest"/> object for the current HTTP request.
         /// </summary>
         /// <value>
-        ///     The <see cref="T:Stumps.IStumpsHttpRequest"/> object for the current HTTP request.
+        ///     The <see cref="IStumpsHttpRequest"/> object for the current HTTP request.
         /// </value>
         IStumpsHttpRequest Request { get; }
 
         /// <summary>
-        ///     Gets the <see cref="T:Stumps.IStumpsHttpResponse"/> object for the current HTTP response.
+        ///     Gets the <see cref="IStumpsHttpResponse"/> object for the current HTTP response.
         /// </summary>
         /// <value>
-        ///     The <see cref="T:Stumps.IStumpsHttpResponse"/> object for the current HTTP response.
+        ///     The <see cref="IStumpsHttpResponse"/> object for the current HTTP response.
         /// </value>
         IStumpsHttpResponse Response { get; }
 

@@ -8,11 +8,11 @@
     public class RecordedContext : IStumpsHttpContext
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Stumps.Server.RecordedContext" /> class.
+        ///     Initializes a new instance of the <see cref="RecordedContext" /> class.
         /// </summary>
-        /// <param name="context">The <see cref="T:Stumps.IStumpsHttpContext"/> used to initialize the instance.</param>
-        /// <param name="decoderHandling">The <see cref="T:Stumps.Server.ContentDecoderHandling" /> requirements for the HTTP body.</param>
-        /// <exception cref="System.ArgumentNullException"><paramref name="context"/> is <c>null</c>.</exception>
+        /// <param name="context">The <see cref="IStumpsHttpContext"/> used to initialize the instance.</param>
+        /// <param name="decoderHandling">The <see cref="ContentDecoderHandling" /> requirements for the HTTP body.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="context"/> is <c>null</c>.</exception>
         public RecordedContext(IStumpsHttpContext context, ContentDecoderHandling decoderHandling)
         {
             context = context ?? throw new ArgumentNullException(nameof(context));
@@ -36,10 +36,10 @@
         }
 
         /// <summary>
-        ///     Gets the <see cref="T:Stumps.Server.RecordedRequest" /> object for the HTTP request.
+        ///     Gets the <see cref="RecordedRequest" /> object for the HTTP request.
         /// </summary>
         /// <value>
-        ///     The <see cref="T:Stumps.Server.RecordedRequest" /> object for the HTTP request.
+        ///     The <see cref="RecordedRequest" /> object for the HTTP request.
         /// </value>
         public RecordedRequest Request
         {
@@ -47,10 +47,10 @@
         }
 
         /// <summary>
-        ///     Gets the <see cref="T:Stumps.IStumpsHttpRequest" /> object for the HTTP request.
+        ///     Gets the <see cref="IStumpsHttpRequest" /> object for the HTTP request.
         /// </summary>
         /// <value>
-        ///     The <see cref="T:Stumps.IStumpsHttpRequest" /> object for the HTTP request.
+        ///     The <see cref="IStumpsHttpRequest" /> object for the HTTP request.
         /// </value>
         IStumpsHttpRequest IStumpsHttpContext.Request
         {
@@ -58,10 +58,10 @@
         }
 
         /// <summary>
-        ///     Gets the <see cref="T:Stumps.Server.RecordedResponse" /> object for the HTTP response.
+        ///     Gets the <see cref="RecordedResponse" /> object for the HTTP response.
         /// </summary>
         /// <value>
-        ///     The <see cref="T:Stumps.Server.RecordedResponse" /> object for the HTTP response.
+        ///     The <see cref="RecordedResponse" /> object for the HTTP response.
         /// </value>
         public RecordedResponse Response
         {
@@ -69,10 +69,10 @@
         }
 
         /// <summary>
-        ///     Gets the <see cref="T:Stumps.IStumpsHttpResponse" /> object for the HTTP response.
+        ///     Gets the <see cref="IStumpsHttpResponse" /> object for the HTTP response.
         /// </summary>
         /// <value>
-        ///     The <see cref="T:Stumps.IStumpsHttpResponse" /> object for the HTTP response.
+        ///     The <see cref="IStumpsHttpResponse" /> object for the HTTP response.
         /// </value>
         IStumpsHttpResponse IStumpsHttpContext.Response
         {

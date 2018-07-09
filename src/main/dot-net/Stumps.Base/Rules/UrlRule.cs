@@ -14,14 +14,14 @@
         private string _textMatchValue;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Stumps.Rules.UrlRule"/> class.
+        ///     Initializes a new instance of the <see cref="UrlRule"/> class.
         /// </summary>
         public UrlRule()
         {   
         }
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Stumps.Rules.UrlRule"/> class.
+        ///     Initializes a new instance of the <see cref="UrlRule"/> class.
         /// </summary>
         /// <param name="value">The value used for the URL rule.</param>
         public UrlRule(string value)
@@ -53,10 +53,10 @@
         }
 
         /// <summary>
-        ///     Gets an enumerable list of <see cref="T:Stumps.RuleSetting" /> objects used to represent the current instance.
+        ///     Gets an enumerable list of <see cref="RuleSetting" /> objects used to represent the current instance.
         /// </summary>
         /// <returns>
-        ///     An enumerable list of <see cref="T:Stumps.RuleSetting" /> objects used to represent the current instance.
+        ///     An enumerable list of <see cref="RuleSetting" /> objects used to represent the current instance.
         /// </returns>
         public IEnumerable<RuleSetting> GetRuleSettings()
         {
@@ -73,9 +73,9 @@
         }
 
         /// <summary>
-        ///     Initializes a rule from an enumerable list of <see cref="T:Stumps.RuleSetting" /> objects.
+        ///     Initializes a rule from an enumerable list of <see cref="RuleSetting" /> objects.
         /// </summary>
-        /// <param name="settings">The enumerable list of <see cref="T:Stumps.RuleSetting" /> objects.</param>
+        /// <param name="settings">The enumerable list of <see cref="RuleSetting" /> objects.</param>
         public void InitializeFromSettings(IEnumerable<RuleSetting> settings)
         {
             settings = settings ?? throw new ArgumentNullException(nameof(settings));
@@ -94,7 +94,7 @@
         /// <summary>
         ///     Determines whether the specified request matches the rule.
         /// </summary>
-        /// <param name="request">The <see cref="T:Stumps.IStumpsHttpRequest" /> to evaluate.</param>
+        /// <param name="request">The <see cref="IStumpsHttpRequest" /> to evaluate.</param>
         /// <returns>
         ///   <c>true</c> if the <paramref name="request" /> matches the rule, otherwise, <c>false</c>.
         /// </returns>

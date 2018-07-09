@@ -17,7 +17,7 @@
         /// </summary>
         /// <param name="statusCode">The HTTP status code.</param>
         /// <param name="context">Current context of the request.</param>
-        /// <exception cref="System.ArgumentNullException"><paramref name="context"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="context"/> is <c>null</c>.</exception>
         public void Handle(HttpStatusCode statusCode, NancyContext context)
         {
             context = context ?? throw new ArgumentNullException(nameof(context));
@@ -38,7 +38,7 @@
         /// Check if the error handler can handle errors of the provided status code.
         /// </summary>
         /// <param name="statusCode">The HTTP status code.</param>
-        /// <param name="context">The <see cref="T:Nancy.NancyContext" /> instance of the current request.</param>
+        /// <param name="context">The <see cref="NancyContext" /> instance of the current request.</param>
         /// <returns>
         /// <c>true</c> if if the instance handles the specified HTTP status code.
         /// </returns>
@@ -48,9 +48,9 @@
         }
 
         /// <summary>
-        ///     Determines if a friendly error page should be returned for a <see cref="T:Nancy.NancyContext"/>.
+        ///     Determines if a friendly error page should be returned for a <see cref="NancyContext"/>.
         /// </summary>
-        /// <param name="context">The <see cref="T:Nancy.NancyContext"/>.</param>
+        /// <param name="context">The <see cref="NancyContext"/>.</param>
         /// <returns><c>true</c> if an HTML page should be returned; otherwise, <c>false</c>.</returns>
         private bool ShouldReturnFriendlyErrorPage(NancyContext context)
         {

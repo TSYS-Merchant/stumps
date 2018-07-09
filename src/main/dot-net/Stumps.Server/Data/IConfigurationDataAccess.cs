@@ -8,10 +8,10 @@
     public interface IConfigurationDataAccess
     {
         /// <summary>
-        ///     Loads the <see cref="T:Stumps.Server.Data.ConfigurationEntity"/> from the data store.
+        ///     Loads the <see cref="ConfigurationEntity"/> from the data store.
         /// </summary>
         /// <returns>
-        ///     A <see cref="T:Stumps.Server.Data.ConfigurationEntity"/> containing the configuration information for the application.
+        ///     A <see cref="ConfigurationEntity"/> containing the configuration information for the application.
         /// </returns>
         ConfigurationEntity LoadConfiguration();
 
@@ -22,9 +22,9 @@
         void EnsureConfigurationIsInitialized(Action configureDefaultsAction);
 
         /// <summary>
-        ///     Persists the specified <see cref="T:Stumps.Server.Data.ConfigurationEntity"/> to the data store.
+        ///     Persists the specified <see cref="ConfigurationEntity"/> to the data store.
         /// </summary>
-        /// <param name="value">The <see cref="T:Stumps.Server.Data.ConfigurationEntity"/> to persist in the store.</param>
+        /// <param name="value">The <see cref="ConfigurationEntity"/> to persist in the store.</param>
         void SaveConfiguration(ConfigurationEntity value);
     }
 }

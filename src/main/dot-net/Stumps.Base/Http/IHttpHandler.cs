@@ -16,9 +16,9 @@
         /// <summary>
         ///     Processes an incoming HTTP request.
         /// </summary>
-        /// <param name="context">The <see cref="T:Stumps.IStumpsHttpContext"/> representing both the incoming request and the response.</param>
+        /// <param name="context">The <see cref="IStumpsHttpContext"/> representing both the incoming request and the response.</param>
         /// <returns>
-        ///     A member of the <see cref="T:Stumps.Http.ProcessHandlerResult"/> enumeration.
+        ///     A member of the <see cref="ProcessHandlerResult"/> enumeration.
         /// </returns>
         Task<ProcessHandlerResult> ProcessRequest(IStumpsHttpContext context);
     }

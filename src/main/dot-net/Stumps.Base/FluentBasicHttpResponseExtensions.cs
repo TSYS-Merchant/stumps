@@ -5,14 +5,14 @@ namespace Stumps
     using System.Web;
 
     /// <summary>
-    ///     A class that provides a set of Fluent extension methods to <see cref="T:Stumps.BasicHttpResponse"/> objects.
+    ///     A class that provides a set of Fluent extension methods to <see cref="BasicHttpResponse"/> objects.
     /// </summary>
     public static class FluentBasicHttpResponseExtensions
     {
         /// <summary>
-        ///     Specifies the amount of time the server delays before responding with the Stump.
+        ///     Specifies the amount of time the server delays before responding with the response.
         /// </summary>
-        /// <param name="stump">The <see cref="T:Stumps.Stump"/> intercepting incoming HTTP requests.</param>
+        /// <param name="response">The <see cref="BasicHttpResponse"/> that should be delayed.</param>
         /// <param name="delayMilliseconds">The amount of time, in milliseconds, the response is delayed.</param>
         /// <returns>The calling <see cref="BasicHttpResponse"/>.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="response"/> is <c>null</c>.</exception>
@@ -25,9 +25,9 @@ namespace Stumps
         }
 
         /// <summary>
-        ///     Asserts that the <see cref="T:Stumps.Stump"/> will drop the connection immediately.
+        ///     Asserts that the <see cref="Stump"/> will drop the connection immediately.
         /// </summary>
-        /// <param name="stump">The <see cref="T:Stumps.Stump"/> intercepting incoming HTTP requests.</param>
+        /// <param name="response">The <see cref="BasicHttpResponse"/> returned which should drop the connection.</param>
         /// <returns>The calling <see cref="BasicHttpResponse"/>.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="response"/> is <c>null</c>.</exception>
         public static BasicHttpResponse ByDroppingTheConnection(this BasicHttpResponse response)
@@ -42,10 +42,10 @@ namespace Stumps
         /// <summary>
         ///     Specifies the body returned as part of the HTTP response.
         /// </summary>
-        /// <param name="response">The <see cref="T:Stumps.BasicHttpResponse" /> that returns in response to an HTTP request.</param>
+        /// <param name="response">The <see cref="BasicHttpResponse" /> that returns in response to an HTTP request.</param>
         /// <param name="buffer">The byte array to return as the body of the HTTP response.</param>
-        /// <returns>The calling <see cref="T:Stumps.BasicHttpResponse"/>.</returns>
-        /// <exception cref="System.ArgumentNullException"><paramref name="response"/> is <c>null</c>.</exception>
+        /// <returns>The calling <see cref="BasicHttpResponse"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="response"/> is <c>null</c>.</exception>
         public static BasicHttpResponse WithBody(this BasicHttpResponse response, byte[] buffer)
         {
             response = response ?? throw new ArgumentNullException(nameof(response));
@@ -59,10 +59,10 @@ namespace Stumps
         /// <summary>
         /// Specifies the body returned as part of the HTTP response.
         /// </summary>
-        /// <param name="response">The <see cref="T:Stumps.BasicHttpResponse" /> that returns in response to an HTTP request.</param>
+        /// <param name="response">The <see cref="BasicHttpResponse" /> that returns in response to an HTTP request.</param>
         /// <param name="body">The value returned as body of the HTTP response.</param>
-        /// <returns>The calling <see cref="T:Stumps.BasicHttpResponse"/>.</returns>
-        /// <exception cref="System.ArgumentNullException"><paramref name="response"/> is <c>null</c>.</exception>
+        /// <returns>The calling <see cref="BasicHttpResponse"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="response"/> is <c>null</c>.</exception>
         public static BasicHttpResponse WithBody(this BasicHttpResponse response, string body)
         {
             response = response ?? throw new ArgumentNullException(nameof(response));
@@ -76,10 +76,10 @@ namespace Stumps
         /// <summary>
         ///     Specifies the body returned as part of the HTTP response. 
         /// </summary>
-        /// <param name="response">The <see cref="T:Stumps.BasicHttpResponse"/> that returns in response to an HTTP request.</param>
+        /// <param name="response">The <see cref="BasicHttpResponse"/> that returns in response to an HTTP request.</param>
         /// <param name="path">The path to the file that contains the HTTP response.</param>
-        /// <returns>The calling <see cref="T:Stumps.BasicHttpResponse"/>.</returns>
-        /// <exception cref="System.ArgumentNullException"><paramref name="response"/> is <c>null</c>.</exception>
+        /// <returns>The calling <see cref="BasicHttpResponse"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="response"/> is <c>null</c>.</exception>
         public static BasicHttpResponse WithFile(this BasicHttpResponse response, string path)
         {
             response = response ?? throw new ArgumentNullException(nameof(response));
@@ -98,11 +98,11 @@ namespace Stumps
         /// <summary>
         ///     Specifies a header returned as part of the HTTP response. 
         /// </summary>
-        /// <param name="response">The <see cref="T:Stumps.BasicHttpResponse"/> that returns in response to an HTTP request.</param>
+        /// <param name="response">The <see cref="BasicHttpResponse"/> that returns in response to an HTTP request.</param>
         /// <param name="headerName">The name of the header.</param>
         /// <param name="headerValue">The value of the header.</param>
-        /// <returns>The calling <see cref="T:Stumps.BasicHttpResponse"/>.</returns>
-        /// <exception cref="System.ArgumentNullException"><paramref name="response"/> is <c>null</c>.</exception>
+        /// <returns>The calling <see cref="BasicHttpResponse"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="response"/> is <c>null</c>.</exception>
         public static BasicHttpResponse WithHeader(this BasicHttpResponse response, string headerName, string headerValue)
         {
             response = response ?? throw new ArgumentNullException(nameof(response));
@@ -114,10 +114,10 @@ namespace Stumps
         /// <summary>
         ///     Specifies the status code returned as part of the HTTP response. 
         /// </summary>
-        /// <param name="response">The <see cref="T:Stumps.BasicHttpResponse"/> that returns in response to an HTTP request.</param>
+        /// <param name="response">The <see cref="BasicHttpResponse"/> that returns in response to an HTTP request.</param>
         /// <param name="statusCode">The status code to return.</param>
-        /// <returns>The calling <see cref="T:Stumps.BasicHttpResponse"/>.</returns>
-        /// <exception cref="System.ArgumentNullException"><paramref name="response"/> is <c>null</c>.</exception>
+        /// <returns>The calling <see cref="BasicHttpResponse"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="response"/> is <c>null</c>.</exception>
         public static BasicHttpResponse WithStatusCode(this BasicHttpResponse response, int statusCode)
         {
             response = response ?? throw new ArgumentNullException(nameof(response));
@@ -129,10 +129,10 @@ namespace Stumps
         /// <summary>
         ///     Specifies the description of the status code returned as part of the HTTP response. 
         /// </summary>
-        /// <param name="response">The <see cref="T:Stumps.BasicHttpResponse"/> that returns in response to an HTTP request.</param>
+        /// <param name="response">The <see cref="BasicHttpResponse"/> that returns in response to an HTTP request.</param>
         /// <param name="statusDescription">The description of the status code.</param>
-        /// <returns>The calling <see cref="T:Stumps.BasicHttpResponse"/>.</returns>
-        /// <exception cref="System.ArgumentNullException"><paramref name="response"/> is <c>null</c>.</exception>
+        /// <returns>The calling <see cref="BasicHttpResponse"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="response"/> is <c>null</c>.</exception>
         public static BasicHttpResponse WithStatusDescription(this BasicHttpResponse response, string statusDescription)
         {
             response = response ?? throw new ArgumentNullException(nameof(response));
@@ -144,10 +144,10 @@ namespace Stumps
         /// <summary>
         ///     Specifies the redirect address returned as part of the HTTP response. 
         /// </summary>
-        /// <param name="response">The <see cref="T:Stumps.BasicHttpResponse"/> that returns in response to an HTTP request.</param>
+        /// <param name="response">The <see cref="BasicHttpResponse"/> that returns in response to an HTTP request.</param>
         /// <param name="redirectAddress">The redirect address returned as part of the HTTP response.</param>
-        /// <returns>The calling <see cref="T:Stumps.BasicHttpResponse"/>.</returns>
-        /// <exception cref="System.ArgumentNullException"><paramref name="response"/> is <c>null</c>.</exception>
+        /// <returns>The calling <see cref="BasicHttpResponse"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="response"/> is <c>null</c>.</exception>
         public static BasicHttpResponse WithRedirectAddress(this BasicHttpResponse response, string redirectAddress)
         {
             response = response ?? throw new ArgumentNullException(nameof(response));

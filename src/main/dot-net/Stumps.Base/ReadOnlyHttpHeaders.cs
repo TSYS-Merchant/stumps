@@ -3,15 +3,15 @@ namespace Stumps
     using System;
 
     /// <summary>
-    ///     A read-only implementation of <see cref="T:Stumps.IHttpHeaders" /> that can be used to protect HTTP requests from being altered.
+    ///     A read-only implementation of <see cref="IHttpHeaders" /> that can be used to protect HTTP requests from being altered.
     /// </summary>
     internal class ReadOnlyHttpHeaders : HttpHeaders
     {
         /// <summary>
-        ///     Gets a value indicating whether the <see cref="T:Stumps.IHttpHeaders" /> is read-only.
+        ///     Gets a value indicating whether the <see cref="IHttpHeaders" /> is read-only.
         /// </summary>
         /// <value>
-        ///     <c>true</c> if the <see cref="T:Stumps.IHttpHeaders" /> is read-only; otherwise, <c>false</c>.
+        ///     <c>true</c> if the <see cref="IHttpHeaders" /> is read-only; otherwise, <c>false</c>.
         /// </value>
         public override bool IsReadOnly
         {
@@ -19,13 +19,13 @@ namespace Stumps
         }
         
         /// <summary>
-        ///     Gets or sets the <see cref="System.String"/> value for the specified header name.
+        ///     Gets or sets the <see cref="String"/> value for the specified header name.
         /// </summary>
         /// <value>
-        ///     The <see cref="System.String"/> value for the specified header name.
+        ///     The <see cref="String"/> value for the specified header name.
         /// </value>
         /// <param name="headerName">The name of the header.</param>
-        /// <exception cref="System.NotSupportedException">Thrown when altering the value of a header.</exception>
+        /// <exception cref="NotSupportedException">Thrown when altering the value of a header.</exception>
         public override string this[string headerName]
         {
             get => base[headerName];
@@ -35,7 +35,7 @@ namespace Stumps
         /// <summary>
         ///     Clears all existing headers from the instance.
         /// </summary>
-        /// <exception cref="System.NotSupportedException">Always thrown.</exception>
+        /// <exception cref="NotSupportedException">Always thrown.</exception>
         public override void Clear() => throw new NotSupportedException();
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace Stumps
         /// <returns>
         ///   <c>true</c> if the header was found and removed; otherwise, <c>false</c>.
         /// </returns>
-        /// <exception cref="System.NotSupportedException">Always thrown.</exception>
+        /// <exception cref="NotSupportedException">Always thrown.</exception>
         public override bool Remove(string name) => throw new NotSupportedException();
 
         /// <summary>

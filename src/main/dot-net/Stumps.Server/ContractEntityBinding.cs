@@ -12,10 +12,10 @@ namespace Stumps.Server
         ///     Creates a Stump contract from a Stump data entity.
         /// </summary>
         /// <param name="serverId">The unique identifier for the server.</param>
-        /// <param name="entity">The <see cref="T:Stumps.Server.Data.StumpEntity"/> used to create the contract.</param>
+        /// <param name="entity">The <see cref="StumpEntity"/> used to create the contract.</param>
         /// <param name="dataAccess">The data access provider used by the instance.</param>
         /// <returns>
-        ///     A <see cref="T:Stumps.Server.StumpContract"/> created from the specified <paramref name="entity"/>.
+        ///     A <see cref="StumpContract"/> created from the specified <paramref name="entity"/>.
         /// </returns>
         public static StumpContract CreateContractFromEntity(string serverId, StumpEntity entity, IDataAccess dataAccess)
         {
@@ -56,9 +56,9 @@ namespace Stumps.Server
         /// <summary>
         ///     Creates a Stump data entity from a Stump contract.
         /// </summary>
-        /// <param name="contract">The <see cref="T:Stumps.Server.StumpContract"/> used to create the entity.</param>
+        /// <param name="contract">The <see cref="StumpContract"/> used to create the entity.</param>
         /// <returns>
-        ///     A <see cref="T:Stumps.Server.Data.StumpEntity"/> created from the specified <paramref name="contract"/>.
+        ///     A <see cref="StumpEntity"/> created from the specified <paramref name="contract"/>.
         /// </returns>
         public static StumpEntity CreateEntityFromContract(StumpContract contract)
         {
@@ -132,10 +132,10 @@ namespace Stumps.Server
         }
 
         /// <summary>
-        ///     Creates a list of <see cref="T:Stumps.Server.Data.NameValuePairEntity"/> objects a <see cref="T:Stumps.IHttpHeaders"/> object.
+        ///     Creates a list of <see cref="NameValuePairEntity"/> objects a <see cref="IHttpHeaders"/> object.
         /// </summary>
         /// <param name="headers">The headers.</param>
-        /// <returns>A list of <see cref="T:Stumps.Server.Data.NameValuePairEntity"/> objects.</returns>
+        /// <returns>A list of <see cref="NameValuePairEntity"/> objects.</returns>
         private static List<NameValuePairEntity> CreateNameValuePairFromHeaders(IHttpHeaders headers)
         {
             var pairs = new List<NameValuePairEntity>();

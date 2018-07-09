@@ -1,5 +1,7 @@
 namespace Stumps
 {
+    using System;
+
     /// <summary>
     ///     An interface that represents the most basic components of an HTTP request and an HTTP response.
     /// </summary>
@@ -25,7 +27,7 @@ namespace Stumps
         ///     Gets the bytes for the HTTP body.
         /// </summary>
         /// <returns>
-        ///     An array of <see cref="T:System.Byte"/> values representing the HTTP body.
+        ///     An array of <see cref="Byte"/> values representing the HTTP body.
         /// </returns>
         byte[] GetBody();
     }

@@ -17,8 +17,8 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Stumps.Web.ApiModules.StumpsModule"/> class.
         /// </summary>
-        /// <param name="serverHost">The <see cref="T:Stumps.Server.IStumpsHost"/> used by the instance.</param>
-        /// <exception cref="System.ArgumentNullException"><paramref name="serverHost"/> is <c>null</c>.</exception>
+        /// <param name="serverHost">The <see cref="IStumpsHost"/> used by the instance.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="serverHost"/> is <c>null</c>.</exception>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Assumed to be handled by Nancy")]
         public StumpsModule(IStumpsHost serverHost)
         {
@@ -310,11 +310,11 @@
         }
         
         /// <summary>
-        ///     Converts an enumerable list of <see cref="T:Stumps.Server.HttpHeader"/> objects into an 
-        ///     array of <see cref="T:Stumps.Web.Models.HeaderModel"/> objects.
+        ///     Converts an enumerable list of HTTP headers into an 
+        ///     array of <see cref="HeaderModel"/> objects.
         /// </summary>
-        /// <param name="headers">The enumerable list of <see cref="T:Stumps.Server.HttpHeader"/> objects.</param>
-        /// <returns>An array of <see cref="T:Stumps.Web.Models.HeaderModel"/> objects.</returns>
+        /// <param name="headers">The enumerable list of HTTP headers.</param>
+        /// <returns>An array of <see cref="HeaderModel"/> objects.</returns>
         private HeaderModel[] CreateHeaderModel(IHttpHeaders headers)
         {
             var headerList = new List<HeaderModel>();

@@ -3,8 +3,8 @@ namespace Stumps.Server.Data
     using System;
 
     /// <summary>
-    ///     A class that provides an <see cref="T:Stumps.IStumpsHttpResponse"/> implementation using a
-    ///     <see cref="T:Stumps.Server.Data.HttpResponseEntity"/> object.
+    ///     A class that provides an <see cref="IStumpsHttpResponse"/> implementation using a
+    ///     <see cref="HttpResponseEntity"/> object.
     /// </summary>
     public class HttpResponseEntityReader : IStumpsHttpResponse
     {
@@ -12,12 +12,12 @@ namespace Stumps.Server.Data
         private readonly byte[] _body;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Stumps.Server.Data.HttpResponseEntityReader"/> class.
+        ///     Initializes a new instance of the <see cref="HttpResponseEntityReader"/> class.
         /// </summary>
         /// <param name="serverId">The unique identifier for the server.</param>
         /// <param name="responseEntity">The response entity.</param>
         /// <param name="dataAccess">The data access provider used by the instance.</param>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="serverId"/> is <c>null</c>.
         /// or
         /// <paramref name="responseEntity"/> is <c>null</c>.
@@ -73,7 +73,7 @@ namespace Stumps.Server.Data
         /// <value>
         ///     The redirect address.
         /// </value>
-        /// <exception cref="System.NotSupportedException">Thrown when altering the value of the redirect address.</exception>
+        /// <exception cref="NotSupportedException">Thrown when altering the value of the redirect address.</exception>
         public string RedirectAddress
         {
             get => _entity.RedirectAddress;
@@ -102,7 +102,7 @@ namespace Stumps.Server.Data
         /// <value>
         ///     The HTTP status code for the response.
         /// </value>
-        /// <exception cref="System.NotSupportedException">Thrown when altering the value of the status code.</exception>
+        /// <exception cref="NotSupportedException">Thrown when altering the value of the status code.</exception>
         public int StatusCode
         {
             get => _entity.StatusCode;
@@ -115,7 +115,7 @@ namespace Stumps.Server.Data
         /// <value>
         ///     The description of the HTTP status code.
         /// </value>
-        /// <exception cref="System.NotSupportedException">Thrown when altering the value of the status description.</exception>
+        /// <exception cref="NotSupportedException">Thrown when altering the value of the status description.</exception>
         public string StatusDescription
         {
             get => _entity.StatusDescription;
@@ -139,20 +139,20 @@ namespace Stumps.Server.Data
         ///     Appends a byte array to the body of the HTTP response.
         /// </summary>
         /// <param name="buffer">The bytes to append to the body of the response.</param>
-        /// <exception cref="System.NotSupportedException">Thrown when altering the HTTP body.</exception>
+        /// <exception cref="NotSupportedException">Thrown when altering the HTTP body.</exception>
         public void AppendToBody(byte[] buffer) => throw new NotSupportedException();
 
         /// <summary>
         ///     Clears the existing body of the HTTP response.
         /// </summary>
-        /// <exception cref="System.NotSupportedException">Thrown when altering the HTTP body.</exception>
+        /// <exception cref="NotSupportedException">Thrown when altering the HTTP body.</exception>
         public void ClearBody() => throw new NotSupportedException();
 
         /// <summary>
         ///     Gets the bytes for the HTTP body.
         /// </summary>
         /// <returns>
-        ///     An array of <see cref="T:System.Byte"/> values representing the HTTP body.
+        ///     An array of <see cref="Byte"/> values representing the HTTP body.
         /// </returns>
         public byte[] GetBody() => _body;
     }

@@ -6,7 +6,7 @@
     using Stumps.Server.Utility;
 
     /// <summary>
-    ///     A class that provides an implementation of <see cref="T:Stumps.Server.Data.IDataAccess"/>
+    ///     A class that provides an implementation of <see cref="IDataAccess"/>
     ///     that uses JSON files and directory structures to persist information about Stumps servers and Stump instances.
     /// </summary>
     public sealed class DataAccess : IDataAccess
@@ -44,10 +44,10 @@
         private readonly string _storagePath;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Stumps.Server.Data.DataAccess"/> class.
+        ///     Initializes a new instance of the <see cref="DataAccess"/> class.
         /// </summary>
         /// <param name="storagePath">The data path.</param>
-        /// <exception cref="System.ArgumentNullException"><paramref name="storagePath"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="storagePath"/> is <c>null</c>.</exception>
         public DataAccess(string storagePath)
         {
             _storagePath = storagePath ?? throw new ArgumentNullException(nameof(storagePath));
@@ -67,8 +67,8 @@
         /// <summary>
         ///     Creates an entry for a new stumps server.
         /// </summary>
-        /// <param name="server">The <see cref="T:Stumps.Server.Data.ServerEntity" /> to create.</param>
-        /// <exception cref="System.ArgumentNullException">server</exception>
+        /// <param name="server">The <see cref="ServerEntity" /> to create.</param>
+        /// <exception cref="ArgumentNullException">server</exception>
         public void ServerCreate(ServerEntity server)
         {
             server = server ?? throw new ArgumentNullException(nameof(server));
@@ -81,10 +81,10 @@
         }
 
         /// <summary>
-        ///     Deletes an existing <see cref="T:Stumps.Server.Data.ServerEntity" />.
+        ///     Deletes an existing <see cref="ServerEntity" />.
         /// </summary>
-        /// <param name="serverId">The unique identifier for the <see cref="T:Stumps.Server.Data.ServerEntity" /> to delete.</param>
-        /// <exception cref="System.ArgumentNullException"><paramref name="serverId"/> is <c>null</c>.</exception>
+        /// <param name="serverId">The unique identifier for the <see cref="ServerEntity" /> to delete.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="serverId"/> is <c>null</c>.</exception>
         public void ServerDelete(string serverId)
         {
             if (string.IsNullOrWhiteSpace(serverId))
@@ -100,11 +100,11 @@
         }
 
         /// <summary>
-        ///     Finds the persisted <see cref="T:Stumps.Server.Data.ServerEntity" /> for a specified <paramref name="serverId" />.
+        ///     Finds the persisted <see cref="ServerEntity" /> for a specified <paramref name="serverId" />.
         /// </summary>
-        /// <param name="serverId">The unique identifier for the <see cref="T:Stumps.Server.Data.ServerEntity" /> to find.</param>
+        /// <param name="serverId">The unique identifier for the <see cref="ServerEntity" /> to find.</param>
         /// <returns>
-        ///     The <see cref="T:Stumps.Server.Data.ServerEntity" /> with the specified <paramref name="serverId" />.
+        ///     The <see cref="ServerEntity" /> with the specified <paramref name="serverId" />.
         /// </returns>
         public ServerEntity ServerFind(string serverId)
         {
@@ -114,10 +114,10 @@
         }
 
         /// <summary>
-        ///     Finds a list of all persisted <see cref="T:Stumps.Server.Data.ServerEntity" />.
+        ///     Finds a list of all persisted <see cref="ServerEntity" />.
         /// </summary>
         /// <returns>
-        ///     A generic list of <see cref="T:Stumps.Server.Data.ServerEntity" /> objects.
+        ///     A generic list of <see cref="ServerEntity" /> objects.
         /// </returns>
         public IList<ServerEntity> ServerFindAll()
         {
@@ -135,7 +135,7 @@
         /// <returns>
         ///     A byte array containing the contents of the resource.
         /// </returns>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         ///     <paramref name="serverId"/> is <c>null</c>.
         /// </exception>
         /// <remarks>
@@ -162,17 +162,17 @@
         }
 
         /// <summary>
-        ///     Creates a new <see cref="T:Stumps.Server.Data.StumpEntity" /> for an existing Stumps server.
+        ///     Creates a new <see cref="StumpEntity" /> for an existing Stumps server.
         /// </summary>
         /// <param name="serverId">The unique identifier for the Stumps server.</param>
-        /// <param name="entity">The <see cref="T:Stumps.Server.Data.StumpEntity" /> to persist.</param>
+        /// <param name="entity">The <see cref="StumpEntity" /> to persist.</param>
         /// <param name="originalRequestBody">The array of bytes representing the original request's HTTP body.</param>
         /// <param name="originalResponseBody">The array of bytes representing the original response's HTTP body.</param>
         /// <param name="responseBody">The array of bytes returned as the HTTP body in response to the stump.</param>
         /// <returns>
-        ///     The created <see cref="T:Stumps.Server.Data.StumpEntity" /> object.
+        ///     The created <see cref="StumpEntity" /> object.
         /// </returns>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="serverId"/> is <c>null</c>.
         /// or
         /// <paramref name="entity"/> is <c>null</c>.
@@ -252,11 +252,11 @@
         }
 
         /// <summary>
-        ///     Finds all a list of all <see cref="T:Stumps.Server.Data.StumpEntity" /> for the specified <paramref name="serverId" />.
+        ///     Finds all a list of all <see cref="StumpEntity" /> for the specified <paramref name="serverId" />.
         /// </summary>
         /// <param name="serverId">The unique identifier for the Stumps server.</param>
         /// <returns>
-        ///     A generic list of <see cref="T:Stumps.Server.Data.StumpEntity" /> objects.
+        ///     A generic list of <see cref="StumpEntity" /> objects.
         /// </returns>
         public IList<StumpEntity> StumpFindAll(string serverId)
         {

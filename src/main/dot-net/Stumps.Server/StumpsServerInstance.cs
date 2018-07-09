@@ -37,7 +37,7 @@
         private bool _lastKnownStumpsEnabledState;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Stumps.Server.StumpsServerInstance"/> class.
+        ///     Initializes a new instance of the <see cref="StumpsServerInstance"/> class.
         /// </summary>
         /// <param name="serverFactory">The factory used to initialize new server instances.</param>
         /// <param name="serverId">The unique identifier of the Stumps server.</param>
@@ -63,7 +63,7 @@
         }
 
         /// <summary>
-        ///     Finalizes an instance of the <see cref="T:Stumps.Server.StumpsServerInstance"/> class.
+        ///     Finalizes an instance of the <see cref="StumpsServerInstance"/> class.
         /// </summary>
         ~StumpsServerInstance() => Dispose(false);
 
@@ -267,10 +267,10 @@
         /// </summary>
         /// <param name="contract">The contract used to create the Stump.</param>
         /// <returns>
-        ///     An updated <see cref="T:Stumps.Server.StumpContract"/>.
+        ///     An updated <see cref="StumpContract"/>.
         /// </returns>
-        /// <exception cref="System.ArgumentNullException"><paramref name="contract"/> is <c>null</c>.</exception>
-        /// <exception cref="System.ArgumentException">A stump with the same name already exists.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="contract"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentException">A stump with the same name already exists.</exception>
         public StumpContract CreateStump(StumpContract contract)
         {
             contract = contract ?? throw new ArgumentNullException(nameof(contract));
@@ -325,7 +325,7 @@
         ///     Finds a list of all Stump contracts.
         /// </summary>
         /// <returns>
-        ///     A generic list of all <see cref="T:Stumps.Server.StumpContract"/> objects.
+        ///     A generic list of all <see cref="StumpContract"/> objects.
         /// </returns>
         public IList<StumpContract> FindAllContracts()
         {
@@ -343,7 +343,7 @@
         /// </summary>
         /// <param name="stumpId">The unique identifier for the Stump.</param>
         /// <returns>
-        ///     A <see cref="T:Stumps.Server.StumpContract"/> with the specified <paramref name="stumpId"/>.
+        ///     A <see cref="StumpContract"/> with the specified <paramref name="stumpId"/>.
         /// </returns>
         /// <remarks>
         ///     A <c>null</c> value is returned if a Stump is not found.
@@ -484,9 +484,9 @@
         }
         
         /// <summary>
-        ///     Loads a stump from a specified <see cref="T:Stumps.Server.StumpContract"/>.
+        ///     Loads a stump from a specified <see cref="StumpContract"/>.
         /// </summary>
-        /// <param name="contract">The <see cref="T:Stumps.Server.StumpContract"/> used to create the Stump.</param>
+        /// <param name="contract">The <see cref="StumpContract"/> used to create the Stump.</param>
         private void UnwrapAndAddStump(StumpContract contract)
         {
             _lock.EnterWriteLock();

@@ -12,7 +12,7 @@
         private readonly object _syncRoot = new object();
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Stumps.Server.Recordings"/> class.
+        ///     Initializes a new instance of the <see cref="Recordings"/> class.
         /// </summary>
         public Recordings()
         {
@@ -46,7 +46,7 @@
         /// </summary>
         /// <param name="afterIndex">The index used to find all recorded contexts after.</param>
         /// <returns>
-        ///     A generic list of <see cref="T:Stumps.Server.RecordedContext"/> objects.
+        ///     A generic list of <see cref="RecordedContext"/> objects.
         /// </returns>
         public IList<RecordedContext> Find(int afterIndex)
         {
@@ -72,7 +72,7 @@
         /// </summary>
         /// <param name="index">The index of the recorded context.</param>
         /// <returns>
-        ///     A <see cref="T:Stumps.Server.RecordedContext"/> found at the specified <paramref name="index"/>.
+        ///     A <see cref="RecordedContext"/> found at the specified <paramref name="index"/>.
         /// </returns>
         /// <remarks>
         ///     If a recorded context cannot be found at the specified <paramref name="index"/>, a <c>null</c>
@@ -94,10 +94,10 @@
         }
 
         /// <summary>
-        ///     Adds the specified <see cref="T:Stumps.IStumpsHttpContext"/> to the collection.
+        ///     Adds the specified <see cref="IStumpsHttpContext"/> to the collection.
         /// </summary>
-        /// <param name="context">The <see cref="T:Stumps.IStumpsHttpContext"/> to add to the collection.</param>
-        /// <exception cref="System.ArgumentNullException"><paramref name="context"/> is <c>null</c>.</exception>
+        /// <param name="context">The <see cref="IStumpsHttpContext"/> to add to the collection.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="context"/> is <c>null</c>.</exception>
         internal void Add(IStumpsHttpContext context)
         {
             context = context ?? throw new ArgumentNullException(nameof(context));

@@ -19,10 +19,10 @@
         private bool _started;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Stumps.StumpsServer"/> class.
+        ///     Initializes a new instance of the <see cref="StumpsServer"/> class.
         /// </summary>
-        /// <param name="configuration">The <see cref="T:Stumps.Server.StumpsConfiguration"/> used to initialize the instance.</param>
-        /// <exception cref="System.ArgumentNullException"><paramref name="configuration"/> is <c>null</c>.</exception>
+        /// <param name="configuration">The <see cref="StumpsConfiguration"/> used to initialize the instance.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="configuration"/> is <c>null</c>.</exception>
         public StumpsRunner(StumpsConfiguration configuration)
         {
             this.Configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
@@ -30,15 +30,15 @@
         }
 
         /// <summary>
-        ///     Finalizes an instance of the <see cref="T:Stumps.StumpsServer"/> class.
+        ///     Finalizes an instance of the <see cref="StumpsServer"/> class.
         /// </summary>
         ~StumpsRunner() => Dispose();
 
         /// <summary>
-        /// Gets the <see cref="T:Stumps.Server.StumpsConfiguration"/> used to initialize the instance.
+        /// Gets the <see cref="StumpsConfiguration"/> used to initialize the instance.
         /// </summary>
         /// <value>
-        /// The <see cref="T:Stumps.Server.StumpsConfiguration"/> used to initialize the instance.
+        /// The <see cref="StumpsConfiguration"/> used to initialize the instance.
         /// </value>
         public StumpsConfiguration Configuration
         {

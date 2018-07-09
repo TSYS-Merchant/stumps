@@ -3,7 +3,7 @@
     using System;
 
     /// <summary>
-    ///     A class that provides an implementation of <see cref="T:Stumps.IMessageWriter"/> that writes messages
+    ///     A class that provides an implementation of <see cref="IMessageWriter"/> that writes messages
     ///     to the Windows console.
     /// </summary>
     public class ConsoleWriter : IMessageWriter

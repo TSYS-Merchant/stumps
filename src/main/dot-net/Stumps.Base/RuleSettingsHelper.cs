@@ -6,14 +6,14 @@ namespace Stumps
     using System.Linq;
 
     /// <summary>
-    ///     A class that provides a friendly interface for managing the settings of a <see cref="T:Stumps.IStumpRule"/> object.
+    ///     A class that provides a friendly interface for managing the settings of a <see cref="IStumpRule"/> object.
     /// </summary>
     public sealed class RuleSettingsHelper
     {
         private readonly Dictionary<string, string> _dict;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Stumps.RuleSettingsHelper"/> class.
+        ///     Initializes a new instance of the <see cref="RuleSettingsHelper"/> class.
         /// </summary>
         public RuleSettingsHelper()
         {
@@ -21,9 +21,9 @@ namespace Stumps
         }
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Stumps.RuleSettingsHelper"/> class.
+        ///     Initializes a new instance of the <see cref="RuleSettingsHelper"/> class.
         /// </summary>
-        /// <param name="settings">An enumerable collection of <see cref="T:Stumps.RuleSetting"/> objects.</param>
+        /// <param name="settings">An enumerable collection of <see cref="RuleSetting"/> objects.</param>
         public RuleSettingsHelper(IEnumerable<RuleSetting> settings) : this()
         {
             if (settings == null)
@@ -50,10 +50,10 @@ namespace Stumps
         }
 
         /// <summary>
-        /// Gets the number of <see cref="T:Stumps.RuleSetting"/> objects contained by the instance.
+        /// Gets the number of <see cref="RuleSetting"/> objects contained by the instance.
         /// </summary>
         /// <value>
-        /// The number of <see cref="T:Stumps.RuleSetting"/> objects contained by the instance.
+        /// The number of <see cref="RuleSetting"/> objects contained by the instance.
         /// </value>
         public int Count
         {
@@ -65,10 +65,10 @@ namespace Stumps
         /// </summary>
         /// <param name="settingName">The name of the setting.</param>
         /// <param name="value">The value of the setting.</param>
-        /// <exception cref="System.ArgumentNullException"><paramref name="settingName" /> is <c>null</c>.
+        /// <exception cref="ArgumentNullException"><paramref name="settingName" /> is <c>null</c>.
         /// -or-
         /// <paramref name="value" /> is <c>null</c>.</exception>
-        /// <exception cref="System.ArgumentOutOfRangeException"><paramref name="value"/> cannot have a length of '0'.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="value"/> cannot have a length of '0'.</exception>
         public void Add(string settingName, byte[] value)
         {
             settingName = settingName ?? throw new ArgumentNullException(nameof(settingName));
@@ -88,7 +88,7 @@ namespace Stumps
         /// </summary>
         /// <param name="settingName">The name of the setting.</param>
         /// <param name="value">The value of the setting.</param>
-        /// <exception cref="System.ArgumentNullException"><paramref name="settingName"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="settingName"/> is <c>null</c>.</exception>
         public void Add(string settingName, bool value)
         {
             settingName = settingName ?? throw new ArgumentNullException(nameof(settingName));
@@ -102,7 +102,7 @@ namespace Stumps
         /// </summary>
         /// <param name="settingName">The name of the setting.</param>
         /// <param name="value">The value of the setting.</param>
-        /// <exception cref="System.ArgumentNullException"><paramref name="settingName"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="settingName"/> is <c>null</c>.</exception>
         public void Add(string settingName, int value)
         {
             settingName = settingName ?? throw new ArgumentNullException(nameof(settingName));
@@ -117,7 +117,7 @@ namespace Stumps
         /// </summary>
         /// <param name="settingName">The name of the setting.</param>
         /// <param name="value">The value of the setting.</param>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="settingName"/> is <c>null</c>.
         /// -or-
         /// <paramref name="value"/> is <c>null</c>.
@@ -131,11 +131,11 @@ namespace Stumps
         }
 
         /// <summary>
-        ///     Finds the array of <see cref="T:System.Byte"/> values for the specified setting.
+        ///     Finds the array of <see cref="Byte"/> values for the specified setting.
         /// </summary>
         /// <param name="settingName">The name of the setting.</param>
         /// <param name="defaultValue">The default value of the setting if it is not found.</param>
-        /// <returns>An array of <see cref="T:System.Byte"/> values for the specified <paramref name="settingName"/>.</returns>
+        /// <returns>An array of <see cref="Byte"/> values for the specified <paramref name="settingName"/>.</returns>
         public byte[] FindByteArray(string settingName, byte[] defaultValue)
         {
             var value = FindSettingValue(settingName);
@@ -157,11 +157,11 @@ namespace Stumps
         }
 
         /// <summary>
-        ///     Finds the <see cref="T:System.Boolean"/> value for the specified setting.
+        ///     Finds the <see cref="Boolean"/> value for the specified setting.
         /// </summary>
         /// <param name="settingName">The name of the setting.</param>
         /// <param name="defaultValue">The default value of the setting if it is not found.</param>
-        /// <returns>A <see cref="T:System.Boolean"/> containing the value for the specified <paramref name="settingName"/>.</returns>
+        /// <returns>A <see cref="Boolean"/> containing the value for the specified <paramref name="settingName"/>.</returns>
         public bool FindBoolean(string settingName, bool defaultValue)
         {
             var value = FindSettingValue(settingName);
@@ -174,11 +174,11 @@ namespace Stumps
         }
 
         /// <summary>
-        ///     Finds the <see cref="T:System.Int32"/> value for the specified setting.
+        ///     Finds the <see cref="Int32"/> value for the specified setting.
         /// </summary>
         /// <param name="settingName">The name of the setting.</param>
         /// <param name="defaultValue">The default value of the setting if it is not found.</param>
-        /// <returns>A <see cref="T:System.Int32"/> containing the value for the specified <paramref name="settingName"/>.</returns>
+        /// <returns>A <see cref="Int32"/> containing the value for the specified <paramref name="settingName"/>.</returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1720:IdentifiersShouldNotContainTypeNames", MessageId = "integer", Justification = "The identifier is appropriate in this context.")]
         public int FindInteger(string settingName, int defaultValue)
         {
@@ -192,11 +192,11 @@ namespace Stumps
         }
 
         /// <summary>
-        ///     Finds the <see cref="T:System.String"/> value for the specified setting.
+        ///     Finds the <see cref="String"/> value for the specified setting.
         /// </summary>
         /// <param name="settingName">The name of the setting.</param>
         /// <param name="defaultValue">The default value of the setting if it is not found.</param>
-        /// <returns>A <see cref="T:System.String"/> containing the value for the specified <paramref name="settingName"/>.</returns>
+        /// <returns>A <see cref="String"/> containing the value for the specified <paramref name="settingName"/>.</returns>
         public string FindString(string settingName, string defaultValue)
         {
             var value = FindSettingValue(settingName);
@@ -207,9 +207,9 @@ namespace Stumps
         }
 
         /// <summary>
-        ///     Gets an enumearable list of the <see cref="T:Stumps.RuleSetting"/> objects.
+        ///     Gets an enumearable list of the <see cref="RuleSetting"/> objects.
         /// </summary>
-        /// <returns>An enumerable list of <see cref="T:Stumps.RuleSetting"/> objects.</returns>
+        /// <returns>An enumerable list of <see cref="RuleSetting"/> objects.</returns>
         public IEnumerable<RuleSetting> ToEnumerableList()
         {
             return this._dict.Keys.Select(key => new RuleSetting

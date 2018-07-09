@@ -15,15 +15,15 @@
         private bool _started;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="Stumps.Web.StumpsWebServer" /> class.
+        ///     Initializes a new instance of the <see cref="StumpsWebServer" /> class.
         /// </summary>
         /// <param name="host">The Stumps Server host.</param>
         /// <param name="port">The port used to listen for traffic.</param>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="host"/> is <c>null</c>.
         /// </exception>
-        /// <exception cref="System.ArgumentOutOfRangeException"><paramref name="port" /> is invalid.</exception>
-        /// <exception cref="System.InvalidOperationException">The port is already being used.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="port" /> is invalid.</exception>
+        /// <exception cref="InvalidOperationException">The port is already being used.</exception>
         public StumpsWebServer(IStumpsHost host, int port)
         {
             host = host ?? throw new ArgumentNullException(nameof(host));

@@ -6,7 +6,7 @@
     internal sealed class StumpsHttpResponse : BasicHttpResponse
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:Stumps.Http.StumpsHttpResponse"/> class.
+        /// Initializes a new instance of the <see cref="StumpsHttpResponse"/> class.
         /// </summary>
         public StumpsHttpResponse()
         {
@@ -30,7 +30,7 @@
         /// <value>
         ///     The unique identifier for the Stump that processed the request.
         /// </value>
-        /// <remarks>If a <see cref="T:Stumps.Stump"/> was not used to process the request, the value will be <c>null</c>.</remarks>
+        /// <remarks>If a <see cref="Stump"/> was not used to process the request, the value will be <c>null</c>.</remarks>
         public string StumpId
         {
             get;

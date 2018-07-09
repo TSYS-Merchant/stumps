@@ -8,11 +8,11 @@
     public sealed class RecordedResponse : RecordedContextPartBase, IStumpsHttpResponse
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Stumps.Server.RecordedResponse" /> class.
+        ///     Initializes a new instance of the <see cref="RecordedResponse" /> class.
         /// </summary>
-        /// <param name="response">The <see cref="T:Stumps.IStumpsHttpResponse" /> used to initialize the instance.</param>
-        /// <param name="decoderHandling">The <see cref="T:Stumps.Server.ContentDecoderHandling" /> requirements for the HTTP body.</param>
-        /// <exception cref="System.ArgumentNullException"><paramref name="response"/> is <c>null</c>.</exception>
+        /// <param name="response">The <see cref="IStumpsHttpResponse" /> used to initialize the instance.</param>
+        /// <param name="decoderHandling">The <see cref="ContentDecoderHandling" /> requirements for the HTTP body.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="response"/> is <c>null</c>.</exception>
         public RecordedResponse(IStumpsHttpResponse response, ContentDecoderHandling decoderHandling)
             : base(response, decoderHandling)
         {

@@ -9,7 +9,7 @@
     internal class TextMatch
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Stumps.TextMatch"/> class.
+        ///     Initializes a new instance of the <see cref="TextMatch"/> class.
         /// </summary>
         /// <param name="value">The value used to match.</param>
         /// <param name="ignoreCase">If set to <c>true</c>, capitalization is ignored.</param>

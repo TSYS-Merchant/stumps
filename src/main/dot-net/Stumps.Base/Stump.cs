@@ -12,10 +12,10 @@
         private IStumpResponseFactory _responseFactory;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Stumps.Stump" /> class.
+        ///     Initializes a new instance of the <see cref="Stump" /> class.
         /// </summary>
         /// <param name="stumpId">The unique identifier for the stump.</param>
-        /// <exception cref="System.ArgumentNullException"><paramref name="stumpId"/> is <c>null</c>, an empty string, or only contains white space.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="stumpId"/> is <c>null</c>, an empty string, or only contains white space.</exception>
         public Stump(string stumpId)
         {
             if (string.IsNullOrWhiteSpace(stumpId))

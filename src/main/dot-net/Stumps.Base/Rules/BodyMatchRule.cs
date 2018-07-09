@@ -18,19 +18,19 @@
         private int _bodyLength;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Stumps.Rules.BodyMatchRule"/> class.
+        ///     Initializes a new instance of the <see cref="BodyMatchRule"/> class.
         /// </summary>
         public BodyMatchRule()
         {
         }
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Stumps.Rules.BodyMatchRule" /> class.
+        ///     Initializes a new instance of the <see cref="BodyMatchRule" /> class.
         /// </summary>
         /// <param name="length">The expected length of the body.</param>
         /// <param name="md5Hash">The MD5 hash of the body.</param>
-        /// <exception cref="System.ArgumentOutOfRangeException"><paramref name="length"/> must be equal or greater than 0.</exception>
-        /// <exception cref="System.ArgumentNullException"><paramref name="md5Hash" /> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="length"/> must be equal or greater than 0.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="md5Hash" /> is <c>null</c>.</exception>
         public BodyMatchRule(int length, string md5Hash)
         {
             if (length < 0)
@@ -81,10 +81,10 @@
         }
 
         /// <summary>
-        ///     Gets an enumerable list of <see cref="T:Stumps.RuleSetting" /> objects used to represent the current instance.
+        ///     Gets an enumerable list of <see cref="RuleSetting" /> objects used to represent the current instance.
         /// </summary>
         /// <returns>
-        ///     An enumerable list of <see cref="T:Stumps.RuleSetting" /> objects used to represent the current instance.
+        ///     An enumerable list of <see cref="RuleSetting" /> objects used to represent the current instance.
         /// </returns>
         public IEnumerable<RuleSetting> GetRuleSettings()
         {
@@ -106,9 +106,9 @@
         }
 
         /// <summary>
-        ///     Initializes a rule from an enumerable list of <see cref="T:Stumps.RuleSetting" /> objects.
+        ///     Initializes a rule from an enumerable list of <see cref="RuleSetting" /> objects.
         /// </summary>
-        /// <param name="settings">The enumerable list of <see cref="T:Stumps.RuleSetting" /> objects.</param>
+        /// <param name="settings">The enumerable list of <see cref="RuleSetting" /> objects.</param>
         public void InitializeFromSettings(IEnumerable<RuleSetting> settings)
         {
             settings = settings ?? throw new ArgumentNullException(nameof(settings));
@@ -128,7 +128,7 @@
         /// <summary>
         ///     Determines whether the specified request matches the rule.
         /// </summary>
-        /// <param name="request">The <see cref="T:Stumps.IStumpsHttpRequest" /> to evaluate.</param>
+        /// <param name="request">The <see cref="IStumpsHttpRequest" /> to evaluate.</param>
         /// <returns>
         ///   <c>true</c> if the <paramref name="request" /> matches the rule, otherwise, <c>false</c>.
         /// </returns>

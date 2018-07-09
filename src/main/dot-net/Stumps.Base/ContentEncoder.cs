@@ -18,7 +18,7 @@
             };
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Stumps.ContentEncoder"/> class.
+        ///     Initializes a new instance of the <see cref="ContentEncoder"/> class.
         /// </summary>
         /// <param name="encodingMethod">The HTTP encoding method.</param>
         public ContentEncoder(string encodingMethod)
@@ -111,7 +111,7 @@
         /// <param name="stream">The stream used to initialize the deflate stream.</param>
         /// <param name="mode">The content encoding method.</param>
         /// <returns>
-        ///     A <see cref="T:System.IO.Stream"/> representing the created stream.
+        ///     A <see cref="Stream"/> representing the created stream.
         /// </returns>
         private static Stream CreateDeflateStream(Stream stream, ContentEncoderMode mode)
         {
@@ -130,7 +130,7 @@
         /// <param name="stream">The stream used to initialize the Gzip stream.</param>
         /// <param name="mode">The content encoding mode.</param>
         /// <returns>
-        ///     A <see cref="T:System.IO.Stream"/> representing the created stream.
+        ///     A <see cref="Stream"/> representing the created stream.
         /// </returns>
         private static Stream CreateGzipStream(Stream stream, ContentEncoderMode mode)
         {

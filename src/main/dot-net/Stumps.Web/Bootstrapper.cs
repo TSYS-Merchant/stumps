@@ -15,10 +15,10 @@
         private IStumpsHost _host;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Stumps.Web.Bootstrapper"/> class.
+        ///     Initializes a new instance of the <see cref="Bootstrapper"/> class.
         /// </summary>
-        /// <param name="stumpsHost">The <see cref="T:Stumps.Server.IStumpsHost"/> used by the instance.</param>
-        /// <exception cref="System.ArgumentNullException"><paramref name="stumpsHost"/> is <c>null</c>.</exception>
+        /// <param name="stumpsHost">The <see cref="IStumpsHost"/> used by the instance.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="stumpsHost"/> is <c>null</c>.</exception>
         public Bootstrapper(IStumpsHost stumpsHost)
         {
             _host = stumpsHost ?? throw new ArgumentNullException("stumpsHost");
@@ -50,7 +50,7 @@
         ///     Configures the container using AutoRegister followed by registration of default INancyModuleCatalog and IRouteResolver.
         /// </summary>
         /// <param name="container">Instance of the IoC container used for the instance.</param>
-        /// <exception cref="System.ArgumentNullException"><paramref name="container"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="container"/> is <c>null</c>.</exception>
         protected override void ConfigureApplicationContainer(Nancy.TinyIoc.TinyIoCContainer container)
         {
             container = container ?? throw new ArgumentNullException("container");
@@ -88,7 +88,7 @@
         /// <param name="container">The container.</param>
         /// <param name="pipelines">The pipelines.</param>
         /// <param name="context">The context.</param>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="container"/> is <c>null</c>.
         /// or
         /// <paramref name="pipelines"/> is <c>null</c>.

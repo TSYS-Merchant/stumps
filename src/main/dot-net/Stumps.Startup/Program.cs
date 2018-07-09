@@ -68,7 +68,7 @@
         ///     Determines the configuration file to use based on the command-line arguments.
         /// </summary>
         /// <param name="args">The command line arguments.</param>
-        /// <returns>A <see cref="T:System.String"/> containing the file name for the configuration file.</returns>
+        /// <returns>A <see cref="String"/> containing the file name for the configuration file.</returns>
         private static string DetermineConfigurationFileFromArgs(string[] args)
         {
             FindSwitchAndValue("-c", args, out string configurationFile);

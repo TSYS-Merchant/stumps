@@ -1,8 +1,8 @@
 namespace Stumps
 {
     /// <summary>
-    ///     Provides the fallback response for a <see cref="T:Stumps.StumpsServer"/> when a remote host 
-    ///     is not defined unavailable, and a <see cref="T:Stumps.Stump"/> was not found matching an
+    ///     Provides the fallback response for a <see cref="StumpsServer"/> when a remote host 
+    ///     is not defined unavailable, and a <see cref="Stump"/> was not found matching an
     ///     incoming request. 
     /// </summary>
     public enum FallbackResponse

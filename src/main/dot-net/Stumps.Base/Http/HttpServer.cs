@@ -17,15 +17,15 @@
         private bool _started;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Stumps.Http.HttpServer"/> class.
+        ///     Initializes a new instance of the <see cref="HttpServer"/> class.
         /// </summary>
         /// <param name="scheme">The transport server scheme used.</param>
         /// <param name="port">The port the HTTP server is using to listen for traffic.</param>
-        /// <param name="handler">The default <see cref="T:Stumps.Http.IHttpHandler"/> executed when receiving traffic.</param>
+        /// <param name="handler">The default <see cref="IHttpHandler"/> executed when receiving traffic.</param>
         /// <exception cref="ArgumentNullException">handler</exception>
         /// <exception cref="ArgumentOutOfRangeException">port</exception>
-        /// <exception cref="System.ArgumentNullException"><paramref name="handler" /> is <c>null</c>.</exception>
-        /// <exception cref="System.ArgumentOutOfRangeException"><paramref name="port"/> exceeds the allowed TCP port range.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="handler" /> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="port"/> exceeds the allowed TCP port range.</exception>
         public HttpServer(ServerScheme scheme, int port, IHttpHandler handler)
         {
             _handler = handler ?? throw new ArgumentNullException(nameof(handler));
@@ -41,20 +41,20 @@
         }
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Stumps.Http.HttpServer"/> class.
+        ///     Initializes a new instance of the <see cref="HttpServer"/> class.
         /// </summary>
         /// <param name="port">The port the HTTP server is using to listen for traffic.</param>
-        /// <param name="handler">The default <see cref="T:Stumps.Http.IHttpHandler"/> executed when receiving traffic.</param>
-        /// <exception cref="System.ArgumentNullException">
+        /// <param name="handler">The default <see cref="IHttpHandler"/> executed when receiving traffic.</param>
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="handler"/> is <c>null</c>.
         /// </exception>
-        /// <exception cref="System.ArgumentOutOfRangeException"><paramref name="port"/> exceeds the allowed TCP port range.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="port"/> exceeds the allowed TCP port range.</exception>
         public HttpServer(int port, IHttpHandler handler) : this(ServerScheme.Http, port, handler)
         {
         }
 
         /// <summary>
-        /// Finalizes an instance of the <see cref="T:Stumps.Http.HttpServer"/> class.
+        /// Finalizes an instance of the <see cref="HttpServer"/> class.
         /// </summary>
         ~HttpServer() => Dispose();
 

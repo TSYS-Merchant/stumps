@@ -19,7 +19,7 @@
         /// <returns>
         ///     An array of bytes contained within the specified <paramref name="stream"/>.
         /// </returns>
-        /// <exception cref="System.ArgumentNullException"><paramref name="stream"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="stream"/> is <c>null</c>.</exception>
         public static async Task<byte[]> ConvertStreamToByteArray(Stream stream)
         {
             stream = stream ?? throw new ArgumentNullException(nameof(stream));
@@ -51,7 +51,7 @@
         /// <param name="inputStream">The input stream.</param>
         /// <param name="outputStream">The output stream.</param>
         /// <param name="startingPosition">The starting position of the input stream.</param>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="inputStream"/> is <c>null</c>.
         /// or
         /// <paramref name="outputStream"/> is <c>null</c>.
@@ -85,7 +85,7 @@
         /// </summary>
         /// <param name="value">The value to write to the stream.</param>
         /// <param name="stream">The stream to write to.</param>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="value"/> is <c>null</c>.
         /// or
         /// <paramref name="stream"/> is <c>null</c>.

@@ -12,7 +12,7 @@ namespace Stumps
         private byte[] _bodyBuffer;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:Stumps.BasicHttpResponse"/> class.
+        /// Initializes a new instance of the <see cref="BasicHttpResponse"/> class.
         /// </summary>
         public BasicHttpResponse()
         {
@@ -157,21 +157,21 @@ namespace Stumps
         ///     Gets the bytes for the HTTP body.
         /// </summary>
         /// <returns>
-        ///     An array of <see cref="T:System.Byte"/> values representing the HTTP body.
+        ///     An array of <see cref="Byte"/> values representing the HTTP body.
         /// </returns>
         public virtual byte[] GetBody() => _bodyBuffer;
 
         /// <summary>
-        ///     Gets the body of the HTTP response as a <see cref="T:System.String"/>.
+        ///     Gets the body of the HTTP response as a <see cref="String"/>.
         /// </summary>
-        /// <returns>A <see cref="T:System.String"/> representing the body of the HTTP response.</returns>
+        /// <returns>A <see cref="String"/> representing the body of the HTTP response.</returns>
         /// <remarks>The body is decoded using UTF8 encoding.</remarks>
         public virtual string GetBodyAsString() => GetBodyAsString(Encoding.UTF8);
 
         /// <summary>
-        ///     Gets the body of the HTTP response as a <see cref="T:System.String"/>.
+        ///     Gets the body of the HTTP response as a <see cref="String"/>.
         /// </summary>
-        /// <param name="encoding">The encoding used to convert the HTTP body into a <see cref="T:System.String"/>.</param>
+        /// <param name="encoding">The encoding used to convert the HTTP body into a <see cref="String"/>.</param>
         /// <remarks>The body is decoded using UTF8 encoding.</remarks>
         public virtual string GetBodyAsString(Encoding encoding)
         {

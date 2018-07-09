@@ -4,6 +4,10 @@
     using System.Collections.Generic;
     using System.Threading;
 
+    /// <summary>
+    ///     A factory which returns an <see cref="IStumpsHttpResponse"/> given an <see cref="IStumpsHttpRequest" />.
+    /// </summary>
+    /// <seealso cref="IStumpResponseFactory" />
     public class StumpResponseFactory : IStumpResponseFactory
     {
         private const string StumpsHeaderName = "x-stumps";
@@ -82,7 +86,6 @@
         /// <param name="failureResponse">The <see cref="IStumpsHttpResponse"/> returned when there are no responses left in a sequence.</param>
         /// <param name="responses">The collection of <see cref="IStumpsHttpResponse"/> whose elements are copied to the new instance.</param>
         /// <exception cref="ArgumentNullException"><paramref name="responses"/> is <c>null</c>.</exception>
-        /// <exception cref="ArgumentNullException"><paramref name="defaultResponse"/> is <c>null</c>.</exception>
         public StumpResponseFactory(IStumpsHttpResponse failureResponse, IEnumerable<IStumpsHttpResponse> responses) : this(failureResponse)
         {
             responses = responses ?? throw new ArgumentNullException(nameof(responses));
@@ -90,14 +93,14 @@
         }
 
         /// <summary>
-        ///     Gets the <see cref="T:Stumps.IStumpsHttpResponse"/> at the specified index.
+        ///     Gets the <see cref="IStumpsHttpResponse"/> at the specified index.
         /// </summary>
         /// <value>
-        ///     The <see cref="T:Stumps.IStumpsHttpResponse"/> at the specified index.
+        ///     The <see cref="IStumpsHttpResponse"/> at the specified index.
         /// </value>
-        /// <param name="index">The zero-based index of the <see cref="T:Stumps.IStumpsHttpResponse"/> to get.</param>
-        /// <returns>The <see cref="Stumps.IStumpsHttpResponse"/> at the specified index.</returns>
-        /// <exception cref="ArgumentOutOfRangeException"><c>index</c> is not a valid index in the <see cref="T:Stumps.StumpsHttpResponseFactory"/>.</exception>
+        /// <param name="index">The zero-based index of the <see cref="IStumpsHttpResponse"/> to get.</param>
+        /// <returns>The <see cref="IStumpsHttpResponse"/> at the specified index.</returns>
+        /// <exception cref="ArgumentOutOfRangeException"><c>index</c> is not a valid index in the <see cref="StumpResponseFactory"/>.</exception>
         /// <exception cref="ObjectDisposedException">The <see cref="StumpResponseFactory"/> object has been disposed.</exception>
         public IStumpsHttpResponse this[int index]
         {
@@ -211,7 +214,7 @@
         /// <summary>
         ///     Adds the specified response to the <see cref="IStumpResponseFactory" />.
         /// </summary>
-        /// <param name="response">The <see cref="T:Stumps.IStumpsHttpResponse" /> to add to the <see cref="IStumpResponseFactory" />.</param>
+        /// <param name="response">The <see cref="IStumpsHttpResponse" /> to add to the <see cref="IStumpResponseFactory" />.</param>
         /// <returns>The <see cref="IStumpsHttpResponse"/> added to the object.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="response" /> is <c>null</c>.</exception>
         /// <exception cref="ObjectDisposedException">The <see cref="StumpResponseFactory" /> object has been disposed.</exception>
@@ -252,12 +255,12 @@
         }
 
         /// <summary>
-        ///     Creates an <see cref="T:Stumps.IStumpsHttpResponse" /> object based on an incoming <see cref="T:Stumps.IStumpsHttpRequest" />
+        ///     Creates an <see cref="IStumpsHttpResponse" /> object based on an incoming <see cref="IStumpsHttpRequest" />
         ///     which is returned for a Stump positivly matching all necessary criteria.
         /// </summary>
         /// <param name="request">The incoming <see cref="IStumpsHttpRequest" />.</param>
         /// <returns>
-        ///     An <see cref="T:Stumps.IStumpsHttpResponse" /> object based on an incoming <see cref="T:Stumps.IStumpsHttpRequest" />.
+        ///     An <see cref="IStumpsHttpResponse" /> object based on an incoming <see cref="IStumpsHttpRequest" />.
         /// </returns>
         /// <exception cref="ObjectDisposedException">The <see cref="StumpResponseFactory"/> object has been disposed.</exception>
         public virtual IStumpsHttpResponse CreateResponse(IStumpsHttpRequest request)

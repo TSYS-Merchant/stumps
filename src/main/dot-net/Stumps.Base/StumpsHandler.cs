@@ -58,7 +58,7 @@
         /// <returns>
         ///     A member of the <see cref="ProcessHandlerResult" /> enumeration.
         /// </returns>
-        /// <exception cref="System.ArgumentNullException"><paramref name="context"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="context"/> is <c>null</c>.</exception>
         public async Task<ProcessHandlerResult> ProcessRequest(IStumpsHttpContext context)
         {
             context = context ?? throw new ArgumentNullException(nameof(context));

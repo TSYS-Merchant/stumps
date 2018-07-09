@@ -9,7 +9,7 @@
     public class ErrorHtmlResponse : HtmlResponse
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:Stumps.Web.Responses.ErrorHtmlResponse"/> class.
+        /// Initializes a new instance of the <see cref="ErrorHtmlResponse"/> class.
         /// </summary>
         /// <param name="statusCode">The status code.</param>
         public ErrorHtmlResponse(HttpStatusCode statusCode)
