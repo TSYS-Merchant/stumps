@@ -20,13 +20,13 @@ Stumps also plays a big role in helping Cayan test our internal services. Our pr
 
 In many circumstances, it is advantageous to be able to test your core offerings without actually hitting third party partners' services (or sometimes, even one of your internal services). This is the case for many reasons:
 
-* Not all of your partners may have test systems or even test accounts
-* Some services won't allow you to reuse data
-* You want to promote and enforce a [loose coupling](http://en.wikipedia.org/wiki/Loose_coupling) between components
-* You want to clearly delineate what the [system under test](http://en.wikipedia.org/wiki/System_under_test) is
+* Not all of your partners may have test systems or even test accounts.
+* Some services won't allow you to reuse data.
+* You want to promote and enforce a [loose coupling](http://en.wikipedia.org/wiki/Loose_coupling) between components.
+* You want to clearly delineate what the [system under test](http://en.wikipedia.org/wiki/System_under_test) is.
  * Are you testing your code? Are you testing your partner's service? Are you testing them both (integration test)?
- * In the first case, you would prefer to use Stumps to emulate a real request/response, rather than actually reaching out to the third party
-* You want to run a performance test
+ * In the first case, you would prefer to use Stumps to emulate a real request/response, rather than actually reaching out to the third party.
+* You want to run a performance test.
  * You'll seldom want to peg a partner's servers with a stress test. But you still need to know how well your components perform under load.
 
 Importantly, none of this obviates the need for full integration tests with your partners' systems as part of your [CI](http://en.wikipedia.org/wiki/Continuous_integration)/[CD](http://en.wikipedia.org/wiki/Continuous_delivery) process.
@@ -43,15 +43,15 @@ Stumps also plays a role in Cayan's performance testing initiatives, allowing us
 
 # Features & requirements
 
-* Must be easy to use, and not require any special tooling
- * A layperson should be able to use this with minimum training, using only a web browser
-* Must support SOAP, REST, and HTML/browser-based use cases (eg. in conjunction with [selenium](http://docs.seleniumhq.org/) or [watir](http://watir.com/))
+* Must be easy to use, and not require any special tooling.
+ * A layperson should be able to use this with minimum training, using only a web browser,
+* Must support SOAP, REST, and HTML/browser-based use cases (eg. in conjunction with [selenium](http://docs.seleniumhq.org/) or [watir](http://watir.com/)).
 * Must be standalone (VCR, node-replay, Betamax, and others fail on one or more of the following points):
- * Cannot be tightly integrated with any testing framework 
- * Cannot be tightly integrated with the system under test
- * Language neutral
-* Must be a pass-through HTTP/HTTPS proxy server
-* Must be able to record & replay HTTP/HTTPS traffic
+ * Cannot be tightly integrated with any testing framework .
+ * Cannot be tightly integrated with the system under test.
+ * Language neutral.
+* Must be a pass-through HTTP/HTTPS proxy server.
+* Must be able to record & replay HTTP/HTTPS traffic.
 * Must be able to return a specific, canned response if certain criteria are met:
  * (Certain) HTTP headers must match
  * HTTP body must match
