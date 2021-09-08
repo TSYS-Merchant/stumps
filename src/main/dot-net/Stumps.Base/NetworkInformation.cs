@@ -112,10 +112,7 @@ namespace Stumps
                     }
 
                     attempt++;
-                    if(attempt <= 3)
-                    {
-                        continue;
-                    }
+                    continue;
                 }
             }
 
