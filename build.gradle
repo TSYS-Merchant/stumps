@@ -1,9 +1,10 @@
+
 buildscript {
     repositories {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.ullink.gradle:gradle-msbuild-plugin:1.9'
+        classpath 'com.ullink.gradle:gradle-msbuild-plugin:2.11'
     }
 }
 
@@ -36,7 +37,7 @@ msbuild {
     parameters.buildNumber = project.buildNumber
 }
 msbuild.outputs.upToDateWhen { false }
-task build
+// task build
 build.dependsOn msbuild
 
 artifacts {
