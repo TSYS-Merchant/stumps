@@ -30,7 +30,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <!-- <OutputPath>bin\Release\</OutputPath> -->
+    <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -51,38 +51,38 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>BaseResources.resx</DependentUpon>
     </Compile>
-    <!-- <Compile Include="BasicHttpResponse.cs" /> -->
-    <!-- <Compile Include="ContentEncoder.cs" /> -->
+    <Compile Include="BasicHttpResponse.cs" />
+    <Compile Include="ContentEncoder.cs" />
     <Compile Include="ContentEncoderMode.cs" />
-    <!-- <Compile Include="FallbackResponse.cs" /> -->
+    <Compile Include="FallbackResponse.cs" />
     <Compile Include="HttpHeaderSanitization.cs" />
-    <!-- <Compile Include="Http\HttpServer.cs" /> -->
-    <!-- <Compile Include="FallbackResponseHandler.cs" /> -->
-    <!-- <Compile Include="FluentBasicHttpResponseExtensions.cs" /> -->
-    <!-- <Compile Include="FluentStumpExtensions.cs" /> -->
-    <!-- <Compile Include="FluentStumpServerExtensions.cs" /> -->
+    <Compile Include="Http\HttpServer.cs" />
+    <Compile Include="FallbackResponseHandler.cs" />
+    <Compile Include="FluentBasicHttpResponseExtensions.cs" />
+    <Compile Include="FluentStumpExtensions.cs" />
+    <Compile Include="FluentStumpServerExtensions.cs" />
     <Compile Include="HexExtensionMethods.cs" />
-    <!-- <Compile Include="HttpErrorResponses.cs" /> -->
-    <!-- <Compile Include="HttpHeaders.cs" /> -->
-    <!-- <Compile Include="HttpResponseOrigin.cs" /> -->
-    <!-- <Compile Include="HttpPipelineHandler.cs" /> -->
-    <!-- <Compile Include="Http\HttpStatusCodes.cs" /> -->
-    <!-- <Compile Include="Http\IgnoredHeaders.cs" /> -->
-    <!-- <Compile Include="Http\IHttpHandler.cs" /> -->
-    <!-- <Compile Include="Http\IHttpServer.cs" /> -->
+    <Compile Include="HttpErrorResponses.cs" />
+    <Compile Include="HttpHeaders.cs" />
+    <Compile Include="HttpResponseOrigin.cs" />
+    <Compile Include="HttpPipelineHandler.cs" />
+    <Compile Include="Http\HttpStatusCodes.cs" />
+    <Compile Include="Http\IgnoredHeaders.cs" />
+    <Compile Include="Http\IHttpHandler.cs" />
+    <Compile Include="Http\IHttpServer.cs" />
     <Compile Include="Http\ProcessHandlerResult.cs" />
-    <!-- <Compile Include="Http\StumpsHttpContext.cs" /> -->
-    <!-- <Compile Include="Http\StumpsHttpRequest.cs" /> -->
-    <!-- <Compile Include="Http\StumpsHttpResponse.cs" /> -->
+    <Compile Include="Http\StumpsHttpContext.cs" />
+    <Compile Include="Http\StumpsHttpRequest.cs" />
+    <Compile Include="Http\StumpsHttpResponse.cs" />
     <Compile Include="IHttpHeaders.cs" />
-    <!-- <Compile Include="IStumpResponseFactory.cs" />
-    <Compile Include="IStumpRule.cs" /> -->
+    <Compile Include="IStumpResponseFactory.cs" />
+    <Compile Include="IStumpRule.cs" />
     <Compile Include="IStumpsHttpContextPart.cs" />
-    <!-- <Compile Include="IStumpsHttpContext.cs" /> -->
+    <Compile Include="IStumpsHttpContext.cs" />
     <Compile Include="IStumpsHttpRequest.cs" />
     <Compile Include="IStumpsHttpResponse.cs" />
-    <!-- <Compile Include="IStumpsManager.cs" />
-    <Compile Include="IStumpsServer.cs" /> -->
+    <Compile Include="IStumpsManager.cs" />
+    <Compile Include="IStumpsServer.cs" />
     <Compile Include="ResponseFactoryBehavior.cs" />
     <Compile Include="ServerScheme.cs" />
     <Compile Include="NetworkInformation.cs" />
@@ -93,26 +93,26 @@
     <Compile Include="..\CommonAssembly\VersionAssemblyInfo.cs">
       <Link>Properties\VersionAssemblyInfo.cs</Link>
     </Compile>
-    <!-- <Compile Include="ProxyHandler.cs" /> -->
-    <!-- <Compile Include="ReadOnlyHttpHeaders.cs" /> -->
+    <Compile Include="ProxyHandler.cs" />
+    <Compile Include="ReadOnlyHttpHeaders.cs" />
     <Compile Include="RuleSetting.cs" />
-    <!-- <Compile Include="RuleSettingsHelper.cs" /> -->
-    <!-- <Compile Include="Rules\BodyContentRule.cs" />
-    <Compile Include="Rules\BodyLengthRule.cs" /> -->
-    <!-- <Compile Include="Rules\BodyMatchRule.cs" /> -->
-    <!-- <Compile Include="Rules\HeaderRule.cs" /> -->
-    <!-- <Compile Include="Rules\HttpMethodRule.cs" /> -->
-    <!-- <Compile Include="Rules\UrlRule.cs" /> -->
-    <!-- <Compile Include="StreamUtility.cs" /> -->
-    <!-- <Compile Include="Stump.cs" /> -->
-    <!-- <Compile Include="StumpResponseFactory.cs" /> -->
-    <!-- <Compile Include="StumpsContextEventArgs.cs" /> -->
-    <!-- <Compile Include="StumpsHandler.cs" /> -->
-    <!-- <Compile Include="StumpsManager.cs" /> -->
-    <!-- <Compile Include="StumpsServer.cs" /> -->
+    <Compile Include="RuleSettingsHelper.cs" />
+    <Compile Include="Rules\BodyContentRule.cs" />
+    <Compile Include="Rules\BodyLengthRule.cs" />
+    <Compile Include="Rules\BodyMatchRule.cs" />
+    <Compile Include="Rules\HeaderRule.cs" />
+    <Compile Include="Rules\HttpMethodRule.cs" />
+    <Compile Include="Rules\UrlRule.cs" />
+    <Compile Include="StreamUtility.cs" />
+    <Compile Include="Stump.cs" />
+    <Compile Include="StumpResponseFactory.cs" />
+    <Compile Include="StumpsContextEventArgs.cs" />
+    <Compile Include="StumpsHandler.cs" />
+    <Compile Include="StumpsManager.cs" />
+    <Compile Include="StumpsServer.cs" />
     <Compile Include="TextAnalyzer.cs" />
-    <!-- <Compile Include="TextContainsMatch.cs" /> -->
-    <!-- <Compile Include="TextMatch.cs" /> -->
+    <Compile Include="TextContainsMatch.cs" />
+    <Compile Include="TextMatch.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="BaseResources.resx">
