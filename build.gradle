@@ -1,15 +1,18 @@
 buildscript {
     repositories {
-        mavenCentral()
+        maven { url "https://itools.dev.paygateway.com/artifactory/gradle-dependencies" }
     }
     dependencies {
-        classpath 'com.ullink.gradle:gradle-msbuild-plugin:1.9'
+        classpath 'com.ullink.gradle:gradle-msbuild-plugin:3.6'
+        classpath 'com.merchantwarehouse.releng:mwversion:1.0.0-SNAPSHOT'
     }
 }
 
 group = 'com.merchantwarehouse'
 version = '0.3.1-SNAPSHOT'
-apply plugin: 'msbuild'
+
+apply plugin: 'com.ullink.msbuild'
+apply plugin: 'mwversion'
 
 // You can't have non-digits in a DLL version number
 project.ext.set("baseVersion", project.version.minus('-SNAPSHOT'))
@@ -23,11 +26,11 @@ if ((user == 'jenkins') || (user == 'buildservice')) {
     project.ext.set("assemblyVersion", project.baseVersion + '.0')
 }
 
-
 msbuild {
-    projectFile = 'src/main/dot-net/Build.proj'
+    projectFile = file('src/main/dot-net/Build.proj')
     projectName = project.name
     targets = ['Clean', 'Build']
+	msbuildDir = 'C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\MSBuild\\Current\\Bin\\'
     configuration = 'Release'
     parameters.version = project.version
     parameters.versionString = project.assemblyVersion
@@ -35,8 +38,9 @@ msbuild {
     parameters.assemblyVersion = project.assemblyVersion
     parameters.buildNumber = project.buildNumber
 }
+
 msbuild.outputs.upToDateWhen { false }
-task build
+//task build
 build.dependsOn msbuild
 
 artifacts {
