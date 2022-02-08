@@ -95,7 +95,7 @@ namespace Stumps
             int attempt = 1;
             IPEndPoint[] response = null;
             
-            while (attempt <= 3)
+            while (attempt <= 10)
             {
                 try
                 {
