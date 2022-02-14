@@ -1,4 +1,4 @@
-﻿namespace Stumps
+namespace Stumps
 {
     using System;
     using System.Net;
@@ -29,7 +29,7 @@
         public static int FindRandomOpenPort()
         {
             var properties = IPGlobalProperties.GetIPGlobalProperties();
-            var endpointList = properties.GetActiveTcpListeners();
+            var endpointList = ReTryGetActiveTcpListeners(properties);
 
             var usedPorts = new bool[NetworkInformation.MaximumPort - NetworkInformation.MinimumPort + 1];
 
@@ -88,6 +88,35 @@
             }
 
             return false;
+        }
+
+        private static IPEndPoint[] ReTryGetActiveTcpListeners(IPGlobalProperties properties)
+        {
+            int attempt = 1;
+            IPEndPoint[] response = null;
+            
+            while (attempt <= 10)
+            {
+                try
+                {
+                    response = properties.GetActiveTcpListeners();
+                    return response;
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine(ex);
+
+                    if(!(ex is NetworkInformationException))
+                    {
+                        return response;
+                    }
+
+                    attempt++;
+                    continue;
+                }
+            }
+
+            return response;
         }
     }
 }
