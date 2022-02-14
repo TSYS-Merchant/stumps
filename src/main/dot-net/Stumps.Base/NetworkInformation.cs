@@ -43,7 +43,7 @@
                 }
             }
 
-            var rnd = new Random();
+            var rnd = new Random(Guid.NewGuid().GetHashCode());
 
             var foundPort = -1;
 
