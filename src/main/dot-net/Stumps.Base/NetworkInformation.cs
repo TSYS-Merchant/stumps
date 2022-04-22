@@ -3,6 +3,7 @@ namespace Stumps
     using System;
     using System.Net;
     using System.Net.NetworkInformation;
+    using System.Threading;
 
     /// <summary>
     ///     A class that represents a set of Network related functions.
@@ -104,14 +105,15 @@ namespace Stumps
                 }
                 catch(Exception ex)
                 {
-                    Console.WriteLine(ex);
-
                     if(!(ex is NetworkInformationException))
                     {
+                        Console.WriteLine(ex);
                         return response;
                     }
 
                     attempt++;
+                    Thread.Sleep(TimeSpan.FromMilliseconds(10));
+                    
                     continue;
                 }
             }
